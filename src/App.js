@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {useState, useEffect} from "react"
+import ChessGame from "./components/ChessGame.js";
+import StartGame from "./onboard/StartGame.js";
+import GameLobby from "./components/GameLobby.js"
+import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
+import io from "socket.io-client";
 
 function App() {
+    const [userName, setUserName] = useState('');
+    const [socket, setSocket] = useState(null);
+    const [isWantingToPlay, setIsWantingToPlay] = useState(false);
+    const [isConnected, setConnected] = useState(false);
+    const [isIngame, setIsIngame] = useState(false);
+
+
+    useEffect(() => {
+
+        setSocket(io("http://localhost:8080"));
+    }, []);
+
+    useEffect(() =>{
+        if (!socket) return;
+        socket.on('connect', () => {
+            setConnected(true);
+        })
+    }, [socket]);
+
+    useEffect(() => {
+        if(isWantingToPlay && isIngame) {
+            setIsWantingToPlay(false);
+        }
+    }, [isWantingToPlay, isIngame])
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <BrowserRouter>
+        {isWantingToPlay && userName.length > 0 && isConnected ?
+            <GameLobby socket={socket} userName={userName} setIsIngame={setIsIngame} />
+            :
+            <StartGame setUserName={setUserName} setIsWantingToPlay={setIsWantingToPlay} />
+        }
+        </BrowserRouter>
     </div>
   );
 }
