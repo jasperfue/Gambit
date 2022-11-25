@@ -25,11 +25,11 @@ function initializeSocketListeners() {
                 var opponent = waitingPlayers.shift();
                 console.log("Zweiter Spieler: " + client.userName);
                 var id = UUIDv4();
-                console.log(id);
                 client.join(id);
                 opponent.join(id);
-                client.emit('joinedGame', opponent.userName, id);
-                opponent.emit('joinedGame', client.userName, id);
+                var playerIsWhite = (Math.random() < 0.5);
+                client.emit('joinedGame', opponent.userName, id, playerIsWhite);
+                opponent.emit('joinedGame', client.userName, id, !playerIsWhite);
                 client.gameRoom = id;
                 opponent.gameRoom = id;
                 currentGames.push(id);

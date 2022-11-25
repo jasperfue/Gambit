@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Navigate, Routes, Route, redirect} from 'react-router-dom';
-import ChessGame from "./ChessGame.js";
+import ChessGame from "./Chess/ChessGame.js";
 import StartGame from "../onboard/StartGame.js";
 
 const GameLobby = (props) => {
@@ -10,6 +10,7 @@ const GameLobby = (props) => {
     const [roomId, setRoomId] = useState('');
     const [opponent, setOpponent] = useState('');
     const [startGame, setStartGame] = useState(false);
+    const [playerColourIsWhite, setPlayerColourIsWhite] = useState(undefined);
 
     useEffect(() => {
         setUserName(props.userName);
@@ -19,20 +20,21 @@ const GameLobby = (props) => {
     useEffect(() => {
         if(!socket || !(userName.length > 0))  return;
             socket.emit('find_game', userName);
-            socket.on('joinedGame', (opponent, roomId) => {
+            socket.on('joinedGame', (opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 setRoomId(roomId);
                 setOpponent(opponent);
                 setFoundPlayer(true);
+                setPlayerColourIsWhite(playerColour);
             })
     }, [socket, userName]);
 
     useEffect(() => {
-        if(foundPlayer && roomId.length > 0 && opponent.length > 0) {
+        if(foundPlayer && roomId.length > 0 && opponent.length > 0 && playerColourIsWhite !== undefined) {
             setStartGame(true);
             props.setIsIngame(true);
         }
-    }, [foundPlayer, roomId, opponent]);
+    }, [foundPlayer, roomId, opponent, playerColourIsWhite]);
 
 
 
@@ -40,7 +42,7 @@ const GameLobby = (props) => {
     return (
         <>
             {startGame ?
-                <ChessGame socket={socket} userName={userName} opponent={opponent}/>
+                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite}/>
                 :
                 <div>
                     <p>Waiting for opponent...</p>

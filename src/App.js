@@ -1,6 +1,6 @@
 import React from "react";
 import {useState, useEffect} from "react"
-import ChessGame from "./components/ChessGame.js";
+import ChessGame from "./components/Chess/ChessGame.js";
 import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
