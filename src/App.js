@@ -1,6 +1,5 @@
 import React from "react";
 import {useState, useEffect} from "react"
-import ChessGame from "./components/Chess/ChessGame.js";
 import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
@@ -39,7 +38,7 @@ function App() {
     <div>
         <BrowserRouter>
         {isWantingToPlay && userName.length > 0 && isConnected ?
-            <GameLobby socket={socket} userName={userName} setIsIngame={setIsIngame} />
+            <GameLobby socket={socket} userName={userName} />
             :
             <StartGame setUserName={setUserName} setIsWantingToPlay={setIsWantingToPlay} />
         }

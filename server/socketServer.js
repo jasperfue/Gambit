@@ -38,6 +38,9 @@ function initializeSocketListeners() {
                 console.log("Erster Spieler: " + client.userName);
             }
         });
+        client.on('newMove', (roomId, move) => {
+            client.to(roomId).emit('opponentMove', move);
+        })
         client.on('disconnect', () => {
             onDisconnect(client)
         });

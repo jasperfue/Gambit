@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Navigate, Routes, Route, redirect} from 'react-router-dom';
-import ChessGame from "./Chess/ChessGame.js";
+import ChessGame from "./ChessGame.js";
 import StartGame from "../onboard/StartGame.js";
 
 const GameLobby = (props) => {
@@ -30,9 +30,9 @@ const GameLobby = (props) => {
     }, [socket, userName]);
 
     useEffect(() => {
-        if(foundPlayer && roomId.length > 0 && opponent.length > 0 && playerColourIsWhite !== undefined) {
+        if(foundPlayer && roomId.length > 0 && opponent.length > 0 && playerColourIsWhite !== undefined && roomId.length > 0) {
             setStartGame(true);
-            props.setIsIngame(true);
+            //props.setIsIngame(true);
         }
     }, [foundPlayer, roomId, opponent, playerColourIsWhite]);
 
@@ -42,7 +42,7 @@ const GameLobby = (props) => {
     return (
         <>
             {startGame ?
-                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite}/>
+                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite} roomId={roomId}/>
                 :
                 <div>
                     <p>Waiting for opponent...</p>
