@@ -53,6 +53,11 @@ const ChessGame = (props) => {
                 duration: 400
             }
         }));
+        if(colour == 'white') {
+            setStartingTimer(document.getElementById('clientStartingTime'));
+        } else {
+            setStartingTimer(document.getElementById('opponentStartingTime'));
+        }
     }, [])
 
     useEffect(() => {
@@ -66,6 +71,9 @@ const ChessGame = (props) => {
             });
             refreshBoard(ground, chess);
             clientSocket.on('opponentMove', (move) => {
+                if(chess.history().length == 0 && colour == 'black') {
+                    setStartingTimer(document.getElementById('clientStartingTime'));
+                }
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -79,7 +87,23 @@ const ChessGame = (props) => {
                 ground.playPremove();
             });
         }
-    }, [ground])
+    }, [ground]);
+
+    function setStartingTimer(element) {
+        let secs = 20;
+        const timer = setInterval(() => startTime(), 1000);
+        function startTime() {
+            clientSocket.on('stopTimer', (stopColour) => {
+                    clearInterval(timer);
+                    element.innerHTML = '';
+            });
+            if(secs == 0) {
+                //TODO: Cancel Game
+            }
+            secs = secs - 1;
+            element.innerHTML = secs.toString();
+        }
+    }
 
 
 
@@ -89,6 +113,13 @@ const ChessGame = (props) => {
                 setSelectVisible(true);
                 setPromotionMove([orig, dest]);
                 return;
+            }
+            if(colour == 'white' && chess.history().length == 0) {
+                clientSocket.emit('firstMove', roomId, colour);
+                setStartingTimer(document.getElementById('opponentStartingTime'));
+            }
+            if(colour == 'black' && chess.history().length == 1) {
+                clientSocket.emit('firstMove', roomId, colour);
             }
             var move = chess.move({from: orig, to: dest});
             clientSocket.emit('newMove', roomId, move);
@@ -132,7 +163,9 @@ const ChessGame = (props) => {
                 <h1>Hey {userName}</h1>
                 <h1>Viel Glück gegen {opponent}</h1>
                 <p>Du spielst {colour}</p>
+                <p id={'opponentStartingTime'}>20</p>
                 <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
+                <p id={'clientStartingTime'}>20</p>
                 <Modal visible={selectVisible} footer={null} closable={false}>
                     <div style={{ textAlign: "center", cursor: "pointer" }}>
                         <span role="presentation" onClick={() => promotion("q")}>

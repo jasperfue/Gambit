@@ -11,6 +11,7 @@ function App() {
     const [isWantingToPlay, setIsWantingToPlay] = useState(false);
     const [isConnected, setConnected] = useState(false);
     const [isIngame, setIsIngame] = useState(false);
+    const [time, setTime] = useState(null);
 
 
     useEffect(() => {
@@ -37,10 +38,10 @@ function App() {
   return (
     <div>
         <BrowserRouter>
-        {isWantingToPlay && userName.length > 0 && isConnected ?
-            <GameLobby socket={socket} userName={userName} />
+        {isWantingToPlay && time && userName.length > 0 && isConnected ?
+            <GameLobby socket={socket} userName={userName} time={time} />
             :
-            <StartGame setUserName={setUserName} setIsWantingToPlay={setIsWantingToPlay} />
+            <StartGame setUserName={setUserName} setIsWantingToPlay={setIsWantingToPlay} setTime={setTime} />
         }
         </BrowserRouter>
     </div>

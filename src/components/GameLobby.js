@@ -19,7 +19,7 @@ const GameLobby = (props) => {
 
     useEffect(() => {
         if(!socket || !(userName.length > 0))  return;
-            socket.emit('find_game', userName);
+            socket.emit('find_game', userName, props.time);
             socket.on('joinedGame', (opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 setRoomId(roomId);

@@ -16,7 +16,7 @@ const io = new SocketServer(8080, {
 function initializeSocketListeners() {
     io.on('connection', client => {
         console.log(client.id);
-        client.on('find_game', (userName) => {
+        client.on('find_game', (userName, time) => {
             waitingPlayers.forEach((player) =>
             console.log("Name: " + player.userName)
             );
@@ -40,6 +40,9 @@ function initializeSocketListeners() {
         });
         client.on('newMove', (roomId, move) => {
             client.to(roomId).emit('opponentMove', move);
+        });
+        client.on('firstMove', (roomId, colour) => {
+            io.to(roomId).emit('stopTimer', colour);
         })
         client.on('disconnect', () => {
             onDisconnect(client)
