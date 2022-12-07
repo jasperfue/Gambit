@@ -41,8 +41,8 @@ function initializeSocketListeners() {
         client.on('newMove', (roomId, move) => {
             client.to(roomId).emit('opponentMove', move);
         });
-        client.on('firstMove', (roomId, colour) => {
-            io.to(roomId).emit('stopTimer', colour);
+        client.on('firstMove', (roomId) => {
+            io.to(roomId).emit('stopTimer');
         })
         client.on('disconnect', () => {
             onDisconnect(client)

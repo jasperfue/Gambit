@@ -14,17 +14,17 @@ const StartGame = (props) => {
             <form onSubmit={() => {
             }}>
                 <input id="userName" type="text" onChange={e => props.setUserName(e.target.value)} placeholder="user name" />
-                <input value="1 + 0" onClick={() => onSubmit({type: 'Bullet', minutes: 1, increment: 0})} />
-                <input value="2 + 1" onClick={() => onSubmit({type: 'Bullet', minutes: 2, increment: 1})} />
-                <input value="3 + 0" onClick={() => onSubmit({type: 'Blitz', minutes: 3, increment: 0})} />
-                <input value="3 + 2" onClick={() => onSubmit({type: 'Blitz', minutes: 3, increment: 2})} />
-                <input value="5 + 0" onClick={() => onSubmit({type: 'Blitz', minutes: 5, increment: 0})} />
-                <input value="5 + 3" onClick={() => onSubmit({type: 'Blitz', minutes: 5, increment: 3})} />
-                <input value="10 + 0" onClick={() => onSubmit({type: 'Rapid', minutes: 10, increment: 0})} />
-                <input value="10 + 5" onClick={() => onSubmit({type: 'Rapid', minutes: 10, increment: 5})} />
-                <input value="15 + 10" onClick={() => onSubmit({type: 'Rapid', minutes: 15, increment: 10})} />
-                <input value="30 + 0" onClick={() => onSubmit({type: 'Classical', minutes: 30, increment: 0})} />
-                <input value="30 + 20" onClick={() => onSubmit({type: 'Classical', minutes: 30, increment: 20})} />
+                <button onClick={() => onSubmit({type: 'Bullet', minutes: 1, increment: 0})}>1 + 0</button>
+                <button onClick={() => onSubmit({type: 'Bullet', minutes: 2, increment: 1})}>2 + 1</button>
+                <button onClick={() => onSubmit({type: 'Blitz', minutes: 3, increment: 0})}>3 + 0</button>
+                <button onClick={() => onSubmit({type: 'Blitz', minutes: 3, increment: 2})}>3 + 2</button>
+                <button onClick={() => onSubmit({type: 'Blitz', minutes: 5, increment: 0})}>5 + 0</button>
+                <button onClick={() => onSubmit({type: 'Blitz', minutes: 5, increment: 3})}>5 + 3</button>
+                <button onClick={() => onSubmit({type: 'Rapid', minutes: 10, increment: 0})}>10 + 0</button>
+                <button onClick={() => onSubmit({type: 'Rapid', minutes: 10, increment: 5})}>10 + 5</button>
+                <button onClick={() => onSubmit({type: 'Rapid', minutes: 15, increment: 10})}>15 + 10</button>
+                <button onClick={() => onSubmit({type: 'Classical', minutes: 30, increment: 0})}>30 + 0</button>
+                <button onClick={() => onSubmit({type: 'Classical', minutes: 30, increment: 20})}>30 + 20</button>
 
             </form>
         </div>

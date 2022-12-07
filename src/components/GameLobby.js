@@ -42,7 +42,7 @@ const GameLobby = (props) => {
     return (
         <>
             {startGame ?
-                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite} roomId={roomId}/>
+                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite} roomId={roomId} time={props.time}/>
                 :
                 <div>
                     <p>Waiting for opponent...</p>
