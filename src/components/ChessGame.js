@@ -18,7 +18,7 @@ const ChessGame = (props) => {
     const [ground, setGround] = useState(null);
     const [promotionMove, setPromotionMove] = useState([]);
     const [time, setTime] = useState(props.time);
-    let startingTime;
+
     const queen = props.playerColourIsWhite === true ?
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PGcgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04IDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMHptMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwek00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTE2IDguNWEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAweiIvPjxwYXRoIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTRsMiAxMnoiIHN0cm9rZS1saW5lY2FwPSJidXR0Ii8+PHBhdGggZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6IiBzdHJva2UtbGluZWNhcD0iYnV0dCIvPjxwYXRoIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='
         :
@@ -42,12 +42,6 @@ const ChessGame = (props) => {
 
 
     useEffect(() => {
-        switch(time.type) {
-            case 'Bullet': startingTime = 15; break;
-            case 'Blitz': startingTime = 20; break;
-            case 'Rapid': startingTime = 30; break;
-            case 'Classical': startingTime = 45; break;
-        }
         setGround(new Chessground(document.getElementById(roomId), {
             orientation: colour,
             movable: {
@@ -98,8 +92,14 @@ const ChessGame = (props) => {
     }, [ground]);
 
     function setStartingTimer(element) {
-        let secs = startingTime;
-        element.innerHTML = secs.toString();
+        let secs;
+        switch(time.type) {
+            case 'Bullet': secs = 15; break;
+            case 'Blitz': secs = 20; break;
+            case 'Rapid': secs = 30; break;
+            case 'Classical': secs = 45; break;
+        }
+        element.innerHTML = secs;
         const timer = setInterval(() => startTime(), 1000);
         function startTime() {
             clientSocket.on('stopTimer', () => {
@@ -107,10 +107,13 @@ const ChessGame = (props) => {
                     element.innerHTML = '';
             });
             if(secs == 0) {
+                clearInterval(timer);
+                element.innerHTML = 0;
                 //TODO: Cancel Game
+            } else {
+                secs = secs - 1;
+                element.innerHTML = secs;
             }
-            secs = secs - 1;
-            element.innerHTML = secs.toString();
         }
     }
 
@@ -173,7 +176,17 @@ const ChessGame = (props) => {
                 <h1>Viel Glück gegen {opponent}</h1>
                 <p>Du spielst {colour}</p>
                 <p id={'opponentStartingTime'}/>
-                <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
+                <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
+                    <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
+                    <div>
+                        <div style={{background: '#33333', marginBottom:'1VH', padding: 25}}>
+                            <p id={'clientTime'} />
+                        </div>
+                        <div style={{background: '#33333', marginTop:'1VH', padding:25}}>
+                            <p id={'opponentTime'} />
+                        </div>
+                    </div>
+                </div>
                 <p id={'clientStartingTime'}/>
                 <Modal open={selectVisible} footer={null} closable={false}>
                     <div style={{ textAlign: "center", cursor: "pointer" }}>
