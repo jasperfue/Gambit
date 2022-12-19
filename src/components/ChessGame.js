@@ -60,6 +60,7 @@ const ChessGame = (props) => {
         } else {
             setStartingTimer(document.getElementById('opponentStartingTime'));
         }
+
     }, [])
 
     useEffect(() => {
@@ -88,6 +89,9 @@ const ChessGame = (props) => {
                 refreshBoard(ground, chess);
                 ground.playPremove();
             });
+            clientSocket.on('updatedTime', (timeWhite, timeBlack) => {
+                //TODO: Update local Time
+            })
         }
     }, [ground]);
 
@@ -98,6 +102,7 @@ const ChessGame = (props) => {
             case 'Blitz': secs = 20; break;
             case 'Rapid': secs = 30; break;
             case 'Classical': secs = 45; break;
+            default: secs = "unknown"; break;
         }
         element.innerHTML = secs;
         const timer = setInterval(() => startTime(), 1000);
@@ -126,20 +131,28 @@ const ChessGame = (props) => {
                 setPromotionMove([orig, dest]);
                 return;
             }
-            if(colour == 'white' && chess.history().length == 0) {
-                clientSocket.emit('firstMove', roomId);
-                setStartingTimer(document.getElementById('opponentStartingTime'));
-            }
-            if(colour == 'black' && chess.history().length == 1) {
-                clientSocket.emit('firstMove', roomId);
-            }
             var move = chess.move({from: orig, to: dest});
-            clientSocket.emit('newMove', roomId, move);
+            if(colour == 'white' && chess.history().length == 1) {
+                clientSocket.emit('firstMove', colour, move);
+                setStartingTimer(document.getElementById('opponentStartingTime'));
+                refreshBoard(ground, chess);
+                return;
+            }
+            if(colour == 'black' && chess.history().length == 2) {
+                clientSocket.emit('firstMove', colour, move);
+                refreshBoard(ground, chess);
+                return;
+            }
+            clientSocket.emit('newMove', move);
             if(move.flags.includes('e')) {
                 onEnPassent(ground, move);
             }
             refreshBoard(ground, chess);
         };
+    }
+
+    function initializeClientTime() {
+
     }
 
     function promotion(toPiece) {
@@ -178,12 +191,14 @@ const ChessGame = (props) => {
                 <p id={'opponentStartingTime'}/>
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
                     <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
-                    <div>
-                        <div style={{background: '#33333', marginBottom:'1VH', padding: 25}}>
-                            <p id={'clientTime'} />
+                    <div style={{margin: '10VH'}}>
+                        <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginBottom:'1VH', padding: 25}}>
+                            <p id={'clientTimeMinutes'}>{time.minutes} </p>
+                            <p id={'clientTimeSecounds'}>:00</p>
                         </div>
-                        <div style={{background: '#33333', marginTop:'1VH', padding:25}}>
-                            <p id={'opponentTime'} />
+                        <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginTop:'1VH', padding:25}}>
+                            <p id={'opponentTimeMinutes'}> {time.minutes} </p>
+                            <p id={'opponentTimeSecounds'}>:00</p>
                         </div>
                     </div>
                 </div>

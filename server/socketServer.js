@@ -1,7 +1,8 @@
 const { Server: SocketServer } = require("socket.io");
-const {v4 : UUIDv4} = require('uuid') ;
+const {v4 : UUIDv4} = require('uuid');
+const [ServerChessClock] = require("./ServerChessClock.js");
 let waitingPlayers = [];
-let currentGames = [];
+let currentGames = new Map();
 
 
 
@@ -17,9 +18,7 @@ function initializeSocketListeners() {
     io.on('connection', client => {
         console.log(client.id);
         client.on('find_game', (userName, time) => {
-            waitingPlayers.forEach((player) =>
-            console.log("Name: " + player.userName)
-            );
+            let chessClock;
             client.userName = userName;
             if(waitingPlayers.length > 0) {
                 var opponent = waitingPlayers.shift();
@@ -32,18 +31,28 @@ function initializeSocketListeners() {
                 opponent.emit('joinedGame', client.userName, id, !playerIsWhite);
                 client.gameRoom = id;
                 opponent.gameRoom = id;
-                currentGames.push(id);
+                currentGames.set(id, new ServerChessClock(time));
             } else {
                 waitingPlayers.push(client);
                 console.log("Erster Spieler: " + client.userName);
             }
+            client.on('newMove', (move) => {
+                var chessClock = currentGames.get(client.gameRoom).ChessClockAPI;
+                client.to(client.gameRoom).emit('opponentMove', move);
+                chessClock.emit('toggle');
+                chessClock.on('toggleTime', (timeWhite, timeBlack) => {
+                    io.to(client.gameRoom).emit('updatedTime', timeWhite, timeBlack);
+                })
+                console.log('toggle');
+            });
+            client.on('firstMove', (colour, move) => {
+                client.to(client.gameRoom).emit('opponentMove', move);
+                io.to(client.gameRoom).emit('stopTimer');
+                if(colour === 'black') {
+                    currentGames.get(client.gameRoom).startTimer('white');
+                }
+            })
         });
-        client.on('newMove', (roomId, move) => {
-            client.to(roomId).emit('opponentMove', move);
-        });
-        client.on('firstMove', (roomId) => {
-            io.to(roomId).emit('stopTimer');
-        })
         client.on('disconnect', () => {
             onDisconnect(client)
         });
