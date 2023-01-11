@@ -34,7 +34,7 @@ export function refreshBoard(ground, chess) {
 }
 
 
-function toColor(chess) {
+export function toColor(chess) {
     return (chess.turn() === 'w') ? 'white' : 'black';
 }
 

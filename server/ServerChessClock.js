@@ -5,7 +5,6 @@ function ServerChessClock(time) {
     this.remainingTimeWhite = {minutes: time.minutes, seconds: 0};
     this.remainingTimeBlack = {minutes: time.minutes, seconds: 0};
     this.ChessClockAPI = new EventEmitter();
-    console.log('einMal')
 }
 
     ServerChessClock.prototype.startTimer = function(colour) {
@@ -28,12 +27,13 @@ function ServerChessClock(time) {
             clearInterval(timer);
             if(colour === 'white') {
                 this.remainingTimeWhite = increment(remainingTimeCopy, this.timeMode.increment);
+                this.ChessClockAPI.emit('toggleTime', this.remainingTimeWhite, this.remainingTimeBlack, 'black');
                 this.startTimer('black');
             } else {
                 this.remainingTimeBlack = increment(remainingTimeCopy, this.timeMode.increment);
+                this.ChessClockAPI.emit('toggleTime', this.remainingTimeWhite, this.remainingTimeBlack, 'white');
                 this.startTimer('white');
             }
-            this.ChessClockAPI.emit('toggleTime', this.remainingTimeWhite, this.remainingTimeBlack);
         })
     }
 

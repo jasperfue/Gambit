@@ -18,7 +18,6 @@ function initializeSocketListeners() {
     io.on('connection', client => {
         console.log(client.id);
         client.on('find_game', (userName, time) => {
-            let chessClock;
             client.userName = userName;
             if(waitingPlayers.length > 0) {
                 var opponent = waitingPlayers.shift();
@@ -31,27 +30,30 @@ function initializeSocketListeners() {
                 opponent.emit('joinedGame', client.userName, id, !playerIsWhite);
                 client.gameRoom = id;
                 opponent.gameRoom = id;
-                currentGames.set(id, new ServerChessClock(time));
+                const chessClock = new ServerChessClock(time);
+                currentGames.set(id, chessClock);
+                chessClock.ChessClockAPI.on('toggleTime', (timeWhite, timeBlack, turn) => {
+                    io.to(client.gameRoom).emit('updatedTime', timeWhite, timeBlack, turn);
+                    console.log('toggle');
+                });
             } else {
                 waitingPlayers.push(client);
                 console.log("Erster Spieler: " + client.userName);
             }
-            client.on('newMove', (move) => {
+            client.on('newMove', (move, number) => {
                 var chessClock = currentGames.get(client.gameRoom).ChessClockAPI;
-                client.to(client.gameRoom).emit('opponentMove', move);
+                client.to(client.gameRoom).emit('opponentMove', move, number);
                 chessClock.emit('toggle');
-                chessClock.on('toggleTime', (timeWhite, timeBlack) => {
-                    io.to(client.gameRoom).emit('updatedTime', timeWhite, timeBlack);
-                })
-                console.log('toggle');
             });
-            client.on('firstMove', (colour, move) => {
-                client.to(client.gameRoom).emit('opponentMove', move);
+            client.on('firstMove', (colour, move, number) => {
+                console.log('first Move')
+                client.to(client.gameRoom).emit('opponentMove', move, number);
                 io.to(client.gameRoom).emit('stopTimer');
                 if(colour === 'black') {
                     currentGames.get(client.gameRoom).startTimer('white');
                 }
-            })
+            });
+
         });
         client.on('disconnect', () => {
             onDisconnect(client)

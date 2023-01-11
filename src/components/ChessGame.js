@@ -3,9 +3,11 @@ import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
 import 'chessground/assets/chessground.cburnett.css'
-import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "./Chess/ChessLogic.js";
+import {onEnPassent, refreshBoard, getValidMoves, charPieceToString, toColor} from "../Chess/ChessLogic.js";
 import {Chess} from "chess.js";
 import {Modal} from 'antd'
+import {ChessClock} from "../Chess/ChessClock.js";
+import ReactChessClock from "./ReactChessClock.js";
 
 const ChessGame = (props) => {
     const[userName, setUserName] = useState(props.userName);
@@ -17,7 +19,9 @@ const ChessGame = (props) => {
     const [chess, setChess] = useState(new Chess());
     const [ground, setGround] = useState(null);
     const [promotionMove, setPromotionMove] = useState([]);
-    const [time, setTime] = useState(props.time);
+    //const [remainingTimeBlack, setRemainingTimeBlack] = useState({minutes: time.minutes, seconds: 0});
+    //const [remainingTimeWhite, setRemainingTimeWhite] = useState({minutes: time.minutes, seconds: 0});
+   // const [chessClock, setChessClock] = useState(null);
 
     const queen = props.playerColourIsWhite === true ?
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PGcgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04IDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMHptMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwek00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTE2IDguNWEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAweiIvPjxwYXRoIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTRsMiAxMnoiIHN0cm9rZS1saW5lY2FwPSJidXR0Ii8+PHBhdGggZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6IiBzdHJva2UtbGluZWNhcD0iYnV0dCIvPjxwYXRoIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='
@@ -42,6 +46,7 @@ const ChessGame = (props) => {
 
 
     useEffect(() => {
+        //setChessClock(new ChessClock(time, setRemainingTimeWhite, setRemainingTimeBlack));
         setGround(new Chessground(document.getElementById(roomId), {
             orientation: colour,
             movable: {
@@ -73,31 +78,29 @@ const ChessGame = (props) => {
                 }
             });
             refreshBoard(ground, chess);
-            clientSocket.on('opponentMove', (move) => {
-                if(chess.history().length == 0 && colour == 'black') {
-                    setStartingTimer(document.getElementById('clientStartingTime'));
-                }
+            clientSocket.on('opponentMove', (move, number) => {
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
                 }
                 ground.move(move.from, move.to);
                 chess.move(move);
+                if(chess.history().length == 1 && colour == 'black') {
+                    setStartingTimer(document.getElementById('clientStartingTime'));
+                }
                 if(move.flags.includes('e')) {
                     onEnPassent(ground, move);
                 }
                 refreshBoard(ground, chess);
                 ground.playPremove();
             });
-            clientSocket.on('updatedTime', (timeWhite, timeBlack) => {
-                //TODO: Update local Time
-            })
+
         }
     }, [ground]);
 
     function setStartingTimer(element) {
         let secs;
-        switch(time.type) {
+        switch(props.time.type) {
             case 'Bullet': secs = 15; break;
             case 'Blitz': secs = 20; break;
             case 'Rapid': secs = 30; break;
@@ -133,26 +136,21 @@ const ChessGame = (props) => {
             }
             var move = chess.move({from: orig, to: dest});
             if(colour == 'white' && chess.history().length == 1) {
-                clientSocket.emit('firstMove', colour, move);
+                clientSocket.emit('firstMove', colour, move, 1);
                 setStartingTimer(document.getElementById('opponentStartingTime'));
                 refreshBoard(ground, chess);
                 return;
-            }
-            if(colour == 'black' && chess.history().length == 2) {
-                clientSocket.emit('firstMove', colour, move);
+            } else if(colour == 'black' && chess.history().length == 2) {
+                clientSocket.emit('firstMove', colour, move, 2);
                 refreshBoard(ground, chess);
                 return;
             }
-            clientSocket.emit('newMove', move);
+            clientSocket.emit('newMove', move, chess.history().length);
             if(move.flags.includes('e')) {
                 onEnPassent(ground, move);
             }
             refreshBoard(ground, chess);
         };
-    }
-
-    function initializeClientTime() {
-
     }
 
     function promotion(toPiece) {
@@ -184,7 +182,6 @@ const ChessGame = (props) => {
 
     return (
         <div>
-            <>
                 <h1>Hey {userName}</h1>
                 <h1>Viel Glück gegen {opponent}</h1>
                 <p>Du spielst {colour}</p>
@@ -192,14 +189,7 @@ const ChessGame = (props) => {
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
                     <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
                     <div style={{margin: '10VH'}}>
-                        <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginBottom:'1VH', padding: 25}}>
-                            <p id={'clientTimeMinutes'}>{time.minutes} </p>
-                            <p id={'clientTimeSecounds'}>:00</p>
-                        </div>
-                        <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginTop:'1VH', padding:25}}>
-                            <p id={'opponentTimeMinutes'}> {time.minutes} </p>
-                            <p id={'opponentTimeSecounds'}>:00</p>
-                        </div>
+                        <ReactChessClock time={props.time} orientation={colour} socket={clientSocket}/>
                     </div>
                 </div>
                 <p id={'clientStartingTime'}/>
@@ -219,7 +209,6 @@ const ChessGame = (props) => {
                         </span>
                     </div>
                 </Modal>
-            </>
         </div>
     )
 }
