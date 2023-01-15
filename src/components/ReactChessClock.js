@@ -22,7 +22,7 @@ const ReactChessClock = (props) => {
                     return seconds - 1;
                 }
             });
-        } if(turn === 'black') {
+        } else if(turn === 'black') {
             setTimeBlack(seconds => {
                 if (seconds === 0) {
                     console.log('LOST');
@@ -37,10 +37,11 @@ const ReactChessClock = (props) => {
     useEffect(() => {
         console.log(currentTurn);
         const id = setInterval(() => {
-            decrease(currentTurn);
             if(currentTurn === 'stop') {
                 clearInterval(id);
+                return;
             }
+            decrease(currentTurn);
         }, 1000);
         currentTimer.current = id;
         console.log(id);
@@ -48,20 +49,18 @@ const ReactChessClock = (props) => {
 
     useEffect(() => {
         socket.on('updatedTime', (timeWhite, timeBlack, turn) => {
-            console.log('updatedTime')
+            console.log('updatedTime');
             stopClocks();
             updateTime(timeWhite, timeBlack);
             setCurrentTurn(turn);
         });
-        socket.on('opponentMove', (move, number) => {
-            console.log(move, number);
-            if (move.color == 'b' && number == 2) {
-                setCurrentTurn('white');
-            }
+        socket.on('startClock', () => {
+            setCurrentTurn('white');
         });
         return () => {
             socket.off('updatedTime');
             socket.off('opponentMove');
+            socket.off('startClock');
         }
     }, [socket]);
 
@@ -100,8 +99,8 @@ const ReactChessClock = (props) => {
                         (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
                     </div>
                     <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginTop:'1VH', padding:25}}>
-                        <p id={'Black'}>{(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60)) + ":" +
-                        (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
+                        <p id={'Black'}>{(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60)) + ":" +
+                        (timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}</p>
                     </div>
                     </>
         }

@@ -49,6 +49,9 @@ function initializeSocketListeners() {
                 console.log('first Move')
                 client.to(client.gameRoom).emit('opponentMove', move, number);
                 io.to(client.gameRoom).emit('stopTimer');
+                if(number === 2) {
+                    io.to(client.gameRoom).emit('startClock');
+                }
                 if(colour === 'black') {
                     currentGames.get(client.gameRoom).startTimer('white');
                 }
