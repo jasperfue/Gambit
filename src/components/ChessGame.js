@@ -19,9 +19,6 @@ const ChessGame = (props) => {
     const [chess, setChess] = useState(new Chess());
     const [ground, setGround] = useState(null);
     const [promotionMove, setPromotionMove] = useState([]);
-    //const [remainingTimeBlack, setRemainingTimeBlack] = useState({minutes: time.minutes, seconds: 0});
-    //const [remainingTimeWhite, setRemainingTimeWhite] = useState({minutes: time.minutes, seconds: 0});
-   // const [chessClock, setChessClock] = useState(null);
 
     const queen = props.playerColourIsWhite === true ?
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PGcgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04IDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMHptMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwek00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTE2IDguNWEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAweiIvPjxwYXRoIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTRsMiAxMnoiIHN0cm9rZS1saW5lY2FwPSJidXR0Ii8+PHBhdGggZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6IiBzdHJva2UtbGluZWNhcD0iYnV0dCIvPjxwYXRoIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='
@@ -46,7 +43,6 @@ const ChessGame = (props) => {
 
 
     useEffect(() => {
-        //setChessClock(new ChessClock(time, setRemainingTimeWhite, setRemainingTimeBlack));
         setGround(new Chessground(document.getElementById(roomId), {
             orientation: colour,
             movable: {
@@ -136,14 +132,7 @@ const ChessGame = (props) => {
             }
             var move = chess.move({from: orig, to: dest});
             if(colour == 'white' && chess.history().length == 1) {
-                clientSocket.emit('firstMove', colour, move, 1);
                 setStartingTimer(document.getElementById('opponentStartingTime'));
-                refreshBoard(ground, chess);
-                return;
-            } else if(colour == 'black' && chess.history().length == 2) {
-                clientSocket.emit('firstMove', colour, move, 2);
-                refreshBoard(ground, chess);
-                return;
             }
             clientSocket.emit('newMove', move, chess.history().length);
             if(move.flags.includes('e')) {

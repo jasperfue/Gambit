@@ -5,7 +5,33 @@ function ServerChessClock(time) {
     this.remainingTimeWhite = {minutes: time.minutes, seconds: 0};
     this.remainingTimeBlack = {minutes: time.minutes, seconds: 0};
     this.ChessClockAPI = new EventEmitter();
+    switch (time.type) {
+        case 'Bullet': this.startingTimeWhite = this.startingTimeBlack = 15; break;
+        case 'Blitz': this.startingTimeWhite = this.startingTimeBlack = 20; break;
+        case 'Rapid': this.startingTimeWhite = this.startingTimeBlack = 30; break;
+        case 'Classical': this.startingTimeWhite = this.startingTimeBlack = 45; break;
+        default: this.startingTimeWhite = this.startingTimeBlack = "unknown"; break;
+    }
 }
+
+    ServerChessClock.prototype.startStartingTimer = function(colour) {
+    var startingTime = colour === 'white' ? this.startingTimeWhite : this.startingTimeBlack;
+    const decrease = () => {
+        if(startingTime > 0) {
+            startingTime -= 1;
+        } else {
+            this.ChessClockAPI.emit('Cancel Game');
+            clearInterval(timer);
+            return;
+        }
+        console.log(startingTime);
+    }
+    const timer = setInterval(decrease, 1000);
+    this.ChessClockAPI.once('toggle', () => {
+        clearInterval(timer);
+    });
+    }
+
 
     ServerChessClock.prototype.startTimer = function(colour) {
         var remainingTimeCopy = colour === 'white' ? this.remainingTimeWhite : this.remainingTimeBlack

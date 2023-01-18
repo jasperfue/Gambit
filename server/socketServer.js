@@ -32,28 +32,29 @@ function initializeSocketListeners() {
                 opponent.gameRoom = id;
                 const chessClock = new ServerChessClock(time);
                 currentGames.set(id, chessClock);
+                chessClock.startStartingTimer('white');
                 chessClock.ChessClockAPI.on('toggleTime', (timeWhite, timeBlack, turn) => {
                     io.to(client.gameRoom).emit('updatedTime', timeWhite, timeBlack, turn);
-                    console.log('toggle');
                 });
+                chessClock.ChessClockAPI.on('Cancel Game', () => {
+                    //TODO: Cancel Game!
+                    console.log('CANCEL GAME');
+                })
             } else {
                 waitingPlayers.push(client);
                 console.log("Erster Spieler: " + client.userName);
             }
             client.on('newMove', (move, number) => {
-                var chessClock = currentGames.get(client.gameRoom).ChessClockAPI;
+                var chessClock = currentGames.get(client.gameRoom);
                 client.to(client.gameRoom).emit('opponentMove', move, number);
-                chessClock.emit('toggle');
-            });
-            client.on('firstMove', (colour, move, number) => {
-                console.log('first Move')
-                client.to(client.gameRoom).emit('opponentMove', move, number);
-                io.to(client.gameRoom).emit('stopTimer');
-                if(number === 2) {
+                chessClock.ChessClockAPI.emit('toggle');
+                if(number === 1) {
+                    chessClock.startStartingTimer('black');
+                    io.to(client.gameRoom).emit('stopTimer');
+                } else if(number === 2) {
                     io.to(client.gameRoom).emit('startClock');
-                }
-                if(colour === 'black') {
-                    currentGames.get(client.gameRoom).startTimer('white');
+                    chessClock.startTimer('white');
+                    io.to(client.gameRoom).emit('stopTimer');
                 }
             });
 
