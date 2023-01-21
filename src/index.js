@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import socketServer from 'server/socketServer.js'
+
+socketServer(process.env.PORT);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
