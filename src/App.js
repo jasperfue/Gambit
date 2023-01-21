@@ -4,7 +4,6 @@ import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
 import io from "socket.io-client";
-require('newrelic');
 
 function App() {
     const [userName, setUserName] = useState('');
