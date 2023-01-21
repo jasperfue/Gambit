@@ -6,15 +6,15 @@ let currentGames = new Map();
 
 
 
-
-
-
-export function initializeSocketListeners(port) {
-    const io = new SocketServer(port || 3000, {
+const io = new SocketServer(8080, {
     cors: {
         origin: 'http://localhost:3000'
     }
 });
+
+
+
+function initializeSocketListeners() {
     io.on('connection', client => {
         console.log(client.id);
         client.on('find_game', (userName, time) => {
@@ -83,5 +83,4 @@ function onDisconnect(client) {
 
 }
 
-
-export default initializeSocketListeners;
+initializeSocketListeners();
