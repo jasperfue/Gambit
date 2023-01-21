@@ -75,6 +75,7 @@ const ChessGame = (props) => {
             });
             refreshBoard(ground, chess);
             clientSocket.on('opponentMove', (move, number) => {
+                console.log(move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
