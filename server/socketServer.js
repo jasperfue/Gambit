@@ -23,7 +23,7 @@ console.log(port);
 const io = new SocketServer(port, {
     transports: ['websocket'],
     cors: {
-        origin: 'http://localhost:3000'
+        origin: 'https://gambit.herokuapp.com:${port}'
     }
 });
 
