@@ -14,9 +14,9 @@ waitingPlayers.set('15 + 10', []);
 waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
 let currentGames = new Map();
-const port = process.env.PORT || 3000;
+const port = process.argv[2] || 3000;
 const SOCKET_PORT = process.env.SOCKET_PORT || 8080
-console.log(SOCKET_PORT);
+//const port = 8080
 
 
 
@@ -30,7 +30,6 @@ const io = new SocketServer(SOCKET_PORT, {
 
 
 function initializeSocketListeners() {
-    console.log('jojo');
     io.on('connection', client => {
         console.log(client.id);
         client.on('find_game', (userName, time) => {
