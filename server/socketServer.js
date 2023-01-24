@@ -3,10 +3,12 @@ const {v4 : UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
 let waitingPlayers = [];
 let currentGames = new Map();
+const port = process.argv[2] || 3000;
+console.log(port);
 
 
 
-const io = new SocketServer(8080, {
+const io = new SocketServer(port, {
     cors: {
         origin: 'http://localhost:3000'
     }

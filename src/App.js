@@ -4,6 +4,8 @@ import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
 import io from "socket.io-client";
+const port = process.env.CLIENT_PORT || 3000;
+
 
 function App() {
     const [userName, setUserName] = useState('');
@@ -16,7 +18,7 @@ function App() {
 
     useEffect(() => {
 
-        setSocket(io("http://localhost:8080"));
+        setSocket(io(`http://localhost:${port}`));
     }, []);
 
     useEffect(() =>{
