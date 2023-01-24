@@ -21,6 +21,7 @@ console.log(port);
 
 
 const io = new SocketServer(port, {
+    transports: ['websocket'],
     cors: {
         origin: 'http://localhost:3000'
     }
@@ -84,7 +85,8 @@ function onDisconnect(client, time) {
         waitingPlayers.get(time.string).splice(waitingPlayers.get(time).indexOf(client), 1);
     } else {
         if(client.gameRoom != (null || undefined))
-            currentGames.splice(currentGames.indexOf(client.gameRoom), 1);
+            //currentGames.splice(currentGames.indexOf(client.gameRoom), 1);
+            currentGames.delete(client.gameRoom);
             try {
                 io.sockets.adapter.rooms.get(client.gameRoom).forEach(function (s) {
                     io.sockets.sockets.get(s).leave(client.gameRoom);

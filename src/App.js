@@ -18,7 +18,9 @@ function App() {
 
     useEffect(() => {
 
-        setSocket(io(`http://localhost:${port}`));
+        setSocket(io(`http://localhost:${port}`, {
+            transports: ['websocket']
+        }));
     }, []);
 
     useEffect(() =>{
