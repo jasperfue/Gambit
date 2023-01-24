@@ -1,9 +1,21 @@
 const { Server: SocketServer } = require("socket.io");
 const {v4 : UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
-let waitingPlayers = [];
+let waitingPlayers = new Map();
+waitingPlayers.set('1 + 0', []);
+waitingPlayers.set('2 + 1', []);
+waitingPlayers.set('3 + 0', []);
+waitingPlayers.set('3 + 2', []);
+waitingPlayers.set('5 + 0', []);
+waitingPlayers.set('5 + 3', []);
+waitingPlayers.set('10 + 0', []);
+waitingPlayers.set('10 + 5', []);
+waitingPlayers.set('15 + 10', []);
+waitingPlayers.set('30 + 0', []);
+waitingPlayers.set('30 + 20', []);
 let currentGames = new Map();
-const port = process.argv[2] || 3000;
+//const port = process.argv[2] || 3000;
+const port = 8080
 console.log(port);
 
 
@@ -21,8 +33,8 @@ function initializeSocketListeners() {
         console.log(client.id);
         client.on('find_game', (userName, time) => {
             client.userName = userName;
-            if(waitingPlayers.length > 0) {
-                var opponent = waitingPlayers.shift();
+            if(waitingPlayers.get(time.string).length > 0) {
+                var opponent = waitingPlayers.get(time.string).shift();
                 console.log("Zweiter Spieler: " + client.userName);
                 var id = UUIDv4();
                 client.join(id);
@@ -43,8 +55,11 @@ function initializeSocketListeners() {
                     console.log('CANCEL GAME');
                 })
             } else {
-                waitingPlayers.push(client);
+                waitingPlayers.get(time.string).push(client);
                 console.log("Erster Spieler: " + client.userName);
+                client.on('disconnect', () => {
+                    onDisconnect(client, time);
+                });
             }
             client.on('newMove', (move, number) => {
                 var chessClock = currentGames.get(client.gameRoom);
@@ -61,15 +76,12 @@ function initializeSocketListeners() {
             });
 
         });
-        client.on('disconnect', () => {
-            onDisconnect(client)
-        });
     });
 }
 
-function onDisconnect(client) {
-    if(waitingPlayers.includes(client)) {
-        waitingPlayers.splice(waitingPlayers.indexOf(client), 1);
+function onDisconnect(client, time) {
+    if(waitingPlayers.get(time.string).includes(client)) {
+        waitingPlayers.get(time.string).splice(waitingPlayers.get(time).indexOf(client), 1);
     } else {
         if(client.gameRoom != (null || undefined))
             currentGames.splice(currentGames.indexOf(client.gameRoom), 1);
