@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const PORT = process.env.PORT || 3000;
-//process.env.SOCKET_PORT = PORT;
-process.env.SOCKET_PORT = 8080;
+process.env.SOCKET_PORT = PORT;
+//process.env.SOCKET_PORT = 8080;
 
 
 const reactScripts = spawn('node', ['--inspect=9229', 'node_modules/react-scripts/scripts/start.js', `${PORT}`]);

@@ -14,8 +14,8 @@ waitingPlayers.set('15 + 10', []);
 waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
 let currentGames = new Map();
-//const port = process.argv[2] || 3000;
-const port = 8080
+const port = process.argv[2] || 3000;
+//const port = 8080
 console.log(port);
 
 
