@@ -18,7 +18,9 @@ function App() {
 
     useEffect(() => {
 
-        setSocket(io(`https://gambit.herokuapp.com:${port}`));
+        setSocket(io(`https://gambit.herokuapp.com:${port}`, {
+            transports: ['websocket']
+        }));
     }, []);
 
     useEffect(() =>{
