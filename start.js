@@ -5,7 +5,7 @@ process.env.SOCKET_PORT = PORT;
 
 
 const reactScripts = spawn('node', ['--inspect=9229', 'node_modules/react-scripts/scripts/start.js', `${PORT}`]);
-const socketServer = spawn('node', ['--inspect=9230', 'server/socketServer.js', `${PORT}`]);
+const socketServer = spawn('node', ['--inspect=9230', 'socketServer.js', `${PORT}`]);
 
 reactScripts.stdout.on('data', (data) => {
     console.log(`React: ${data}`);
