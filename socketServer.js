@@ -23,7 +23,7 @@ const SOCKET_PORT = process.env.SOCKET_PORT || 8080
 const io = new SocketServer(SOCKET_PORT, {
     transports: ['websocket'],
     cors: {
-        origin: 'https://gambit.herokuapp.com:${port}'
+        origin: 'https://gambit.herokuapp.com/'
     }
 });
 

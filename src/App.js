@@ -4,7 +4,6 @@ import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
 import io from "socket.io-client";
-const port = process.env.SOCKET_PORT || 8080;
 
 
 function App() {
@@ -14,6 +13,7 @@ function App() {
     const [isConnected, setConnected] = useState(false);
     const [isIngame, setIsIngame] = useState(false);
     const [time, setTime] = useState(null);
+    const port = process.env.SOCKET_PORT || 8080;
 
 
     useEffect(() => {
