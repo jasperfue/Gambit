@@ -15,12 +15,12 @@ waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
 let currentGames = new Map();
 const port = process.argv[2] || 3000;
+const SOCKET_PORT = process.env.SOCKET_PORT || 8080
 //const port = 8080
-console.log(port);
 
 
 
-const io = new SocketServer(port, {
+const io = new SocketServer(SOCKET_PORT, {
     transports: ['websocket'],
     cors: {
         origin: 'https://gambit.herokuapp.com:${port}'
