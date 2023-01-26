@@ -1,5 +1,4 @@
-import { Chessground } from 'chessground'
-import { Chess, SQUARES } from 'chess.js';
+import { SQUARES } from 'chess.js';
 
 
 export function getValidMoves(chess) {

@@ -2,9 +2,9 @@ import React from "react";
 import {useState, useEffect} from "react"
 import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
-import { BrowserRouter, Routes, Route, useNavigate, Redirect} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import io from "socket.io-client";
-const port = process.env.SOCKET_PORT || 3000;
+const port = 4000;
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
 
     useEffect(() => {
 
-        setSocket(io(`https://gambit.herokuapp.com:${port}`, {
+        setSocket(io(`http://localhost:${port}`, {
             transports: ['websocket']
         }));
     }, []);

@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React from "react";
+import Login from "../components/Login.js";
 
 const StartGame = (props) => {
 
@@ -9,7 +10,8 @@ const StartGame = (props) => {
 
     return (
         <div>
-            <h1>Messages</h1>
+            <h1>Gambit</h1>
+            <Login/>
             <p id="message"/>
             <form onSubmit={() => {
             }}>
