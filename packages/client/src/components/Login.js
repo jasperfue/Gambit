@@ -1,4 +1,7 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useContext} from "react";
+import * as yup from 'yup';
+import YupPassword from 'yup-password'
+YupPassword(yup)
 
 const Login = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -6,6 +9,9 @@ const Login = () => {
     const registerMail = useRef();
     const registerUserName = useRef();
     const registerPassword = useRef();
+    const registerPasswordRepeat = useRef();
+    const loginUsername = useRef();
+    const loginPassword = useRef();
 
     const handleOpen = () => {
         setIsOpen(true);
@@ -19,44 +25,62 @@ const Login = () => {
         setMode(newMode);
     };
 
-    const validateInputs = (username, email, password) => {
-        // Email validation
-        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            alert("Please enter a valid email address.");
-            return false;
-        }
+    const validateLoginInputs = (username, password) => {
+        const formSchema = yup.object().shape({
+        username: yup.string()
+            .required('Username required')
+            .min(6, 'Username too Short!')
+            .max(28, 'Username too long!'),
+            password: yup.string()
+            .password()
+            .required('Password required!'),
+    });
+        formSchema.isValid({
+            'username': username,
+            'password': password
+        }).catch(err => {
+            console.log(err);
+        }).then(res => {
+            if(res) {
+                submitLogin(username, password);
+                return;
+            }
+            console.log(res);
+        })
+    }
 
-        // Password validation
-        if (password.length < 8) {
-            alert("Password must be at least 8 characters long.");
+    const validateRegisterInputs = (username, email, password, repeatedPassword) => {
+        if(repeatedPassword !== password) {
+            console.log("Passwörter stimmen nicht überein");
             return false;
         }
-        // Uppercase letter
-        if (!/[A-Z]/.test(password)) {
-            alert("Password must contain at least one uppercase letter.");
-            return false;
-        }
-        // Lowercase letter
-        if (!/[a-z]/.test(password)) {
-            alert("Password must contain at least one lowercase letter.");
-            return false;
-        }
-        // Number
-        if (!/\d/.test(password)) {
-            alert("Password must contain at least one number.");
-            return false;
-        }
-        // Special character
-        if (!/[^a-zA-Z0-9]/.test(password)) {
-            alert("Password must contain at least one special character.");
-            return false;
-        }
-
-
-        // Additional validation rules can be added here
-
-        return true;
-    };
+        const formSchema = yup.object().shape({
+            username: yup.string()
+                .required('Username required')
+                .min(6, 'Username too Short!')
+                .max(28, 'Username too long!'),
+            password: yup.string()
+                .password()
+                .required('Password required!'),
+            email: yup.string()
+                .email()
+                .required('Email required!'),
+        });
+        formSchema.isValid({
+            "username": username,
+            "email": email,
+            "password": password
+        }).catch(err => {
+            console.log(err);
+            return;
+        }).then(res => {
+            if(res) {
+                submitRegister(username, email, password);
+                return;
+            }
+            console.log(res);
+        });
+    }
 
     const submitRegister = (username, email, password) => {
         fetch("http://localhost:4000/auth/register", {
@@ -71,10 +95,10 @@ const Login = () => {
                 "password": password
             })
         }).catch(err => {
-            return;
+            console.log(err);
         }).then(res => {
             if(!res || !res.ok || res.status >= 400) {
-                return;
+                console.log(res);
             }
             return res.json();
         }).then(data => {
@@ -83,6 +107,32 @@ const Login = () => {
         })
     }
 
+    const submitLogin = (username, password) => {
+        fetch("http://localhost:4000/auth/login", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password
+            }),
+        })
+            .catch(err => {
+                return;
+            })
+            .then(res => {
+                if (!res || !res.ok || res.status >= 400) {
+                    return;
+                }
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+                //TODO: Set User Data
+            });
+    }
 
     return (
         <div>
@@ -117,14 +167,18 @@ const Login = () => {
                     <div className="modal-content">
                         <button onClick={handleClose}>Close</button>
                         {mode === "login" && (
-                            <form>
+                            <form onSubmit={() => {
+                                if(validateLoginInputs(loginUsername.current.value, loginPassword.current.value)) {
+                                    submitLogin(loginUsername.current.value, loginPassword.current.value);
+                                }
+                            }}>
                                 <label>
-                                    Email:
-                                    <input type="email" />
+                                    Username:
+                                    <input type="text" name={'username'} ref={loginUsername}/>
                                 </label>
                                 <label>
                                     Password:
-                                    <input type="password" />
+                                    <input type="password" name={'password'} ref={loginPassword}/>
                                 </label>
                                 <button type="submit">Login</button>
                                 <p> Don't have an Account?</p> <a href="#" onClick={() => handleModeChange("register")}>Create one</a>
@@ -132,9 +186,7 @@ const Login = () => {
                         )}
                         {mode === "register" && (
                             <form onSubmit={() => {
-                                if(validateInputs(registerUserName.current.value, registerMail.current.value, registerPassword.current.value)) {
-                                    submitRegister(registerUserName.current.value, registerMail.current.value, registerPassword.current.value);
-                                }
+                                validateRegisterInputs(registerUserName.current.value, registerMail.current.value, registerPassword.current.value, registerPasswordRepeat.current.value)
                             }}>
                                 <label>
                                     Username:
@@ -146,7 +198,11 @@ const Login = () => {
                                 </label>
                                 <label>
                                     Password:
-                                    <input type="password" name={"password"} ref={registerPassword}/>
+                                    <input type="password" name={'password'} ref={registerPassword}/>
+                                </label>
+                                <label>
+                                    Repeat Password:
+                                    <input type="password" name={'password'} ref={registerPasswordRepeat}/>
                                 </label>
                                 <button type="submit">Register</button>
                                 <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Login</a>
