@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Navigate, Routes, Route, redirect} from 'react-router-dom';
 import ChessGame from "./ChessGame.js";
-import StartGame from "../onboard/StartGame.js";
 
 const GameLobby = (props) => {
     const [userName, setUserName] = useState('');

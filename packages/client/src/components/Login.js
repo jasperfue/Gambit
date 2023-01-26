@@ -21,7 +21,7 @@ const Login = () => {
 
     const validateInputs = (username, email, password) => {
         // Email validation
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             alert("Please enter a valid email address.");
             return false;
         }

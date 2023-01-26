@@ -3,10 +3,9 @@ import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
 import 'chessground/assets/chessground.cburnett.css'
-import {onEnPassent, refreshBoard, getValidMoves, charPieceToString, toColor} from "../Chess/ChessLogic.js";
+import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Chess/ChessLogic.js";
 import {Chess} from "chess.js";
 import {Modal} from 'antd'
-import {ChessClock} from "../Chess/ChessClock.js";
 import ReactChessClock from "./ReactChessClock.js";
 
 const ChessGame = (props) => {
