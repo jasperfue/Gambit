@@ -1,7 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {ChessClock} from "../Chess/ChessClock.js"
-import {toColor} from "../Chess/ChessLogic.js";
-import {Chess} from "chess.js";
 const ReactChessClock = (props) => {
     const [time, setTime] = useState(props.time);
     const [timeWhite, setTimeWhite] = useState(time.minutes * 60);
