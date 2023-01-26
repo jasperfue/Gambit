@@ -58,6 +58,31 @@ const Login = () => {
         return true;
     };
 
+    const submitRegister = (username, email, password) => {
+        fetch("http://localhost:3000/auth/register", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: {
+                "username": username,
+                "email": email,
+                "password": password
+            }
+        }).catch(err => {
+            return;
+        }).then(res => {
+            if(!res || !res.ok || res.status >= 400) {
+                return;
+            }
+            return res.json();
+        }).then(data => {
+            if(!data) return;
+            console.log(data);
+        })
+    }
+
 
     return (
         <div>
@@ -106,7 +131,11 @@ const Login = () => {
                             </form>
                         )}
                         {mode === "register" && (
-                            <form onSubmit={() => validateInputs(registerUserName.current.value, registerMail.current.value, registerPassword.current.value)}>
+                            <form onSubmit={() => {
+                                if(validateInputs(registerUserName.current.value, registerMail.current.value, registerPassword.current.value)) {
+                                    submitRegister(registerUserName.current.value, registerMail.current.value, registerPassword.current.value);
+                                }
+                            }}>
                                 <label>
                                     Username:
                                     <input type="text" ref={registerUserName}/>

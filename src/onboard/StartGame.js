@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Login from "../components/Login.js";
 
 const StartGame = (props) => {
