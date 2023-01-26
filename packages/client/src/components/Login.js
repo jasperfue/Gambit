@@ -59,17 +59,17 @@ const Login = () => {
     };
 
     const submitRegister = (username, email, password) => {
-        fetch("http://localhost:3000/auth/register", {
+        fetch("http://localhost:4000/auth/register", {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: {
+            body: JSON.stringify({
                 "username": username,
                 "email": email,
                 "password": password
-            }
+            })
         }).catch(err => {
             return;
         }).then(res => {
@@ -138,15 +138,15 @@ const Login = () => {
                             }}>
                                 <label>
                                     Username:
-                                    <input type="text" ref={registerUserName}/>
+                                    <input type="text" name={'username'} ref={registerUserName}/>
                                 </label>
                                 <label>
                                     Email:
-                                    <input type="email" ref={registerMail}/>
+                                    <input type="email" name={'email'} ref={registerMail}/>
                                 </label>
                                 <label>
                                     Password:
-                                    <input type="password" ref={registerPassword}/>
+                                    <input type="password" name={"password"} ref={registerPassword}/>
                                 </label>
                                 <button type="submit">Register</button>
                                 <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Login</a>
