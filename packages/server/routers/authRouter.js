@@ -5,27 +5,37 @@ require('yup-password')(Yup)
 const {query} = require('../src/database.js');
 const bcrypt = require('bcrypt');
 
-const formSchemaLogin = Yup.object().shape({
+const LoginSchema = Yup.object().shape({
     username: Yup.string()
-        .required('Username required')
-        .min(6, 'Username too Short!')
-        .max(28, 'Username too long!'),
+        .min(3, 'Username hat to be at least 3 characters long')
+        .max(20, 'Username cannot be longer than 20 characters')
+        .required('Username is a required field'),
     password: Yup.string()
-        .password()
-        .required('Password required!'),
+        .min(8, 'Password has to be at least 8 characters long')
+        .minLowercase(1, 'At least one character hat to be in lower case')
+        .minUppercase(1, 'At least one character has to be in upper case')
+        .minNumbers(1, 'At least on character has to be a number')
+        .minSymbols(1, 'At least one character has to be a symbol')
+        .minRepeating(3, 'It is only allowed to have at most 3 repeating characters')
+        .required('Password is a required field'),
 });
 
-const formSchemaRegister = Yup.object().shape({
+const SignUpSchema = Yup.object({
     username: Yup.string()
-        .required('Username required')
-        .min(6, 'Username too Short!')
-        .max(28, 'Username too long!'),
-    password: Yup.string()
-        .password()
-        .required('Password required!'),
+        .min(3, 'Username hat to be at least 3 characters long')
+        .max(20, 'Username cannot be longer than 20 characters')
+        .required('Username is a required field'),
     email: Yup.string()
-        .email()
-        .required('Email required!'),
+        .email('Invalid E-Mail')
+        .required('Email is a required field'),
+    password: Yup.string()
+        .min(8, 'Password has to be at least 8 characters long')
+        .minLowercase(1, 'At least one character hat to be in lower case')
+        .minUppercase(1, 'At least one character has to be in upper case')
+        .minNumbers(1, 'At least on character has to be a number')
+        .minSymbols(1, 'At least one character has to be a symbol')
+        .minRepeating(3, 'It is only allowed to have at most 3 repeating characters')
+        .required('Password is a required field'),
 });
 
 router.route('/login')
@@ -37,8 +47,8 @@ router.route('/login')
         }
     })
     .post(async (req, res) => {
-        const formData = req.body;
-        formSchemaLogin.validate(formData)
+        console.log(req.body);
+        LoginSchema.validate(req.body)
             .catch(err => {
                 res.status(422).send();
                 console.log(err.errors);
@@ -64,19 +74,19 @@ router.route('/login')
                 console.log('logged In')
                 res.json({ loggedIn: true, username: req.body.username });
             } else {
-                res.json({ loggedIn: false, status: "Wrong username or password!" });
+                res.json({ loggedIn: false, message: "Wrong username or password!" });
                 console.log("not good");
             }
         } else {
             console.log("not good");
-            res.json({ loggedIn: false, status: "Wrong username or password!" });
+            res.json({ loggedIn: false, message: "Wrong username or password!" });
         }
     })
 
 
 router.post('/register', async (req, res) => {
     const formData = req.body;
-    formSchemaRegister.validate(formData)
+    SignUpSchema.validate(formData)
         .catch(err => {
             res.status(422).send();
             console.log(err.errors);
@@ -85,10 +95,13 @@ router.post('/register', async (req, res) => {
             console.log('Form is good');
         }
     });
-    const existingUser = await query('SELECT username FROM users WHERE username=$1',
+    const existingUserName = await query('SELECT username FROM users WHERE username=$1',
         [req.body.username]
     );
-    if (existingUser.rowCount === 0) {
+    const existingEmail = await query('SELECT email FROM users WHERE email=$1',
+        [req.body.email]
+    );
+    if (existingUserName.rowCount === 0 && existingEmail.rowCount === 0) {
         //register
         const hashedPass = await bcrypt.hash(req.body.password, 10);
         const newUserQuery = await query('INSERT INTO users(username, email, password) values ($1, $2, $3) RETURNING id, username',
@@ -98,10 +111,12 @@ router.post('/register', async (req, res) => {
             username: req.body.username,
             id: newUserQuery.rows[0].id,
         }*/
+        res.json({loggedIn: true, username: req.body.username})
 
-    res.json({loggedIn: true, username: req.body.username})
-    } else {
-        res.json({loggedIn:false, status:"Username taken"});
+    } else if (existingEmail.rowCount !== 0) {
+        res.json({loggedIn:false, message:"There is already an Account with that Email"});
+    } else if (existingUserName.rowCount !== 0) {
+        res.json({loggedIn: false, message: "Username taken"});
     }
 });
 

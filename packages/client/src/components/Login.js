@@ -1,17 +1,14 @@
 import React, {useRef, useState, useContext} from "react";
-import * as yup from 'yup';
+import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import YupPassword from 'yup-password'
-YupPassword(yup)
+YupPassword(Yup)
 
 const Login = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [mode, setMode] = useState("login");
-    const registerMail = useRef();
-    const registerUserName = useRef();
-    const registerPassword = useRef();
-    const registerPasswordRepeat = useRef();
-    const loginUsername = useRef();
-    const loginPassword = useRef();
+    const [loginError, setLoginError] = useState(null);
+    const [signUpError, setSignUpError] = useState(null);
 
     const handleOpen = () => {
         setIsOpen(true);
@@ -25,75 +22,53 @@ const Login = () => {
         setMode(newMode);
     };
 
-    const validateLoginInputs = (username, password) => {
-        const formSchema = yup.object().shape({
-        username: yup.string()
-            .required('Username required')
-            .min(6, 'Username too Short!')
-            .max(28, 'Username too long!'),
-            password: yup.string()
-            .password()
-            .required('Password required!'),
+    const LoginSchema = Yup.object().shape({
+        username: Yup.string()
+            .min(3, 'Username hat to be at least 3 characters long')
+            .max(20, 'Username cannot be longer than 20 characters')
+            .required('Username is a required field'),
+        password: Yup.string()
+            .min(8, 'Password has to be at least 8 characters long')
+            .minLowercase(1, 'At least one character hat to be in lower case')
+            .minUppercase(1, 'At least one character has to be in upper case')
+            .minNumbers(1, 'At least on character has to be a number')
+            .minSymbols(1, 'At least one character has to be a symbol')
+            .minRepeating(3, 'It is only allowed to have at most 3 repeating characters')
+            .required('Password is a required field'),
     });
-        formSchema.isValid({
-            'username': username,
-            'password': password
-        }).catch(err => {
-            console.log(err);
-        }).then(res => {
-            if(res) {
-                submitLogin(username, password);
-                return;
-            }
-            console.log(res);
-        })
-    }
 
-    const validateRegisterInputs = (username, email, password, repeatedPassword) => {
-        if(repeatedPassword !== password) {
-            console.log("Passwörter stimmen nicht überein");
-            return false;
-        }
-        const formSchema = yup.object().shape({
-            username: yup.string()
-                .required('Username required')
-                .min(6, 'Username too Short!')
-                .max(28, 'Username too long!'),
-            password: yup.string()
-                .password()
-                .required('Password required!'),
-            email: yup.string()
-                .email()
-                .required('Email required!'),
-        });
-        formSchema.isValid({
-            "username": username,
-            "email": email,
-            "password": password
-        }).catch(err => {
-            console.log(err);
-            return;
-        }).then(res => {
-            if(res) {
-                submitRegister(username, email, password);
-                return;
-            }
-            console.log(res);
-        });
-    }
+    const SignUpSchema = Yup.object({
+        username: Yup.string()
+            .min(3, 'Username hat to be at least 3 characters long')
+            .max(20, 'Username cannot be longer than 20 characters')
+            .required('Username is a required field'),
+        email: Yup.string()
+            .email('Invalid E-Mail')
+            .required('Email is a required field'),
+        password: Yup.string()
+            .min(8, 'Password has to be at least 8 characters long')
+            .minLowercase(1, 'At least one character hat to be in lower case')
+            .minUppercase(1, 'At least one character has to be in upper case')
+            .minNumbers(1, 'At least on character has to be a number')
+            .minSymbols(1, 'At least one character has to be a symbol')
+            .minRepeating(3, 'It is only allowed to have at most 3 repeating characters')
+            .required('Password is a required field'),
+        passwordRepeat: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords do not match')
+            .required('Repeat password is a required field')
+    });
 
-    const submitRegister = (username, email, password) => {
+
+
+        const submitSignUp = (valuesWithPasswordRepeat) => {
+            const { passwordRepeat, ...values } = valuesWithPasswordRepeat;
         fetch("http://localhost:4000/auth/register", {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                "username": username,
-                "email": email,
-                "password": password
-            })
+            body: JSON.stringify(values)
         }).catch(err => {
             console.log(err);
         }).then(res => {
@@ -102,43 +77,48 @@ const Login = () => {
             }
             return res.json();
         }).then(data => {
-            if(!data) return;
+            if(!data.loggedIn) {
+                setSignUpError(data.message);
+                return;
+            }
+            setSignUpError(null);
             console.log(data);
         })
     }
 
-    const submitLogin = (username, password) => {
+    const submitLogin = (values) => {
         fetch("http://localhost:4000/auth/login", {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                "username": username,
-                "password": password
-            }),
+            body: JSON.stringify(values)
         })
             .catch(err => {
+                console.log(err);
                 return;
             })
             .then(res => {
+                console.log(res);
                 if (!res || !res.ok || res.status >= 400) {
                     return;
                 }
                 return res.json();
             })
             .then(data => {
+                if(!data.loggedIn) {
+                    setLoginError(data.message);
+                    return;
+                }
+                setLoginError(null);
                 console.log(data);
-                //TODO: Set User Data
+                //TODO: LOGIN ERFOLGREICH
             });
     }
 
     return (
         <div>
-            <style>
-
-            </style>
             <button onClick={handleOpen}>Login</button>
             {isOpen && (
                 <div className="modal">
@@ -155,58 +135,106 @@ const Login = () => {
               justify-content: center;
             }
             .modal-content {
+              position: relative;
               background: #fff;
               padding: 20px;
               border-radius: 10px;
               width: 400px;
             }
-            input, button {
-              margin: 10px;
-            }`}
+            .close {
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                   cursor: pointer;
+            }
+            .field {
+                margin-bottom: 10px;
+            }
+
+            `}
                     </style>
                     <div className="modal-content">
-                        <button onClick={handleClose}>Close</button>
+                        <button type="button" className="close" aria-label="Close" onClick={handleClose}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         {mode === "login" && (
-                            <form onSubmit={() => {
-                                if(validateLoginInputs(loginUsername.current.value, loginPassword.current.value)) {
-                                    submitLogin(loginUsername.current.value, loginPassword.current.value);
-                                }
-                            }}>
-                                <label>
-                                    Username:
-                                    <input type="text" name={'username'} ref={loginUsername}/>
-                                </label>
-                                <label>
-                                    Password:
-                                    <input type="password" name={'password'} ref={loginPassword}/>
-                                </label>
-                                <button type="submit">Login</button>
-                                <p> Don't have an Account?</p> <a href="#" onClick={() => handleModeChange("register")}>Create one</a>
-                            </form>
+                            <Formik
+                                initialValues={{
+                                    username: '',
+                                    password: '',
+                                }}
+                                validationSchema={LoginSchema}
+                                onSubmit={values => {
+                                    submitLogin(values);
+                                }}
+                            >
+                                {({ isValid, isSubmitting }) => (
+                                    <Form>
+                                        <div className='field'>
+                                            <Field name="username" type="text" placeholder="Username"/>
+                                            <ErrorMessage name="username" component="div" />
+                                        </div>
+                                        <div className='field'>
+                                            <Field name="password" type="password" placeholder="Password" />
+                                            <ErrorMessage name="password" component="div" />
+                                        </div>
+                                        <div> {loginError} </div>
+                                        <button type="Log In" disabled={!isValid || isSubmitting}>Submit</button>
+                                        <p> Don't have an Account?</p> <a href="#" onClick={() => handleModeChange("signUp")}>Sign Up</a>
+                                    </Form>
+                                )}
+                            </Formik>
                         )}
-                        {mode === "register" && (
-                            <form onSubmit={() => {
-                                validateRegisterInputs(registerUserName.current.value, registerMail.current.value, registerPassword.current.value, registerPasswordRepeat.current.value)
-                            }}>
-                                <label>
-                                    Username:
-                                    <input type="text" name={'username'} ref={registerUserName}/>
-                                </label>
-                                <label>
-                                    Email:
-                                    <input type="email" name={'email'} ref={registerMail}/>
-                                </label>
-                                <label>
-                                    Password:
-                                    <input type="password" name={'password'} ref={registerPassword}/>
-                                </label>
-                                <label>
-                                    Repeat Password:
-                                    <input type="password" name={'password'} ref={registerPasswordRepeat}/>
-                                </label>
-                                <button type="submit">Register</button>
-                                <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Login</a>
-                            </form>
+                        {mode === "signUp" && (
+                            <Formik
+                                initialValues={{
+                                    username: '',
+                                    email: '',
+                                    password: '',
+                                    passwordRepeat: ''
+                                }}
+                                validationSchema={SignUpSchema}
+                                onSubmit={(values, { setSubmitting }) => {
+                                    // Hier können Sie Ihre Formulardaten verarbeiten, z.B. an eine API senden
+                                    submitSignUp(values);
+                                    setSubmitting(false);
+                                }}
+                            >
+                                {({ isValid, isSubmitting }) => (
+                                    <Form>
+                                        <div className='field'>
+                                            <Field name="username" placeholder="Username" />
+                                            <ErrorMessage name="username" component="div"/>
+                                        </div>
+                                        <div className='field'>
+                                            <Field name="email" type="email" placeholder="Email" />
+                                            <ErrorMessage name="email" component="div"/>
+                                        </div>
+                                        <div className='field'>
+                                            <Field name="password" type="password" placeholder="Password" />
+                                            <ErrorMessage name="password" component="div"/>
+                                        </div>
+                                        <div className='field'>
+                                            <Field name="passwordRepeat" type="password" placeholder="Repeat password" />
+                                            <ErrorMessage name="passwordRepeat" component="div"/>
+                                        </div>
+                                        <div> {signUpError} </div>
+                                        <button type="submit" disabled={!isValid || isSubmitting} >Sign Up</button>
+                                        <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Log in</a>
+                                    </Form>
+                                )}
+                            </Formik>
+
                         )}
                     </div>
                 </div>
