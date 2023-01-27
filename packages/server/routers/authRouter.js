@@ -67,10 +67,10 @@ router.route('/login')
                 potentialLogin.rows[0].password
             );
             if (isSamePassword) {
-            /*    req.session.user = {
+                req.session.user = {
                     username: req.body.username,
                     id: potentialLogin.rows[0].id,
-                };*/
+                };
                 console.log('logged In')
                 res.json({ loggedIn: true, username: req.body.username });
             } else {
@@ -84,7 +84,7 @@ router.route('/login')
     })
 
 
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
     const formData = req.body;
     SignUpSchema.validate(formData)
         .catch(err => {
@@ -107,10 +107,10 @@ router.post('/register', async (req, res) => {
         const newUserQuery = await query('INSERT INTO users(username, email, password) values ($1, $2, $3) RETURNING id, username',
             [req.body.username, req.body.email, hashedPass]
         );
-/*        req.session.user = {
+        req.session.user = {
             username: req.body.username,
             id: newUserQuery.rows[0].id,
-        }*/
+        }
         res.json({loggedIn: true, username: req.body.username})
 
     } else if (existingEmail.rowCount !== 0) {

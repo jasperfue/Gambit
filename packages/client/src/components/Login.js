@@ -62,7 +62,7 @@ const Login = () => {
 
         const submitSignUp = (valuesWithPasswordRepeat) => {
             const { passwordRepeat, ...values } = valuesWithPasswordRepeat;
-        fetch("http://localhost:4000/auth/register", {
+        fetch("http://localhost:4000/auth/signup", {
             method: "POST",
             credentials: "include",
             headers: {
