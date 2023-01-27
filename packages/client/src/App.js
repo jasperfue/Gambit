@@ -4,6 +4,7 @@ import StartGame from "./onboard/StartGame.js";
 import GameLobby from "./components/GameLobby.js"
 import { BrowserRouter } from "react-router-dom";
 import io from "socket.io-client";
+import UserContext from "./AccountContext.js";
 const port = 4000;
 
 
@@ -40,7 +41,7 @@ function App() {
 
 
   return (
-    <div>
+    <UserContext>
         <BrowserRouter>
         {isWantingToPlay && time && userName.length > 0 && isConnected ?
             <GameLobby socket={socket} userName={userName} time={time} />
@@ -48,7 +49,7 @@ function App() {
             <StartGame setUserName={setUserName} setIsWantingToPlay={setIsWantingToPlay} setTime={setTime} />
         }
         </BrowserRouter>
-    </div>
+    </UserContext>
   );
 }
 

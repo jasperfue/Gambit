@@ -2,9 +2,11 @@ import React, {useRef, useState, useContext} from "react";
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import YupPassword from 'yup-password'
+import {AccountContext} from "../AccountContext.js";
 YupPassword(Yup)
 
 const Login = () => {
+    const {setUser} = useContext(AccountContext);
     const [isOpen, setIsOpen] = useState(false);
     const [mode, setMode] = useState("login");
     const [loginError, setLoginError] = useState(null);
@@ -81,6 +83,7 @@ const Login = () => {
                 setSignUpError(data.message);
                 return;
             }
+            setUser({...data});
             setSignUpError(null);
             console.log(data);
         })
@@ -111,6 +114,7 @@ const Login = () => {
                     setLoginError(data.message);
                     return;
                 }
+                setUser({...data});
                 setLoginError(null);
                 console.log(data);
                 //TODO: LOGIN ERFOLGREICH

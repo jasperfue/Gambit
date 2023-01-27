@@ -71,7 +71,6 @@ router.route('/login')
                     username: req.body.username,
                     id: potentialLogin.rows[0].id,
                 };
-                console.log('logged In')
                 res.json({ loggedIn: true, username: req.body.username });
             } else {
                 res.json({ loggedIn: false, message: "Wrong username or password!" });
