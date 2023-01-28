@@ -117,7 +117,6 @@ const Login = () => {
                 setUser({...data});
                 setLoginError(null);
                 console.log(data);
-                //TODO: LOGIN ERFOLGREICH
             });
     }
 
