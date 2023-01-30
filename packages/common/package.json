@@ -1,0 +1,11 @@
+{
+  "name": "@gambit/common",
+  "version": "1.0.0",
+  "description": "common files shared by client and server",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "yup": "^0.32.11",
+    "yup-password": "^0.2.2"
+  }
+}

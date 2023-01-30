@@ -5,12 +5,11 @@ const cors = require('cors');
 const socketServer = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
 const session = require('express-session');
-const Redis = require("ioredis");
-const RedisStore = require('connect-redis')(session)
+const RedisStore = require('connect-redis')(session);
+const redisClient = require('./src/redis.js');
 require('dotenv').config();
 
 const server = require('http').createServer(app);
-const redisClient = new Redis();
 app.use(helmet());
 app.use(
     cors({
