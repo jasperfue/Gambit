@@ -16,18 +16,7 @@ waitingPlayers.set('30 + 20', []);
 let waitingGuests = new Map([...waitingPlayers]);
 let currentGames = new Map();
 
-const startSocketServer = (httpServer) => {
-
-    const io = new Server(httpServer, {
-        transports: ['websocket'],
-        cors: {
-            origin: 'http://localhost:3000',
-            credentials: true
-        }
-    });
-
-
-
+const initializeListeners = (io) => {
     function initializeSocketListeners() {
         io.on('connection', client => {
             console.log(client.id);
@@ -66,8 +55,11 @@ const startSocketServer = (httpServer) => {
                     queue.get(time.string).push(client);
                     console.log("Erster Spieler: " + client.userName);
                     client.on('disconnect', () => {
-                        onDisconnect(client, time);
+                        leaveQueue(client, time);
                     });
+                    client.on('leave_queue', () => {
+                        leaveQueue(client, time);
+                    })
                 }
                 client.on('newMove', (move, number) => {
                     var chessClock = currentGames.get(client.gameRoom);
@@ -87,7 +79,7 @@ const startSocketServer = (httpServer) => {
         });
     }
 
-    function onDisconnect(client, time) {
+    function leaveQueue(client, time) {
         let queue;
         if(client.userName === 'guest') {
             queue = waitingGuests;
@@ -95,7 +87,7 @@ const startSocketServer = (httpServer) => {
             queue = waitingPlayers;
         }
         if(queue.get(time.string).includes(client)) {
-            queue.get(time.string).splice(queue.get(time).indexOf(client), 1);
+            queue.get(time.string).splice(queue.get(time.string).indexOf(client), 1);
         } else {
             if(client.gameRoom !== undefined)
                 currentGames.delete(client.gameRoom);
@@ -108,12 +100,11 @@ const startSocketServer = (httpServer) => {
             }
             //TODO: Make opponent win
         }
-
     }
 
     initializeSocketListeners();
 }
 module.exports = {
-    startSocketServer
+    initializeListeners
 };
 

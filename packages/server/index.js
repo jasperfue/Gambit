@@ -1,43 +1,29 @@
+const {Server} = require('socket.io');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
 const cors = require('cors');
-const socketServer = require('./src/socketServer.js');
+const {corsConfig, sessionMiddleware, wrap} = require('./controllers/serverController.js');
+const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-const redisClient = require('./src/redis.js');
-require('dotenv').config();
 
 const server = require('http').createServer(app);
 app.use(helmet());
+const io = new Server(server, {
+    transports: ['websocket'],
+    cors: corsConfig,
+});
+io.use(wrap(sessionMiddleware));
+initializeListeners(io);
 app.use(
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true
-    })
+    cors(corsConfig)
 )
 app.use(express.json());
-app.use(
-    session({
-        secret: process.env.COOKIE_SECRET,
-        credentials: true,
-        name: "sid",
-        store: new RedisStore({client: redisClient}),
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: process.env.ENVIRONMENT === "production" ? "true" : "auto",
-            httpOnly: false,
-            expires: 1000 * 60 * 60 * 6,
-            sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
-        },
-    })
-);
+app.use(sessionMiddleware);
 app.use("/auth", authRouter);
+
 
 server.listen(4000, () => {
     console.log("Server listening on port 4000");
 });
 
-socketServer.startSocketServer(server);

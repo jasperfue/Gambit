@@ -4,12 +4,11 @@ import React, {useContext} from "react";
 import Home from "./onboard/Home.js"
 import Login from "./components/Login.js";
 import ChessGame from "./components/ChessGame.js";
-import {socket} from "./Socket.js";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
 
-    return user.loggedIn === null && !socket.connected ?
+    return user.loggedIn === null ?
         <h1>Loading...</h1>
         :
             <Routes>
