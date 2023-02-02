@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
@@ -7,13 +7,15 @@ import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Ch
 import {Chess} from "chess.js";
 import {Modal} from 'antd'
 import ReactChessClock from "./ReactChessClock.js";
+import {AccountContext} from "../AccountContext.js";
+import {socket} from "../Socket.js";
+import {useParams} from "react-router-dom";
 
 const ChessGame = (props) => {
-    const[userName, setUserName] = useState(props.userName);
+    const {user} = useContext(AccountContext);
     const[opponent, setOpponent] = useState(props.opponent);
-    const[clientSocket, setClientSocket] = useState(props.socket);
     const [colour, setColour] = useState(props.playerColourIsWhite === true ? "white" : "black");
-    const [roomId, setRoomId] = useState(props.roomId.toString());
+    const {roomId} = useParams();
     const [selectVisible, setSelectVisible] = useState(false);
     const [chess, setChess] = useState(new Chess());
     const [ground, setGround] = useState(null);
@@ -73,7 +75,7 @@ const ChessGame = (props) => {
                 }
             });
             refreshBoard(ground, chess);
-            clientSocket.on('opponentMove', (move, number) => {
+            socket.on('opponentMove', (move, number) => {
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -105,7 +107,7 @@ const ChessGame = (props) => {
         element.innerHTML = secs;
         const timer = setInterval(() => startTime(), 1000);
         function startTime() {
-            clientSocket.on('stopTimer', () => {
+            socket.on('stopTimer', () => {
                     clearInterval(timer);
                     element.innerHTML = '';
             });
@@ -133,7 +135,7 @@ const ChessGame = (props) => {
             if(colour == 'white' && chess.history().length == 1) {
                 setStartingTimer(document.getElementById('opponentStartingTime'));
             }
-            clientSocket.emit('newMove', move, chess.history().length);
+            socket.emit('newMove', move, chess.history().length);
             if(move.flags.includes('e')) {
                 onEnPassent(ground, move);
             }
@@ -148,7 +150,7 @@ const ChessGame = (props) => {
             color: parseInt(promotionMove[1].split('')[1]) == 8 ? 'white' : 'black',
             promoted: true
         });
-        clientSocket.emit('newMove', roomId, move);
+        socket.emit('newMove', roomId, move);
         setPromotionMove([]);
         setSelectVisible((false));
         refreshBoard(ground, chess);
@@ -159,7 +161,7 @@ const ChessGame = (props) => {
         ground.move(move.from, move.to);
         ground.state.pieces.set(move.to.toString(), {
             role: charPieceToString(move.promotion),
-            color: parseInt(move.to.split('')[1]) == 8 ? 'white' : 'black',
+            color: parseInt(move.to.split('')[1]) === 8 ? 'white' : 'black',
             promoted: true
         });
         refreshBoard(ground, chess);
@@ -170,14 +172,18 @@ const ChessGame = (props) => {
 
     return (
         <div>
-                <h1>Hey {userName}</h1>
+            {user.loggedIn ?
+                (<h1>Hey {user.username},</h1>)
+            :
+                (<h1>Hey Guest,</h1>)
+            }
                 <h1>Viel Glück gegen {opponent}</h1>
                 <p>Du spielst {colour}</p>
                 <p id={'opponentStartingTime'}/>
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
                     <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
                     <div style={{margin: '10VH'}}>
-                        <ReactChessClock time={props.time} orientation={colour} socket={clientSocket}/>
+                        <ReactChessClock time={props.time} orientation={colour} socket={socket}/>
                     </div>
                 </div>
                 <p id={'clientStartingTime'}/>

@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 const {useState} = require("react");
 const {createContext} = require('react');
@@ -9,6 +9,7 @@ function UserContext({children}) {
     const [user, setUser] = useState({loggedIn: null});
 
     useEffect(() => {
+        console.log('Context');
         fetch("http://localhost:4000/auth/login", {
             credentials: "include",
         })

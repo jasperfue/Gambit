@@ -13,6 +13,7 @@ waitingPlayers.set('10 + 5', []);
 waitingPlayers.set('15 + 10', []);
 waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
+let waitingGuests = new Map([...waitingPlayers]);
 let currentGames = new Map();
 
 const startSocketServer = (httpServer) => {
@@ -30,10 +31,18 @@ const startSocketServer = (httpServer) => {
     function initializeSocketListeners() {
         io.on('connection', client => {
             console.log(client.id);
-            client.on('find_game', (userName, time) => {
-                client.userName = userName;
-                if(waitingPlayers.get(time.string).length > 0) {
-                    var opponent = waitingPlayers.get(time.string).shift();
+            client.on('find_game', (user, time) => {
+                let queue;
+                if(user.loggedIn) {
+                    queue = waitingPlayers;
+                    client.userName = user.username;
+                } else {
+                    queue = waitingGuests;
+                    client.userName = 'guest';
+                }
+                console.log(client.userName);
+                if(queue.get(time.string).length > 0) {
+                    var opponent = queue.get(time.string).shift();
                     console.log("Zweiter Spieler: " + client.userName);
                     var id = UUIDv4();
                     client.join(id);
@@ -54,7 +63,7 @@ const startSocketServer = (httpServer) => {
                         console.log('CANCEL GAME');
                     })
                 } else {
-                    waitingPlayers.get(time.string).push(client);
+                    queue.get(time.string).push(client);
                     console.log("Erster Spieler: " + client.userName);
                     client.on('disconnect', () => {
                         onDisconnect(client, time);
@@ -79,11 +88,16 @@ const startSocketServer = (httpServer) => {
     }
 
     function onDisconnect(client, time) {
-        if(waitingPlayers.get(time.string).includes(client)) {
-            waitingPlayers.get(time.string).splice(waitingPlayers.get(time).indexOf(client), 1);
+        let queue;
+        if(client.userName === 'guest') {
+            queue = waitingGuests;
+        } else {
+            queue = waitingPlayers;
+        }
+        if(queue.get(time.string).includes(client)) {
+            queue.get(time.string).splice(queue.get(time).indexOf(client), 1);
         } else {
             if(client.gameRoom !== undefined)
-                //currentGames.splice(currentGames.indexOf(client.gameRoom), 1);
                 currentGames.delete(client.gameRoom);
             try {
                 io.sockets.adapter.rooms.get(client.gameRoom).forEach(function (s) {

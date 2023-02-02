@@ -1,53 +1,39 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import ChessGame from "./ChessGame.js";
+import {AccountContext} from "../AccountContext.js";
+import {socket} from "../Socket.js"
+import {useNavigate} from "react-router";
 
 const GameLobby = (props) => {
-    const [userName, setUserName] = useState('');
-    const [foundPlayer, setFoundPlayer] = useState(false);
-    const [socket, setSocket] = useState(null);
-    const [roomId, setRoomId] = useState('');
-    const [opponent, setOpponent] = useState('');
-    const [startGame, setStartGame] = useState(false);
-    const [playerColourIsWhite, setPlayerColourIsWhite] = useState(undefined);
+    const {user} = useContext(AccountContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setUserName(props.userName);
-        setSocket(props.socket);
-    },[]);
-
-    useEffect(() => {
-        if(!socket || !(userName.length > 0))  return;
-            socket.emit('find_game', userName, props.time);
+        console.log(socket);
+            console.log('nur ein mal');
+            socket.emit('find_game', user, props.time);
             socket.on('joinedGame', (opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
-                setRoomId(roomId);
-                setOpponent(opponent);
-                setFoundPlayer(true);
-                setPlayerColourIsWhite(playerColour);
-            })
-    }, [socket, userName]);
-
-    useEffect(() => {
-        if(foundPlayer && roomId.length > 0 && opponent.length > 0 && playerColourIsWhite !== undefined && roomId.length > 0) {
-            setStartGame(true);
-            //props.setIsIngame(true);
-        }
-    }, [foundPlayer, roomId, opponent, playerColourIsWhite]);
+                console.log('Hat geklappt');
+                navigate(`game/${roomId}`, {
+                    state: {
+                        player1: user,
+                        opponent: opponent,
+                        playerColourIsWhite: playerColour
+                    }
+                });
+            });
+            /*return () => {
+                socket.off('joinedGame');
+            }*/
+    }, []);
 
 
 
 
     return (
-        <>
-            {startGame ?
-                <ChessGame socket={socket} userName={userName} opponent={opponent} playerColourIsWhite={playerColourIsWhite} roomId={roomId} time={props.time}/>
-                :
-                <div>
-                    <p>Waiting for opponent...</p>
-                </div>
-            }
-                </>
+        <p>Waiting for opponent...</p>
     )
 }
 
-export default GameLobby
+export default GameLobby;

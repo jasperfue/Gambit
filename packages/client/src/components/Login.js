@@ -1,29 +1,21 @@
 import React, {useState, useContext} from "react";
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {AccountContext} from "../AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
+import {useNavigate} from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
     const {setUser} = useContext(AccountContext);
-    const [isOpen, setIsOpen] = useState(false);
-    const [mode, setMode] = useState("login");
+    const [mode, setMode] = useState(props.mode);
     const [loginError, setLoginError] = useState(null);
     const [signUpError, setSignUpError] = useState(null);
-
-    const handleOpen = () => {
-        setIsOpen(true);
-    };
-
-    const handleClose = () => {
-        setIsOpen(false);
-    };
+    const navigate = useNavigate();
 
     const handleModeChange = (newMode) => {
         setMode(newMode);
     };
 
-
-        const submitSignUp = (values) => {
+    const submitSignUp = (values) => {
         fetch("http://localhost:4000/auth/signup", {
             method: "POST",
             credentials: "include",
@@ -34,18 +26,19 @@ const Login = () => {
         }).catch(err => {
             console.log(err);
         }).then(res => {
-            if(!res || !res.ok || res.status >= 400) {
+            if (!res || !res.ok || res.status >= 400) {
                 console.log(res);
             }
             return res.json();
         }).then(data => {
-            if(!data.loggedIn) {
+            if (!data.loggedIn) {
                 setSignUpError(data.message);
                 return;
             }
             setUser({...data});
             setSignUpError(null);
             console.log(data);
+            navigate('/');
         })
     }
 
@@ -70,23 +63,21 @@ const Login = () => {
                 return res.json();
             })
             .then(data => {
-                if(!data.loggedIn) {
+                if (!data.loggedIn) {
                     setLoginError(data.message);
                     return;
                 }
                 setUser({...data});
                 setLoginError(null);
                 console.log(data);
+                navigate('/');
             });
     }
 
     return (
         <div>
-            <button onClick={handleOpen}>Login</button>
-            {isOpen && (
-                <div className="modal">
-                    <style>
-                        {`.modal {
+            <style>
+                {`.modal {
               position: fixed;
               top: 0;
               left: 0;
@@ -125,83 +116,80 @@ const Login = () => {
             }
 
             `}
-                    </style>
-                    <div className="modal-content">
-                        <button type="button" className="close" aria-label="Close" onClick={handleClose}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        {mode === "login" && (
-                            <Formik
-                                initialValues={{
-                                    username: '',
-                                    password: '',
-                                }}
-                                validationSchema={LoginSchema}
-                                onSubmit={values => {
-                                    submitLogin(values);
-                                }}
-                            >
-                                {({ isValid, isSubmitting }) => (
-                                    <Form>
-                                        <div className='field'>
-                                            <Field name="username" type="text" placeholder="Username"/>
-                                            <ErrorMessage name="username" component="div" />
-                                        </div>
-                                        <div className='field'>
-                                            <Field name="password" type="password" placeholder="Password" />
-                                            <ErrorMessage name="password" component="div" />
-                                        </div>
-                                        <div> {loginError} </div>
-                                        <button type="Log In" disabled={!isValid || isSubmitting}>Submit</button>
-                                        <p> Don't have an Account?</p> <a href="#" onClick={() => handleModeChange("signUp")}>Sign Up</a>
-                                    </Form>
-                                )}
-                            </Formik>
+            </style>
+            <div className="modal-content">
+                {mode === "login" && (
+                    <Formik
+                        initialValues={{
+                            username: '',
+                            password: '',
+                        }}
+                        validationSchema={LoginSchema}
+                        onSubmit={values => {
+                            submitLogin(values);
+                        }}
+                    >
+                        {({isValid, isSubmitting}) => (
+                            <Form>
+                                <div className='field'>
+                                    <Field name="username" type="text" placeholder="Username"/>
+                                    <ErrorMessage name="username" component="div"/>
+                                </div>
+                                <div className='field'>
+                                    <Field name="password" type="password" placeholder="Password"/>
+                                    <ErrorMessage name="password" component="div"/>
+                                </div>
+                                <div> {loginError} </div>
+                                <button type="Log In" disabled={!isValid || isSubmitting}>Submit</button>
+                                <p> Don't have an Account?</p> <a href="#" onClick={() => handleModeChange("signUp")}>Sign
+                                Up</a>
+                            </Form>
                         )}
-                        {mode === "signUp" && (
-                            <Formik
-                                initialValues={{
-                                    username: '',
-                                    email: '',
-                                    password: '',
-                                    passwordRepeat: ''
-                                }}
-                                validationSchema={SignUpSchema}
-                                onSubmit={(values, { setSubmitting }) => {
-                                    // Hier können Sie Ihre Formulardaten verarbeiten, z.B. an eine API senden
-                                    submitSignUp(values);
-                                    setSubmitting(false);
-                                }}
-                            >
-                                {({ isValid, isSubmitting }) => (
-                                    <Form>
-                                        <div className='field'>
-                                            <Field name="username" placeholder="Username" />
-                                            <ErrorMessage name="username" component="div"/>
-                                        </div>
-                                        <div className='field'>
-                                            <Field name="email" type="email" placeholder="Email" />
-                                            <ErrorMessage name="email" component="div"/>
-                                        </div>
-                                        <div className='field'>
-                                            <Field name="password" type="password" placeholder="Password" />
-                                            <ErrorMessage name="password" component="div"/>
-                                        </div>
-                                        <div className='field'>
-                                            <Field name="passwordRepeat" type="password" placeholder="Repeat password" />
-                                            <ErrorMessage name="passwordRepeat" component="div"/>
-                                        </div>
-                                        <div> {signUpError} </div>
-                                        <button type="submit" disabled={!isValid || isSubmitting} >Sign Up</button>
-                                        <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Log in</a>
-                                    </Form>
-                                )}
-                            </Formik>
+                    </Formik>
+                )}
+                {mode === "signUp" && (
+                    <Formik
+                        initialValues={{
+                            username: '',
+                            email: '',
+                            password: '',
+                            passwordRepeat: ''
+                        }}
+                        validationSchema={SignUpSchema}
+                        onSubmit={(values, {setSubmitting}) => {
+                            // Hier können Sie Ihre Formulardaten verarbeiten, z.B. an eine API senden
+                            submitSignUp(values);
+                            setSubmitting(false);
+                        }}
+                    >
+                        {({isValid, isSubmitting}) => (
+                            <Form>
+                                <div className='field'>
+                                    <Field name="username" placeholder="Username"/>
+                                    <ErrorMessage name="username" component="div"/>
+                                </div>
+                                <div className='field'>
+                                    <Field name="email" type="email" placeholder="Email"/>
+                                    <ErrorMessage name="email" component="div"/>
+                                </div>
+                                <div className='field'>
+                                    <Field name="password" type="password" placeholder="Password"/>
+                                    <ErrorMessage name="password" component="div"/>
+                                </div>
+                                <div className='field'>
+                                    <Field name="passwordRepeat" type="password" placeholder="Repeat password"/>
+                                    <ErrorMessage name="passwordRepeat" component="div"/>
+                                </div>
+                                <div> {signUpError} </div>
+                                <button type="submit" disabled={!isValid || isSubmitting}>Sign Up</button>
+                                <p> Already have an Account?</p> <a href="#" onClick={() => handleModeChange("login")}>Log
+                                in</a>
+                            </Form>
+                        )}
+                    </Formik>
 
-                        )}
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
