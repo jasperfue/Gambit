@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from "react";
 import {AccountContext} from "../AccountContext.js";
 import { useNavigate } from "react-router-dom";
 import GameLobby from "../components/GameLobby.js";
+import AddFriendModal from "../components/AddFriendModal.js";
+import socket from "../Socket.js";
 
 const Home = () => {
     const {user} = useContext(AccountContext);
@@ -10,7 +12,19 @@ const Home = () => {
 
     useEffect(() => {
         console.log('home');
-    }, [])
+        socket.connect();
+        socket.on('connect_error', (err => {
+            console.log('err');
+            console.log(err);
+        }))
+        socket.on('connect', () => {
+            console.log('Hallo');
+        })
+        return () => {
+            socket.off('connect_error');
+            socket.off('connect');
+        }
+    }, []);
     const loginPage = () => {
         navigate("/Login");
     }
@@ -29,7 +43,10 @@ const Home = () => {
                 <>
                     <h1>Gambit</h1>
                     {user.loggedIn === true ?
+                        <>
                         <h3> Hey {user.username},</h3>
+                        <AddFriendModal/>
+                        </>
                         :
                         <>
                             <button onClick={loginPage}>Login</button>

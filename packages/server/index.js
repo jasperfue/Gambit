@@ -6,21 +6,27 @@ const cors = require('cors');
 const {corsConfig, sessionMiddleware, wrap} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
+const {authorizeUser} = require("./controllers/socketController.js");
 
 const server = require('http').createServer(app);
-app.use(helmet());
 const io = new Server(server, {
     transports: ['websocket'],
     cors: corsConfig,
 });
-io.use(wrap(sessionMiddleware));
-initializeListeners(io);
+
+
+app.use(helmet());
 app.use(
     cors(corsConfig)
-)
+);
 app.use(express.json());
 app.use(sessionMiddleware);
 app.use("/auth", authRouter);
+
+
+io.use(wrap(sessionMiddleware));
+io.use(authorizeUser);
+initializeListeners(io);
 
 
 server.listen(4000, () => {

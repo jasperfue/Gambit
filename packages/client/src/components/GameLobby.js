@@ -8,12 +8,8 @@ const GameLobby = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        socket.connect();
-        socket.on('connect_error', (err) => {
-            console.log(err);
-        });
-        socket.on('connect', () => {
-            socket.emit('find_game', user, props.time);
+        console.log('nur ein mal');
+        socket.emit('find_game', user, props.time);
             socket.on('joinedGame', (opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 navigate(`game/${roomId}`, {
@@ -25,11 +21,8 @@ const GameLobby = (props) => {
                     }
                 });
             });
-        });
             return () => {
                 socket.off('joinedGame');
-                socket.off('connect');
-                socket.off("connect_error");
             }
     }, []);
 

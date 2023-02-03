@@ -1,3 +1,4 @@
+const {addFriend} = require("../controllers/socketController.js");
 const { Server } = require("socket.io");
 const {v4 : UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
@@ -19,6 +20,7 @@ let currentGames = new Map();
 const initializeListeners = (io) => {
     function initializeSocketListeners() {
         io.on('connection', client => {
+            client.on('add_friend', (requestName, cb) => addFriend(client, requestName, cb));
             console.log(client.id);
             client.on('find_game', (user, time) => {
                 let queue;

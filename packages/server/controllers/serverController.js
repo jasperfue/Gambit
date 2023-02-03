@@ -1,4 +1,3 @@
-
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const redisClient = require('../src/redis.js');
@@ -24,7 +23,7 @@ const wrap = (expressMiddleware) => (socket, next) => {
 }
 const corsConfig = {
     origin: 'http://localhost:3000',
-    credentials: true
+    credentials: true,
 }
 
 
