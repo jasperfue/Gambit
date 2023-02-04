@@ -18,13 +18,11 @@ const Home = () => {
         }));
         return () => {
             socket.off('connect_error');
-            socket.off('connect');
         }
     }, []);
 
     useEffect(() => {
         if(time !== null) {
-            console.log('nur ein mal');
             socket.emit('find_game', user, time);
             socket.on('joinedGame', (opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);

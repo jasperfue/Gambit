@@ -3,24 +3,36 @@ import socket from "../Socket.js";
 import Friend from "./Friend.js";
 import AddFriendModal from "./AddFriendModal.js";
 
-const FriendList = (props) => {
+const FriendList = () => {
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
-        if(socket.connected) {
+        socket.connect();
+        socket.on('connect', () => {
             socket.on('friends', (friendList) => {
-                props.setFriends(friendList);
+                setFriends(friendList);
+            });
+            socket.on('connected', (status, username) => {
+                setFriends(prevFriends => {
+                    return [...prevFriends].map(friend => {
+                        if(friend.username === username) {
+                            friend.connected = status;
+                        }
+                        return friend;
+                    })
+                })
             })
-        } else {
-            console.log('Socket nicht verbunden');
+        });
+        return () => {
+            socket.off('connect');
         }
     }, []);
 
     return (
         <>
-            <AddFriendModal friends={friends} setFriends={setFriends}/>
+            <AddFriendModal setFriends={setFriends}/>
             {friends.map(friend => (
-                <Friend key={friend.username} name={friend.username} />
+                <Friend key={friend.username} friend={friend} />
             ))}
             </>
     );

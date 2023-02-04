@@ -5,8 +5,5 @@ const socket = io("http://localhost:4000", {
     autoConnect: false,
     withCredentials: true
 });
-socket.on('connection', () => {
-    console.log('socket.connected')
-});
 
 export default socket;

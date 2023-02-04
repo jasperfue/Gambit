@@ -36,11 +36,11 @@ function AddFriendModal(props) {
                         initialValues={{ username: "" }}
                         onSubmit={values => {
                             console.log(socket);
-                            socket.emit("add_friend", values.username, ({errorMsg, done}) => {
+                            socket.emit("add_friend", values.username, ({errorMsg, done, newFriend}) => {
                                 if(done) {
                                     console.log('done');
                                     setShowModal(false);
-                                    props.setFriends([...props.friends, {username: values.username}]);
+                                    props.setFriends(friends => [newFriend, ...friends]);
                                     return;
                                 } else {
                                     console.log('not done');
