@@ -16,7 +16,8 @@ module.exports.authorizeUser = (socket, next) => {
 }
 
 module.exports.addFriend = async (socket, requestName, cb) => {
-    if(requestName === socket.user.username) {
+    console.log(socket.request.session.user.username);
+    if(requestName === socket.request.session.user.username) {
         cb({done:false, errorMsg: "You can not add yourself as a Friend"});
         return;
     }
@@ -30,7 +31,7 @@ module.exports.addFriend = async (socket, requestName, cb) => {
         cb({done:false, errorMsg: "You are already friends with that user"});
         return;
     }
-    await redisClient.lpush(`friend:${socket.user.username}`, requestName);
+    await redisClient.lpush(`friend:${socket.request.session.user.username}`, requestName);
     cb({done:true});
     return;
 

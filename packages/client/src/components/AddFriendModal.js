@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import socket from "../Socket.js";
 
-function AddFriendModal() {
+function AddFriendModal(props) {
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState("");
     return (
@@ -40,6 +40,7 @@ function AddFriendModal() {
                                 if(done) {
                                     console.log('done');
                                     setShowModal(false);
+                                    props.setFriends([...props.friends, {username: values.username}]);
                                     return;
                                 } else {
                                     console.log('not done');
@@ -49,17 +50,25 @@ function AddFriendModal() {
                             });
                         }}
                     >
-                        {({ isSubmitting }) => (
-                            <Form>
+                        {({ handleSubmit, handleChange, values  }) => (
+                            <Form onSubmit={handleSubmit}>
                                 <h4 style={{color:'red'}}>{error}</h4>
                                 <label>Add a friend</label>
-                                <Field type="text" name="username" placeholder="Enter username" />
-                                <button type="submit" disabled={isSubmitting}>
+                                <Field
+                                    type="text"
+                                    name="username"
+                                    placeholder="Enter username"
+                                    onChange={handleChange}
+                                />
+                                <button type="submit" disabled={!values.username}>
                                     Submit
                                 </button>
                             </Form>
                         )}
                     </Formik>
+
+
+
                 </div>
             )}
         </>
