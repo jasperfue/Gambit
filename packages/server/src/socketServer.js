@@ -1,3 +1,4 @@
+const {requestFriend} = require("../controllers/socketController.js");
 const {onDisconnect} = require("../controllers/socketController.js");
 const {addFriend} = require("../controllers/socketController.js");
 const {v4 : UUIDv4} = require('uuid');
@@ -25,7 +26,7 @@ const initializeListeners = (io) => {
                     onDisconnect(client);
                 }
             });
-            client.on('add_friend', (requestName, cb) => addFriend(client, requestName, cb));
+            client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
             console.log(client.id);
             client.on('find_game', (user, time) => {
                 let queue;

@@ -5,6 +5,7 @@ import socket from "../Socket.js";
 function AddFriendModal(props) {
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
     return (
         <>
             <button onClick={() => {
@@ -35,17 +36,14 @@ function AddFriendModal(props) {
                     <Formik
                         initialValues={{ username: "" }}
                         onSubmit={values => {
-                            console.log(socket);
-                            socket.emit("add_friend", values.username, ({errorMsg, done, newFriend}) => {
+                            setError("");
+                            setSuccess("");
+                            socket.emit("send_friend_request", values.username, ({errorMsg, done}) => {
                                 if(done) {
-                                    console.log('done');
-                                    setShowModal(false);
-                                    props.setFriends(friends => [newFriend, ...friends]);
-                                    return;
+                                    setSuccess('Friend request sent!')
+                                    props.setSentFriendRequests(sentFriendRequests => [values.username, ...sentFriendRequests]);
                                 } else {
-                                    console.log('not done');
                                     setError(errorMsg);
-                                    return;
                                 }
                             });
                         }}
@@ -53,6 +51,7 @@ function AddFriendModal(props) {
                         {({ handleSubmit, handleChange, values  }) => (
                             <Form onSubmit={handleSubmit}>
                                 <h4 style={{color:'red'}}>{error}</h4>
+                                <h4 style={{color:'green'}}>{success}</h4>
                                 <label>Add a friend</label>
                                 <Field
                                     type="text"
