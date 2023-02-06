@@ -14,6 +14,9 @@ const FriendList = () => {
             socket.on('friends', (friendList) => {
                 setFriends(friendList);
             });
+            socket.on('friend_request', (username) => {
+                setFriendRequests(prevState => [username, ...prevState]);
+            });
             socket.on('friend_requests', (requests) => {
                setFriendRequests(requests);
             });
@@ -28,7 +31,6 @@ const FriendList = () => {
                 })
             });
             socket.on('friend_request_accepted', (friend) => {
-                console.log(friends, friend);
                 setFriends(friends =>
                     [friend, ...friends]
                 );
@@ -45,7 +47,7 @@ const FriendList = () => {
         <>
             <AddFriendModal />
             {friendRequests.map(request => (
-                <FriendRequest key={request.username} request={request} setFriendRequests={setFriendRequests} setFriends={setFriends} />
+                <FriendRequest key={request} request={request} setFriendRequests={setFriendRequests} setFriends={setFriends} />
                 ))}
             {friends.map(friend => (
                 <Friend key={friend.username} friend={friend} />

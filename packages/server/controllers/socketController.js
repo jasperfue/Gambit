@@ -41,11 +41,11 @@ const initializeUser = async socket => {
         0,
         -1
     );
-    const parseFriendRequest = (request) => {
+    const usernameFriendRequest = (request) => {
         const requestSplitted = request.split('.');
-        return {username: requestSplitted[0], userid: requestSplitted[1]};
+        return requestSplitted[0];
     }
-    socket.emit('friend_requests', sentFriendRequests.map(parseFriendRequest));
+    socket.emit('friend_requests', sentFriendRequests.map(usernameFriendRequest));
 };
 const friendRequestIsValid = async (socket, requestName, cb) => {
     if(requestName === socket.user.username) {
@@ -58,7 +58,7 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
         return false;
     }
     const currentFriendList = await redisClient.lrange(`friends:${socket.user.username}`, 0, -1);
-    if(!!Object.keys(currentFriendList).length && currentFriendList.indexOf(requestName) !== -1) {
+    if(!!Object.keys(currentFriendList).length && currentFriendList.indexOf([requestName, friend.userid].join('.')) !== -1) {
         cb({done:false, errorMsg: "You are already friends with that user"});
         return false;
     }
@@ -68,7 +68,7 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
 module.exports.requestFriend = async (socket, requestName, cb) => {
     const requestedFriend = await friendRequestIsValid(socket, requestName, cb);
     const currentFriendRequests = await redisClient.lrange(`friend_requests:${requestName}`, 0, -1);
-    if(!!Object.keys(currentFriendRequests).length && currentFriendRequests.indexOf(requestName) !== -1) {
+    if(!!Object.keys(currentFriendRequests).length && currentFriendRequests.indexOf([socket.user.username, socket.user.userid].join('.')) !== -1) {
         cb({done:false, errorMsg: "You've already sent a friend request to this user"});
         return;
     }

@@ -5,10 +5,10 @@ const FriendRequest = (props) => {
     const [error, setError] = useState('');
 
     const acceptFriendRequest = () => {
-        socket.emit('accept_friend_request', props.request.username, ({errMsg, done, newFriend}) => {
+        socket.emit('accept_friend_request', props.request, ({errMsg, done, newFriend}) => {
             if(done) {
                 props.setFriendRequests(friendRequests =>
-                    friendRequests.filter(request => request.username !== props.request.username)
+                    friendRequests.filter(request => request !== props.request)
                 );
                 props.setFriends(friends => [newFriend, ...friends]);
             } else {
@@ -18,10 +18,10 @@ const FriendRequest = (props) => {
     }
 
     const declineFriendRequest = () => {
-        socket.emit('decline_friend_request', props.request.username, ({errMsg, done}) => {
+        socket.emit('decline_friend_request', props.request, ({errMsg, done}) => {
             if(done) {
                 props.setFriendRequests(friendRequests =>
-                    friendRequests.filter(request => request.username !== props.request.username)
+                    friendRequests.filter(request => request !== props.request)
                 );
             } else {
                 setError(errMsg);
@@ -31,7 +31,7 @@ const FriendRequest = (props) => {
     return (
         <>
             <p>{error}</p>
-        <p>{props.request.username}</p>
+        <p>{props.request}</p>
             <button onClick={() => acceptFriendRequest()}>Accept</button>
             <button onClick={() => declineFriendRequest()}>Decline</button>
             </>
