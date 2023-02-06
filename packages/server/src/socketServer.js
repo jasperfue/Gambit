@@ -1,3 +1,5 @@
+const {declineFriend} = require("../controllers/socketController.js");
+const {acceptFriendRequest} = require("../controllers/socketController.js");
 const {requestFriend} = require("../controllers/socketController.js");
 const {onDisconnect} = require("../controllers/socketController.js");
 const {addFriend} = require("../controllers/socketController.js");
@@ -27,6 +29,8 @@ const initializeListeners = (io) => {
                 }
             });
             client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
+            client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));
+            client.on('decline_friend_request', (name, cb) => declineFriend(client, name, cb));
             console.log(client.id);
             client.on('find_game', (user, time) => {
                 let queue;

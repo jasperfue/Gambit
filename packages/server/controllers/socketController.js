@@ -84,7 +84,15 @@ module.exports.requestFriend = async (socket, requestName, cb) => {
 
 module.exports.addFriend = async (socket, friendName, cb) => {
     const friend = await friendRequestIsValid(socket, friendName, cb);
+    console.log('friend_request');
     if(friend) {
+        await redisClient.lrem(`friend_requests:${socket.user.username}`, 1, friendName + "." + friend.userid, (err, reply) => {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Wert erfolgreich entfernt", reply);
+            }
+        });
         await redisClient.lpush(`friends:${socket.user.username}`, [friendName, friend.userid].join("."));
         const newFriend = {
             username: friendName,
@@ -92,9 +100,24 @@ module.exports.addFriend = async (socket, friendName, cb) => {
             connected: friend.connected
         };
         cb({done: true, newFriend});
-        return;
     }
 }
+
+module.exports.declineFriend = async (socket, name, cb) => {
+    const friend = await redisClient.hgetall(`userid:${name}`);
+    if(friend) {
+        await redisClient.lrem(`friend_requests:${socket.user.username}`, 1, name + "." + friend.userid, (err, reply) => {
+            if(err) {
+                cb({done: false, errMsg: "Friend request could not be found"});
+            } else {
+                cb({done: true});
+            }
+        });
+    } else {
+        cb({done: false, errMsg: "User could not be found"});
+    }
+}
+
 
 module.exports.onDisconnect = async(socket) => {
     await redisClient.hset(

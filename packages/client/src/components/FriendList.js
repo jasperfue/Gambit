@@ -7,7 +7,6 @@ import AddFriendModal from "./AddFriendModal.js";
 const FriendList = () => {
     const [friends, setFriends] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
-    const [sentFriendRequests, setSentFriendRequests] = useState([]);
 
     useEffect(() => {
         socket.connect();
@@ -39,9 +38,9 @@ const FriendList = () => {
 
     return (
         <>
-            <AddFriendModal setSentFriendRequests={setSentFriendRequests}/>
+            <AddFriendModal />
             {friendRequests.map(request => (
-                <FriendRequest key={request.username} request={request} />
+                <FriendRequest key={request.username} request={request} setFriendRequests={setFriendRequests} setFriends={setFriends} />
                 ))}
             {friends.map(friend => (
                 <Friend key={friend.username} friend={friend} />

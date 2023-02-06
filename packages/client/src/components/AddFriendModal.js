@@ -41,7 +41,6 @@ function AddFriendModal(props) {
                             socket.emit("send_friend_request", values.username, ({errorMsg, done}) => {
                                 if(done) {
                                     setSuccess('Friend request sent!')
-                                    props.setSentFriendRequests(sentFriendRequests => [values.username, ...sentFriendRequests]);
                                 } else {
                                     setError(errorMsg);
                                 }
