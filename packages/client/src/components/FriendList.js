@@ -14,9 +14,8 @@ const FriendList = () => {
             socket.on('friends', (friendList) => {
                 setFriends(friendList);
             });
-            socket.on('friend_requests', (friendRequests) => {
-               setFriendRequests(friendRequests);
-               console.log(friendRequests);
+            socket.on('friend_requests', (requests) => {
+               setFriendRequests(requests);
             });
             socket.on('connected', (status, username) => {
                 setFriends(prevFriends => {
