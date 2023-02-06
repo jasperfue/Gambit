@@ -1,3 +1,4 @@
+const {logout} = require("../controllers/socketController.js");
 const {declineFriend} = require("../controllers/socketController.js");
 const {acceptFriendRequest} = require("../controllers/socketController.js");
 const {requestFriend} = require("../controllers/socketController.js");
@@ -27,6 +28,14 @@ const initializeListeners = (io) => {
                 if(client.user) {
                     onDisconnect(client);
                 }
+            });
+            client.on('logout', (cb) => {
+                onDisconnect(client).catch(() => {
+                    cb({done:false});
+                }).then(() => {
+                    logout(client);
+                    cb({done:true});
+                })
             });
             client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
             client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));

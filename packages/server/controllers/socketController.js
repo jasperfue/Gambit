@@ -15,6 +15,7 @@ module.exports.authorizeUser = (socket, next) => {
 
 const initializeUser = async socket => {
     socket.user = { ...socket.request.session.user };
+    console.log(socket.user);
     socket.join(socket.user.userid);
     await redisClient.hset(
         `userid:${socket.user.username}`,
@@ -126,12 +127,21 @@ module.exports.onDisconnect = async(socket) => {
         false
     );
     const friendList = await redisClient.lrange(`friends:${socket.user.username}`, 0, -1);
-    const hallo = await parseFriendList(friendList);
     const friendRooms = await parseFriendList(friendList).then(friends =>
         friends.map(friend => friend.userid)
     );
     socket.to(friendRooms).emit('connected', "false", socket.user.username);
 }
+
+    module.exports.logout = (socket) => {
+    if(socket.user) {
+        delete socket['user'];
+    }
+    if(socket.request.session.user) {
+        delete socket.request.session['user'];
+        socket.request.session.save();
+    }
+    }
 
 const parseFriendList = async(friendList) => {
     const newFriendList= [];

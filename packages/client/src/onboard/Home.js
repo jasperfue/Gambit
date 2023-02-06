@@ -5,9 +5,10 @@ import socket from "../Socket.js";
 import FriendList from "../components/FriendList.js";
 
 const Home = () => {
-    const {user} = useContext(AccountContext);
+    const {user, setUser} = useContext(AccountContext);
     const [time, setTime] = useState(null);
     const navigate = useNavigate();
+    const [logOutError, setLogOutError] = useState('');
 
     useEffect(() => {
         console.log('home');
@@ -53,7 +54,15 @@ const Home = () => {
         socket.emit('leave_queue');
         setTime(null);
     }
-
+    const logOut = () => {
+        socket.emit('logout' ,({done}) => {
+            if(done) {
+                setUser({loggedIn: false});
+            } else {
+                console.log('logging out failed');
+            }
+        });
+    }
     return (
         <>
             {time === null ?
@@ -63,6 +72,8 @@ const Home = () => {
                         <>
                         <h3> Hey {user.username},</h3>
                         <FriendList/>
+                        <p>{logOutError}</p>
+                        <button onClick={logOut}>Log Out</button>
                         </>
                         :
                         <>
