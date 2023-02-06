@@ -26,7 +26,13 @@ const FriendList = () => {
                         return friend;
                     })
                 })
-            })
+            });
+            socket.on('friend_request_accepted', (friend) => {
+                console.log(friends, friend);
+                setFriends(friends =>
+                    [friend, ...friends]
+                );
+            });
         });
         return () => {
             socket.off('connect');
