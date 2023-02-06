@@ -27,6 +27,17 @@ app.use("/auth", authRouter);
 io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);
 initializeListeners(io);
+io.on('connection', (socket) => {
+        socket.on('login', () => {
+            socket.request.session.reload(function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    authorizeUser(socket, () => {console.log('authorize')});
+                }
+            });
+        });
+});
 
 
 server.listen(4000, () => {

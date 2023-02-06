@@ -8,8 +8,8 @@ const sessionMiddleware = session({
     credentials: true,
     name: "sid",
     store: new RedisStore({client: redisClient}),
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
         secure: process.env.NODE_ENV === "production" ? "true" : "auto",
         httpOnly: false,

@@ -1,8 +1,9 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {AccountContext} from "../AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
 import {useNavigate} from 'react-router-dom';
+import socket from "../Socket.js";
 
 const Login = (props) => {
     const {setUser} = useContext(AccountContext);
@@ -10,6 +11,10 @@ const Login = (props) => {
     const [loginError, setLoginError] = useState(null);
     const [signUpError, setSignUpError] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        socket.connect();
+    }, []);
 
     const handleModeChange = (newMode) => {
         setMode(newMode);
@@ -35,9 +40,10 @@ const Login = (props) => {
                 setSignUpError(data.message);
                 return;
             }
+            socket.emit('login');
             setUser({...data});
             setSignUpError(null);
-            console.log(data);
+
             navigate('/');
         })
     }
@@ -69,7 +75,7 @@ const Login = (props) => {
                 }
                 setUser({...data});
                 setLoginError(null);
-                console.log(data);
+                socket.emit('login');
                 navigate('/');
             });
     }

@@ -26,6 +26,7 @@ module.exports.attemptLogin = async (req, res) => {
                 id: potentialLogin.rows[0].id,
                 userid: potentialLogin.rows[0].userid,
             };
+            req.session.save();
             res.json({loggedIn: true, username: req.body.username});
         } else {
             res.json({loggedIn: false, message: "Wrong username or password!"});
