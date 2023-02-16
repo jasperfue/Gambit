@@ -64,6 +64,29 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
     }
     return friend;
 }
+module.exports.initializeGame = async (roomId, firstPlayer, secondPlayer, firstPlayerIsWhite, time) => {
+    console.log("initialized");
+    await redisClient.hset(
+        `game:${roomId}`,
+        "firstPlayer",
+        firstPlayer,
+        "secoundPlayer",
+        secondPlayer,
+        "fistPlayerIsWhite",
+        firstPlayerIsWhite,
+        "time",
+        time
+    );
+}
+
+module.exports.getGame = async (socket, roomId, cb) => {
+    const game = await redisClient.hgetall(`game:${roomId}`);
+    if(!!Object.keys(game).length) {
+        cb({done: false, errMsg: "This Game doesn't exist"});
+    } else {
+        cb({done: true, data: game});
+    }
+}
 
 module.exports.requestFriend = async (socket, requestName, cb) => {
     const requestedFriend = await friendRequestIsValid(socket, requestName, cb);

@@ -8,9 +8,6 @@ const ReactChessClock = (props) => {
     const currentTimer = useRef(0);
     const [currentTurn,setCurrentTurn] = useState('');
 
-    useEffect(() => {
-        console.log(props);
-    })
     const decrease = (turn) => {
         if(turn === 'white') {
             setTimeWhite(seconds => {
@@ -58,7 +55,6 @@ const ReactChessClock = (props) => {
         });
         return () => {
             socket.off('updatedTime');
-            socket.off('opponentMove');
             socket.off('startClock');
         }
     }, [socket]);

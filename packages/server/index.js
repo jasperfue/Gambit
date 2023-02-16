@@ -6,6 +6,7 @@ const cors = require('cors');
 const {corsConfig, sessionMiddleware, wrap} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
+const {initializeChessListeners} = require("./src/socketChessListeners.js");
 const {authorizeUser} = require("./controllers/socketController.js");
 
 const server = require('http').createServer(app);
@@ -27,6 +28,7 @@ app.use("/auth", authRouter);
 io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);
 initializeListeners(io);
+initializeChessListeners(io);
 io.on('connection', (socket) => {
         socket.on('login', () => {
             socket.request.session.reload(function(err) {

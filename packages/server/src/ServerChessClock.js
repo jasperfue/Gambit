@@ -49,15 +49,15 @@ function ServerChessClock(time) {
             console.log(remainingTimeCopy);
         }
         const timer = setInterval(decrease, 1000);
-        this.ChessClockAPI.once('toggle', () => {
+        this.ChessClockAPI.once('toggle', (cb) => {
             clearInterval(timer);
             if(colour === 'white') {
                 this.remainingTimeWhite = increment(remainingTimeCopy, this.timeMode.increment);
-                this.ChessClockAPI.emit('toggleTime', this.remainingTimeWhite, this.remainingTimeBlack, 'black');
+                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'black'});
                 this.startTimer('black');
             } else {
                 this.remainingTimeBlack = increment(remainingTimeCopy, this.timeMode.increment);
-                this.ChessClockAPI.emit('toggleTime', this.remainingTimeWhite, this.remainingTimeBlack, 'white');
+                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'white'});
                 this.startTimer('white');
             }
         })
