@@ -6469,6 +6469,11 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.6.tgz#85bffbf819c03b2f53270412420a4555ef882e22"
   integrity sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==
 
+kokopu@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/kokopu/-/kokopu-4.4.0.tgz#9743bf8bbf82ecfb122f8d1091e07c7a363a7e68"
+  integrity sha512-PWCupJCVKqZOCvikTRkeI6J3ABIvr3OwCePcc63ErkS1nCg73Z6gXrefsx3EnVGVyOEKCnovPSggOB2mBuE8sQ==
+
 language-subtag-registry@~0.3.2:
   version "0.3.22"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.22.tgz#2e1500861b2e457eba7e7ae86877cbd08fa1fd1d"

@@ -64,18 +64,18 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
     }
     return friend;
 }
-module.exports.initializeGame = async (roomId, firstPlayer, secondPlayer, firstPlayerIsWhite, time) => {
+module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, pgn) => {
     console.log("initialized");
     await redisClient.hset(
         `game:${roomId}`,
-        "firstPlayer",
-        firstPlayer,
+        "whitePlayer",
+        whitePlayer,
         "secoundPlayer",
-        secondPlayer,
-        "fistPlayerIsWhite",
-        firstPlayerIsWhite,
+        blackPlayer,
         "time",
-        time
+        JSON.stringify(time),
+        "pgn",
+        pgn
     );
 }
 
@@ -86,6 +86,26 @@ module.exports.getGame = async (socket, roomId, cb) => {
     } else {
         cb({done: true, data: game});
     }
+}
+
+module.exports.newChessMove = async (pgn, roomId) => {
+   redisClient.exists(`game:${roomId}`, (err, reply) => {
+       if(err) {
+           console.log(err);
+       } else {
+           if (reply === 1) {
+                    redisClient.hset(`game:${roomId}`, "pgn", pgn, (err, reply) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("PGN updated successfully");
+                        }
+                    });
+           } else {
+               console.log('SPIEL EXISTIERT NICHT IN NEW CHESS MOVE METHODE');
+           }
+       }
+   });
 }
 
 module.exports.requestFriend = async (socket, requestName, cb) => {

@@ -1,7 +1,10 @@
+const {newChessMove} = require("../controllers/socketController.js");
 const {initializeGame} = require("../controllers/socketController.js");
 const {getGame} = require("../controllers/socketController.js");
 const {v4: UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
+const { Game, DateValue, pgnWrite, PGNWriteOptions } = require('kokopu');
+
 let waitingPlayers = new Map();
 waitingPlayers.set('1 + 0', []);
 waitingPlayers.set('2 + 1', []);
@@ -16,10 +19,12 @@ waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
 let waitingGuests = new Map([...waitingPlayers]);
 let currentGames = new Map();
+let localio;
 
 
 module.exports.initializeChessListeners = (io) => {
     io.on('connection', client => {
+        localio = io;
     client.on('find_game', (user, time) => {
         let queue;
         if (user.loggedIn) {
@@ -30,24 +35,41 @@ module.exports.initializeChessListeners = (io) => {
             client.userName = 'guest';
         }
         if (queue.get(time.string).length > 0) {
+            let whitePlayer;
+            let blackPlayer;
             var opponent = queue.get(time.string).shift();
             console.log("Zweiter Spieler: " + client.userName);
-            var id = UUIDv4();
-            client.join(id);
-            opponent.join(id);
-            var playerIsWhite = (Math.random() < 0.5);
-            client.emit('joinedGame', opponent.userName, id, playerIsWhite);
-            opponent.emit('joinedGame', client.userName, id, !playerIsWhite);
-            initializeGame(id, client.userName, opponent.userName, playerIsWhite, time);
-            client.gameRoom = id;
-            opponent.gameRoom = id;
+            const chessInstance = new Game();
+            var roomId = UUIDv4();
+            client.join(roomId);
+            opponent.join(roomId);
+            const playerIsWhite = Math.random() < 0.5;
+            if (playerIsWhite) {
+                whitePlayer = client.userName;
+                blackPlayer = opponent.userName;
+            } else {
+                blackPlayer = client.userName;
+                whitePlayer = opponent.userName;
+            }
+            client.emit('joinedGame', opponent.userName, roomId, playerIsWhite);
+            opponent.emit('joinedGame', client.userName, roomId, !playerIsWhite);
+            chessInstance.playerName('w', whitePlayer);
+            chessInstance.playerName('b', blackPlayer);
+            chessInstance.date(new DateValue(new Date()));
+            console.log(pgnWrite(chessInstance));
+            if(user.loggedIn) {
+                initializeGame(roomId, whitePlayer, blackPlayer, time, pgnWrite(chessInstance, {withPlyCount: true}));
+            }
+            client.gameRoom = roomId;
+            opponent.gameRoom = roomId;
             const chessClock = new ServerChessClock(time);
-            currentGames.set(id, chessClock);
+            currentGames.set(roomId, chessClock);
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
                 //TODO: Cancel Game!
                 console.log('CANCEL GAME');
             })
+            client.on('newMove', newMove(chessInstance, roomId, client, user.loggedIn))
         } else {
             queue.get(time.string).push(client);
             console.log("Erster Spieler: " + client.userName);
@@ -58,26 +80,41 @@ module.exports.initializeChessListeners = (io) => {
                 leaveQueue(client, time);
             });
         }
-        client.on('newMove', (move, number) => {
-            var chessClock = currentGames.get(client.gameRoom);
-            client.to(client.gameRoom).emit('opponentMove', move, number);
-            chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
-                console.log('toggle');
-                io.to(client.gameRoom).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
-            });
-            if (number === 1) {
-                console.log('Hallooo');
-                chessClock.startStartingTimer('black');
-                io.to(client.gameRoom).emit('stopTimer');
-            } else if (number === 2) {
-                console.log("Hallooo 2")
-                io.to(client.gameRoom).emit('startClock');
-                chessClock.startTimer('white');
-                io.to(client.gameRoom).emit('stopTimer');
-            }
+    });
+    });
+}
+
+const newMove = (chessInstance, roomId, client, loggedIn) => (move, cb) => {
+    let current = chessInstance.mainVariation();
+    try {
+        current.play(move.san);
+    } catch(InvalidNotation) {
+        cb({done: false, errMsg: InvalidNotation.message});
+        return;
+    }
+        const chessClock = currentGames.get(client.gameRoom);
+    console.log('newMove');
+        client.to(client.gameRoom).emit('opponentMove', move);
+        chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
+            console.log('toggle');
+            localio.to(client.gameRoom).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
         });
-    });
-    });
+        if (chessInstance.plyCount() === 1) {
+            console.log('Hallooo');
+            chessClock.startStartingTimer('black');
+            localio.to(client.gameRoom).emit('stopTimer');
+        } else if (chessInstance.plyCount() === 2) {
+            console.log("Hallooo 2")
+            localio.to(client.gameRoom).emit('startClock');
+            chessClock.startTimer('white');
+            localio.to(client.gameRoom).emit('stopTimer');
+        }
+
+    if(loggedIn) {
+        newChessMove(pgnWrite(chessInstance), roomId).then(r => cb({done: true}));
+    } else {
+        cb({done: true});
+    }
 }
 
 function leaveQueue(client, time) {

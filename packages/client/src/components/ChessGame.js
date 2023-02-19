@@ -29,10 +29,21 @@ const ChessGame = () => {
     let bishop = '';
     let knight = '';
     let rook = '';
+
     useEffect(() => {
         if(!socket.connected) {
             socket.connect();
+        } else {
+            socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
+                if(done) {
+                    console.log(data);
+                    setInitialized(true);
+                } else {
+                    setError(errMsg);
+                }
+            })
         }
+
         if(location.state) {
             setOpponent(location.state.opponent);
             setOrientation(location.state.playerColourIsWhite === true ? "white" : "black");
@@ -117,7 +128,8 @@ const ChessGame = () => {
                 }
             });
             refreshBoard(ground, chess);
-            socket.on('opponentMove', (move, number) => {
+            socket.on('opponentMove', (move) => {
+                console.log(move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -168,7 +180,7 @@ const ChessGame = () => {
 
     function onMove() {
         return (orig, dest) => {
-            if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type == 'p') { //Promotion
+            if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type === 'p') { //Promotion
                 setSelectVisible(true);
                 setPromotionMove([orig, dest]);
                 return;
@@ -177,7 +189,11 @@ const ChessGame = () => {
             if(orientation === 'white' && chess.history().length === 1) {
                 setStartingTimer(document.getElementById('opponentStartingTime'));
             }
-            socket.emit('newMove', move, chess.history().length);
+            socket.emit('newMove', move, ({done, errMsg}) => {
+                if(!done) {
+                    console.log(errMsg);
+                }
+            });
             if(move.flags.includes('e')) {
                 onEnPassent(ground, move);
             }
@@ -192,7 +208,14 @@ const ChessGame = () => {
             color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
             promoted: true
         });
-        socket.emit('newMove', roomId, move);
+        socket.emit('newMove', move, ({done, errMsg}) => {
+            if(done) {
+                console.log('promotion successful');
+            } else {
+                console.log(errMsg);
+            }
+
+        });
         setPromotionMove([]);
         setSelectVisible(false);
         refreshBoard(ground, chess);
@@ -253,7 +276,10 @@ const ChessGame = () => {
                     {error === "" ?
                         <h1> LOADING... </h1>
                     :
+                        <>
                         <h1>{error}</h1>
+                        <p> Note: We only support watching games of logged In Users.</p>
+                            </>
                     }
                     </>}
 
