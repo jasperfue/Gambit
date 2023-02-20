@@ -9,12 +9,12 @@ import {Modal} from 'antd'
 import ReactChessClock from "./ReactChessClock.js";
 import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
-import {useParams, useLocation} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 const ChessGame = () => {
-    const location = useLocation();
     const {user} = useContext(AccountContext);
-    const [opponent, setOpponent] = useState('');
+    const [whitePlayer, setWhitePlayer] = useState('');
+    const [blackPlayer, setBlackPlayer] = useState('');
     const [orientation, setOrientation] = useState('');
     const {roomId} = useParams();
     const [selectVisible, setSelectVisible] = useState(false);
@@ -24,6 +24,7 @@ const ChessGame = () => {
     const [initialized, setInitialized] = useState(false);
     const [error, setError] = useState('');
     const [spectator, setSpectator] = useState(false);
+    const [timeMode, setTimeMode] = useState(null);
 
     let queen = '';
     let bishop = '';
@@ -31,52 +32,42 @@ const ChessGame = () => {
     let rook = '';
 
     useEffect(() => {
+        console.log('erste')
         if(!socket.connected) {
+            console.log('connect')
             socket.connect();
-        } else {
-            socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
-                if(done) {
-                    console.log(data);
-                    setInitialized(true);
-                } else {
-                    setError(errMsg);
-                }
-            })
         }
-
-        if(location.state) {
-            setOpponent(location.state.opponent);
-            setOrientation(location.state.playerColourIsWhite === true ? "white" : "black");
-            setInitialized(true);
-        } else {
-            console.log('DU BIST NUR ZUSCHAUER');
-            setOrientation('white');
-            setSpectator(true);
-            socket.emit('get_game', roomId, ({done, data, errMsg}) => {
-                if(done) {
-                    console.log(data);
-                } else {
-                    setError(errMsg);
-                }
-            });
-        }
-    }, [socket]);
+                console.log('getData');
+                socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
+                    if(done) {
+                        console.log(data);
+                        setWhitePlayer(data.whitePlayer);
+                        setBlackPlayer(data.blackPlayer);
+                        setTimeMode(JSON.parse(data.time));
+                        chess.loadPgn(data.pgn);
+                        if(data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
+                            setOrientation("white");
+                            setSpectator(true);
+                        } else if(data.whitePlayer === user.username) {
+                            setOrientation("white");
+                        } else {
+                            setOrientation("black");
+                        }
+                        setInitialized(true);
+                    } else {
+                        console.log(errMsg)
+                        setError(errMsg);
+                    }
+                })
+    }, [socket.connected]);
 
 
     useEffect(() => {
         if(initialized) {
-            if(spectator) {
                 setGround(new Chessground(document.getElementById(roomId), {
-                    orientation: 'white',
-                    viewOnly: true,
-                    animation: {
-                        enabled: true,
-                        duration: 400
-                    }
-                }));
-            } else {
-                setGround(new Chessground(document.getElementById(roomId), {
+                    fen: chess.fen(),
                     orientation: orientation,
+                    viewOnly: spectator,
                     movable: {
                         free: false,
                         color: orientation,
@@ -88,12 +79,7 @@ const ChessGame = () => {
                         duration: 400
                     }
                 }));
-            }
-            if (orientation === 'white') {
-                setStartingTimer(document.getElementById('clientStartingTime'));
-            } else {
-                setStartingTimer(document.getElementById('opponentStartingTime'));
-            }
+                setStartingTimer(document.getElementById('whiteStartingTime'));
             queen = orientation === 'white' ?
                 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PGcgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04IDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMHptMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwek00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTE2IDguNWEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAweiIvPjxwYXRoIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTRsMiAxMnoiIHN0cm9rZS1saW5lY2FwPSJidXR0Ii8+PHBhdGggZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6IiBzdHJva2UtbGluZWNhcD0iYnV0dCIvPjxwYXRoIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='
                 :
@@ -129,15 +115,14 @@ const ChessGame = () => {
             });
             refreshBoard(ground, chess);
             socket.on('opponentMove', (move) => {
-                console.log(move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
                 }
                 ground.move(move.from, move.to);
                 chess.move(move);
-                if(chess.history().length === 1 && orientation === 'black') {
-                    setStartingTimer(document.getElementById('clientStartingTime'));
+                if(chess.history().length === 1) {
+                    setStartingTimer(document.getElementById('blackStartingTime'));
                 }
                 if(move.flags.includes('e')) {
                     onEnPassent(ground, move);
@@ -151,7 +136,7 @@ const ChessGame = () => {
 
     function setStartingTimer(element) {
         let secs;
-        switch(location.state.time.type) {
+        switch(timeMode.type) {
             case 'Bullet': secs = 15; break;
             case 'Blitz': secs = 20; break;
             case 'Rapid': secs = 30; break;
@@ -186,10 +171,12 @@ const ChessGame = () => {
                 return;
             }
             var move = chess.move({from: orig, to: dest});
-            if(orientation === 'white' && chess.history().length === 1) {
-                setStartingTimer(document.getElementById('opponentStartingTime'));
+            if(chess.history().length === 1) {
+                setStartingTimer(document.getElementById('blackStartingTime'));
             }
+            console.log('emit_new_move');
             socket.emit('newMove', move, ({done, errMsg}) => {
+                console.log(done);
                 if(!done) {
                     console.log(errMsg);
                 }
@@ -244,16 +231,32 @@ const ChessGame = () => {
                         :
                         (<h1>Hey Guest,</h1>)
                 }
-                <h1>Viel Glück gegen {opponent}</h1>
-                <p>Du spielst {orientation}</p>
-                <p id={'opponentStartingTime'}/>
+                    {orientation === "white"
+                    ? <>
+                            <h1>{blackPlayer}</h1>
+                            <p id='blackStartingTime' />
+                            </>
+                    : <>
+                            <h1>{whitePlayer}</h1>
+                            <p id='whiteStartingTime' />
+                            </>
+                    }
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
                 <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
                 <div style={{margin: '10VH'}}>
-                <ReactChessClock time={location.state.time} orientation={orientation} socket={socket}/>
+                <ReactChessClock time={timeMode} orientation={orientation} socket={socket}/>
                 </div>
                 </div>
-                <p id={'clientStartingTime'}/>
+                    {orientation === "white"
+                        ? <>
+                            <h1>{whitePlayer}</h1>
+                            <p id='whiteStartingTime' />
+                        </>
+                        : <>
+                            <h1>{blackPlayer}</h1>
+                            <p id='blackStartingTime' />
+                        </>
+                    }
                 <Modal open={selectVisible} footer={null} closable={false}>
                 <div style={{ textAlign: "center", cursor: "pointer" }}>
                 <span role="presentation" onClick={() => promotion("q")}>

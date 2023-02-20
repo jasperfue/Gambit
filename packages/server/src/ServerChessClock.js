@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 
 function ServerChessClock(time) {
     this.timeMode = time;
+    this.currentMode = 'off';
     this.remainingTimeWhite = {minutes: time.minutes, seconds: 0};
     this.remainingTimeBlack = {minutes: time.minutes, seconds: 0};
     this.ChessClockAPI = new EventEmitter();
@@ -15,7 +16,14 @@ function ServerChessClock(time) {
 }
 
     ServerChessClock.prototype.startStartingTimer = function(colour) {
-    var startingTime = colour === 'white' ? this.startingTimeWhite : this.startingTimeBlack;
+    let startingTime;
+    if(colour === 'white') {
+        this.currentMode = "sw";
+        startingTime = this.startingTimeWhite;
+    } else {
+        this.currentMode = "sb";
+        startingTime = this.startingTimeBlack;
+    }
     const decrease = () => {
         if(startingTime > 0) {
             startingTime -= 1;
@@ -32,9 +40,27 @@ function ServerChessClock(time) {
     });
     }
 
+    ServerChessClock.prototype.getCurrentMode = function() {
+        return this.currentMode;
+    }
+
+    ServerChessClock.prototype.getCurrentTimes = function() {
+        return {remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack};
+    }
+
+    ServerChessClock.prototype.getCurrentStartingTimer = function() {
+        return {startingTimeWhite: this.startingTimeWhite, startingTimeBlack: this.startingTimeBlack};
+    }
 
     ServerChessClock.prototype.startTimer = function(colour) {
-        var remainingTimeCopy = colour === 'white' ? this.remainingTimeWhite : this.remainingTimeBlack
+    let remainingTimeCopy;
+    if(colour === 'white') {
+        remainingTimeCopy = this.remainingTimeWhite;
+        this.currentMode = 'tw';
+    } else {
+        remainingTimeCopy = this.remainingTimeBlack;
+        this.currentMode = 'tb';
+    }
         const decrease = () => {
             if(remainingTimeCopy.seconds === 0) {
                 if(remainingTimeCopy.minutes === 0) {

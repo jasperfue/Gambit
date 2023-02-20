@@ -70,7 +70,7 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
         `game:${roomId}`,
         "whitePlayer",
         whitePlayer,
-        "secoundPlayer",
+        "blackPlayer",
         blackPlayer,
         "time",
         JSON.stringify(time),
@@ -79,14 +79,14 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
     );
 }
 
-module.exports.getGame = async (socket, roomId, cb) => {
+module.exports.getGame = async (roomId, cb) => {
     const game = await redisClient.hgetall(`game:${roomId}`);
-    if(!!Object.keys(game).length) {
-        cb({done: false, errMsg: "This Game doesn't exist"});
-    } else {
-        cb({done: true, data: game});
+    if (!game || Object.keys(game).length === 0) {
+        throw new Error(`Game ${roomId} not found`);
     }
+    return game;
 }
+
 
 module.exports.newChessMove = async (pgn, roomId) => {
    redisClient.exists(`game:${roomId}`, (err, reply) => {
