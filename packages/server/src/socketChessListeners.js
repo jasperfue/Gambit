@@ -18,7 +18,7 @@ waitingPlayers.set('15 + 10', []);
 waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
 let waitingGuests = new Map([...waitingPlayers]);
-let currentGames = new Map();
+let currentGames = {};
 console.log('initialized Current Games');
 let localio;
 
@@ -27,12 +27,17 @@ module.exports.initializeChessListeners = (io) => {
     io.on('connection', client => {
         localio = io;
         client.on('get_game_data', (roomId, cb) => {
-            const chessClock = currentGames.get(roomId);
-            console.log(currentGames.size);
-            if(!chessClock) {
+            if(!client.rooms.has(roomId)) {
+                client.join(roomId);
+            }
+            if(!currentGames.hasOwnProperty(roomId)) {
                 cb({done: false, errMsg: "This Game does not exist"});
-                console.log('keine chessclock')
-            } else {
+                console.log('kein Objekt in currentGames')
+            }
+            const data = currentGames[roomId];
+            const chessClock = data.chessClock;
+            const chessInstance = data.chessInstance;
+            client.on('newMove', newMove(chessInstance, roomId, client, chessClock));
                 getGame(roomId)
                     .catch(error => {
                         console.log('kein Eintrag in redis');
@@ -48,8 +53,8 @@ module.exports.initializeChessListeners = (io) => {
                         cb({done: true, data: game});
                     }
                     )
-            }
         });
+
     client.on('find_game', (user, time) => {
         let queue;
         if (user.loggedIn) {
@@ -87,15 +92,12 @@ module.exports.initializeChessListeners = (io) => {
             client.gameRoom = roomId;
             opponent.gameRoom = roomId;
             const chessClock = new ServerChessClock(time);
-            currentGames.set(roomId, chessClock);
+            currentGames[roomId] = {chessInstance, chessClock};
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
                 //TODO: Cancel Game!
                 console.log('CANCEL GAME chessClock');
             })
-
-            client.on('newMove', newMove(chessInstance, roomId, client, user.loggedIn));
-            opponent.on('newMove', newMove(chessInstance, roomId, opponent, user.loggedIn));
         } else {
             queue.get(time.string).push(client);
             console.log("Erster Spieler: " + client.userName);
@@ -110,7 +112,7 @@ module.exports.initializeChessListeners = (io) => {
     });
 }
 
-const newMove = (chessInstance, roomId, client, loggedIn) => (move, cb) => {
+const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
     let current = chessInstance.mainVariation().nodes()[chessInstance.mainVariation().nodes().length - 1];
     if(!current) {
         current = chessInstance.mainVariation();
@@ -122,21 +124,19 @@ const newMove = (chessInstance, roomId, client, loggedIn) => (move, cb) => {
         cb({done: false, errMsg: InvalidNotation.message});
         return;
     }
-    const chessClock = currentGames.get(client.gameRoom);
-    client.to(client.gameRoom).emit('opponentMove', move);
+    console.log('opponentMove', move);
+    client.to(roomId).emit('opponentMove', move);
     chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
-        console.log('toggle');
         localio.to(client.gameRoom).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
     });
     if (chessInstance.plyCount() === 1) {
         chessClock.startStartingTimer('black');
-        localio.to(client.gameRoom).emit('stopTimer');
+        localio.to(client.gameRoom).emit('stop_starting_time_white');
     } else if (chessInstance.plyCount() === 2) {
-        localio.to(client.gameRoom).emit('startClock');
         chessClock.startTimer('white');
-        localio.to(client.gameRoom).emit('stopTimer');
+        localio.to(client.gameRoom).emit('stop_starting_time_black');
     }
-    if (loggedIn) {
+    if (client.username !== 'guest') {
         newChessMove(pgnWrite(chessInstance), roomId).then(r => cb({done: true}));
     } else {
         cb({done: true});
@@ -153,6 +153,5 @@ function leaveQueue(client, time) {
     if (queue.get(time.string).includes(client)) {
         queue.get(time.string).splice(queue.get(time.string).indexOf(client), 1);
     } else {
-       // if (client.gameRoom !== undefined) currentGames.delete(client.gameRoom);
     }
 }

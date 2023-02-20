@@ -1,46 +1,61 @@
 import React, {useEffect, useRef, useState} from "react";
 const ReactChessClock = (props) => {
     const [time, setTime] = useState(props.time);
-    const [timeWhite, setTimeWhite] = useState(time.minutes * 60);
-    const [timeBlack, setTimeBlack] = useState(time.minutes * 60);
+    const [timeWhite, setTimeWhite] = useState(props.remainingTimeWhite
+        ? props.remainingTimeWhite.minutes * 60 + props.remainingTimeWhite.seconds
+        : time.minutes * 60);
+    const [timeBlack, setTimeBlack] = useState(props.remainingTimeBlack
+    ? props.remainingTimeBlack.minutes * 60 + props.remainingTimeBlack.seconds
+: time.minutes * 60);
     const [orientation, setOrientation] = useState(props.orientation);
     const [socket, setSocket] = useState(props.socket);
     const currentTimer = useRef(0);
-    const [currentTurn,setCurrentTurn] = useState('');
+    const [currentTurn,setCurrentTurn] = useState(props.currentState);
+    const [startingTimeWhite, setStartingTimeWhite] = useState(props.startingTimeWhite);
+    const [startingTimeBlack, setStartingTimeBlack] = useState(props.startingTimeBlack);
 
-    const decrease = (turn) => {
-        if(turn === 'white') {
-            setTimeWhite(seconds => {
-                if(seconds === 0) {
-                   console.log('LOST');
-                   setCurrentTurn('stop');
-                } else {
-                    return seconds - 1;
-                }
-            });
-        } else if(turn === 'black') {
-            setTimeBlack(seconds => {
-                if (seconds === 0) {
-                    console.log('LOST');
-                    setCurrentTurn('stop');
-                } else {
-                    return seconds - 1;
-                }
-            });
-        }
+    const decrease = (setFunction) => {
+        setFunction(seconds => {
+            if(seconds === 0) {
+                setCurrentTurn('off');
+            } else {
+                return seconds - 1;
+            }
+        });
     }
 
     useEffect(() => {
-        console.log(currentTurn);
+        console.log('toggle');
+        let setFunction = () => {};
+        switch (currentTurn) {
+            case 'tw':
+                setFunction = setTimeWhite;
+                console.log('tw');
+                break;
+            case 'tb':
+                setFunction = setTimeBlack;
+                break;
+            case 'sw':
+                setFunction = setStartingTimeWhite;
+                break;
+            case 'sb':
+                setFunction = setStartingTimeBlack;
+                break;
+            default:
+                console.log(currentTurn);
+                return;
+        }
         const id = setInterval(() => {
-            if(currentTurn === 'stop') {
+            if(currentTurn === 'off') {
                 clearInterval(id);
                 return;
             }
-            decrease(currentTurn);
+            decrease(setFunction);
         }, 1000);
         currentTimer.current = id;
-        console.log(id);
+        return () => {
+            clearInterval(id);
+        }
     }, [currentTurn]);
 
     useEffect(() => {
@@ -50,18 +65,25 @@ const ReactChessClock = (props) => {
             updateTime(timeWhite, timeBlack);
             setCurrentTurn(turn);
         });
-        socket.on('startClock', () => {
-            setCurrentTurn('white');
+        socket.on('stop_starting_time_white', () => {
+            stopClocks();
+            setCurrentTurn('sb');
         });
+        socket.on('stop_starting_time_black', ()  => {
+            stopClocks();
+            setCurrentTurn('tw');
+        })
         return () => {
             socket.off('updatedTime');
             socket.off('startClock');
+            socket.off('start_starting_Time_White');
+            socket.off('start_starting_Time_Black');
+
         }
     }, [socket]);
 
 
     function stopClocks() {
-        console.log('stop: ' + currentTimer.current);
         if(currentTimer.current !== 0) {
             clearInterval(currentTimer.current);
             currentTimer.current = 0;
@@ -78,6 +100,11 @@ const ReactChessClock = (props) => {
         <>
         {orientation === 'white' ?
             <>
+                {currentTurn.includes('s')
+                ?
+                    <p>{startingTimeBlack}</p>
+                :
+                <> </>}
                 <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginTop:'1VH', padding:25}}>
                     <p id={'Black'}>{(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60)) + ":" +
                     (timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}</p>
@@ -86,9 +113,19 @@ const ReactChessClock = (props) => {
                 <p id={'White'}>{(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60)) + ":" +
                 (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
             </div>
+                {currentTurn === "sw"
+                ?
+                <p>{startingTimeWhite}</p>
+                :
+                <> </>}
             </>
             :
                 <>
+                    {currentTurn === "sw"
+                    ?
+                    <p>{startingTimeWhite}</p>
+                    :
+                    <> </>}
                     <div style={{display: "flex", flexDirection: "row", backgroundColor: 'whitesmoke', marginTop:'1VH', padding:25}}>
                         <p id={'White'}>{(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60)) + ":" +
                         (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
@@ -97,6 +134,11 @@ const ReactChessClock = (props) => {
                         <p id={'Black'}>{(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60)) + ":" +
                         (timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}</p>
                     </div>
+                    {currentTurn.includes("s")
+                        ?
+                        <p>{startingTimeBlack}</p>
+                        :
+                        <> </>}
                     </>
         }
         </>

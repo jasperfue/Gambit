@@ -6,12 +6,14 @@ function ServerChessClock(time) {
     this.remainingTimeWhite = {minutes: time.minutes, seconds: 0};
     this.remainingTimeBlack = {minutes: time.minutes, seconds: 0};
     this.ChessClockAPI = new EventEmitter();
+    this.startingTimeWhite = {seconds: 0};
+    this.startingTimeBlack = {seconds: 0};
     switch (time.type) {
-        case 'Bullet': this.startingTimeWhite = this.startingTimeBlack = 15; break;
-        case 'Blitz': this.startingTimeWhite = this.startingTimeBlack = 20; break;
-        case 'Rapid': this.startingTimeWhite = this.startingTimeBlack = 30; break;
-        case 'Classical': this.startingTimeWhite = this.startingTimeBlack = 45; break;
-        default: this.startingTimeWhite = this.startingTimeBlack = "unknown"; break;
+        case 'Bullet': this.startingTimeWhite.seconds = this.startingTimeBlack.seconds = 15; break;
+        case 'Blitz': this.startingTimeWhite.seconds = this.startingTimeBlack.seconds = 20; break;
+        case 'Rapid': this.startingTimeWhite.seconds = this.startingTimeBlack.seconds = 30; break;
+        case 'Classical': this.startingTimeWhite.seconds = this.startingTimeBlack.seconds = 45; break;
+        default: this.startingTimeWhite.seconds = this.startingTimeBlack.seconds = "unknown"; break;
     }
 }
 
@@ -25,8 +27,8 @@ function ServerChessClock(time) {
         startingTime = this.startingTimeBlack;
     }
     const decrease = () => {
-        if(startingTime > 0) {
-            startingTime -= 1;
+        if(startingTime.seconds > 0) {
+            startingTime.seconds -= 1;
         } else {
             this.ChessClockAPI.emit('Cancel Game');
             clearInterval(timer);
@@ -49,7 +51,7 @@ function ServerChessClock(time) {
     }
 
     ServerChessClock.prototype.getCurrentStartingTimer = function() {
-        return {startingTimeWhite: this.startingTimeWhite, startingTimeBlack: this.startingTimeBlack};
+        return {startingTimeWhite: this.startingTimeWhite.seconds, startingTimeBlack: this.startingTimeBlack.seconds};
     }
 
     ServerChessClock.prototype.startTimer = function(colour) {
@@ -77,13 +79,14 @@ function ServerChessClock(time) {
         const timer = setInterval(decrease, 1000);
         this.ChessClockAPI.once('toggle', (cb) => {
             clearInterval(timer);
+            console.log(colour);
             if(colour === 'white') {
                 this.remainingTimeWhite = increment(remainingTimeCopy, this.timeMode.increment);
-                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'black'});
+                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'tb'});
                 this.startTimer('black');
             } else {
                 this.remainingTimeBlack = increment(remainingTimeCopy, this.timeMode.increment);
-                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'white'});
+                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'tw'});
                 this.startTimer('white');
             }
         })

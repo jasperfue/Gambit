@@ -25,6 +25,11 @@ const ChessGame = () => {
     const [error, setError] = useState('');
     const [spectator, setSpectator] = useState(false);
     const [timeMode, setTimeMode] = useState(null);
+    const [startingTimeWhite, setStartingTimeWhite] = useState(0);
+    const [startingTimeBlack, setStartingTimeBlack] = useState(0);
+    const [currentChessClockState, setCurrentChessClockState] = useState('');
+    const [remainingTimeWhite, setRemainingTimeWhite] = useState(null);
+    const [remainingTimeBlack, setRemainingTimeBlack] = useState(null);
 
     let queen = '';
     let bishop = '';
@@ -39,8 +44,10 @@ const ChessGame = () => {
         }
                 console.log('getData');
                 socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
+
                     if(done) {
                         console.log(data);
+                        setCurrentChessClockState(data.currentState);
                         setWhitePlayer(data.whitePlayer);
                         setBlackPlayer(data.blackPlayer);
                         setTimeMode(JSON.parse(data.time));
@@ -52,6 +59,13 @@ const ChessGame = () => {
                             setOrientation("white");
                         } else {
                             setOrientation("black");
+                        }
+                        if(data.currentState.includes('s')) {
+                            setStartingTimeWhite(data.currentStartingTimer.startingTimeWhite);
+                            setStartingTimeBlack(data.currentStartingTimer.startingTimeBlack);
+                        } else if (data.currentState.includes('t')) {
+                            setRemainingTimeWhite(data.currentTimes.remainingTimeWhite);
+                            setRemainingTimeBlack(data.currentTimes.remainingTimeBlack);
                         }
                         setInitialized(true);
                     } else {
@@ -79,7 +93,6 @@ const ChessGame = () => {
                         duration: 400
                     }
                 }));
-                setStartingTimer(document.getElementById('whiteStartingTime'));
             queen = orientation === 'white' ?
                 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PGcgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04IDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMHptMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwek00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTE2IDguNWEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDB6TTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAweiIvPjxwYXRoIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTRsMiAxMnoiIHN0cm9rZS1saW5lY2FwPSJidXR0Ii8+PHBhdGggZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6IiBzdHJva2UtbGluZWNhcD0iYnV0dCIvPjxwYXRoIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='
                 :
@@ -114,16 +127,15 @@ const ChessGame = () => {
                 }
             });
             refreshBoard(ground, chess);
+            console.log('opponentMoveListener');
             socket.on('opponentMove', (move) => {
+                console.log('opponentMove');
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
                 }
                 ground.move(move.from, move.to);
                 chess.move(move);
-                if(chess.history().length === 1) {
-                    setStartingTimer(document.getElementById('blackStartingTime'));
-                }
                 if(move.flags.includes('e')) {
                     onEnPassent(ground, move);
                 }
@@ -134,35 +146,6 @@ const ChessGame = () => {
         }
     }, [ground]);
 
-    function setStartingTimer(element) {
-        let secs;
-        switch(timeMode.type) {
-            case 'Bullet': secs = 15; break;
-            case 'Blitz': secs = 20; break;
-            case 'Rapid': secs = 30; break;
-            case 'Classical': secs = 45; break;
-            default: secs = "unknown"; break;
-        }
-        element.innerHTML = secs;
-        const timer = setInterval(() => startTime(), 1000);
-        function startTime() {
-            socket.on('stopTimer', () => {
-                    clearInterval(timer);
-                    element.innerHTML = '';
-            });
-            if(secs === 0) {
-                clearInterval(timer);
-                element.innerHTML = 0;
-                //TODO: Cancel Game
-            } else {
-                secs = secs - 1;
-                element.innerHTML = secs;
-            }
-        }
-    }
-
-
-
     function onMove() {
         return (orig, dest) => {
             if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type === 'p') { //Promotion
@@ -171,9 +154,6 @@ const ChessGame = () => {
                 return;
             }
             var move = chess.move({from: orig, to: dest});
-            if(chess.history().length === 1) {
-                setStartingTimer(document.getElementById('blackStartingTime'));
-            }
             console.log('emit_new_move');
             socket.emit('newMove', move, ({done, errMsg}) => {
                 console.log(done);
@@ -244,7 +224,9 @@ const ChessGame = () => {
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
                 <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
                 <div style={{margin: '10VH'}}>
-                <ReactChessClock time={timeMode} orientation={orientation} socket={socket}/>
+                <ReactChessClock currentState={currentChessClockState} remainingTimeWhite={remainingTimeWhite}
+                                 remainingTimeBlack={remainingTimeBlack} time={timeMode} startingTimeWhite={startingTimeWhite}
+                                 startingTimeBlack={startingTimeBlack} orientation={orientation} socket={socket}/>
                 </div>
                 </div>
                     {orientation === "white"
