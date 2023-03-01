@@ -10,6 +10,7 @@ import ReactChessClock from "./ReactChessClock.js";
 import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
 import {useParams} from "react-router-dom";
+import PromotionModal from "./PromotionModal.js";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -148,6 +149,7 @@ const ChessGame = () => {
         return (orig, dest) => {
             if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type === 'p') { //Promotion
                 setSelectVisible(true);
+                console.log("PROMOTION");
                 setPromotionMove([orig, dest]);
                 return;
             }
@@ -237,22 +239,7 @@ const ChessGame = () => {
                             <p id='blackStartingTime' />
                         </>
                     }
-                <Modal open={selectVisible} footer={null} closable={false}>
-                <div style={{ textAlign: "center", cursor: "pointer" }}>
-                <span role="presentation" onClick={() => promotion("q")}>
-                <img src={queen} style={{ width: 50 }} />
-                </span>
-                <span role="presentation" onClick={() => promotion("r")}>
-                <img src={rook}  style={{ width: 50 }} />
-                </span>
-                <span role="presentation" onClick={() => promotion("b")}>
-                <img  src={bishop} style={{ width: 50 }} />
-                </span>
-                <span role="presentation" onClick={() => promotion("n")}>
-                <img src={knight} style={{ width: 50 }} />
-                </span>
-                </div>
-                </Modal>
+                    <PromotionModal isVisible={selectVisible} colour={orientation} promotion={promotion} />
                     </>
             :
                 <>

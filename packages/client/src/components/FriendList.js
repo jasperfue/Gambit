@@ -9,8 +9,6 @@ const FriendList = () => {
     const [friendRequests, setFriendRequests] = useState([]);
 
     useEffect(() => {
-        const d = new Date();
-        console.log(d.getSeconds(), d.getMilliseconds());
         socket.emit('get_friends', ({friendList}) => {
                 setFriends(friendList);
         });
