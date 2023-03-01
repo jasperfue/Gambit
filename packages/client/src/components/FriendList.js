@@ -9,37 +9,34 @@ const FriendList = () => {
     const [friendRequests, setFriendRequests] = useState([]);
 
     useEffect(() => {
-        socket.connect();
-        socket.on('connect', () => {
-            socket.on('friends', (friendList) => {
+        socket.emit('get_friends', ({friendList}) => {
                 setFriends(friendList);
-            });
-            socket.on('friend_request', (username) => {
-                setFriendRequests(prevState => [username, ...prevState]);
-            });
-            socket.on('friend_requests', (requests) => {
-               setFriendRequests(requests);
-            });
-            socket.on('connected', (status, username) => {
-                setFriends(prevFriends => {
-                    return [...prevFriends].map(friend => {
-                        if(friend.username === username) {
-                            friend.connected = status;
-                        }
-                        return friend;
-                    })
+        });
+        socket.emit('get_friend_requests', ({requests}) => {
+            setFriendRequests(requests);
+        });
+        socket.on('friend_request', (username) => {
+            setFriendRequests(prevState => [username, ...prevState]);
+        });
+        socket.on('connected', (status, username) => {
+            setFriends(prevFriends => {
+                return [...prevFriends].map(friend => {
+                    if (friend.username === username) {
+                        friend.connected = status;
+                    }
+                    return friend;
                 })
-            });
-            socket.on('friend_request_accepted', (friend) => {
-                setFriends(friends =>
-                    [friend, ...friends]
-                );
-            });
+            })
+        });
+        socket.on('friend_request_accepted', (friend) => {
+            setFriends(friends =>
+                [friend, ...friends]
+            );
         });
         return () => {
-            socket.off('connect');
-            socket.off('friends');
+            socket.off('friend_request');
             socket.off('connected');
+            socket.off('friend_request_accepted');
         }
     }, []);
 

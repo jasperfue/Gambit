@@ -34,7 +34,9 @@ const initializeUser = async socket => {
     if (friendRooms.length > 0) {
         socket.to(friendRooms).emit("connected", "true", socket.user.username);
     }
-    socket.emit("friends", parsedFriendList);
+    socket.on('get_friends', (cb) => {
+        cb({friendList: parsedFriendList});
+    });
 
     const sentFriendRequests = await redisClient.lrange(
         `friend_requests:${socket.user.username}`,
@@ -45,8 +47,12 @@ const initializeUser = async socket => {
         const requestSplitted = request.split('.');
         return requestSplitted[0];
     }
-    socket.emit('friend_requests', sentFriendRequests.map(usernameFriendRequest));
+    socket.on('get_friend_requests', (cb) => {
+        cb({requests: sentFriendRequests.map(usernameFriendRequest)});
+    });
 };
+
+
 const friendRequestIsValid = async (socket, requestName, cb) => {
     if(requestName === socket.user.username) {
         cb({done:false, errorMsg: "You can not add yourself as a Friend"});

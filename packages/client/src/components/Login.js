@@ -43,12 +43,11 @@ const Login = (props) => {
             socket.emit('login');
             setUser({...data});
             setSignUpError(null);
-
             navigate('/');
         })
     }
 
-    const submitLogin = (values) => {
+    const submitLogin = (values, setSubmitting) => {
         fetch("http://localhost:4000/auth/login", {
             method: "POST",
             credentials: "include",
@@ -59,11 +58,13 @@ const Login = (props) => {
         })
             .catch(err => {
                 console.log(err);
+                setSubmitting(false);
                 return;
             })
             .then(res => {
                 console.log(res);
                 if (!res || !res.ok || res.status >= 400) {
+                    setSubmitting(false);
                     return;
                 }
                 return res.json();
@@ -71,6 +72,7 @@ const Login = (props) => {
             .then(data => {
                 if (!data.loggedIn) {
                     setLoginError(data.message);
+                    setSubmitting(false);
                     return;
                 }
                 setUser({...data});
@@ -131,8 +133,9 @@ const Login = (props) => {
                             password: '',
                         }}
                         validationSchema={LoginSchema}
-                        onSubmit={values => {
-                            submitLogin(values);
+                        validateOnChange={true}
+                        onSubmit={(values, {setSubmitting}) => {
+                            submitLogin(values, setSubmitting);
                         }}
                     >
                         {({isValid, isSubmitting}) => (
@@ -162,6 +165,7 @@ const Login = (props) => {
                             passwordRepeat: ''
                         }}
                         validationSchema={SignUpSchema}
+                        validateOnChange={true}
                         onSubmit={(values, {setSubmitting}) => {
                             // Hier können Sie Ihre Formulardaten verarbeiten, z.B. an eine API senden
                             submitSignUp(values);
