@@ -9,10 +9,18 @@ const FriendList = () => {
     const [friendRequests, setFriendRequests] = useState([]);
 
     useEffect(() => {
+        const d = new Date();
+        console.log(d.getSeconds(), d.getMilliseconds());
         socket.emit('get_friends', ({friendList}) => {
                 setFriends(friendList);
         });
+        socket.on('friends', (friendList) => {
+            setFriends(friendList);
+        });
         socket.emit('get_friend_requests', ({requests}) => {
+            setFriendRequests(requests);
+        });
+        socket.on('friend_requests', (requests) => {
             setFriendRequests(requests);
         });
         socket.on('friend_request', (username) => {
@@ -37,6 +45,8 @@ const FriendList = () => {
             socket.off('friend_request');
             socket.off('connected');
             socket.off('friend_request_accepted');
+            socket.off('friend_requests');
+            socket.off('friends');
         }
     }, []);
 

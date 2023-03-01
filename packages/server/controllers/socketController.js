@@ -8,6 +8,7 @@ module.exports.authorizeUser = (socket, next) => {
         console.log('user not logged In');
         next();
     } else {
+        console.log('initialized');
         initializeUser(socket);
         next();
     }
@@ -34,6 +35,9 @@ const initializeUser = async socket => {
     if (friendRooms.length > 0) {
         socket.to(friendRooms).emit("connected", "true", socket.user.username);
     }
+    const d = new Date();
+    console.log(d.getSeconds(), d.getMilliseconds());
+    socket.emit('friends', parsedFriendList);
     socket.on('get_friends', (cb) => {
         cb({friendList: parsedFriendList});
     });
@@ -47,6 +51,7 @@ const initializeUser = async socket => {
         const requestSplitted = request.split('.');
         return requestSplitted[0];
     }
+    socket.emit('friend_requests', sentFriendRequests.map(usernameFriendRequest));
     socket.on('get_friend_requests', (cb) => {
         cb({requests: sentFriendRequests.map(usernameFriendRequest)});
     });

@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
                 if(err) {
                     console.log(err);
                 } else {
-                    authorizeUser(socket, () => {console.log('authorize')});
+                    authorizeUser(socket, () => {});
                 }
             });
         });
