@@ -39,11 +39,15 @@ module.exports.initializeChessListeners = (io) => {
             const chessInstance = data.chessInstance;
             client.on('newMove', newMove(chessInstance, roomId, client, chessClock));
                 getGame(roomId)
-                    .catch(error => {
+                    .catch(() => {
                         console.log('kein Eintrag in redis');
                         cb({done: false, errMsg: "This Game does not exist"})
                     })
                     .then(game => {
+                        if(!game) {
+                            cb({done:false, errMsg: "This Game does not exist"});
+                            return;
+                        }
                         game.currentState = chessClock.getCurrentMode();
                         if(game.currentState.includes('s')) {
                             game.currentStartingTimer = chessClock.getCurrentStartingTimer();

@@ -85,10 +85,10 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
     );
 }
 
-module.exports.getGame = async (roomId, cb) => {
+module.exports.getGame = async (roomId) => {
     const game = await redisClient.hgetall(`game:${roomId}`);
     if (!game || Object.keys(game).length === 0) {
-        throw new Error(`Game ${roomId} not found`);
+        return false;
     }
     return game;
 }

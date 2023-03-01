@@ -44,7 +44,6 @@ const ChessGame = () => {
         }
                 console.log('getData');
                 socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
-
                     if(done) {
                         console.log(data);
                         setCurrentChessClockState(data.currentState);
