@@ -32,11 +32,6 @@ const ChessGame = () => {
     const [remainingTimeBlack, setRemainingTimeBlack] = useState(null);
     const location = useLocation();
 
-    let queen = '';
-    let bishop = '';
-    let knight = '';
-    let rook = '';
-
     //löscht location.state beim neu laden
     window.history.replaceState({}, document.title)
 
