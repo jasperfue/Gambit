@@ -3,6 +3,7 @@ import {AccountContext} from "../AccountContext.js";
 import { useNavigate } from "react-router-dom";
 import socket from "../Socket.js";
 import FriendList from "../components/FriendList.js";
+import Navbar from "../components/Navbar.js";
 
 const Home = () => {
     const {user, setUser} = useContext(AccountContext);
@@ -42,13 +43,6 @@ const Home = () => {
         }
     }, [time]);
 
-    const loginPage = () => {
-        navigate("/Login");
-    }
-
-    const signUpPage = () => {
-        navigate("/SignUp");
-    }
 
     const cancelGame = () => {
         socket.emit('leave_queue');
@@ -67,7 +61,7 @@ const Home = () => {
         <>
             {time === null ?
                 <>
-                    <h1>Gambit</h1>
+                    <Navbar/>
                     {user.loggedIn === true ?
                         <>
                         <h3> Hey {user.username},</h3>
@@ -77,8 +71,6 @@ const Home = () => {
                         </>
                         :
                         <>
-                            <button onClick={loginPage}>Login</button>
-                            <button onClick={signUpPage}>Sign Up</button>
                         </>
                     }
                     <form onSubmit={() => {
