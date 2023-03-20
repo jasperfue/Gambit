@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import React, {useContext} from "react";
 import Home from "./onboard/Home.js"
 import Login from "./components/Login.js";
+import SignUp from "./components/SignUp.js";
 import ChessGame from "./components/ChessGame.js";
 import { Spinner, Flex, Heading } from '@chakra-ui/react'
 
@@ -19,8 +20,8 @@ const Views = () => {
             <Routes>
                 <Route path="/" element={<Home/>} />
                 <Route path="/game/:roomId" element={<ChessGame/>} />
-                <Route path="/Login" element={<Login mode="login" />} />
-                <Route path="/SignUp" element={<Login mode="signUp" />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/SignUp" element={<SignUp  />} />
                 <Route path="*" element={<Home/>} />
             </Routes>
 }
