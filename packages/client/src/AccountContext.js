@@ -14,12 +14,10 @@ function UserContext({children}) {
             credentials: "include",
         })
             .catch(err => {
-                setUser({ loggedIn: false });
                 return;
             })
             .then(r => {
                 if (!r || !r.ok || r.status >= 400) {
-                    setUser({ loggedIn: false });
                     console.log('not logged In');
                     return;
                 }

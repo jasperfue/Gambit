@@ -2,16 +2,18 @@ import React, {useContext, useEffect, useState} from "react";
 import {AccountContext} from "../AccountContext.js";
 import { useNavigate } from "react-router-dom";
 import socket from "../Socket.js";
-import FriendList from "../components/FriendList.js";
-import Navbar from "../components/Navbar.js";
+import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
 
 const Home = () => {
     const {user, setUser} = useContext(AccountContext);
     const [time, setTime] = useState(null);
     const navigate = useNavigate();
     const [logOutError, setLogOutError] = useState('');
+    const contrast = useColorModeValue("purple.500", "white");
+    const equity = useColorModeValue("white", "purple.500");
 
     useEffect(() => {
+        console.log(user.loggedIn)
         console.log('home');
         socket.connect();
         socket.on('connect_error', (err => {
@@ -48,52 +50,43 @@ const Home = () => {
         socket.emit('leave_queue');
         setTime(null);
     }
-    const logOut = () => {
-        socket.emit('logout' ,({done}) => {
-            if(done) {
-                setUser({loggedIn: false});
-            } else {
-                console.log('logging out failed');
-            }
-        });
-    }
+
     return (
         <>
+            <Flex align="center" justify="center" direction="column" height="80 vh" paddingTop="10">
+                <Box backgroundColor={equity} borderRadius="md" p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
             {time === null ?
                 <>
-                    <Navbar/>
                     {user.loggedIn === true ?
-                        <>
-                        <h3> Hey {user.username},</h3>
-                        <FriendList/>
-                        <p>{logOutError}</p>
-                        <button onClick={logOut}>Log Out</button>
-                        </>
-                        :
-                        <>
-                        </>
+                    <> </>
+                    :
+                    <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
                     }
-                    <form onSubmit={() => {
-                    }}>
-                        <button onClick={() => setTime({type: 'Bullet', minutes: 1, increment: 0, string: '1 + 0'})}>1 + 0</button>
-                        <button onClick={() => setTime({type: 'Bullet', minutes: 2, increment: 1, string: '2 + 1'})}>2 + 1</button>
-                        <button onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 0, string: '3 + 0'})}>3 + 0</button>
-                        <button onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 2, string: '3 + 2'})}>3 + 2</button>
-                        <button onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 0, string: '5 + 0'})}>5 + 0</button>
-                        <button onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 3, string: '5 + 3'})}>5 + 3</button>
-                        <button onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 0, string: '10 + 0'})}>10 + 0</button>
-                        <button onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 5, string: '10 + 5'})}>10 + 5</button>
-                        <button onClick={() => setTime({type: 'Rapid', minutes: 15, increment: 10, string: '15 + 10'})}>15 + 10</button>
-                        <button onClick={() => setTime({type: 'Classical', minutes: 30, increment: 0, string: '30 + 0'})}>30 + 0</button>
-                        <button onClick={() => setTime({type: 'Classical', minutes: 30, increment: 20, string: '30 + 20'})}>30 + 20</button>
-                    </form>
+                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                        <GridItem>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 1, increment: 0, string: '1 + 0'})}>1 + 0</Button>
+                        </GridItem>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 2, increment: 1, string: '2 + 1'})}>2 + 1</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 0, string: '3 + 0'})}>3 + 0</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 2, string: '3 + 2'})}>3 + 2</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 0, string: '5 + 0'})}>5 + 0</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 3, string: '5 + 3'})}>5 + 3</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 0, string: '10 + 0'})}>10 + 0</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 5, string: '10 + 5'})}>10 + 5</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 15, increment: 10, string: '15 + 10'})}>15 + 10</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 0, string: '30 + 0'})}>30 + 0</Button>
+                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 20, string: '30 + 20'})}>30 + 20</Button>
+                    </Grid>
                 </>
                 :
-                <>
-                    <p>Waiting for opponent...</p>
-                    <button onClick={cancelGame}>Cancel</button>
-                </>
+                <Flex align="center" justify="center" direction="column">
+                    <Text marginBottom="5">Waiting for opponent...</Text>
+                    <Spinner size="lg" marginBottom="5"></Spinner>
+                    <Button onClick={cancelGame}>Cancel</Button>
+                </Flex>
             }
+                    </Box>
+                </Flex>
         </>
     )
 }

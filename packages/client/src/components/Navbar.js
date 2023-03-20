@@ -1,4 +1,3 @@
-// components/Navbar.js
 import React, { useContext } from "react";
 import {
     Flex,
@@ -15,18 +14,22 @@ import {
     MenuItem,
     Avatar,
     Text,
+    HStack,
 } from "@chakra-ui/react";
 import { SunIcon, MoonIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AccountContext } from "../AccountContext.js";
 import {useNavigate} from "react-router-dom";
+import socket from "../Socket.js";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
-    const buttonBackground = useColorModeValue("primary.500", "secondary.500");
     const textColor = useColorModeValue("black", "white");
     const { user, setUser } = useContext(AccountContext);
     const navigate = useNavigate();
-
+    const contrast = useColorModeValue("purple.500", "white");
+    const equality = useColorModeValue("white", "purple.500");
+    const bg = useColorModeValue("white", "purple.500");
+    const hover = useColorModeValue("purple.200", "purple.600");
     const loginPage = () => {
         navigate("/Login");
     }
@@ -35,15 +38,33 @@ const Navbar = () => {
         navigate("/SignUp");
     }
 
+    const homePage = () => {
+        navigate("/");
+    }
+
+    const friendsPage = () => {
+        console.log("Friends");
+    }
+
+    const logOut = () => {
+        socket.emit('logout' ,({done}) => {
+            if(done) {
+                setUser({loggedIn: false});
+            } else {
+                console.log('logging out failed');
+            }
+        });
+    }
+
     return (
         <Flex
             as="nav"
             alignItems="center"
             padding="1.5rem"
             boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-            backgroundColor={buttonBackground}
+            backgroundColor={bg}
         >
-            <Box>
+            <Box onClick={homePage} cursor="pointer">
                 <Image src={colorMode === "light" ? "/GAMBIT_LIGHT.png" : "GAMBIT_DARK.png"} alt="Gambit Logo" height="60px" marginTop="-20px" marginBottom="-20px"/>
             </Box>
             <Spacer />
@@ -51,67 +72,108 @@ const Navbar = () => {
                 <IconButton
                     aria-label="Toggle color mode"
                     backgroundColor="transparent"
-                    icon={colorMode === "light" ? <MoonIcon color="tertiary.500"/> : <SunIcon color="primary.500"/>}
+                    icon={colorMode === "light" ? <MoonIcon color="purple.500"/> : <SunIcon color="white"/>}
                     onClick={toggleColorMode}
                     marginRight="1rem"
                     color={textColor}
                     _hover={{
-                        backgroundColor: colorMode === "light" ? "quaternary.500" : "tertiary.500"
+                        backgroundColor: hover
                     }}
                 />
-                <Button
-                    onClick={signUpPage}
-                    backgroundColor={colorMode === 'light' ? 'tertiary.500' : 'primary.500'}
-                    color={colorMode === 'light' ? "primary.500" : "secondary.500"}
-                    borderWidth="1px"
-                    borderColor={colorMode === "light" ? "tertiary.500" : "primary.500"}
-                    marginRight="1rem"
-                    _hover={{
-                        backgroundColor: "transparent",
-                        color: colorMode === 'light' ? "tertiary.500" : "primary.500",
-                    }}
-                >
-                    Sign Up
-                </Button>
-
-
-                <Button
-                    onClick={loginPage}
-                    backgroundColor="transparent"
-                    color={colorMode === 'light' ? "tertiary.500" : "primary.500"}
-                    borderWidth="1px"
-                    borderColor={colorMode === "light" ? "tertiary.500" : "primary.500"}
-                    marginRight="1rem"
-                    _hover={{
-                        backgroundColor: colorMode === "light" ? "tertiary.500": "primary.500",
-                        color: colorMode === 'light' ? "primary.500" : "secondary.500",
-                    }}
-                >
-                    Log In
-                </Button>
                 {user.loggedIn ?
-                <>
-                    <Menu>
-                        <MenuButton
-                            as={Button}
-                            rightIcon={<ChevronDownIcon />}
-                            variant="outline"
-                            borderColor={textColor}
-                            color={textColor}
-                            ml={4}
+                    <>
+                        <Menu>
+                            <MenuButton
+                                as={Button}
+                                rightIcon={<ChevronDownIcon />}
+                                variant="outline"
+                                borderColor={contrast}
+                                color={contrast}
+                                ml={4}
+                                marginRight="1rem"
+                                _hover={{
+                                    backgroundColor: hover
+                                }}
+                                _active={{
+                                    backgroundColor: hover
+                                }}
+                            >
+                                <HStack spacing={2}>
+                                    <Avatar size="xs" />
+                                    <Text>{user.username}</Text>
+                                </HStack>
+                            </MenuButton>
+                            <MenuList
+                            background={bg}
+                            color={contrast}
+                            >
+                                <MenuItem
+                                background={bg}
+                                _hover={{
+                                    backgroundColor: hover
+                                }}
+                                >
+                                    Profile Information
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={friendsPage}
+                                background={bg}
+                                _hover={{
+                                    backgroundColor: hover
+                                }}
+                                >
+                                    Friends
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                        <Button
+                            onClick={logOut}
+                            backgroundColor="transparent"
+                            color={contrast}
+                            borderWidth="1px"
+                            borderColor={contrast}
+                            marginRight="1rem"
+                            _hover={{
+                                backgroundColor: contrast,
+                                color: equality,
+                            }}
                         >
-                            <Avatar size="xs" mr={2} />
-                            <Text>{}</Text>
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem>Profile Information</MenuItem>
-                            <MenuItem>Friends</MenuItem>
-                        </MenuList>
-                    </Menu>
-                </>
+                            Log Out
+                        </Button>
+                    </>
                 :
-                <>
-                </>
+                    <>
+                        <Button
+                            onClick={signUpPage}
+                            backgroundColor={contrast}
+                            color={bg}
+                            borderWidth="1px"
+                            borderColor={contrast}
+                            marginRight="1rem"
+                            _hover={{
+                                backgroundColor: "transparent",
+                                color: contrast,
+                            }}
+                        >
+                            Sign Up
+                        </Button>
+
+
+                        <Button
+                            onClick={loginPage}
+                            backgroundColor="transparent"
+                            color={contrast}
+                            borderWidth="1px"
+                            borderColor={contrast}
+                            marginRight="1rem"
+                            _hover={{
+                                backgroundColor: contrast,
+                                color: equality,
+                            }}
+                        >
+                            Log In
+                        </Button>
+                    </>
                 }
             </Box>
         </Flex>
