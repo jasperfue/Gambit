@@ -20,16 +20,16 @@ import { SunIcon, MoonIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AccountContext } from "../AccountContext.js";
 import {useNavigate} from "react-router-dom";
 import socket from "../Socket.js";
-
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const textColor = useColorModeValue("black", "white");
     const { user, setUser } = useContext(AccountContext);
     const navigate = useNavigate();
     const contrast = useColorModeValue("purple.500", "white");
-    const equality = useColorModeValue("white", "purple.500");
     const bg = useColorModeValue("white", "purple.500");
     const hover = useColorModeValue("purple.200", "purple.600");
+    const primaryButton = useColorModeValue("primary-light", "primary-dark");
+    const secondaryButton = useColorModeValue("secondary-light", "secondary-dark");
     const loginPage = () => {
         navigate("/Login");
     }
@@ -130,15 +130,7 @@ const Navbar = () => {
                         </Menu>
                         <Button
                             onClick={logOut}
-                            backgroundColor="transparent"
-                            color={contrast}
-                            borderWidth="1px"
-                            borderColor={contrast}
-                            marginRight="1rem"
-                            _hover={{
-                                backgroundColor: contrast,
-                                color: equality,
-                            }}
+                             variant={primaryButton}
                         >
                             Log Out
                         </Button>
@@ -147,15 +139,7 @@ const Navbar = () => {
                     <>
                         <Button
                             onClick={signUpPage}
-                            backgroundColor={contrast}
-                            color={bg}
-                            borderWidth="1px"
-                            borderColor={contrast}
-                            marginRight="1rem"
-                            _hover={{
-                                backgroundColor: "transparent",
-                                color: contrast,
-                            }}
+                            variant={primaryButton}
                         >
                             Sign Up
                         </Button>
@@ -163,15 +147,7 @@ const Navbar = () => {
 
                         <Button
                             onClick={loginPage}
-                            backgroundColor="transparent"
-                            color={contrast}
-                            borderWidth="1px"
-                            borderColor={contrast}
-                            marginRight="1rem"
-                            _hover={{
-                                backgroundColor: contrast,
-                                color: equality,
-                            }}
+                            variant={secondaryButton}
                         >
                             Log In
                         </Button>

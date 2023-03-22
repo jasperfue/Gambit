@@ -11,6 +11,7 @@ const Home = () => {
     const [logOutError, setLogOutError] = useState('');
     const contrast = useColorModeValue("purple.500", "white");
     const equity = useColorModeValue("white", "purple.500");
+    const button = useColorModeValue("start-game-light", "start-game-dark");
 
     useEffect(() => {
         console.log(user.loggedIn)
@@ -63,26 +64,24 @@ const Home = () => {
                     <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
                     }
                     <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                        <GridItem>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 1, increment: 0, string: '1 + 0'})}>1 + 0</Button>
-                        </GridItem>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 2, increment: 1, string: '2 + 1'})}>2 + 1</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 0, string: '3 + 0'})}>3 + 0</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 2, string: '3 + 2'})}>3 + 2</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 0, string: '5 + 0'})}>5 + 0</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 3, string: '5 + 3'})}>5 + 3</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 0, string: '10 + 0'})}>10 + 0</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 5, string: '10 + 5'})}>10 + 5</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 15, increment: 10, string: '15 + 10'})}>15 + 10</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 0, string: '30 + 0'})}>30 + 0</Button>
-                        <Button minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 20, string: '30 + 20'})}>30 + 20</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 1, increment: 0, string: '1 + 0'})}>1 + 0</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Bullet', minutes: 2, increment: 1, string: '2 + 1'})}>2 + 1</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 0, string: '3 + 0'})}>3 + 0</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 3, increment: 2, string: '3 + 2'})}>3 + 2</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 0, string: '5 + 0'})}>5 + 0</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Blitz', minutes: 5, increment: 3, string: '5 + 3'})}>5 + 3</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 0, string: '10 + 0'})}>10 + 0</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 10, increment: 5, string: '10 + 5'})}>10 + 5</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Rapid', minutes: 15, increment: 10, string: '15 + 10'})}>15 + 10</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 0, string: '30 + 0'})}>30 + 0</Button>
+                        <Button variant={button} minW="8rem" minH="4rem" onClick={() => setTime({type: 'Classical', minutes: 30, increment: 20, string: '30 + 20'})}>30 + 20</Button>
                     </Grid>
                 </>
                 :
                 <Flex align="center" justify="center" direction="column">
                     <Text marginBottom="5">Waiting for opponent...</Text>
                     <Spinner size="lg" marginBottom="5"></Spinner>
-                    <Button onClick={cancelGame}>Cancel</Button>
+                    <Button variant={button} onClick={cancelGame}>Cancel</Button>
                 </Flex>
             }
                     </Box>
