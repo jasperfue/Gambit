@@ -79,16 +79,16 @@ module.exports.initializeChessListeners = (io) => {
             opponent.join(roomId);
             const playerIsWhite = Math.random() < 0.5;
             if (playerIsWhite) {
-                whitePlayer = client.userName;
-                blackPlayer = opponent.userName;
+                whitePlayer = client;
+                blackPlayer = opponent;
             } else {
-                blackPlayer = client.userName;
-                whitePlayer = opponent.userName;
+                blackPlayer = client;
+                whitePlayer = opponent;
             }
             client.emit('joinedGame', opponent.userName, roomId, playerIsWhite);
             opponent.emit('joinedGame', client.userName, roomId, !playerIsWhite);
-            chessInstance.playerName('w', whitePlayer);
-            chessInstance.playerName('b', blackPlayer);
+            chessInstance.playerName('w', whitePlayer.userName);
+            chessInstance.playerName('b', blackPlayer.userName);
             chessInstance.date(new DateValue(new Date()));
             if(user.loggedIn) {
                 initializeGame(roomId, whitePlayer, blackPlayer, time, pgnWrite(chessInstance, {withPlyCount: true}));

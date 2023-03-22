@@ -1,3 +1,6 @@
+const {getActiveGames} = require("../controllers/socketController.js");
+const {getFriends} = require("../controllers/socketController.js");
+const {getFriendRequests} = require("../controllers/socketController.js");
 const {getGame} = require("../controllers/socketController.js");
 const {logout} = require("../controllers/socketController.js");
 const {declineFriend} = require("../controllers/socketController.js");
@@ -19,6 +22,17 @@ const initializeListeners = (io) => {
                 logout(client);
                 cb({done: true});
             })
+        });
+        client.on('get_friend_List', async (cb) => {
+            cb(await getFriends(client));
+        });
+
+        client.on('get_friend_requests', async (cb) => {
+            cb({requests: await getFriendRequests(client)});
+        });
+
+        client.on('get_active_Games', async (cb) =>{
+            cb({activeGames: await getActiveGames(client)});
         });
         client.on('get_game_data', (roomId, cb) => getGame(roomId, cb));
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));

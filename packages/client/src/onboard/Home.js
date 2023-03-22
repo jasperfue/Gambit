@@ -3,6 +3,8 @@ import {AccountContext} from "../AccountContext.js";
 import { useNavigate } from "react-router-dom";
 import socket from "../Socket.js";
 import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
+import FriendList from "../components/FriendList.js";
+import ActiveGames from "../components/ActiveGames.js";
 
 const Home = () => {
     const {user, setUser} = useContext(AccountContext);
@@ -59,7 +61,7 @@ const Home = () => {
             {time === null ?
                 <>
                     {user.loggedIn === true ?
-                    <> </>
+                    <> <FriendList /> <ActiveGames /></>
                     :
                     <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
                     }

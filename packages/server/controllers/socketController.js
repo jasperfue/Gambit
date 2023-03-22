@@ -17,14 +17,46 @@ module.exports.authorizeUser = (socket, next) => {
 const initializeUser = async socket => {
     socket.user = { ...socket.request.session.user };
     socket.join(socket.user.userid);
+    let activeGames = await getActiveGames(socket);
+    if(activeGames === null) {
+        activeGames = [];
+    }
     await redisClient.hset(
         `userid:${socket.user.username}`,
         "userid",
         socket.user.userid,
         "connected",
-        true
+        true,
+        "activeGames",
+        JSON.stringify(activeGames)
     );
+    socket.emit('friends', await getFriends(socket));
 
+    socket.emit('friend_requests', await getFriendRequests(socket));
+
+    socket.emit('active_games', activeGames);
+
+};
+
+
+
+const getFriendRequests = async (socket) => {
+    const sentFriendRequests = await redisClient.lrange(
+        `friend_requests:${socket.user.username}`,
+        0,
+        -1
+    );
+    const usernameFriendRequest = (request) => {
+        const requestSplitted = request.split('.');
+        return requestSplitted[0];
+    }
+    return sentFriendRequests.map(usernameFriendRequest);
+}
+
+module.exports.getFriendRequests = getFriendRequests;
+
+
+const getFriends = async (socket) => {
     const friendList = await redisClient.lrange(
         `friends:${socket.user.username}`,
         0,
@@ -35,27 +67,10 @@ const initializeUser = async socket => {
     if (friendRooms.length > 0) {
         socket.to(friendRooms).emit("connected", "true", socket.user.username);
     }
+    return parsedFriendList;
+}
 
-    socket.emit('friends', parsedFriendList);
-    socket.on('get_friends', (cb) => {
-        cb({friendList: parsedFriendList});
-    });
-
-    const sentFriendRequests = await redisClient.lrange(
-        `friend_requests:${socket.user.username}`,
-        0,
-        -1
-    );
-    const usernameFriendRequest = (request) => {
-        const requestSplitted = request.split('.');
-        return requestSplitted[0];
-    }
-    socket.emit('friend_requests', sentFriendRequests.map(usernameFriendRequest));
-    socket.on('get_friend_requests', (cb) => {
-        cb({requests: sentFriendRequests.map(usernameFriendRequest)});
-    });
-};
-
+module.exports.getFriends = getFriends;
 
 const friendRequestIsValid = async (socket, requestName, cb) => {
     if(requestName === socket.user.username) {
@@ -74,19 +89,48 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
     }
     return friend;
 }
+
+
+
+const getActiveGames = async (socket) => {
+    const activeGamesJson = await redisClient.hget(`userid:${socket.user.username}`, "activeGames");
+    if (activeGamesJson) {
+        return JSON.parse(activeGamesJson);
+    } else {
+        return [];
+    }
+}
+
+module.exports.getActiveGames = getActiveGames;
+
+const addActiveGame = async (socket, gameId) => {
+    // Hole das aktuelle Array von aktiven Spielen
+    const activeGames = await getActiveGames(socket);
+    // Füge das neue Spiel zum Array hinzu
+    activeGames.push(gameId);
+    // Speichere das aktualisierte Array zurück in den Redis-Hash
+    await redisClient.hset(
+        `userid:${socket.user.username}`,
+        "activeGames",
+        JSON.stringify(activeGames)
+    );
+}
+
 module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, pgn) => {
-    console.log("initialized");
     await redisClient.hset(
         `game:${roomId}`,
         "whitePlayer",
-        whitePlayer,
+        whitePlayer.user.username,
         "blackPlayer",
-        blackPlayer,
+        blackPlayer.user.username,
         "time",
         JSON.stringify(time),
         "pgn",
         pgn
     );
+    await addActiveGame(whitePlayer, roomId);
+    await addActiveGame(blackPlayer, roomId);
+
 }
 
 module.exports.getGame = async (roomId) => {
