@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
+import {useColorModeValue, Flex, Box} from "@chakra-ui/react";
 
 const ReactChessClock = (props) => {
     const [time, setTime] = useState(props.time);
@@ -14,8 +15,11 @@ const ReactChessClock = (props) => {
     const [currentTurn, setCurrentTurn] = useState(props.currentState);
     const [startingTimeWhite, setStartingTimeWhite] = useState(props.startingTimeWhite);
     const [startingTimeBlack, setStartingTimeBlack] = useState(props.startingTimeBlack);
+    const bg = useColorModeValue("gray.200", "purple.900");
+    const bgStartingTimer = useColorModeValue("purple.200", "purple.200");
 
     const decrease = (setFunction) => {
+        console.log("HAllo");
         setFunction(seconds => {
             if (seconds === 0) {
                 setCurrentTurn('off');
@@ -93,82 +97,88 @@ const ReactChessClock = (props) => {
     }
 
     function updateTime(timeWhite, timeBlack) {
+        console.log(timeWhite, timeBlack);
         setTimeWhite(timeWhite.minutes * 60 + timeWhite.seconds);
         setTimeBlack(timeBlack.minutes * 60 + timeBlack.seconds);
     }
 
 
     return (
-        <>
-            {orientation === 'white' ?
+        <Flex flexDirection="column">
+            {orientation === 'white' ? (
                 <>
-                    {currentTurn.includes('s')
-                        ?
-                        <p>{startingTimeBlack}</p>
+                    {currentTurn.includes('s') ? <>
+                        <Box backgroundColor={bgStartingTimer} textAlign="center" p={1} borderTopRadius="md" height="30px">{startingTimeBlack}</Box>
+                            <Flex backgroundColor={bg}  borderBottomRadius="md" alignItems="center" justifyContent="center" height="60px" width="90px">
+                                <Box id="Black">
+                                    {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
+                                </Box>
+                            </Flex>
+                        </>
                         :
-                        <> </>}
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        backgroundColor: 'whitesmoke',
-                        marginTop: '1VH',
-                        padding: 25
-                    }}>
-                        <p id={'Black'}>{(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60)) + ":" +
-                        (timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}</p>
-                    </div>
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        backgroundColor: 'whitesmoke',
-                        marginTop: '1VH',
-                        padding: 25
-                    }}>
-                        <p id={'White'}>{(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60)) + ":" +
-                        (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
-                    </div>
-                    {currentTurn === "sw"
-                        ?
-                        <p>{startingTimeWhite}</p>
-                        :
-                        <> </>}
+                        <Flex backgroundColor={bg}  borderRadius="md" alignItems="center" justifyContent="center" height="60px" width="90px" marginTop="30px">
+                            <Box id="Black">
+                                {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
+                            </Box>
+                        </Flex>
+                    }
+                    {currentTurn === "sw" ?
+                        <>
+                            <Flex backgroundColor={bg} borderTopRadius="md" marginTop="1vh" alignItems="center" justifyContent="center" height="60px" width="90px">
+                                <Box id="White">
+                                    {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
+                                </Box>
+                            </Flex>
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderBottomRadius="md">{startingTimeWhite}</Box>
+                            </>
+                            :
+                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px" alignItems="center" justifyContent="center" height="60px" width="90px">
+                            <Box id="White">
+                                {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
+                            </Box>
+                        </Flex>
+                    }
+
+
                 </>
-                :
+            ) : (
                 <>
-                    {currentTurn === "sw"
-                        ?
-                        <p>{startingTimeWhite}</p>
+                    {currentTurn === "sw" ? <>
+                        <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderTopRadius="md">{startingTimeWhite}</Box>
+                        <Flex backgroundColor={bg} borderBottomRadius="md" marginBottom="1vh" p={25}>
+                            <Box id="White">
+                                {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
+                            </Box>
+                        </Flex>
+                        </>
                         :
-                        <> </>}
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        backgroundColor: 'whitesmoke',
-                        marginTop: '1VH',
-                        padding: 25
-                    }}>
-                        <p id={'White'}>{(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60)) + ":" +
-                        (timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}</p>
-                    </div>
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        backgroundColor: 'whitesmoke',
-                        marginTop: '1VH',
-                        padding: 25
-                    }}>
-                        <p id={'Black'}>{(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60)) + ":" +
-                        (timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}</p>
-                    </div>
-                    {currentTurn.includes("s")
-                        ?
-                        <p>{startingTimeBlack}</p>
+                        <Flex backgroundColor={bg} borderRadius="md" marginBottom="1vh" marginTop="30px" p={25}>
+                            <Box id="White">
+                                {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
+                            </Box>
+                        </Flex>
+                    }
+
+                    {currentTurn.includes("s") ?
+                        <>
+                            <Flex backgroundColor={bg} borderTopRadius="md" marginTop="1vh" p={25}>
+                                <Box id="Black">
+                                    {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
+                                </Box>
+                            </Flex>
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderBottomRadius="md">{startingTimeBlack}</Box>
+                            </>
                         :
-                        <> </>}
+                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px" p={25}>
+                            <Box id="Black">
+                                {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
+                            </Box>
+                        </Flex>
+                            }
                 </>
-            }
-        </>
-    )
+            )}
+        </Flex>
+    );
 
 }
 export default ReactChessClock;

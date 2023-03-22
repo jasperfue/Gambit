@@ -60,12 +60,14 @@ const Navbar = () => {
         <Flex
             as="nav"
             alignItems="center"
-            padding="1.5rem"
+            padding="1rem"
             boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
             backgroundColor={bg}
+            position="sticky"
+            top={0}
         >
             <Box onClick={homePage} cursor="pointer">
-                <Image src={colorMode === "light" ? "/GAMBIT_LIGHT.png" : "GAMBIT_DARK.png"} alt="Gambit Logo" height="60px" marginTop="-20px" marginBottom="-20px"/>
+                <Image src={colorMode === "light" ? "/GAMBIT_LIGHT.png" : "/GAMBIT_DARK.png"} alt="Gambit Logo" height="60px" marginTop="-20px" marginBottom="-20px"/>
             </Box>
             <Spacer />
             <Box>

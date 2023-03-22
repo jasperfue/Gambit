@@ -10,6 +10,7 @@ import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
 import {useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
+import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading} from "@chakra-ui/react";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -31,8 +32,9 @@ const ChessGame = () => {
     const [remainingTimeWhite, setRemainingTimeWhite] = useState(null);
     const [remainingTimeBlack, setRemainingTimeBlack] = useState(null);
     const location = useLocation();
+    const bg = useColorModeValue("white", "purple.500");
 
-    //löscht location.state beim neu laden
+
     window.history.replaceState({}, document.title)
 
     useEffect(() => {
@@ -207,42 +209,39 @@ const ChessGame = () => {
     return (
         <>
             {initialized === true ?
-                <>
-                {user.loggedIn ?
-                        (<h1>Hey {user.username},</h1>)
-                        :
-                        (<h1>Hey Guest,</h1>)
-                }
-                    {orientation === "white"
-                    ? <>
-                            <h1>{blackPlayer}</h1>
-                            <p id='blackStartingTime' />
-                            </>
-                    : <>
-                            <h1>{whitePlayer}</h1>
-                            <p id='whiteStartingTime' />
-                            </>
-                    }
+                <Flex width="90vw" alignItems="center" justifyContent="center" paddingTop="3vh" >
+                <Box backgroundColor={bg} borderRadius="md" p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
+
+
                 <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
-                <div id={roomId} style={{width:'80VH', height:'80VH'}}/>
+                <div id={roomId} style={{width:'75VH', height:'75VH'}}/>
                 <div style={{margin: '10VH'}}>
+                    {orientation === "white"
+                        ? <>
+                            <Heading as="h2" size="lg" marginBottom="2">{blackPlayer}</Heading>
+                        </>
+                        : <>
+                            <Heading as="h2" size="lg" marginBottom="2">{whitePlayer}</Heading>
+                        </>
+                    }
                 <ReactChessClock currentState={currentChessClockState} remainingTimeWhite={remainingTimeWhite}
                                  remainingTimeBlack={remainingTimeBlack} time={timeMode} startingTimeWhite={startingTimeWhite}
                                  startingTimeBlack={startingTimeBlack} orientation={orientation} socket={socket}/>
-                </div>
-                </div>
                     {orientation === "white"
                         ? <>
-                            <h1>{whitePlayer}</h1>
-                            <p id='whiteStartingTime' />
+                            <Heading as="h2" size="lg" marginTop="2">{whitePlayer}</Heading>
                         </>
                         : <>
-                            <h1>{blackPlayer}</h1>
-                            <p id='blackStartingTime' />
+                            <Heading as="h2" size="lg" marginTop="2">{blackPlayer}</Heading>
                         </>
                     }
+                </div>
+                </div>
+
                     <PromotionModal isVisible={selectVisible} colour={orientation} promotion={promotion} />
-                    </>
+
+                    </Box>
+                </Flex>
             :
                 <>
                     {error === "" ?
@@ -250,7 +249,15 @@ const ChessGame = () => {
                     :
                         <>
                         <h1>{error}</h1>
-                        <p> Note: We only support watching games of logged In Users.</p>
+                        <Alert status='warning'>
+                            <AlertIcon />
+                            <AlertTitle>
+                                {error}
+                            </AlertTitle>
+                            <AlertDescription>
+                            Note: We only support watching games of logged In Users.
+                            </AlertDescription>
+                        </Alert>
                             </>
                     }
                     </>}

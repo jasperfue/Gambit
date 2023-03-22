@@ -1,4 +1,3 @@
-
 import { extendTheme } from "@chakra-ui/react";
 
 const overrides = {
@@ -16,7 +15,7 @@ const overrides = {
     }
 }
 
-const colors = {
+/*const colors = {
     brown: {
         100: "#d9d0b4",
         200: "#ccbf9a",
@@ -35,45 +34,24 @@ const colors = {
         500: "#ccbf9a",
     },
 
-   /* black: {
-        500: "#191835",
-    },
-
-    purple: {
-        500: "#7876fd",
-    },
-
-    blue : {
-        500: "#4DB1FF",
-    },
-
-    gray : {
-        500: "#77838F"
-    },
-
-
-
-    background_light: {
-        500: "#879e82",
-    },
-
-    background_dark: {
-        500: "#292b26",
-    },*/
-
-};
+};*/
 
 const config = {
     initialColorMode: "light",
     useSystemColorMode: false,
 };
 
+const font = {
+
+}
 
 const customTheme = extendTheme({
     overrides,
-    colors,
+    fonts: {
+        heading: `'Exo 2', sans-serif`,
+        body: `'Exo 2', sans-serif`,
+    },
     config,
-    // Weitere Theme-Anpassungen hier
 });
 
 export default customTheme;

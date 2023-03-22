@@ -5,6 +5,10 @@ import reportWebVitals from './reportWebVitals.js';
 import { BrowserRouter } from "react-router-dom";
 import {ChakraProvider, ColorModeScript} from '@chakra-ui/react'
 import customTheme from "./theme.js";
+import '@fontsource/exo-2/400.css'
+import '@fontsource/exo-2/500.css'
+import '@fontsource/exo-2/600.css'
+import '@fontsource/exo-2/700.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
