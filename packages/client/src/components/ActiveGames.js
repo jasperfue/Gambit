@@ -1,7 +1,7 @@
 // ActiveGames.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import socket from "../Socket.js";
 
 const ActiveGames = () => {
@@ -10,12 +10,15 @@ const ActiveGames = () => {
 
     useEffect(() => {
         socket.emit('get_active_Games', ({activeGames}) => {
+            console.log("get_active_Games" , activeGames)
             setActiveGames(activeGames);
         });
         socket.on('active_games', (activeGames) => {
             setActiveGames(activeGames);
+            console.log('active_games', activeGames)
         });
     }, []);
+
 
     const handleButtonClick = (gameId) => {
         navigate(`/game/${gameId}`);
@@ -24,9 +27,9 @@ const ActiveGames = () => {
     return (
         <>
         {activeGames.length === 0 ?
-        <> </>
+        <Text> No active Games </Text>
         :
-                <div>
+                <>
                     {activeGames.map((gameId, index) => (
                         <Button
                             key={index}
@@ -37,7 +40,7 @@ const ActiveGames = () => {
                             Spiel {gameId}
                         </Button>
                     ))}
-                </div>
+                </>
         }
         </>
 

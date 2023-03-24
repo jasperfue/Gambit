@@ -11,7 +11,6 @@ const Home = () => {
     const [time, setTime] = useState(null);
     const navigate = useNavigate();
     const [logOutError, setLogOutError] = useState('');
-    const contrast = useColorModeValue("purple.500", "white");
     const equity = useColorModeValue("white", "purple.500");
     const button = useColorModeValue("start-game-light", "start-game-dark");
 
@@ -49,6 +48,7 @@ const Home = () => {
     }, [time]);
 
 
+
     const cancelGame = () => {
         socket.emit('leave_queue');
         setTime(null);
@@ -56,12 +56,12 @@ const Home = () => {
 
     return (
         <>
-            <Flex align="center" justify="center" direction="column" height="80 vh" paddingTop="10">
+            <Flex align="flex-start" justify="center" direction="row" height="80 vh" paddingTop="10">
                 <Box backgroundColor={equity} borderRadius="md" p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
             {time === null ?
                 <>
                     {user.loggedIn === true ?
-                    <> <FriendList /> <ActiveGames /></>
+                    <> </>
                     :
                     <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
                     }
@@ -87,7 +87,22 @@ const Home = () => {
                 </Flex>
             }
                     </Box>
-                </Flex>
+
+            {user.loggedIn === true ?
+                <>
+                    <Box backgroundColor={equity} borderRadius="md" marginLeft={3} p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
+                        <Text marginBottom={1} fontSize="1.2rem"> Active Games: </Text>
+                        <ActiveGames/>
+                        <Text marginTop={5} fontSize="1.2rem"> Friends: </Text>
+                            <FriendList/>
+                    </Box>
+                </>
+                :
+                <>
+                    </>
+                    }
+
+            </Flex>
         </>
     )
 }

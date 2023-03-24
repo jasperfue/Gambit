@@ -65,6 +65,7 @@ const customTheme = extendTheme({
         body: `'Exo 2', sans-serif`,
     },
     components: {
+
         Button: {
             variants: {
                 'start-game-light': {
