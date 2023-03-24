@@ -33,6 +33,7 @@ module.exports.initializeChessListeners = (io) => {
             if(!currentGames.hasOwnProperty(roomId)) {
                 cb({done: false, errMsg: "This Game does not exist"});
                 console.log('kein Objekt in currentGames')
+                return;
             }
             const data = currentGames[roomId];
             const chessClock = data.chessClock;
