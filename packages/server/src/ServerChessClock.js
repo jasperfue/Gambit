@@ -27,10 +27,11 @@ function ServerChessClock(time) {
         startingTime = this.startingTimeBlack;
     }
     const decrease = () => {
-        if(startingTime.seconds > 0) {
+        if(startingTime.seconds > 1) {
             startingTime.seconds -= 1;
         } else {
-            this.ChessClockAPI.emit('Cancel Game');
+            startingTime.seconds -= 1;
+            this.stopCurrentGame();
             clearInterval(timer);
             return;
         }
@@ -40,6 +41,16 @@ function ServerChessClock(time) {
     this.ChessClockAPI.once('toggle', () => {
         clearInterval(timer);
     });
+    }
+
+ServerChessClock.prototype.stopCurrentGame = function() {
+    if(this.getCurrentMode().includes('s')) {
+        this.ChessClockAPI.emit('Cancel Game');
+    } else if(this.getCurrentMode().includes('w')) {
+        this.ChessClockAPI.emit('Time over White');
+    } else {
+        this.ChessClockAPI.emit('Time over Black');
+    }
     }
 
     ServerChessClock.prototype.getCurrentMode = function() {
@@ -66,7 +77,8 @@ function ServerChessClock(time) {
         const decrease = () => {
             if(remainingTimeCopy.seconds === 0) {
                 if(remainingTimeCopy.minutes === 0) {
-                    //TODO: SPIEL VERLOREN
+
+                    this.stopCurrentGame();
                 } else {
                     remainingTimeCopy.minutes -= 1;
                     remainingTimeCopy.seconds = 59;

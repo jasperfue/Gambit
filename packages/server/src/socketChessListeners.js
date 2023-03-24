@@ -1,3 +1,4 @@
+const {deleteGame} = require("../controllers/socketController.js");
 const {newChessMove} = require("../controllers/socketController.js");
 const {initializeGame} = require("../controllers/socketController.js");
 const {getGame} = require("../controllers/socketController.js");
@@ -101,8 +102,21 @@ module.exports.initializeChessListeners = (io) => {
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
                 //TODO: Cancel Game!
+                deleteGame(client.userName, opponent.userName, roomId);
+                client.emit(`Cancel Game ${roomId}`);
+                opponent.emit(`Cancel Game ${roomId}`);
                 console.log('CANCEL GAME chessClock');
-            })
+            });
+            chessClock.ChessClockAPI.on('Time Over White', () => {
+                console.log("TIME OVER WHITE");
+                deleteGame(client.user.username, opponent.user.username, roomId);
+                //TODO: AN FRONTEND
+            });
+            chessClock.ChessClockAPI.on('Time Over Black', () => {
+                console.log("TIME OVER BLACK");
+                deleteGame(client.user.username, opponent.user.username, roomId);
+                //TODO: AN FRONTEND
+            });
         } else {
             queue.get(time.string).push(client);
             console.log("Erster Spieler: " + client.userName);

@@ -130,8 +130,34 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
     );
     await addActiveGame(whitePlayer, roomId);
     await addActiveGame(blackPlayer, roomId);
-
 }
+
+const removeActiveGame = async (username, roomId) => {
+    // Hole das aktuelle Array von aktiven Spielen
+    const activeGamesJson = await redisClient.hget(`userid:${username}`, "activeGames");
+    let activeGames = [];
+    if (activeGamesJson) {
+        activeGames = JSON.parse(activeGamesJson);
+    }
+
+    // Entferne die roomId aus dem Array
+    const updatedActiveGames = activeGames.filter(gameId => gameId !== roomId);
+
+    // Speichere das aktualisierte Array zurück in den Redis-Hash
+    await redisClient.hset(
+        `userid:${username}`,
+        "activeGames",
+        JSON.stringify(updatedActiveGames)
+    );
+};module.exports.deleteGame = async (player1, player2, roomId) => {
+
+    // Entferne das Spiel aus den aktiven Spielen beider Spieler
+    await removeActiveGame(player1, roomId);
+    await removeActiveGame(player2, roomId);
+
+    // Lösche den Redis-Eintrag für das Spiel
+    await redisClient.del(`game:${roomId}`);
+};
 
 module.exports.getGame = async (roomId) => {
     const game = await redisClient.hgetall(`game:${roomId}`);
