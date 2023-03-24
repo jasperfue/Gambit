@@ -208,62 +208,91 @@ const ChessGame = () => {
 
     return (
         <>
-            {initialized === true ?
-                <Flex width="90vw" alignItems="center" justifyContent="center" paddingTop="3vh" >
-                <Box backgroundColor={bg} borderRadius="md" p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
-
-
-                <div style={{display: "flex", flexDirection:"row", alignItems:"center"}}>
-                <div id={roomId} style={{width:'75VH', height:'75VH'}}/>
-                <div style={{margin: '10VH'}}>
-                    {orientation === "white"
-                        ? <>
-                            <Heading as="h2" size="lg" marginBottom="2">{blackPlayer}</Heading>
-                        </>
-                        : <>
-                            <Heading as="h2" size="lg" marginBottom="2">{whitePlayer}</Heading>
-                        </>
-                    }
-                <ReactChessClock currentState={currentChessClockState} remainingTimeWhite={remainingTimeWhite}
-                                 remainingTimeBlack={remainingTimeBlack} time={timeMode} startingTimeWhite={startingTimeWhite}
-                                 startingTimeBlack={startingTimeBlack} orientation={orientation} socket={socket}/>
-                    {orientation === "white"
-                        ? <>
-                            <Heading as="h2" size="lg" marginTop="2">{whitePlayer}</Heading>
-                        </>
-                        : <>
-                            <Heading as="h2" size="lg" marginTop="2">{blackPlayer}</Heading>
-                        </>
-                    }
-                </div>
-                </div>
-
-                    <PromotionModal isVisible={selectVisible} colour={orientation} promotion={promotion} />
-
-                    </Box>
-                </Flex>
-            :
-                <>
-                    {error === "" ?
-                        <h1> LOADING... </h1>
-                    :
+            <Flex
+                width="100vw"
+                alignItems="center"
+                justifyContent="center"
+                paddingTop="3vh"
+            >
+                <Box
+                    backgroundColor={bg}
+                    borderRadius="md"
+                    p={6}
+                    boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                >
+                    {initialized === true ? (
                         <>
-                        <h1>{error}</h1>
-                        <Alert status='warning'>
-                            <AlertIcon />
-                            <AlertTitle>
-                                {error}
-                            </AlertTitle>
-                            <AlertDescription>
-                            Note: We only support watching games of logged In Users.
-                            </AlertDescription>
-                        </Alert>
-                            </>
-                    }
-                    </>}
-
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <div id={roomId} style={{ width: '75VH', height: '75VH' }} />
+                                <div style={{ margin: '10VH' }}>
+                                    {orientation === 'white' ? (
+                                        <>
+                                            <Heading as="h2" size="lg" marginBottom="2">
+                                                {blackPlayer}
+                                            </Heading>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Heading as="h2" size="lg" marginBottom="2">
+                                                {whitePlayer}
+                                            </Heading>
+                                        </>
+                                    )}
+                                    <ReactChessClock
+                                        currentState={currentChessClockState}
+                                        remainingTimeWhite={remainingTimeWhite}
+                                        remainingTimeBlack={remainingTimeBlack}
+                                        time={timeMode}
+                                        startingTimeWhite={startingTimeWhite}
+                                        startingTimeBlack={startingTimeBlack}
+                                        orientation={orientation}
+                                        socket={socket}
+                                    />
+                                    {orientation === 'white' ? (
+                                        <>
+                                            <Heading as="h2" size="lg" marginTop="2">
+                                                {whitePlayer}
+                                            </Heading>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Heading as="h2" size="lg" marginTop="2">
+                                                {blackPlayer}
+                                            </Heading>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            <PromotionModal
+                                isVisible={selectVisible}
+                                colour={orientation}
+                                promotion={promotion}
+                            />
+                        </>
+                    ) : error === '' ? (
+                        <h1> LOADING... </h1>
+                    ) : (
+                        <>
+                            <Alert status="warning" borderRadius="md">
+                                <AlertIcon />
+                                <AlertTitle>{error}</AlertTitle>
+                                <AlertDescription>
+                                    Note: We only support watching games of logged In Users.
+                                </AlertDescription>
+                            </Alert>
+                        </>
+                    )}
+                </Box>
+            </Flex>
         </>
-    )
+    );
+
 }
 
 export default ChessGame
