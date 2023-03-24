@@ -115,16 +115,7 @@ const Navbar = () => {
                                     backgroundColor: hover
                                 }}
                                 >
-                                    Profile Information
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={friendsPage}
-                                background={bg}
-                                _hover={{
-                                    backgroundColor: hover
-                                }}
-                                >
-                                    Friends
+                                    Profile Information (In Development)
                                 </MenuItem>
                             </MenuList>
                         </Menu>

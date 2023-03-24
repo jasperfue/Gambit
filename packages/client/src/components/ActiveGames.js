@@ -1,12 +1,13 @@
 // ActiveGames.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Text } from '@chakra-ui/react';
+import {Button, Text, useColorModeValue} from '@chakra-ui/react';
 import socket from "../Socket.js";
 
 const ActiveGames = () => {
     const [activeGames, setActiveGames] = useState([]);
     const navigate = useNavigate();
+    const primaryButton = useColorModeValue("primary-light", "primary-dark");
 
     useEffect(() => {
         socket.emit('get_active_Games', ({activeGames}) => {
@@ -34,10 +35,10 @@ const ActiveGames = () => {
                         <Button
                             key={index}
                             onClick={() => handleButtonClick(gameId)}
-                            m={2}
-                            colorScheme="blue"
+                            marginBottom={2}
+                            variant={primaryButton}
                         >
-                            Spiel {gameId}
+                            Back to Game
                         </Button>
                     ))}
                 </>

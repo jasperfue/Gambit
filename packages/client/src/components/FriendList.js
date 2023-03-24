@@ -3,7 +3,7 @@ import socket from "../Socket.js";
 import Friend from "./Friend.js";
 import FriendRequest from "./FriendRequest.js";
 import AddFriendModal from "./AddFriendModal.js";
-import { VStack } from '@chakra-ui/react';
+import { VStack, Text } from '@chakra-ui/react';
 
 const FriendList = () => {
     const [friends, setFriends] = useState([]);
@@ -58,23 +58,35 @@ const FriendList = () => {
     return (
         <>
             <VStack spacing={3} align="start" marginTop={2} marginBottom={4}>
-                {friendRequests.map(request => (
-                    <FriendRequest key={request} request={request} setFriendRequests={setFriendRequests} setFriends={setFriends} />
-                ))}
-                {friends
-                    .slice()
-                    .sort((a, b) => {
-                        if (a.connected === "true" && b.connected !== "true") {
-                            return -1;
-                        } else if (a.connected !== "true" && b.connected === "true") {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    })
-                    .map(friend => (
-                        <Friend key={friend.username} friend={friend} />
+                {friends.length === 0 ?
+                <Text>No Friends</Text>
+                :
+                  <>  {friends
+                        .slice()
+                            .sort((a, b) => {
+                                if (a.connected === "true" && b.connected !== "true") {
+                                    return -1;
+                                } else if (a.connected !== "true" && b.connected === "true") {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map(friend => (
+                                <Friend key={friend.username} friend={friend} />
+                            ))}
+                            </>
+                }
+                {friendRequests.length === 0 ?
+                <> </>
+                :
+                <>
+                    <Text>Friend Requests:</Text>
+                    {friendRequests.map(request => (
+                        <FriendRequest key={request} request={request} setFriendRequests={setFriendRequests} setFriends={setFriends} />
                     ))}
+                </>
+                }
             </VStack>
 
             <AddFriendModal />
