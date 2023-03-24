@@ -27,13 +27,13 @@ module.exports.initializeChessListeners = (io) => {
     io.on('connection', client => {
         localio = io;
         client.on('get_game_data', (roomId, cb) => {
-            if(!client.rooms.has(roomId)) {
-                client.join(roomId);
-            }
             if(!currentGames.hasOwnProperty(roomId)) {
                 cb({done: false, errMsg: "This Game does not exist"});
                 console.log('kein Objekt in currentGames')
                 return;
+            }
+            if(!client.rooms.has(roomId)) {
+                client.join(roomId);
             }
             const data = currentGames[roomId];
             const chessClock = data.chessClock;
