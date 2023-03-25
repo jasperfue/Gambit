@@ -35,7 +35,6 @@ function ServerChessClock(time) {
             clearInterval(timer);
             return;
         }
-        console.log(startingTime);
     }
     const timer = setInterval(decrease, 1000);
     this.ChessClockAPI.once('toggle', () => {
@@ -47,9 +46,9 @@ ServerChessClock.prototype.stopCurrentGame = function() {
     if(this.getCurrentMode().includes('s')) {
         this.ChessClockAPI.emit('Cancel Game');
     } else if(this.getCurrentMode().includes('w')) {
-        this.ChessClockAPI.emit('Time over White');
+        this.ChessClockAPI.emit('Time_Over_White');
     } else {
-        this.ChessClockAPI.emit('Time over Black');
+        this.ChessClockAPI.emit('Time_Over_Black');
     }
     }
 
@@ -77,7 +76,6 @@ ServerChessClock.prototype.stopCurrentGame = function() {
         const decrease = () => {
             if(remainingTimeCopy.seconds === 0) {
                 if(remainingTimeCopy.minutes === 0) {
-
                     this.stopCurrentGame();
                 } else {
                     remainingTimeCopy.minutes -= 1;
@@ -86,12 +84,10 @@ ServerChessClock.prototype.stopCurrentGame = function() {
             } else {
                 remainingTimeCopy.seconds -= 1;
             }
-            console.log(remainingTimeCopy);
         }
         const timer = setInterval(decrease, 1000);
         this.ChessClockAPI.once('toggle', (cb) => {
             clearInterval(timer);
-            console.log(colour);
             if(colour === 'white') {
                 this.remainingTimeWhite = increment(remainingTimeCopy, this.timeMode.increment);
                 cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'tb'});

@@ -38,15 +38,11 @@ const ChessGame = () => {
     window.history.replaceState({}, document.title)
 
     useEffect(() => {
-        console.log('erste')
         if(!socket.connected) {
-            console.log('connect')
             socket.connect();
         }
-            console.log('getData');
             socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
                 if (done) {
-                    console.log(data);
                     setCurrentChessClockState(data.currentState);
                     setWhitePlayer(data.whitePlayer);
                     setBlackPlayer(data.blackPlayer);
@@ -70,7 +66,6 @@ const ChessGame = () => {
                     setInitialized(true);
                 } else {
                     if(location.state) {
-                        console.log(location.state);
                         setWhitePlayer("guest");
                         setBlackPlayer("guest");
                         if(location.state.playerColourIsWhite) {
@@ -132,7 +127,6 @@ const ChessGame = () => {
             });
             refreshBoard(ground, chess);
             socket.on('opponentMove', (move) => {
-                console.log(move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -147,9 +141,9 @@ const ChessGame = () => {
             });
 
         }
-       /* return () => {
+        return () => {
             socket.off('opponentMove');
-        }*/
+        }
     }, [ground]);
 
     function onMove() {
@@ -161,7 +155,6 @@ const ChessGame = () => {
                 return;
             }
             var move = chess.move({from: orig, to: dest});
-            console.log('emit_new_move', move);
             socket.emit('newMove', move, ({done, errMsg}) => {
                 console.log(done);
                 if(!done) {

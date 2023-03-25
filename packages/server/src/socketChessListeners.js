@@ -39,7 +39,6 @@ module.exports.initializeChessListeners = (io) => {
             const data = currentGames[roomId];
             const chessClock = data.chessClock;
             const chessInstance = data.chessInstance;
-            client.on('newMove', newMove(chessInstance, roomId, client, chessClock));
                 getGame(roomId)
                     .catch(() => {
                         console.log('kein Eintrag in redis');
@@ -99,6 +98,8 @@ module.exports.initializeChessListeners = (io) => {
             opponent.gameRoom = roomId;
             const chessClock = new ServerChessClock(time);
             currentGames[roomId] = {chessInstance, chessClock};
+            client.on('newMove', newMove(chessInstance, roomId, client, chessClock));
+            opponent.on('newMove', newMove(chessInstance, roomId, opponent, chessClock));
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
                 //TODO: Cancel Game!
@@ -107,13 +108,11 @@ module.exports.initializeChessListeners = (io) => {
                 opponent.emit(`Cancel Game ${roomId}`);
                 console.log('CANCEL GAME chessClock');
             });
-            chessClock.ChessClockAPI.on('Time Over White', () => {
-                console.log("TIME OVER WHITE");
+            chessClock.ChessClockAPI.on('Time_Over_White', () => {
                 deleteGame(roomId);
                 //TODO: AN FRONTEND
             });
-            chessClock.ChessClockAPI.on('Time Over Black', () => {
-                console.log("TIME OVER BLACK");
+            chessClock.ChessClockAPI.on('Time_Over_Black', () => {
                 deleteGame(roomId);
                 //TODO: AN FRONTEND
             });
@@ -137,7 +136,9 @@ const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
         current = chessInstance.mainVariation();
     }
     try {
-        current.play(move.san).notation();
+        console.log(current);
+        console.log(move.san);
+        current.play(move.san);
     } catch (InvalidNotation) {
         console.log(InvalidNotation);
         cb({done: false, errMsg: InvalidNotation.message});
