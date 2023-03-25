@@ -149,11 +149,18 @@ const removeActiveGame = async (username, roomId) => {
         "activeGames",
         JSON.stringify(updatedActiveGames)
     );
-};module.exports.deleteGame = async (player1, player2, roomId) => {
+};
+
+
+module.exports.deleteGame = async (roomId) => {
+    // Hole die Benutzernamen der Spieler
+    const game = await redisClient.hgetall(`game:${roomId}`);
+    const whitePlayerUsername = game.whitePlayer;
+    const blackPlayerUsername = game.blackPlayer;
 
     // Entferne das Spiel aus den aktiven Spielen beider Spieler
-    await removeActiveGame(player1, roomId);
-    await removeActiveGame(player2, roomId);
+    await removeActiveGame(whitePlayerUsername, roomId);
+    await removeActiveGame(blackPlayerUsername, roomId);
 
     // Lösche den Redis-Eintrag für das Spiel
     await redisClient.del(`game:${roomId}`);

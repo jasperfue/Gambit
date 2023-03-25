@@ -147,6 +147,9 @@ const ChessGame = () => {
             });
 
         }
+       /* return () => {
+            socket.off('opponentMove');
+        }*/
     }, [ground]);
 
     function onMove() {
@@ -158,7 +161,7 @@ const ChessGame = () => {
                 return;
             }
             var move = chess.move({from: orig, to: dest});
-            console.log('emit_new_move');
+            console.log('emit_new_move', move);
             socket.emit('newMove', move, ({done, errMsg}) => {
                 console.log(done);
                 if(!done) {

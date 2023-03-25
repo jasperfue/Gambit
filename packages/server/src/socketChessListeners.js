@@ -4,7 +4,7 @@ const {initializeGame} = require("../controllers/socketController.js");
 const {getGame} = require("../controllers/socketController.js");
 const {v4: UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
-const { Game, DateValue, pgnWrite } = require('kokopu');
+const { kokopu, Game, DateValue, pgnWrite } = require('kokopu');
 
 let waitingPlayers = new Map();
 waitingPlayers.set('1 + 0', []);
@@ -102,19 +102,19 @@ module.exports.initializeChessListeners = (io) => {
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
                 //TODO: Cancel Game!
-                deleteGame(client.userName, opponent.userName, roomId);
+                deleteGame(roomId);
                 client.emit(`Cancel Game ${roomId}`);
                 opponent.emit(`Cancel Game ${roomId}`);
                 console.log('CANCEL GAME chessClock');
             });
             chessClock.ChessClockAPI.on('Time Over White', () => {
                 console.log("TIME OVER WHITE");
-                deleteGame(client.user.username, opponent.user.username, roomId);
+                deleteGame(roomId);
                 //TODO: AN FRONTEND
             });
             chessClock.ChessClockAPI.on('Time Over Black', () => {
                 console.log("TIME OVER BLACK");
-                deleteGame(client.user.username, opponent.user.username, roomId);
+                deleteGame(roomId);
                 //TODO: AN FRONTEND
             });
         } else {
@@ -143,6 +143,12 @@ const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
         cb({done: false, errMsg: InvalidNotation.message});
         return;
     }
+    if(chessInstance.finalPosition().isCheckmate()) {
+        console.log("IS CHECKMATE");
+        //TODO: Frontend
+        deleteGame(roomId);
+    }
+
     console.log('opponentMove', move);
     client.to(roomId).emit('opponentMove', move);
     chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
