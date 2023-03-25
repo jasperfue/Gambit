@@ -86,6 +86,9 @@ ServerChessClock.prototype.stopCurrentGame = function() {
             }
         }
         const timer = setInterval(decrease, 1000);
+        this.ChessClockAPI.once('stop', () => {
+            clearInterval(timer);
+        });
         this.ChessClockAPI.once('toggle', (cb) => {
             clearInterval(timer);
             if(colour === 'white') {

@@ -22,6 +22,9 @@ const Home = () => {
             console.log('err');
             console.log(err);
         }));
+        socket.on("connect", () => {
+            console.log(socket);
+        })
         return () => {
             socket.off('connect_error');
         }
@@ -30,11 +33,11 @@ const Home = () => {
     useEffect(() => {
         if(time !== null) {
             socket.emit('find_game', user, time);
-            socket.on('joinedGame', (opponent, roomId, playerColour) => {
+            socket.on('joinedGame', (client, opponent, roomId, playerColour) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 navigate(`game/${roomId}`, {
                     state: {
-                        player1: user,
+                        client: client,
                         opponent: opponent,
                         playerColourIsWhite: playerColour,
                         time: time

@@ -10,7 +10,7 @@ import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
 import {useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
-import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading} from "@chakra-ui/react";
+import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast} from "@chakra-ui/react";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -33,6 +33,7 @@ const ChessGame = () => {
     const [remainingTimeBlack, setRemainingTimeBlack] = useState(null);
     const location = useLocation();
     const bg = useColorModeValue("white", "purple.500");
+    const toast = useToast()
 
 
     window.history.replaceState({}, document.title)
@@ -66,12 +67,12 @@ const ChessGame = () => {
                     setInitialized(true);
                 } else {
                     if(location.state) {
-                        setWhitePlayer("guest");
-                        setBlackPlayer("guest");
                         if(location.state.playerColourIsWhite) {
+                            setWhitePlayer(location.state.client);
                             setOrientation("white");
                         } else {
                             setOrientation("black");
+                            setBlackPlayer(location.state.opponent);
                         }
                         setTimeMode(location.state.time);
                         setCurrentChessClockState("sw");
@@ -140,9 +141,48 @@ const ChessGame = () => {
                 ground.playPremove();
             });
 
+            socket.on('Checkmate', (winner) => {
+                if(orientation === 'white') {
+                    if(winner === whitePlayer) {
+                        toast({
+                            title: 'Checkmate',
+                            status: 'success',
+                            position: 'top',
+                            isClosable: true
+                        });
+                    } else {
+                        toast({
+                            title: 'Checkmate',
+                            status: 'error',
+                            position: 'top',
+                            isClosable: true
+                        });
+                    }
+                } else {
+                    if(orientation === 'black') {
+                        if(winner === blackPlayer) {
+                            toast({
+                                title: 'Checkmate',
+                                status: 'success',
+                                position: 'top',
+                                isClosable: true
+                            });
+                        } else {
+                            toast({
+                                title: 'Checkmate',
+                                status: 'error',
+                                position: 'top',
+                                isClosable: true
+                            });
+                        }
+                    }
+                }
+            })
+
         }
         return () => {
             socket.off('opponentMove');
+            socket.off('Checkmate');
         }
     }, [ground]);
 

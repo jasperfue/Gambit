@@ -78,12 +78,17 @@ const ReactChessClock = (props) => {
         socket.on('stop_starting_time_black', () => {
             stopClocks();
             setCurrentTurn('tw');
-        })
+        });
+        socket.on('Stop_Clocks', () => {
+            stopClocks();
+            setCurrentTurn('off');
+        });
         return () => {
             socket.off('updatedTime');
             socket.off('startClock');
             socket.off('start_starting_Time_White');
             socket.off('start_starting_Time_Black');
+            socket.off('Checkmate');
 
         }
     }, [socket]);

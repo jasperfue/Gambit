@@ -4,7 +4,7 @@ const {initializeGame} = require("../controllers/socketController.js");
 const {getGame} = require("../controllers/socketController.js");
 const {v4: UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
-const { kokopu, Game, DateValue, pgnWrite } = require('kokopu');
+const { Game, DateValue, pgnWrite } = require('kokopu');
 
 let waitingPlayers = new Map();
 waitingPlayers.set('1 + 0', []);
@@ -67,7 +67,7 @@ module.exports.initializeChessListeners = (io) => {
             client.userName = user.username;
         } else {
             queue = waitingGuests;
-            client.userName = 'guest';
+            client.userName = `guest-${UUIDv4()}`
         }
         if (queue.get(time.string).length > 0) {
             let whitePlayer;
@@ -86,8 +86,8 @@ module.exports.initializeChessListeners = (io) => {
                 blackPlayer = client;
                 whitePlayer = opponent;
             }
-            client.emit('joinedGame', opponent.userName, roomId, playerIsWhite);
-            opponent.emit('joinedGame', client.userName, roomId, !playerIsWhite);
+            client.emit('joinedGame',client.userName, opponent.userName, roomId, playerIsWhite);
+            opponent.emit('joinedGame',opponent.userName, client.userName, roomId, !playerIsWhite);
             chessInstance.playerName('w', whitePlayer.userName);
             chessInstance.playerName('b', blackPlayer.userName);
             chessInstance.date(new DateValue(new Date()));
@@ -130,6 +130,10 @@ module.exports.initializeChessListeners = (io) => {
     });
 }
 
+function isGuest(username) {
+    return username.startsWith('guest');
+}
+
 const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
     let current = chessInstance.mainVariation().nodes()[chessInstance.mainVariation().nodes().length - 1];
     if(!current) {
@@ -137,24 +141,26 @@ const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
     }
     try {
         console.log(current);
-        console.log(move.san);
         current.play(move.san);
     } catch (InvalidNotation) {
         console.log(InvalidNotation);
         cb({done: false, errMsg: InvalidNotation.message});
         return;
     }
+    client.to(roomId).emit('opponentMove', move);
     if(chessInstance.finalPosition().isCheckmate()) {
         console.log("IS CHECKMATE");
-        //TODO: Frontend
+        localio.to(roomId).emit('Checkmate', client.userName);
+        localio.to(roomId).emit('Stop_Clocks');
+        chessClock.ChessClockAPI.emit('stop');
         deleteGame(roomId);
+    } else {
+        chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
+            localio.to(roomId).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
+        });
     }
 
     console.log('opponentMove', move);
-    client.to(roomId).emit('opponentMove', move);
-    chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
-        localio.to(client.gameRoom).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
-    });
     if (chessInstance.plyCount() === 1) {
         chessClock.startStartingTimer('black');
         localio.to(client.gameRoom).emit('stop_starting_time_white');
@@ -162,7 +168,7 @@ const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
         chessClock.startTimer('white');
         localio.to(client.gameRoom).emit('stop_starting_time_black');
     }
-    if (client.username !== 'guest') {
+    if (!isGuest(client.userName)) {
         newChessMove(pgnWrite(chessInstance), roomId).then(r => cb({done: true}));
     } else {
         cb({done: true});
