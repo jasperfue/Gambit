@@ -67,12 +67,13 @@ module.exports.initializeChessListeners = (io) => {
             client.userName = user.username;
         } else {
             queue = waitingGuests;
-            client.userName = `guest-${UUIDv4()}`
+            client.userName = `guest-${UUIDv4().slice(0, 8)}`;
         }
         if (queue.get(time.string).length > 0) {
             let whitePlayer;
             let blackPlayer;
             var opponent = queue.get(time.string).shift();
+            console.log(opponent.userName);
             console.log("Zweiter Spieler: " + client.userName);
             const chessInstance = new Game();
             var roomId = UUIDv4();

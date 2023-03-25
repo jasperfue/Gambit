@@ -67,12 +67,15 @@ const ChessGame = () => {
                     setInitialized(true);
                 } else {
                     if(location.state) {
+                        console.log(location.state);
                         if(location.state.playerColourIsWhite) {
                             setWhitePlayer(location.state.client);
+                            setBlackPlayer(location.state.opponent);
                             setOrientation("white");
                         } else {
                             setOrientation("black");
-                            setBlackPlayer(location.state.opponent);
+                            setBlackPlayer(location.state.client);
+                            setWhitePlayer(location.state.opponent);
                         }
                         setTimeMode(location.state.time);
                         setCurrentChessClockState("sw");
@@ -142,6 +145,7 @@ const ChessGame = () => {
             });
 
             socket.on('Checkmate', (winner) => {
+                console.log("Winner: " + winner);
                 if(orientation === 'white') {
                     if(winner === whitePlayer) {
                         toast({
