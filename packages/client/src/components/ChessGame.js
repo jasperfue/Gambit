@@ -144,6 +144,24 @@ const ChessGame = () => {
                 ground.playPremove();
             });
 
+            socket.on('Time_Over', (color) => {
+                if(color === orientation) {
+                    toast({
+                        title: 'Losing on time',
+                        status: 'error',
+                        position: 'top',
+                        isClosable: true
+                    });
+                } else {
+                    toast({
+                        title: 'Winning on time',
+                        status: 'success',
+                        position: 'top',
+                        isClosable: true
+                    });
+                }
+            });
+
             socket.on('Checkmate', (winner) => {
                 console.log("Winner: " + winner);
                 if(orientation === 'white') {
@@ -187,6 +205,7 @@ const ChessGame = () => {
         return () => {
             socket.off('opponentMove');
             socket.off('Checkmate');
+            socket.off('Time_Over');
         }
     }, [ground]);
 

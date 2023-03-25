@@ -31,8 +31,8 @@ function ServerChessClock(time) {
             startingTime.seconds -= 1;
         } else {
             startingTime.seconds -= 1;
-            this.stopCurrentGame();
             clearInterval(timer);
+            this.stopCurrentGame();
             return;
         }
     }
@@ -43,6 +43,7 @@ function ServerChessClock(time) {
     }
 
 ServerChessClock.prototype.stopCurrentGame = function() {
+
     if(this.getCurrentMode().includes('s')) {
         this.ChessClockAPI.emit('Cancel Game');
     } else if(this.getCurrentMode().includes('w')) {
@@ -64,46 +65,72 @@ ServerChessClock.prototype.stopCurrentGame = function() {
         return {startingTimeWhite: this.startingTimeWhite.seconds, startingTimeBlack: this.startingTimeBlack.seconds};
     }
 
-    ServerChessClock.prototype.startTimer = function(colour) {
+ServerChessClock.prototype.startTimer = function (colour) {
     let remainingTimeCopy;
-    if(colour === 'white') {
+    if (colour === "white") {
         remainingTimeCopy = this.remainingTimeWhite;
-        this.currentMode = 'tw';
+        this.currentMode = "tw";
     } else {
         remainingTimeCopy = this.remainingTimeBlack;
-        this.currentMode = 'tb';
-    }
-        const decrease = () => {
-            if(remainingTimeCopy.seconds === 0) {
-                if(remainingTimeCopy.minutes === 0) {
-                    this.stopCurrentGame();
-                } else {
-                    remainingTimeCopy.minutes -= 1;
-                    remainingTimeCopy.seconds = 59;
-                }
-            } else {
-                remainingTimeCopy.seconds -= 1;
-            }
-        }
-        const timer = setInterval(decrease, 1000);
-        this.ChessClockAPI.once('stop', () => {
-            clearInterval(timer);
-        });
-        this.ChessClockAPI.once('toggle', (cb) => {
-            clearInterval(timer);
-            if(colour === 'white') {
-                this.remainingTimeWhite = increment(remainingTimeCopy, this.timeMode.increment);
-                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'tb'});
-                this.startTimer('black');
-            } else {
-                this.remainingTimeBlack = increment(remainingTimeCopy, this.timeMode.increment);
-                cb({remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack, turn: 'tw'});
-                this.startTimer('white');
-            }
-        })
+        this.currentMode = "tb";
     }
 
-    function increment(remainingTime, increment) {
+    const isTimeOver = () => {
+        return remainingTimeCopy.minutes === 0 && remainingTimeCopy.seconds === 0;
+    };
+
+    const decreaseTime = () => {
+        if (remainingTimeCopy.seconds === 0) {
+            remainingTimeCopy.minutes -= 1;
+            remainingTimeCopy.seconds = 59;
+        } else {
+            remainingTimeCopy.seconds -= 1;
+        }
+    };
+
+    const timer = setInterval(() => {
+        decreaseTime();
+        console.log(remainingTimeCopy);
+        if (isTimeOver()) {
+            clearInterval(timer);
+            this.stopCurrentGame();
+            return;
+        }
+    }, 1000);
+
+    this.ChessClockAPI.once("stop", () => {
+        clearInterval(timer);
+    });
+    this.ChessClockAPI.once("toggle", (cb) => {
+        clearInterval(timer);
+        if (colour === "white") {
+            this.remainingTimeWhite = increment(
+                remainingTimeCopy,
+                this.timeMode.increment
+            );
+            cb({
+                remainingTimeWhite: this.remainingTimeWhite,
+                remainingTimeBlack: this.remainingTimeBlack,
+                turn: "tb",
+            });
+            this.startTimer("black");
+        } else {
+            this.remainingTimeBlack = increment(
+                remainingTimeCopy,
+                this.timeMode.increment
+            );
+            cb({
+                remainingTimeWhite: this.remainingTimeWhite,
+                remainingTimeBlack: this.remainingTimeBlack,
+                turn: "tw",
+            });
+            this.startTimer("white");
+        }
+    });
+};
+
+
+function increment(remainingTime, increment) {
         if(remainingTime.seconds + increment > 59) {
             for (var i = increment; i > 0; i--) {
                 if(remainingTime.seconds + 1 < 60) {

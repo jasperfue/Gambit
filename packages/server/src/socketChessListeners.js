@@ -111,10 +111,14 @@ module.exports.initializeChessListeners = (io) => {
             });
             chessClock.ChessClockAPI.on('Time_Over_White', () => {
                 deleteGame(roomId);
+                localio.to(roomId).emit('Time_Over', 'white');
+                localio.to(roomId).emit('Stop_Clocks');
                 //TODO: AN FRONTEND
             });
             chessClock.ChessClockAPI.on('Time_Over_Black', () => {
                 deleteGame(roomId);
+                localio.to(roomId).emit('Time_Over', 'black');
+                localio.to(roomId).emit('Stop_Clocks');
                 //TODO: AN FRONTEND
             });
         } else {
