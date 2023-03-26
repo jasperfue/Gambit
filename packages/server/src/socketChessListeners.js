@@ -107,9 +107,9 @@ module.exports.initializeChessListeners = (io) => {
             listeners.set(opponent.id, new Map([[roomId, opponentMoveListener]]));
             chessClock.startStartingTimer('white');
             chessClock.ChessClockAPI.on('Cancel Game', () => {
+                localio.to(roomId).emit('Cancel_Game');
+                localio.to(roomId).emit('Stop_Clocks');
                 endGame(roomId);
-                client.emit(`Cancel Game ${roomId}`);
-                opponent.emit(`Cancel Game ${roomId}`);
                 console.log('CANCEL GAME chessClock');
             });
             chessClock.ChessClockAPI.on('Time_Over_White', () => {

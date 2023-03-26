@@ -122,7 +122,6 @@ const ChessGame = () => {
 
     useEffect(() => {
         if(ground) {
-            console.log('MAX 1 MAl')
             ground.set({
                 movable: {
                     events: {
@@ -145,8 +144,19 @@ const ChessGame = () => {
                 refreshBoard(ground, chess);
                 ground.playPremove();
             });
+            console.log('Listener initialisiert')
+            socket.on('Cancel_Game', () => {
+                ground.set({viewOnly: true});
+                toast({
+                    title: "Canceled Game",
+                    status: 'warning',
+                    position: 'top',
+                    isClosable: true
+                });
+            });
 
             socket.on('Time_Over', (color) => {
+                ground.set({viewOnly: true});
                 if(color === orientation) {
                     toast({
                         title: 'Losing on time',
@@ -165,6 +175,7 @@ const ChessGame = () => {
             });
 
             socket.on('Checkmate', (winner) => {
+                ground.set({viewOnly: true});
                 console.log("Winner: " + winner);
                 if(orientation === 'white') {
                     if(winner === whitePlayer) {
@@ -208,6 +219,7 @@ const ChessGame = () => {
             socket.off('opponentMove');
             socket.off('Checkmate');
             socket.off('Time_Over');
+            socket.off('Cancel_Game');
         }
     }, [ground, initialized]);
 
