@@ -40,6 +40,10 @@ function ServerChessClock(time) {
     this.ChessClockAPI.once('toggle', () => {
         clearInterval(timer);
     });
+        this.ChessClockAPI.once("stop", () => {
+            clearInterval(timer);
+            console.log('STOP CLOCK');
+        });
     }
 
 ServerChessClock.prototype.stopCurrentGame = function() {

@@ -10,7 +10,7 @@ import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
 import {useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
-import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast} from "@chakra-ui/react";
+import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -34,14 +34,15 @@ const ChessGame = () => {
     const location = useLocation();
     const bg = useColorModeValue("white", "purple.500");
     const toast = useToast()
+    const button = useColorModeValue("start-game-light", "start-game-dark");
 
 
     window.history.replaceState({}, document.title)
 
     useEffect(() => {
-        if(!socket.connected) {
+        if (!socket.connected) {
             socket.connect();
-        }
+        } else {
             socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
                 if (done) {
                     setCurrentChessClockState(data.currentState);
@@ -66,9 +67,9 @@ const ChessGame = () => {
                     }
                     setInitialized(true);
                 } else {
-                    if(location.state) {
+                    if (location.state) {
                         console.log(location.state);
-                        if(location.state.playerColourIsWhite) {
+                        if (location.state.playerColourIsWhite) {
                             setWhitePlayer(location.state.client);
                             setBlackPlayer(location.state.opponent);
                             setOrientation("white");
@@ -81,11 +82,21 @@ const ChessGame = () => {
                         setCurrentChessClockState("sw");
                         let startingTime;
                         switch (location.state.time.type) {
-                            case "Bullet" : startingTime = 15; break;
-                            case "Blitz" : startingTime = 20; break;
-                            case "Rapid" : startingTime = 30; break;
-                            case "Classical" : startingTime = 45; break;
-                            default : startingTime = 20; break;
+                            case "Bullet" :
+                                startingTime = 15;
+                                break;
+                            case "Blitz" :
+                                startingTime = 20;
+                                break;
+                            case "Rapid" :
+                                startingTime = 30;
+                                break;
+                            case "Classical" :
+                                startingTime = 45;
+                                break;
+                            default :
+                                startingTime = 20;
+                                break;
                         }
                         setStartingTimeBlack(startingTime);
                         setStartingTimeWhite(startingTime);
@@ -95,7 +106,11 @@ const ChessGame = () => {
                         setError(errMsg);
                     }
                 }
-            })
+            });
+        }
+            return () => {
+                socket.off('get_game_data');
+            }
     }, [socket.connected]);
 
 
@@ -212,7 +227,26 @@ const ChessGame = () => {
                         }
                     }
                 }
-            })
+            });
+
+            socket.on('resigned', (color) => {
+                ground.set({viewOnly: true});
+                if(orientation !== color) {
+                    toast({
+                        title: "Opponent resigned",
+                        status: "success",
+                        position: 'top',
+                        isClosable: true
+                    });
+                } else {
+                    toast({
+                        title: "resigned",
+                        status: "error",
+                        position: "top",
+                        isClosable: true
+                    });
+                }
+            });
 
         }
         return () => {
@@ -220,6 +254,7 @@ const ChessGame = () => {
             socket.off('Checkmate');
             socket.off('Time_Over');
             socket.off('Cancel_Game');
+            socket.off('resigned');
         }
     }, [ground, initialized]);
 
@@ -277,6 +312,16 @@ const ChessGame = () => {
         ground.playPremove();
     }
 
+    const resign = () => {
+        socket.emit('resign', orientation);
+        ground.set({viewOnly: true});
+        toast({
+            title: "Resigned",
+            status: "error",
+            position: "error",
+            isClosable: true
+        });
+    }
 
 
     return (
@@ -340,6 +385,11 @@ const ChessGame = () => {
                                             </Heading>
                                         </>
                                     )}
+                                    {spectator === false ?
+                                        <Button variant={button} marginTop={4} onClick={() => resign()}>Resign</Button>
+                                        :
+                                        <> </>
+                                    }
                                 </div>
                             </div>
                             <PromotionModal

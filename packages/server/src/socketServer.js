@@ -34,7 +34,6 @@ const initializeListeners = (io) => {
         client.on('get_active_Games', async (cb) =>{
             cb({activeGames: await getActiveGames(client)});
         });
-        client.on('get_game_data', (roomId, cb) => getGame(roomId, cb));
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
         client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));
         client.on('decline_friend_request', (name, cb) => declineFriend(client, name, cb));
