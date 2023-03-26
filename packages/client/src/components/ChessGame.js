@@ -122,6 +122,7 @@ const ChessGame = () => {
 
     useEffect(() => {
         if(ground) {
+            console.log('MAX 1 MAl')
             ground.set({
                 movable: {
                     events: {
@@ -131,6 +132,7 @@ const ChessGame = () => {
             });
             refreshBoard(ground, chess);
             socket.on('opponentMove', (move) => {
+                console.log("Nur ein mal pro Move", move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -207,7 +209,7 @@ const ChessGame = () => {
             socket.off('Checkmate');
             socket.off('Time_Over');
         }
-    }, [ground]);
+    }, [ground, initialized]);
 
     function onMove() {
         return (orig, dest) => {
