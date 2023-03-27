@@ -134,15 +134,15 @@ module.exports.initializeChessListeners = (io) => {
 
 
                 chessClock.ChessClockAPI.on('Time_Over_White', () => {
-                    endGame(roomId);
                     localio.to(roomId).emit('Time_Over', 'white');
                     localio.to(roomId).emit('Stop_Clocks');
+                    endGame(roomId);
                 });
 
                 chessClock.ChessClockAPI.on('Time_Over_Black', () => {
-                    endGame(roomId);
                     localio.to(roomId).emit('Time_Over', 'black');
                     localio.to(roomId).emit('Stop_Clocks');
+                    endGame(roomId);
                 });
 
                 client.emit('joinedGame', client.userName, opponent.userName, roomId, playerIsWhite);
@@ -209,16 +209,11 @@ function resign(chessClock, roomId, color) {
 function endGame(roomId) {
     const {client, opponent} = currentGames[roomId];
 
-
     removeGameListeners(client, roomId);
     removeGameListeners(opponent, roomId);
 
-    console.log("ALLLE LISTENER GELÖSCHT?")
-    console.log(listeners);
-    console.log(client._events)
-    console.log(opponent._events);
-
     delete currentGames[roomId];
+    deleteGame(roomId);
 }
 
 
@@ -240,7 +235,6 @@ function removeGameListeners(socket, roomId) {
                 }
             }
         }
-        console.log("REMOVE GAME LISTENERS", socket._events);
 }
 
 
