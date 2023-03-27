@@ -109,7 +109,7 @@ const Home = () => {
                         <Text marginBottom={1} fontSize="1.2rem"> Active Games: </Text>
                         <ActiveGames refreshKey={refreshKey}/>
                         <Text marginTop={5} fontSize="1.2rem"> Friends: </Text>
-                            <FriendList refreshKey={refreshKey}/>
+                        <FriendList refreshKey={refreshKey}/>
                     </Box>
                 </>
                 :

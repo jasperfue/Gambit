@@ -227,12 +227,15 @@ module.exports.addFriend = async (socket, friendName, cb) => {
         const newFriend = {
             username: friendName,
             userid: friend.userid,
-            connected: friend.connected
+            connected: friend.connected,
+            activeGames: friend.activeGames
         };
+        const activeGames = await getActiveGames(socket)
         const oldFriend= {
             username: socket.user.username,
             userid: socket.user.userid,
-            connected: 'true'
+            connected: 'true',
+            activeGames: activeGames
         }
         cb({done: true, newFriend});
         socket.to(friend.userid).emit('friend_request_accepted', oldFriend);

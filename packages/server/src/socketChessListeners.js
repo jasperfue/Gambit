@@ -118,8 +118,8 @@ module.exports.initializeChessListeners = (io) => {
                 const opponentMoveListener = newMove(chessInstance, roomId, opponent, chessClock);
 
 
-                const clientResignListener = (color) => resign(chessClock, roomId, color);
-                const opponentResignListener = (color) => resign(chessClock, roomId, color);
+                const clientResignListener = (color, roomId) => resign(chessClock, roomId, color);
+                const opponentResignListener = (color, roomId) => resign(chessClock, roomId, color);
 
                 setListeners(client, roomId, clientMoveListener, clientResignListener);
                 setListeners(opponent, roomId, opponentMoveListener, opponentResignListener);

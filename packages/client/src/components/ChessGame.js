@@ -348,7 +348,7 @@ const ChessGame = () => {
     }
 
     const resign = () => {
-        socket.emit('resign', orientation);
+        socket.emit('resign', orientation, roomId);
         ground.set({viewOnly: true});
         toast({
             title: "Resigned",

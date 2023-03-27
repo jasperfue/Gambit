@@ -25,9 +25,6 @@ const Friend = (props) => {
         navigate(`/game/${game}`);
     };
 
-    useEffect(() => {
-        console.log(props);
-    })
     return (
         <HStack spacing={3}>
             <Box
