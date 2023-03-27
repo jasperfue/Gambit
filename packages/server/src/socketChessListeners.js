@@ -29,6 +29,7 @@ module.exports.initializeChessListeners = (io) => {
         io.on('connection', client => {
         localio = io;
         client.on('get_game_data', (roomId, cb) => {
+            console.log('get_game_data');
             if (!currentGames.hasOwnProperty(roomId)) {
                 cb({done: false, errMsg: "This Game does not exist"});
                 console.log('kein Objekt in currentGames')

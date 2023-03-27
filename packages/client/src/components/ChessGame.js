@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useState, useContext, useCallback} from "react";
 import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
@@ -39,79 +39,91 @@ const ChessGame = () => {
 
     window.history.replaceState({}, document.title)
 
-    useEffect(() => {
-        if (!socket.connected) {
-            socket.connect();
-        } else {
-            socket.emit('get_game_data', roomId, ({done, data, errMsg}) => {
-                if (done) {
-                    setCurrentChessClockState(data.currentState);
-                    setWhitePlayer(data.whitePlayer);
-                    setBlackPlayer(data.blackPlayer);
-                    setTimeMode(JSON.parse(data.time));
-                    chess.loadPgn(data.pgn);
-                    if (data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
-                        setOrientation("white");
-                        setSpectator(true);
-                    } else if (data.whitePlayer === user.username) {
+
+    const getGameData = useCallback(() => {
+        socket.emit('get_game_data', roomId, ({ done, data, errMsg }) => {
+
+            console.log({done, data, errMsg});
+            if (done) {
+                setCurrentChessClockState(data.currentState);
+                setWhitePlayer(data.whitePlayer);
+                setBlackPlayer(data.blackPlayer);
+                setTimeMode(JSON.parse(data.time));
+                chess.loadPgn(data.pgn);
+                if (data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
+                    setOrientation("white");
+                    setSpectator(true);
+                } else if (data.whitePlayer === user.username) {
+                    setOrientation("white");
+                } else {
+                    setOrientation("black");
+                }
+                if (data.currentState.includes('s')) {
+                    setStartingTimeWhite(data.currentStartingTimer.startingTimeWhite);
+                    setStartingTimeBlack(data.currentStartingTimer.startingTimeBlack);
+                } else if (data.currentState.includes('t')) {
+                    setRemainingTimeWhite(data.currentTimes.remainingTimeWhite);
+                    setRemainingTimeBlack(data.currentTimes.remainingTimeBlack);
+                }
+                setInitialized(true);
+            } else {
+                if (location.state) {
+                    console.log(location.state);
+                    if (location.state.playerColourIsWhite) {
+                        setWhitePlayer(location.state.client);
+                        setBlackPlayer(location.state.opponent);
                         setOrientation("white");
                     } else {
                         setOrientation("black");
+                        setBlackPlayer(location.state.client);
+                        setWhitePlayer(location.state.opponent);
                     }
-                    if (data.currentState.includes('s')) {
-                        setStartingTimeWhite(data.currentStartingTimer.startingTimeWhite);
-                        setStartingTimeBlack(data.currentStartingTimer.startingTimeBlack);
-                    } else if (data.currentState.includes('t')) {
-                        setRemainingTimeWhite(data.currentTimes.remainingTimeWhite);
-                        setRemainingTimeBlack(data.currentTimes.remainingTimeBlack);
+                    setTimeMode(location.state.time);
+                    setCurrentChessClockState("sw");
+                    let startingTime;
+                    switch (location.state.time.type) {
+                        case "Bullet" :
+                            startingTime = 15;
+                            break;
+                        case "Blitz" :
+                            startingTime = 20;
+                            break;
+                        case "Rapid" :
+                            startingTime = 30;
+                            break;
+                        case "Classical" :
+                            startingTime = 45;
+                            break;
+                        default :
+                            startingTime = 20;
+                            break;
                     }
+                    setStartingTimeBlack(startingTime);
+                    setStartingTimeWhite(startingTime);
                     setInitialized(true);
                 } else {
-                    if (location.state) {
-                        console.log(location.state);
-                        if (location.state.playerColourIsWhite) {
-                            setWhitePlayer(location.state.client);
-                            setBlackPlayer(location.state.opponent);
-                            setOrientation("white");
-                        } else {
-                            setOrientation("black");
-                            setBlackPlayer(location.state.client);
-                            setWhitePlayer(location.state.opponent);
-                        }
-                        setTimeMode(location.state.time);
-                        setCurrentChessClockState("sw");
-                        let startingTime;
-                        switch (location.state.time.type) {
-                            case "Bullet" :
-                                startingTime = 15;
-                                break;
-                            case "Blitz" :
-                                startingTime = 20;
-                                break;
-                            case "Rapid" :
-                                startingTime = 30;
-                                break;
-                            case "Classical" :
-                                startingTime = 45;
-                                break;
-                            default :
-                                startingTime = 20;
-                                break;
-                        }
-                        setStartingTimeBlack(startingTime);
-                        setStartingTimeWhite(startingTime);
-                        setInitialized(true);
-                    } else {
-                        console.log(errMsg)
-                        setError(errMsg);
-                    }
+                    console.log(errMsg)
+                    setError(errMsg);
                 }
-            });
-        }
-            return () => {
-                socket.off('get_game_data');
             }
-    }, [socket.connected]);
+        });
+    }, [roomId]);
+
+
+
+    useEffect(() => {
+        if (socket.connected) {
+            getGameData();
+        } else {
+            socket.on('connect', () => {
+                getGameData();
+            });
+            socket.connect();
+        }
+        return () => {
+            socket.off('connect');
+        };
+    }, []);
 
 
     useEffect(() => {
@@ -174,6 +186,7 @@ const ChessGame = () => {
                 ground.set({viewOnly: true});
                 toast({
                     title: "Canceled Game",
+                    description: "Starting Clock over",
                     status: 'warning',
                     position: 'top',
                     isClosable: true
@@ -185,6 +198,7 @@ const ChessGame = () => {
                 if(color === orientation) {
                     toast({
                         title: 'Losing on time',
+                        description: color === 'white' ? `${blackPlayer} wins!` : `${whitePlayer} wins!`,
                         status: 'error',
                         position: 'top',
                         isClosable: true
@@ -192,6 +206,7 @@ const ChessGame = () => {
                 } else {
                     toast({
                         title: 'Winning on time',
+                        description: color === 'white' ? `${blackPlayer} wins!` : `${whitePlayer} wins!`,
                         status: 'success',
                         position: 'top',
                         isClosable: true
@@ -206,6 +221,7 @@ const ChessGame = () => {
                     if(winner === whitePlayer) {
                         toast({
                             title: 'Checkmate',
+                            description: `${whitePlayer} wins!`,
                             status: 'success',
                             position: 'top',
                             isClosable: true
@@ -213,6 +229,7 @@ const ChessGame = () => {
                     } else {
                         toast({
                             title: 'Checkmate',
+                            description: `${blackPlayer} wins!`,
                             status: 'error',
                             position: 'top',
                             isClosable: true
@@ -223,6 +240,7 @@ const ChessGame = () => {
                         if(winner === blackPlayer) {
                             toast({
                                 title: 'Checkmate',
+                                description: `${blackPlayer} wins!`,
                                 status: 'success',
                                 position: 'top',
                                 isClosable: true
@@ -230,6 +248,7 @@ const ChessGame = () => {
                         } else {
                             toast({
                                 title: 'Checkmate',
+                                description: `${whitePlayer} wins!`,
                                 status: 'error',
                                 position: 'top',
                                 isClosable: true
@@ -244,13 +263,15 @@ const ChessGame = () => {
                 if(orientation !== color) {
                     toast({
                         title: "Opponent resigned",
+                        description: color === 'white' ? `${blackPlayer} wins!` : `${whitePlayer} wins!`,
                         status: "success",
                         position: 'top',
                         isClosable: true
                     });
                 } else {
                     toast({
-                        title: "resigned",
+                        title: "Resigned",
+                        description: color === 'white' ? `${blackPlayer} wins!` : `${whitePlayer} wins!`,
                         status: "error",
                         position: "top",
                         isClosable: true
