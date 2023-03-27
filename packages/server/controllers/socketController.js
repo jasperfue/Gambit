@@ -30,9 +30,11 @@ const initializeUser = async socket => {
         "activeGames",
         JSON.stringify(activeGames)
     );
-    socket.emit('friends', await getFriends(socket));
+    const friends = await getFriends(socket);
+    socket.emit('friends', friends);
 
-    socket.emit('friend_requests', await getFriendRequests(socket));
+    const friendRequests = await getFriendRequests(socket);
+    socket.emit('friend_requests', friendRequests);
 
     socket.emit('active_games', activeGames);
 

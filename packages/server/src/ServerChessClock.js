@@ -103,6 +103,7 @@ ServerChessClock.prototype.startTimer = function (colour) {
     }, 1000);
 
     this.ChessClockAPI.once("stop", () => {
+        console.log('STOP CLOCK   ___')
         clearInterval(timer);
     });
     this.ChessClockAPI.once("toggle", (cb) => {

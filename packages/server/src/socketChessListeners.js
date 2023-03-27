@@ -26,7 +26,7 @@ let localio;
 
 
 module.exports.initializeChessListeners = (io) => {
-    io.on('connection', client => {
+        io.on('connection', client => {
         localio = io;
         client.on('get_game_data', (roomId, cb) => {
             if (!currentGames.hasOwnProperty(roomId)) {
@@ -113,12 +113,12 @@ module.exports.initializeChessListeners = (io) => {
                 currentGames[roomId] = {chessClock, client, opponent};
 
 
-                const clientMoveListener = () => newMove(chessInstance, roomId, client, chessClock);
-                const opponentMoveListener = () => newMove(chessInstance, roomId, opponent, chessClock);
+                const clientMoveListener = newMove(chessInstance, roomId, client, chessClock);
+                const opponentMoveListener = newMove(chessInstance, roomId, opponent, chessClock);
 
 
-                const clientResignListener = () => resign(chessClock, roomId);
-                const opponentResignListener = () => resign(chessClock, roomId);
+                const clientResignListener = (color) => resign(chessClock, roomId, color);
+                const opponentResignListener = (color) => resign(chessClock, roomId, color);
 
                 setListeners(client, roomId, clientMoveListener, clientResignListener);
                 setListeners(opponent, roomId, opponentMoveListener, opponentResignListener);
@@ -149,7 +149,6 @@ module.exports.initializeChessListeners = (io) => {
                 opponent.emit('joinedGame', opponent.userName, client.userName, roomId, !playerIsWhite);
             } else {
                 queue.get(time.string).push(client);
-                console.log("Erster Spieler: " + client.userName);
                 setListeners(client, null, null, null, leaveQueueListener);
 
             }
@@ -160,6 +159,7 @@ function setListeners(socket, roomId = null, moveListener = null, resignListener
     if (roomId && moveListener && resignListener) {
         socket.on('resign', resignListener);
         socket.on('newMove', moveListener);
+        console.log(socket._events)
     }
 
     if (leaveQueueListener) {
@@ -194,13 +194,12 @@ function setListeners(socket, roomId = null, moveListener = null, resignListener
             });
         }
     }
-    console.log(roomId, socket._events);
 }
 
 
 
-function resign(chessClock, roomId) {
-    localio.to(roomId).emit('resigned');
+function resign(chessClock, roomId, color) {
+    localio.to(roomId).emit('resigned', color);
     localio.to(roomId).emit('Stop_Clocks');
     chessClock.ChessClockAPI.emit('stop');
     endGame(roomId);
@@ -210,17 +209,15 @@ function resign(chessClock, roomId) {
 function endGame(roomId) {
     const {client, opponent} = currentGames[roomId];
 
-    console.log("client Listeners", client._events);
-    console.log("opponent Listeners" , opponent._events);
 
     removeGameListeners(client, roomId);
     removeGameListeners(opponent, roomId);
 
-    console.log("client Listeners", client._events);
-    console.log("opponent Listeners" , opponent._events);
+    console.log("ALLLE LISTENER GELÖSCHT?")
+    console.log(listeners);
+    console.log(client._events)
+    console.log(opponent._events);
 
-    client.leave(roomId);
-    opponent.leave(roomId);
     delete currentGames[roomId];
 }
 
@@ -243,6 +240,7 @@ function removeGameListeners(socket, roomId) {
                 }
             }
         }
+        console.log("REMOVE GAME LISTENERS", socket._events);
 }
 
 
@@ -251,6 +249,7 @@ function isGuest(username) {
 }
 
 const newMove = (chessInstance, roomId, client, chessClock) => (move, cb) => {
+    console.log(move);
     let current = chessInstance.mainVariation().nodes()[chessInstance.mainVariation().nodes().length - 1];
     if (!current) {
         current = chessInstance.mainVariation();

@@ -10,6 +10,10 @@ const {addFriend} = require("../controllers/socketController.js");
 
 const initializeListeners = (io) => {
     io.on('connection', client => {
+        client.on('leaveRoom', (roomId) => {
+            client.leave(roomId);
+            console.log('CLIENT LEAVE ROOM');
+        });
         client.on('disconnect', () => {
             if (client.user) {
                 onDisconnect(client);

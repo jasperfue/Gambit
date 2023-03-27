@@ -136,6 +136,16 @@ const ChessGame = () => {
     }, [initialized]);
 
     useEffect(() => {
+        // Diese Funktion wird aufgerufen, wenn die Komponente unmountet wird
+        return () => {
+            if (socket) {
+                socket.emit('leaveRoom', roomId);
+                console.log("LEAVE ROOM");
+            }
+        };
+    }, [socket, roomId]);
+
+    useEffect(() => {
         if(ground) {
             ground.set({
                 movable: {
@@ -267,6 +277,7 @@ const ChessGame = () => {
                 return;
             }
             var move = chess.move({from: orig, to: dest});
+            console.log('newMove');
             socket.emit('newMove', move, ({done, errMsg}) => {
                 console.log(done);
                 if(!done) {
