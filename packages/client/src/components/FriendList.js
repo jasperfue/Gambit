@@ -5,19 +5,13 @@ import FriendRequest from "./FriendRequest.js";
 import AddFriendModal from "./AddFriendModal.js";
 import { VStack, Text } from '@chakra-ui/react';
 
-const FriendList = () => {
+const FriendList = (props) => {
     const [friends, setFriends] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
 
     useEffect(() => {
-        socket.emit('get_friends', ({friendList}) => {
-                setFriends(friendList);
-        });
         socket.on('friends', (friendList) => {
             setFriends(friendList);
-        });
-        socket.emit('get_friend_requests', ({requests}) => {
-            setFriendRequests(requests);
         });
         socket.on('friend_requests', (requests) => {
             setFriendRequests(requests);
@@ -48,6 +42,18 @@ const FriendList = () => {
             socket.off('friends');
         }
     }, []);
+
+    useEffect(() => {
+        console.log('EMIT GET_FRIENDS')
+        socket.emit('get_friends', ({friendList}) => {
+            console.log(friendList);
+            setFriends(friendList);
+        });
+
+        socket.emit('get_friend_requests', ({requests}) => {
+            setFriendRequests(requests);
+        });
+    }, [props.refreshKey])
 
     useEffect(() => {
 

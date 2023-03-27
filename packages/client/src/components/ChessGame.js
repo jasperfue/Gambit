@@ -35,6 +35,7 @@ const ChessGame = () => {
     const bg = useColorModeValue("white", "purple.500");
     const toast = useToast()
     const button = useColorModeValue("start-game-light", "start-game-dark");
+    const [isGuestGame, setIsGuestGame] = useState(null);
 
 
     window.history.replaceState({}, document.title)
@@ -65,6 +66,7 @@ const ChessGame = () => {
                     setRemainingTimeWhite(data.currentTimes.remainingTimeWhite);
                     setRemainingTimeBlack(data.currentTimes.remainingTimeBlack);
                 }
+                setIsGuestGame(false);
                 setInitialized(true);
             } else {
                 if (location.state) {
@@ -100,6 +102,7 @@ const ChessGame = () => {
                     }
                     setStartingTimeBlack(startingTime);
                     setStartingTimeWhite(startingTime);
+                    setIsGuestGame(true);
                     setInitialized(true);
                 } else {
                     console.log(errMsg)
@@ -355,6 +358,17 @@ const ChessGame = () => {
         });
     }
 
+    const shareUrl = () => {
+        navigator.share({
+            title: 'GAMBIT Chess Game',
+            url: window.location.href,
+        }).then(() => {
+            console.log('Erfolgreich geteilt');
+        }).catch(err => {
+            console.error(err);
+        });
+    }
+
 
     return (
         <>
@@ -381,6 +395,11 @@ const ChessGame = () => {
                             >
                                 <div id={roomId} style={{ width: '75VH', height: '75VH' }} />
                                 <div style={{ margin: '10VH' }}>
+                                    {navigator.share && !isGuestGame ?
+                                        <Button variant={button} onClick={shareUrl}>Share</Button>
+                                    :
+                                    <> </>
+                                    }
                                     {orientation === 'white' ? (
                                         <>
                                             <Heading as="h2" size="lg" marginBottom="2">

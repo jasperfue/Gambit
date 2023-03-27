@@ -283,7 +283,8 @@ const parseFriendList = async(friendList) => {
     for(let friend of friendList) {
         const parsedFriend = friend.split('.');
         const friendConnected = await redisClient.hget(`userid:${parsedFriend[0]}`, "connected");
-        newFriendList.push({username: parsedFriend[0], userid: parsedFriend[1], connected: friendConnected});
+        const activeGames = await redisClient.hget(`userid:${parsedFriend[0]}`, "activeGames");
+        newFriendList.push({username: parsedFriend[0], userid: parsedFriend[1], connected: friendConnected, activeGames: activeGames});
     }
     return newFriendList;
 }

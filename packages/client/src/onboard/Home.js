@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {AccountContext} from "../AccountContext.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import socket from "../Socket.js";
 import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
 import FriendList from "../components/FriendList.js";
@@ -13,6 +13,18 @@ const Home = () => {
     const [logOutError, setLogOutError] = useState('');
     const equity = useColorModeValue("white", "purple.500");
     const button = useColorModeValue("start-game-light", "start-game-dark");
+    const location = useLocation();
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const refreshData = () => {
+        setRefreshKey((prevKey) => prevKey + 1);
+    };
+
+
+
+    useEffect(() => {
+        refreshData();
+    }, [location.pathname]);
 
     useEffect(() => {
         console.log(user.loggedIn)
@@ -95,9 +107,9 @@ const Home = () => {
                 <>
                     <Box backgroundColor={equity} borderRadius="md" marginLeft={3} p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
                         <Text marginBottom={1} fontSize="1.2rem"> Active Games: </Text>
-                        <ActiveGames/>
+                        <ActiveGames refreshKey={refreshKey}/>
                         <Text marginTop={5} fontSize="1.2rem"> Friends: </Text>
-                            <FriendList/>
+                            <FriendList refreshKey={refreshKey}/>
                     </Box>
                 </>
                 :

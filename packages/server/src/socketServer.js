@@ -27,16 +27,20 @@ const initializeListeners = (io) => {
                 cb({done: true});
             })
         });
-        client.on('get_friend_List', async (cb) => {
-            cb(await getFriends(client));
+        client.on('get_friends', async (cb) => {
+            const friends = await getFriends(client);
+            console.log(friends);
+            cb({friendList: friends});
         });
 
         client.on('get_friend_requests', async (cb) => {
-            cb({requests: await getFriendRequests(client)});
+            const friendRequests = await getFriendRequests(client);
+            cb({requests: friendRequests});
         });
 
         client.on('get_active_Games', async (cb) =>{
-            cb({activeGames: await getActiveGames(client)});
+            const activeGames = await getActiveGames(client);
+            cb({activeGames: activeGames});
         });
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
         client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));
