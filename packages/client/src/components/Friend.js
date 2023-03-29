@@ -9,8 +9,10 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Icon
 } from '@chakra-ui/react';
 import { useNavigate } from "react-router";
+import { GiChessQueen } from "react-icons/gi";
 import {ViewIcon} from "@chakra-ui/icons";
 
 const Friend = (props) => {
@@ -34,7 +36,7 @@ const Friend = (props) => {
                 height="20px"
             />
             <Text>{props.friend.username}</Text>
-            {activeGames && activeGames.length > 0 && (
+            {activeGames && Object.keys(activeGames).length > 0 && (
                 <Box>
                 <Menu>
                     <MenuButton
@@ -48,14 +50,23 @@ const Friend = (props) => {
                         }}
                     />
                     <MenuList backgroundColor={menuList} p={1} borderRadius="md">
-                        {/* Map through the activeGames list and create menu items */}
-                        {activeGames.map((game, index) => (
-                            <MenuItem key={index} onClick={() => handleGameClick(game)} backgroundColor={menuList}
-                            _hover={{
-
-                                backgroundColor: hover
-                            }}>
-                                {game}
+                        {/* Map through the activeGames object and create menu items */}
+                        {Object.keys(activeGames).map((gameId, index) => (
+                            <MenuItem
+                                key={index}
+                                onClick={() => handleGameClick(gameId)}
+                                backgroundColor={menuList}
+                                _hover={{
+                                    backgroundColor: hover,
+                                }}
+                            >
+                                <Box display="flex" alignItems="center">
+                                    <Icon as={GiChessQueen} color="white" />
+                                    <Text mx={1}>{activeGames[gameId].whitePlayer}</Text>
+                                    <Text>vs.</Text>
+                                    <Text mx={1}>{activeGames[gameId].blackPlayer}</Text>
+                                    <Icon as={GiChessQueen} color="black" />
+                                </Box>
                             </MenuItem>
                         ))}
                     </MenuList>

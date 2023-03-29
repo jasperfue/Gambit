@@ -33,12 +33,7 @@ const initializeUser = async socket => {
     const friendRequests = await getFriendRequests(socket);
     socket.emit('friend_requests', friendRequests);
 
-    const gameData = {};
-    for(const game of activeGames) {
-        gameData[game] = await getGame(game);
-        delete gameData[game].pgn;
-    }
-
+   const gameData = await getActiveGamesData(socket.user.username);
     socket.emit('active_games', gameData);
 
 };
@@ -108,6 +103,22 @@ const getActiveGames = async (username) => {
 }
 
 module.exports.getActiveGames = getActiveGames;
+
+const getActiveGamesData = async (username) => {
+    const activeGames = await getActiveGames(username);
+    if (activeGames.length > 0) {
+        const gameData = {};
+        for (const game of activeGames) {
+            gameData[game] = await getGame(game);
+            delete gameData[game].pgn;
+        }
+        return gameData;
+    } else {
+        return {};
+    }
+}
+
+module.exports.getActiveGamesData = getActiveGamesData;
 
 const addActiveGame = async (socket, gameId) => {
     // Hole das aktuelle Array von aktiven Spielen
@@ -291,7 +302,7 @@ const parseFriendList = async(friendList) => {
     for(let friend of friendList) {
         const parsedFriend = friend.split('.');
         const friendConnected = await redisClient.hget(`userid:${parsedFriend[0]}`, "connected");
-        const activeGames = await getActiveGames(parsedFriend[0]);
+        const activeGames = await getActiveGamesData(parsedFriend[0]);
         newFriendList.push({username: parsedFriend[0], userid: parsedFriend[1], connected: friendConnected, activeGames: activeGames});
     }
     return newFriendList;
