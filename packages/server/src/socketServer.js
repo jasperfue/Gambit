@@ -29,7 +29,6 @@ const initializeListeners = (io) => {
         });
         client.on('get_friends', async (cb) => {
             const friends = await getFriends(client);
-            console.log(friends);
             cb({friendList: friends});
         });
 
@@ -40,7 +39,12 @@ const initializeListeners = (io) => {
 
         client.on('get_active_Games', async (cb) =>{
             const activeGames = await getActiveGames(client.user.username);
-            cb({activeGames: activeGames});
+            const gameData = {};
+            for(const game of activeGames) {
+                gameData[game] = await getGame(game);
+                delete gameData[game].pgn;
+            }
+            cb({activeGames: gameData});
         });
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
         client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));

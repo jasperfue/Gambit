@@ -33,7 +33,13 @@ const initializeUser = async socket => {
     const friendRequests = await getFriendRequests(socket);
     socket.emit('friend_requests', friendRequests);
 
-    socket.emit('active_games', activeGames);
+    const gameData = {};
+    for(const game of activeGames) {
+        gameData[game] = await getGame(game);
+        delete gameData[game].pgn;
+    }
+
+    socket.emit('active_games', gameData);
 
 };
 
@@ -166,13 +172,14 @@ module.exports.deleteGame = async (roomId) => {
     await redisClient.del(`game:${roomId}`);
 };
 
-module.exports.getGame = async (roomId) => {
+const getGame = async (roomId) => {
     const game = await redisClient.hgetall(`game:${roomId}`);
     if (!game || Object.keys(game).length === 0) {
         return false;
     }
     return game;
 }
+module.exports.getGame = getGame;
 
 
 module.exports.newChessMove = async (pgn, roomId) => {
