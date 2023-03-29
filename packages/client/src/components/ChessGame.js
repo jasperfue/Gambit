@@ -293,7 +293,7 @@ const ChessGame = () => {
         }
     }, [ground, initialized]);
 
-    function onMove() {
+    const onMove = useCallback(() => {
         return (orig, dest) => {
             if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type === 'p') { //Promotion
                 setSelectVisible(true);
@@ -320,41 +320,49 @@ const ChessGame = () => {
             }
             refreshBoard(ground, chess);
         };
-    }
+    }, [chess, socket, roomId, ground, orientation]);
 
-    function promotion(toPiece) {
-        var move = chess.move({from: promotionMove[0], to: promotionMove[1], promotion: toPiece});
-        ground.state.pieces.set(promotionMove[1], {
-            role: charPieceToString(toPiece),
-            color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
-            promoted: true
-        });
-        socket.emit('newMove', move, ({done, errMsg}) => {
-            if(done) {
-                console.log('promotion successful');
-            } else {
-                console.log(errMsg);
-            }
 
-        });
-        setPromotionMove([]);
-        setSelectVisible(false);
-        refreshBoard(ground, chess);
-    }
+    const promotion = useCallback(
+        (toPiece) => {
+            var move = chess.move({from: promotionMove[0], to: promotionMove[1], promotion: toPiece});
+            ground.state.pieces.set(promotionMove[1], {
+                role: charPieceToString(toPiece),
+                color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
+                promoted: true
+            });
+            socket.emit('newMove', move, ({done, errMsg}) => {
+                if(done) {
+                    console.log('promotion successful');
+                } else {
+                    console.log(errMsg);
+                }
 
-    function onOpponentPromotion(move) {
-        chess.move({from: move.from, to: move.to, promotion: move.promotion})
-        ground.move(move.from, move.to);
-        ground.state.pieces.set(move.to.toString(), {
-            role: charPieceToString(move.promotion),
-            color: parseInt(move.to.split('')[1]) === 8 ? 'white' : 'black',
-            promoted: true
-        });
-        refreshBoard(ground, chess);
-        ground.playPremove();
-    }
+            });
+            setPromotionMove([]);
+            setSelectVisible(false);
+            refreshBoard(ground, chess);
+        },
+        [socket, roomId, chess, ground, promotionMove]
+    );
 
-    const resign = () => {
+    const onOpponentPromotion = useCallback(
+        (move) => {
+            chess.move({from: move.from, to: move.to, promotion: move.promotion});
+            ground.move(move.from, move.to);
+            ground.state.pieces.set(move.to.toString(), {
+                role: charPieceToString(move.promotion),
+                color: parseInt(move.to.split('')[1]) === 8 ? 'white' : 'black',
+                promoted: true
+            });
+            refreshBoard(ground, chess);
+            ground.playPremove();
+        },
+        [chess, ground]
+        );
+
+
+    const resign = useCallback(() => {
         socket.emit('resign', orientation, roomId);
         ground.set({viewOnly: true});
         toast({
@@ -363,9 +371,9 @@ const ChessGame = () => {
             position: "error",
             isClosable: true
         });
-    }
+    }, [orientation, roomId, socket, ground, toast]);
 
-    const shareUrl = () => {
+    const shareUrl = useCallback(() => {
         navigator.share({
             title: 'GAMBIT Chess Game',
             url: window.location.href,
@@ -374,7 +382,7 @@ const ChessGame = () => {
         }).catch(err => {
             console.error(err);
         });
-    }
+    }, []);
 
 
     return (

@@ -42,8 +42,7 @@ const ActiveGames = (props) => {
                             key={index}
                             onClick={() => handleButtonClick(gameId)}
                             marginBottom={2}
-                            variant="solid"
-                            colorScheme="teal"
+                            variant={primaryButton}
                         >
                             <Box display="flex" alignItems="center">
                                 <Icon as={GiChessQueen} color="white" />
