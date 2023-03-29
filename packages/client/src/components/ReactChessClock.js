@@ -19,7 +19,6 @@ const ReactChessClock = (props) => {
     const bgStartingTimer = useColorModeValue("purple.200", "purple.200");
 
     const decrease = (setFunction) => {
-        console.log("HAllo");
         setFunction(seconds => {
             if (seconds === 0) {
                 setCurrentTurn('off');
