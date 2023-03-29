@@ -65,7 +65,7 @@ const Home = () => {
 
 
     const cancelGame = () => {
-        socket.emit('leave_queue');
+        socket.emit('leave_queue', time);
         setTime(null);
     }
 

@@ -197,6 +197,7 @@ const ChessGame = () => {
             });
 
             socket.on('Time_Over', (color) => {
+                console.log(`TIME OVER ${roomId}`);
                 ground.set({viewOnly: true});
                 if(color === orientation) {
                     toast({
@@ -300,9 +301,15 @@ const ChessGame = () => {
                 setPromotionMove([orig, dest]);
                 return;
             }
+            let player;
+            if(orientation === 'white') {
+                player = whitePlayer;
+            } else {
+                player = blackPlayer;
+            }
             var move = chess.move({from: orig, to: dest});
             console.log('newMove');
-            socket.emit('newMove', move, ({done, errMsg}) => {
+            socket.emit('newMove',roomId, player, move, ({done, errMsg}) => {
                 console.log(done);
                 if(!done) {
                     console.log(errMsg);
