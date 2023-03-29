@@ -17,10 +17,7 @@ module.exports.authorizeUser = (socket, next) => {
 const initializeUser = async socket => {
     socket.user = { ...socket.request.session.user };
     socket.join(socket.user.userid);
-    let activeGames = await getActiveGames(socket);
-    if(activeGames === null) {
-        activeGames = [];
-    }
+    let activeGames = await getActiveGames(socket.user.username);
     await redisClient.hset(
         `userid:${socket.user.username}`,
         "userid",
@@ -80,6 +77,7 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
         return false;
     }
     const friend = await redisClient.hgetall(`userid:${requestName}`);
+    friend.activeGames = JSON.parse(friend.activeGames);
     if(!Object.keys(friend).length) {
         cb({done:false, errorMsg: "User doesn't exist"});
         return false;
@@ -94,8 +92,8 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
 
 
 
-const getActiveGames = async (socket) => {
-    const activeGamesJson = await redisClient.hget(`userid:${socket.user.username}`, "activeGames");
+const getActiveGames = async (username) => {
+    const activeGamesJson = await redisClient.hget(`userid:${username}`, "activeGames");
     if (activeGamesJson) {
         return JSON.parse(activeGamesJson);
     } else {
@@ -107,7 +105,7 @@ module.exports.getActiveGames = getActiveGames;
 
 const addActiveGame = async (socket, gameId) => {
     // Hole das aktuelle Array von aktiven Spielen
-    const activeGames = await getActiveGames(socket);
+    const activeGames = await getActiveGames(socket.user.username);
     // Füge das neue Spiel zum Array hinzu
     activeGames.push(gameId);
     // Speichere das aktualisierte Array zurück in den Redis-Hash
@@ -230,7 +228,7 @@ module.exports.addFriend = async (socket, friendName, cb) => {
             connected: friend.connected,
             activeGames: friend.activeGames
         };
-        const activeGames = await getActiveGames(socket)
+        const activeGames = await getActiveGames(socket.user.username);
         const oldFriend= {
             username: socket.user.username,
             userid: socket.user.userid,
@@ -286,7 +284,7 @@ const parseFriendList = async(friendList) => {
     for(let friend of friendList) {
         const parsedFriend = friend.split('.');
         const friendConnected = await redisClient.hget(`userid:${parsedFriend[0]}`, "connected");
-        const activeGames = await redisClient.hget(`userid:${parsedFriend[0]}`, "activeGames");
+        const activeGames = await getActiveGames(parsedFriend[0]);
         newFriendList.push({username: parsedFriend[0], userid: parsedFriend[1], connected: friendConnected, activeGames: activeGames});
     }
     return newFriendList;

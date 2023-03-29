@@ -17,7 +17,7 @@ const Friend = (props) => {
     const green = useColorModeValue('green.500', 'green.400');
     const red = useColorModeValue('red.500', 'red.400');
     const navigate = useNavigate();
-    const [activeGames, setActiveGames] = useState(JSON.parse(props.friend.activeGames));
+    const [activeGames, setActiveGames] = useState(props.friend.activeGames);
     const menuList = useColorModeValue("white", "purple.900");
     const hover = useColorModeValue("gray.200", "purple.600");
 

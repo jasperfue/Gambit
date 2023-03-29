@@ -67,7 +67,7 @@ const Navbar = () => {
             top={0}
         >
             <Box onClick={homePage} cursor="pointer">
-                <Image src={colorMode === "light" ? "/GAMBIT_LIGHT.png" : "/GAMBIT_DARK.png"} alt="Gambit Logo" height="60px" marginTop="-20px" marginBottom="-20px"/>
+                <Image src={colorMode === "light" ? "/Gambit light.png" : "/Gambit dark.png"} alt="Gambit Logo" height="100px" marginTop="-50px" marginBottom="-50px"/>
             </Box>
             <Spacer />
             <Box>

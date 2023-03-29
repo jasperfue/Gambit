@@ -118,8 +118,8 @@ module.exports.initializeChessListeners = (io) => {
                 const opponentMoveListener = newMove(chessInstance, roomId, opponent, chessClock);
 
 
-                const clientResignListener = (color, roomId) => resign(chessClock, roomId, color);
-                const opponentResignListener = (color, roomId) => resign(chessClock, roomId, color);
+                const clientResignListener = (color, gameId) => resign(chessClock, gameId, color);
+                const opponentResignListener = (color, gameId) => resign(chessClock, gameId, color);
 
                 setListeners(client, roomId, clientMoveListener, clientResignListener);
                 setListeners(opponent, roomId, opponentMoveListener, opponentResignListener);
@@ -200,6 +200,7 @@ function setListeners(socket, roomId = null, moveListener = null, resignListener
 
 
 function resign(chessClock, roomId, color) {
+    console.log(roomId, color);
     localio.to(roomId).emit('resigned', color);
     localio.to(roomId).emit('Stop_Clocks');
     chessClock.ChessClockAPI.emit('stop');
