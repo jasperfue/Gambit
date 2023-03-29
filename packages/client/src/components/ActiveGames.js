@@ -21,10 +21,9 @@ const ActiveGames = (props) => {
 
     useEffect(() => {
         socket.emit('get_active_Games', ({activeGames}) => {
-            console.log("get_active_Games" , activeGames)
             setActiveGames(activeGames);
         });
-    }, [props.refreshKey])
+    }, [props.refreshKey]);
 
 
     const handleButtonClick = (gameId) => {

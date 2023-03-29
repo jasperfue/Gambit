@@ -39,7 +39,7 @@ const initializeListeners = (io) => {
         });
 
         client.on('get_active_Games', async (cb) =>{
-            const activeGames = await getActiveGames(client);
+            const activeGames = await getActiveGames(client.user.username);
             cb({activeGames: activeGames});
         });
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));

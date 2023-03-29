@@ -44,9 +44,7 @@ const FriendList = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log('EMIT GET_FRIENDS')
         socket.emit('get_friends', ({friendList}) => {
-            console.log(friendList);
             setFriends(friendList);
         });
 
