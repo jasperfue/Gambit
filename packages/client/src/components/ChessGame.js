@@ -8,7 +8,7 @@ import {Chess} from 'chess.js';
 import ReactChessClock from "./ReactChessClock.js";
 import {AccountContext} from "../AccountContext.js";
 import socket from "../Socket.js";
-import {useLocation, useParams} from "react-router-dom";
+import {useFetcher, useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
 
@@ -103,6 +103,7 @@ const ChessGame = () => {
                     setStartingTimeBlack(startingTime);
                     setStartingTimeWhite(startingTime);
                     setIsGuestGame(true);
+                    console.log("IS GUEST GAME TRUE");
                     setInitialized(true);
                 } else {
                     console.log(errMsg)
@@ -291,7 +292,7 @@ const ChessGame = () => {
             socket.off('Cancel_Game');
             socket.off('resigned');
         }
-    }, [ground, initialized]);
+    }, [ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
 
     const onMove = useCallback(() => {
         return (orig, dest) => {
@@ -364,7 +365,9 @@ const ChessGame = () => {
 
     const resign = useCallback(() => {
         socket.emit('resign', orientation, roomId);
-        ground.set({viewOnly: true});
+        if (ground) {
+            ground.set({ viewOnly: true });
+        }
         toast({
             title: "Resigned",
             status: "error",
@@ -410,11 +413,6 @@ const ChessGame = () => {
                             >
                                 <div id={roomId} style={{ width: '75VH', height: '75VH' }} />
                                 <div style={{ margin: '10VH' }}>
-                                    {navigator.share && !isGuestGame ?
-                                        <Button variant={button} onClick={shareUrl}>Share</Button>
-                                    :
-                                    <> </>
-                                    }
                                     {orientation === 'white' ? (
                                         <>
                                             <Heading as="h2" size="lg" marginBottom="2">
@@ -451,11 +449,23 @@ const ChessGame = () => {
                                             </Heading>
                                         </>
                                     )}
-                                    {spectator === false ?
-                                        <Button variant={button} marginTop={4} onClick={() => resign()}>Resign</Button>
+                                    {!spectator || (navigator.share && !isGuestGame) ?
+                                        <Box display="flex" justifyContent="space-between" marginTop={4}>
+                                            {!spectator && (
+                                                <Button variant={button} onClick={resign}>
+                                                    Resign
+                                                </Button>
+                                            )}
+                                            {navigator.share && !isGuestGame && (
+                                                <Button variant={button} onClick={shareUrl}>
+                                                    Share
+                                                </Button>
+                                            )}
+                                        </Box>
                                         :
                                         <> </>
                                     }
+
                                 </div>
                             </div>
                             <PromotionModal

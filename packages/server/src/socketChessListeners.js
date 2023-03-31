@@ -18,7 +18,10 @@ waitingPlayers.set('10 + 5', []);
 waitingPlayers.set('15 + 10', []);
 waitingPlayers.set('30 + 0', []);
 waitingPlayers.set('30 + 20', []);
-const waitingGuests = new Map([...waitingPlayers]);
+const waitingGuests = new Map();
+for (const [key, value] of waitingPlayers) {
+    waitingGuests.set(key, [...value]);
+}
 const currentGames = {};
 console.log('initialized Current Games');
 
@@ -208,9 +211,11 @@ const leaveQueue = (client) => (time) => {
     } else {
         queue = waitingPlayers.get(time.string);
     }
-    if (queue.includes(client)) {
-        queue.splice(queue.indexOf(client), 1);
+    const clientIndex = queue.findIndex(c => c.id === client.id);
+    if (clientIndex !== -1) {
+        queue.splice(clientIndex, 1);
     } else {
         return;
     }
+
 }
