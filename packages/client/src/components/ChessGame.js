@@ -412,7 +412,7 @@ const ChessGame = () => {
                                 }}
                             >
                                 <div id={roomId} style={{ width: '75VH', height: '75VH' }} />
-                                <div style={{ margin: '10VH' }}>
+                                <VStack justifyContent="center" alignItems="center" m={10} spacing={4} >
                                     {orientation === 'white' ? (
                                         <>
                                             <Heading as="h2" size="lg" marginBottom="2">
@@ -450,9 +450,9 @@ const ChessGame = () => {
                                         </>
                                     )}
                                     {!spectator || (navigator.share && !isGuestGame) ?
-                                        <Box display="flex" justifyContent="space-between" marginTop={4}>
+                                        <Box display="flex" justifyContent="center" marginTop={4}>
                                             {!spectator && (
-                                                <Button variant={button} onClick={resign}>
+                                                <Button variant={button} onClick={resign} marginRight={2}>
                                                     Resign
                                                 </Button>
                                             )}
@@ -466,7 +466,7 @@ const ChessGame = () => {
                                         <> </>
                                     }
 
-                                </div>
+                                </VStack>
                             </div>
                             <PromotionModal
                                 isVisible={selectVisible}
