@@ -78,11 +78,11 @@ const friendRequestIsValid = async (socket, requestName, cb) => {
         return false;
     }
     const friend = await redisClient.hgetall(`userid:${requestName}`);
-    friend.activeGames = JSON.parse(friend.activeGames);
     if(!Object.keys(friend).length) {
         cb({done:false, errorMsg: "User doesn't exist"});
         return false;
     }
+    friend.activeGames = JSON.parse(friend.activeGames);
     const currentFriendList = await redisClient.lrange(`friends:${socket.user.username}`, 0, -1);
     if(!!Object.keys(currentFriendList).length && currentFriendList.indexOf([requestName, friend.userid].join('.')) !== -1) {
         cb({done:false, errorMsg: "You are already friends with that user"});
