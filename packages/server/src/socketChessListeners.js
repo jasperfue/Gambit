@@ -63,77 +63,81 @@ module.exports.initializeChessListeners = (io) => {
                     }
                 )
         });
-        client.on('find_game', (user, time) => {
+        client.on('find_game', async (user, time) => {
             let queue;
             if (user.loggedIn) {
                 queue = waitingPlayers;
-                client.userName = user.username;
             } else {
                 queue = waitingGuests;
-                client.userName = `guest-${UUIDv4().slice(0, 8)}`;
+                client.user = {username:`guest-${UUIDv4().slice(0, 8)}`};
             }
-
             if (queue.get(time.string).length > 0) {
-                let whitePlayer;
-                let blackPlayer;
-
                 var opponent = queue.get(time.string).shift();
+                const gameData = await createChessGame(io, client, opponent, time);
 
-                console.log("Zweiter Spieler: " + client.userName);
-                const chessInstance = new Game();
-                var roomId = UUIDv4();
-                client.join(roomId);
-                opponent.join(roomId);
-
-                const playerIsWhite = Math.random() < 0.5;
-                if (playerIsWhite) {
-                    whitePlayer = client;
-                    blackPlayer = opponent;
-                } else {
-                    blackPlayer = client;
-                    whitePlayer = opponent;
-                }
-
-
-                chessInstance.playerName('w', whitePlayer.userName);
-                chessInstance.playerName('b', blackPlayer.userName);
-                chessInstance.date(new DateValue(new Date()));
-                if (!isGuest(client.userName)) {
-                    initializeGame(roomId, whitePlayer, blackPlayer, time, pgnWrite(chessInstance, {withPlyCount: true}));
-                }
-                const chessClock = new ServerChessClock(time);
-                currentGames[roomId] = {chessClock, chessInstance,  whitePlayer, blackPlayer};
-
-
-                chessClock.startStartingTimer('white');
-
-                chessClock.ChessClockAPI.on('Cancel Game', () => {
-                    io.to(roomId).emit('Cancel_Game');
-                    io.to(roomId).emit('Stop_Clocks');
-                    endGame(roomId)
-                });
-
-
-                chessClock.ChessClockAPI.on('Time_Over_White', () => {
-                    io.to(roomId).emit('Time_Over', 'white');
-                    io.to(roomId).emit('Stop_Clocks');
-                    endGame(roomId);
-                });
-
-                chessClock.ChessClockAPI.on('Time_Over_Black', () => {
-                    io.to(roomId).emit('Time_Over', 'black');
-                    io.to(roomId).emit('Stop_Clocks');
-                    endGame(roomId);
-                });
-
-                client.emit('joinedGame', client.userName, opponent.userName, roomId, playerIsWhite);
-                opponent.emit('joinedGame', opponent.userName, client.userName, roomId, !playerIsWhite);
+                client.emit('joinedGame', client.user.username, opponent.user.username, gameData.roomId, gameData.playerIsWhite);
+                opponent.emit('joinedGame', opponent.user.username, client.user.username, gameData.roomId, !gameData.playerIsWhite);
             } else {
                 queue.get(time.string).push(client);
             }
         });
     });
 }
+
+
+const createChessGame = async (io, socket1, socket2, time) => {
+    let whitePlayer;
+    let blackPlayer;
+    const chessInstance = new Game();
+    var roomId = UUIDv4();
+    socket1.join(roomId);
+    socket2.join(roomId);
+
+    const playerIsWhite = Math.random() < 0.5;
+    if (playerIsWhite) {
+        whitePlayer = socket1;
+        blackPlayer = socket2;
+    } else {
+        blackPlayer = socket1;
+        whitePlayer = socket2;
+    }
+
+
+    chessInstance.playerName('w', whitePlayer.user.username);
+    chessInstance.playerName('b', blackPlayer.user.username);
+    chessInstance.date(new DateValue(new Date()));
+    if (!isGuest(socket1.user.username)) {
+        await initializeGame(roomId, whitePlayer, blackPlayer, time, pgnWrite(chessInstance, {withPlyCount: true}));
+    }
+    const chessClock = new ServerChessClock(time);
+    currentGames[roomId] = {chessClock, chessInstance,  whitePlayer, blackPlayer};
+
+
+    chessClock.startStartingTimer('white');
+
+    chessClock.ChessClockAPI.on('Cancel Game', () => {
+        io.to(roomId).emit('Cancel_Game');
+        io.to(roomId).emit('Stop_Clocks');
+        endGame(roomId)
+    });
+
+
+    chessClock.ChessClockAPI.on('Time_Over_White', () => {
+        io.to(roomId).emit('Time_Over', 'white');
+        io.to(roomId).emit('Stop_Clocks');
+        endGame(roomId);
+    });
+
+    chessClock.ChessClockAPI.on('Time_Over_Black', () => {
+        io.to(roomId).emit('Time_Over', 'black');
+        io.to(roomId).emit('Stop_Clocks');
+        endGame(roomId);
+    });
+    return {roomId, playerIsWhite}
+}
+
+module.exports.createChessGame = createChessGame;
+
 
 const resign = (io) => (color, roomId) => {
     if (!currentGames[roomId]) {
@@ -179,7 +183,7 @@ const newMove = (socket, io) => (roomId, player, move, cb) => {
     }
     socket.to(roomId).emit('opponentMove', move);
     if (chessInstance.finalPosition().isCheckmate()) {
-        io.to(roomId).emit('Checkmate', socket.userName);
+        io.to(roomId).emit('Checkmate', socket.user.username);
         io.to(roomId).emit('Stop_Clocks');
         chessClock.ChessClockAPI.emit('stop');
         endGame(roomId);
@@ -197,7 +201,7 @@ const newMove = (socket, io) => (roomId, player, move, cb) => {
         chessClock.startTimer('white');
         io.to(roomId).emit('stop_starting_time_black');
     }
-    if (!isGuest(socket.userName)) {
+    if (!isGuest(socket.user.username)) {
         newChessMove(pgnWrite(chessInstance), roomId).then(r => cb({done: true}));
     } else {
         cb({done: true});
@@ -206,7 +210,7 @@ const newMove = (socket, io) => (roomId, player, move, cb) => {
 
 const leaveQueue = (client) => (time) => {
     let queue;
-    if (isGuest(client.userName)) {
+    if (isGuest(client.user.username)) {
         queue = waitingGuests.get(time.string);
     } else {
         queue = waitingPlayers.get(time.string);

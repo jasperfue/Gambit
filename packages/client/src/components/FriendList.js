@@ -54,7 +54,7 @@ const FriendList = (props) => {
     }, [props.refreshKey])
 
     useEffect(() => {
-
+        console.log(friends);
     }, [friends]);
 
 
@@ -77,7 +77,7 @@ const FriendList = (props) => {
                                 }
                             })
                             .map(friend => (
-                                <Friend key={friend.username} friend={friend} />
+                                <Friend key={friend.username} friend={friend} times={props.times}/>
                             ))}
                             </>
                 }

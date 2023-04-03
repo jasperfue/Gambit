@@ -1,8 +1,7 @@
+const {createChessGame} = require("./socketChessListeners.js");
 const {getActiveGamesData} = require("../controllers/socketController.js");
-const {getActiveGames} = require("../controllers/socketController.js");
 const {getFriends} = require("../controllers/socketController.js");
 const {getFriendRequests} = require("../controllers/socketController.js");
-const {getGame} = require("../controllers/socketController.js");
 const {logout} = require("../controllers/socketController.js");
 const {declineFriend} = require("../controllers/socketController.js");
 const {requestFriend} = require("../controllers/socketController.js");
@@ -33,14 +32,42 @@ const initializeListeners = (io) => {
             cb({friendList: friends});
         });
 
+        client.on('send_game_Request', async (friend, time, callback) => {
+            const receiver = io.sockets.sockets.get(io.of('/').adapter.rooms.get(friend.userid).values().next().value)
+            client.to(friend.userid).emit('game_request', client.user.username, time);
+            client.once('cancel_game_request', (username) => {
+                if(username === receiver.user.username) {
+                    receiver.emit('cancel_game_request', client.user.username);
+                }
+            });
+            receiver.once('game_request_response', async (username, accepted, cb) => {
+                if(username === client.user.username) {
+                    if(accepted) {
+                        const {roomId} = await createChessGame(io, client, receiver, time);
+                        callback({accepted: true, roomId: roomId});
+                        cb(roomId);
+                    } else {
+                        callback({accepted: false});
+                    }
+                }
+            });
+        });
+
+
+
+
+
+
         client.on('get_friend_requests', async (cb) => {
             const friendRequests = await getFriendRequests(client);
             cb({requests: friendRequests});
         });
 
-        client.on('get_active_Games', async (cb) =>{
+        client.on('get_active_Games', async (cb) => {
+            if (client.user) {
             const activeGames = await getActiveGamesData(client.user.username);
             cb({activeGames: activeGames});
+        }
         });
         client.on('send_friend_request', (requestName, cb) => requestFriend(client, requestName, cb));
         client.on('accept_friend_request', (friend, cb) => addFriend(client, friend, cb));

@@ -33,7 +33,7 @@ const ChessGame = () => {
     const [remainingTimeBlack, setRemainingTimeBlack] = useState(null);
     const location = useLocation();
     const bg = useColorModeValue("white", "purple.500");
-    const toast = useToast()
+    const toast = useToast();
     const button = useColorModeValue("start-game-light", "start-game-dark");
     const [isGuestGame, setIsGuestGame] = useState(null);
 
@@ -43,8 +43,6 @@ const ChessGame = () => {
 
     const getGameData = useCallback(() => {
         socket.emit('get_game_data', roomId, ({ done, data, errMsg }) => {
-
-            console.log({done, data, errMsg});
             if (done) {
                 setCurrentChessClockState(data.currentState);
                 setWhitePlayer(data.whitePlayer);
@@ -70,7 +68,6 @@ const ChessGame = () => {
                 setInitialized(true);
             } else {
                 if (location.state) {
-                    console.log(location.state);
                     if (location.state.playerColourIsWhite) {
                         setWhitePlayer(location.state.client);
                         setBlackPlayer(location.state.opponent);
@@ -103,7 +100,6 @@ const ChessGame = () => {
                     setStartingTimeBlack(startingTime);
                     setStartingTimeWhite(startingTime);
                     setIsGuestGame(true);
-                    console.log("IS GUEST GAME TRUE");
                     setInitialized(true);
                 } else {
                     console.log(errMsg)
@@ -156,7 +152,6 @@ const ChessGame = () => {
         return () => {
             if (socket) {
                 socket.emit('leaveRoom', roomId);
-                console.log("LEAVE ROOM");
             }
         };
     }, [socket, roomId]);
@@ -172,7 +167,6 @@ const ChessGame = () => {
             });
             refreshBoard(ground, chess);
             socket.on('opponentMove', (move) => {
-                console.log("Nur ein mal pro Move", move);
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -185,7 +179,6 @@ const ChessGame = () => {
                 refreshBoard(ground, chess);
                 ground.playPremove();
             });
-            console.log('Listener initialisiert')
             socket.on('Cancel_Game', () => {
                 ground.set({viewOnly: true});
                 toast({
@@ -198,7 +191,6 @@ const ChessGame = () => {
             });
 
             socket.on('Time_Over', (color) => {
-                console.log(`TIME OVER ${roomId}`);
                 ground.set({viewOnly: true});
                 if(color === orientation) {
                     toast({
@@ -221,7 +213,6 @@ const ChessGame = () => {
 
             socket.on('Checkmate', (winner) => {
                 ground.set({viewOnly: true});
-                console.log("Winner: " + winner);
                 if(orientation === 'white') {
                     if(winner === whitePlayer) {
                         toast({
@@ -298,7 +289,6 @@ const ChessGame = () => {
         return (orig, dest) => {
             if(((orientation === 'white' && dest.includes('8')) || (orientation === 'black' && dest.includes('1'))) && chess.get(orig).type === 'p') { //Promotion
                 setSelectVisible(true);
-                console.log("PROMOTION");
                 setPromotionMove([orig, dest]);
                 return;
             }
@@ -309,9 +299,7 @@ const ChessGame = () => {
                 player = blackPlayer;
             }
             var move = chess.move({from: orig, to: dest});
-            console.log('newMove');
             socket.emit('newMove',roomId, player, move, ({done, errMsg}) => {
-                console.log(done);
                 if(!done) {
                     console.log(errMsg);
                 }
