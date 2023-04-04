@@ -13,6 +13,13 @@ const server = require('http').createServer(app);
 const io = new Server(server, {
     transports: ['websocket'],
     cors: corsConfig,
+    cookie: {
+        name: "sid", // Beispielname
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production" ? "true" : "auto",
+        expires: 1000 * 60 * 60 * 6,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
 });
 
 
@@ -25,7 +32,7 @@ app.use(sessionMiddleware);
 app.use("/auth", authRouter);
 
 
-io.use(wrap(sessionMiddleware));
+io.engine.use(sessionMiddleware);
 io.use(authorizeUser);
 initializeListeners(io);
 initializeChessListeners(io);
@@ -33,7 +40,7 @@ io.on('connection', (socket) => {
         socket.on('login', () => {
             socket.request.session.reload(function(err) {
                 if(err) {
-                    console.log(err);
+                    console.log("RELOAD", err);
                 } else {
                     authorizeUser(socket, () => {});
                 }
