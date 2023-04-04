@@ -1,6 +1,7 @@
 const redisClient = require('../src/redis.js');
 
 module.exports.authorizeUser = (socket, next) => {
+    console.log("authorize!");
     if(!socket.request.session) {
         console.log('No session');
         next(new Error('No session'));
@@ -9,13 +10,13 @@ module.exports.authorizeUser = (socket, next) => {
         next();
     } else {
         console.log('initialized');
-        initializeUser(socket);
-        next();
+        initializeUser(socket).then(next());
     }
 }
 
 const initializeUser = async socket => {
     socket.user = { ...socket.request.session.user };
+    console.log(socket.user);
     socket.join(socket.user.userid);
     let activeGames = await getActiveGames(socket.user.username);
     await redisClient.hset(
@@ -57,6 +58,7 @@ module.exports.getFriendRequests = getFriendRequests;
 
 
 const getFriends = async (socket) => {
+    console.log("GET FRIENDS");
     const friendList = await redisClient.lrange(
         `friends:${socket.user.username}`,
         0,
