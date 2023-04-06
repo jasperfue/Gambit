@@ -11,6 +11,7 @@ import socket from "../Socket.js";
 import {useFetcher, useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
+import Chat from "./Chat.js";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -36,6 +37,7 @@ const ChessGame = () => {
     const toast = useToast();
     const button = useColorModeValue("start-game-light", "start-game-dark");
     const [isGuestGame, setIsGuestGame] = useState(null);
+    const [oldMessages, setOldMessages] = useState([]);
 
 
     window.history.replaceState({}, document.title)
@@ -44,11 +46,13 @@ const ChessGame = () => {
     const getGameData = useCallback(() => {
         socket.emit('get_game_data', roomId, ({ done, data, errMsg }) => {
             if (done) {
+                console.log(data);
                 setCurrentChessClockState(data.currentState);
                 setWhitePlayer(data.whitePlayer);
                 setBlackPlayer(data.blackPlayer);
                 setTimeMode(JSON.parse(data.time));
                 chess.loadPgn(data.pgn);
+                setOldMessages(JSON.parse(data.chat));
                 if (data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
                     setOrientation("white");
                     setSpectator(true);
@@ -380,18 +384,19 @@ const ChessGame = () => {
         <>
             <Flex
                 width="100vw"
-                alignItems="center"
+                alignItems="stretch"
                 justifyContent="center"
                 paddingTop="3vh"
+                flexDirection="row"
             >
-                <Box
-                    backgroundColor={bg}
-                    borderRadius="md"
-                    p={6}
-                    boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-                >
                     {initialized === true ? (
                         <>
+                        <Box
+                            backgroundColor={bg}
+                            borderRadius="md"
+                            p={6}
+                            boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                        >
                             <div
                                 style={{
                                     display: 'flex',
@@ -461,11 +466,39 @@ const ChessGame = () => {
                                 colour={orientation}
                                 promotion={promotion}
                             />
+
+                        </Box>
+                            <Box
+                                marginLeft={4}
+                                backgroundColor={bg}
+                                borderRadius="md"
+                                p={6}
+                                boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                                minWidth="350px"
+                                maxWidth="350px"
+                                display="flex"
+                                flexDirection="column"
+                                justifyContent="space-between"
+                            >
+                                <Chat roomId={roomId} spectator={spectator} oldMessages={oldMessages} />
+                            </Box>
                         </>
                     ) : error === '' ? (
+                        <Box
+                        backgroundColor={bg}
+                        borderRadius="md"
+                        p={6}
+                        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                    >
                         <h1> LOADING... </h1>
+                        </Box>
                     ) : (
-                        <>
+                        <Box
+                            backgroundColor={bg}
+                            borderRadius="md"
+                            p={6}
+                            boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                        >
                             <Alert status="warning" borderRadius="md">
                                 <AlertIcon />
                                 <AlertTitle>{error}</AlertTitle>
@@ -473,9 +506,8 @@ const ChessGame = () => {
                                     Note: We only support watching games of logged In Users.
                                 </AlertDescription>
                             </Alert>
-                        </>
+                        </Box>
                     )}
-                </Box>
             </Flex>
         </>
     );

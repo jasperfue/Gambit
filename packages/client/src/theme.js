@@ -15,48 +15,12 @@ const overrides = {
     }
 }
 
-/*const colors = {
-    brown: {
-        100: "#d9d0b4",
-        200: "#ccbf9a",
-        500: "#7d6b57",
-        700: "#5f5330",
-    },
-    green: {
-        200: "#879e82",
-        500: "#666b5e",
-        700: "#292b26",
-    },
-    tertiary: {
-        500: "#7d6b57",
-    },
-    quaternary: {
-        500: "#ccbf9a",
-    },
-
-};*/
 
 const config = {
     initialColorMode: "light",
     useSystemColorMode: false,
 };
 
-const button = {
-    Button: {
-        variants: {
-            'start-game': {
-                bg: {
-                    light: "gray.200",
-                    dark: "purple.600"
-                },
-                color: {
-                    light: "purple.500",
-                    dark: "white",
-                }
-            }
-        }
-    }
-}
 
 const customTheme = extendTheme({
     overrides,
@@ -65,7 +29,6 @@ const customTheme = extendTheme({
         body: `'Exo 2', sans-serif`,
     },
     components: {
-
         Button: {
             variants: {
                 'start-game-light': {

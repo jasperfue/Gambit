@@ -15,7 +15,7 @@ const ReactChessClock = (props) => {
     const [currentTurn, setCurrentTurn] = useState(props.currentState);
     const [startingTimeWhite, setStartingTimeWhite] = useState(props.startingTimeWhite);
     const [startingTimeBlack, setStartingTimeBlack] = useState(props.startingTimeBlack);
-    const bg = useColorModeValue("gray.200", "purple.900");
+    const bg = useColorModeValue("gray.200", "purple.700");
     const bgStartingTimer = useColorModeValue("purple.200", "purple.200");
 
     const decrease = (setFunction) => {
