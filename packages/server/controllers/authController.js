@@ -1,13 +1,24 @@
 const bcrypt = require("bcrypt");
 const {query} = require("../src/database.js");
 const {v4: uuidv4} = require('uuid');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const getJwt = req => req.headers["authorization"]?.split(" ")[1];
 
 module.exports.handleLogin = (req, res) => {
-    if (req.session.user && req.session.user.username) {
-        res.json({ loggedIn: true, username: req.session.user.username });
-    } else {
-        res.json({ loggedIn: false });
+    const token = getJwt(req);
+    if(!token) {
+        res.json({loggedIn: false});
+        return;
     }
+    jwt.verify(token, process.env.JWT_SECRET, (err, token) => {
+        if(err) {
+            res.json({loggedIn: false});
+            return
+        }
+        res.json({loggedIn: true, token});
+    })
 };
 
 module.exports.attemptLogin = async (req, res) => {
@@ -21,19 +32,24 @@ module.exports.attemptLogin = async (req, res) => {
             potentialLogin.rows[0].password
         );
         if (isSamePassword) {
-            req.session.user = {
+            jwt.sign(
+                {
                 username: req.body.username,
                 id: potentialLogin.rows[0].id,
                 userid: potentialLogin.rows[0].userid,
-            };
-            req.session.save(err => {
+            },
+                process.env.JWT_SECRET,
+                {expiresIn: "1min"},
+                (err,token) => {
                 if(err) {
-                    console.log('ERROR:', err);
+                    console.log(err);
+                    res.json({loggedIn: false, message: "Something went wrong, try again later"});
+                    return;
                 } else {
-                    console.log(req.session)
-                    res.json({loggedIn: true, username: req.body.username});
+                    res.json({loggedIn: true, token});
                 }
-            });
+            }
+            );
         } else {
             res.json({loggedIn: false, message: "Wrong username or password!"});
             console.log("not good");
@@ -57,12 +73,24 @@ module.exports.attemptSignUp = async (req, res) => {
         const newUserQuery = await query('INSERT INTO users(username, email, password, userid) values ($1, $2, $3, $4) RETURNING id, username, userid',
             [req.body.username, req.body.email, hashedPass, uuidv4()]
         );
-        req.session.user = {
-            username: req.body.username,
-            id: newUserQuery.rows[0].id,
-            userid: newUserQuery.rows[0].userid,
-        }
-        res.json({loggedIn: true, username: req.body.username})
+        jwt.sign(
+            {
+                username: req.body.username,
+                id: newUserQuery.rows[0].id,
+                userid: newUserQuery.rows[0].userid,
+            },
+            process.env.JWT_SECRET,
+            {expiresIn: "1min"},
+            (err,token) => {
+                if(err) {
+                    console.log(err);
+                    res.json({loggedIn: false, message: "Something went wrong, try again later"});
+                    return;
+                } else {
+                    res.json({loggedIn: true, token});
+                }
+            }
+        );
 
     } else if (existingEmail.rowCount !== 0) {
         res.json({loggedIn:false, message:"There is already an Account with that Email"});

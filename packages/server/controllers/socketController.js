@@ -1,7 +1,9 @@
 const redisClient = require('../src/redis.js');
+const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 module.exports.authorizeUser = (socket, next) => {
-    console.log("authorize!");
+   /* console.log("authorize!");
     if(!socket.request.session) {
         console.log('No session');
         next(new Error('No session'));
@@ -11,11 +13,21 @@ module.exports.authorizeUser = (socket, next) => {
     } else {
         console.log('initialized');
         initializeUser(socket).then(next());
-    }
+    }*/
+    const token = socket.handshake.auth.token;
+    console.log(token);
+    jwt.verify(token, process.env.JWT_SECRET, (err, token) => {
+        if(err) {
+            console.log("VERIFY ERROR: ", err);
+            next(new Error('No session'));
+            return;
+        }
+        socket.user = {...token};
+        next();
+    })
 }
 
 const initializeUser = async socket => {
-    socket.user = { ...socket.request.session.user };
     console.log(socket.user);
     socket.join(socket.user.userid);
     let activeGames = await getActiveGames(socket.user.username);

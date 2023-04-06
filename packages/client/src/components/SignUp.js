@@ -57,8 +57,9 @@ const SignUp = (props) => {
                 setSignUpError(data.message);
                 return;
             }
-            socket.emit('login');
             setUser({...data});
+            localStorage.setItem("token", data.token);
+            socket.emit('login');
             setSignUpError(null);
             navigate('/');
         })

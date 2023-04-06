@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const helmet = require('helmet');
 const cors = require('cors');
-const {corsConfig, sessionMiddleware, wrap} = require('./controllers/serverController.js');
+const {corsConfig} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
 const {initializeChessListeners} = require("./src/socketChessListeners.js");
@@ -28,11 +28,11 @@ app.use(
     cors(corsConfig)
 );
 app.use(express.json());
-app.use(sessionMiddleware);
+//app.use(sessionMiddleware);
 app.use("/auth", authRouter);
 
 
-io.engine.use(sessionMiddleware);
+//io.engine.use(sessionMiddleware);
 io.use(authorizeUser);
 initializeListeners(io);
 initializeChessListeners(io);
