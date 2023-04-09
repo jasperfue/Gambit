@@ -1,0 +1,124 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{lipsum}
+\usepackage{geometry}
+\usepackage{tocbibind}
+\usepackage{hyperref}
+\usepackage{array}
+
+\geometry{a4paper, left=25mm, right=25mm, top=30mm, bottom=30mm}
+
+\titleformat{\chapter}{\normalfont\huge}{\thechapter.}{20pt}{\huge\bfseries}
+\titleformat{\section}{\normalfont\Large}{\thesection}{12pt}{\Large\bfseries}
+\titleformat{\subsection}{\normalfont\large}{\thesubsection}{8pt}{\large\bfseries}
+
+\title{Webbasierte Multiplayer Schach-App}
+\author{Jasper Paul Fülle}
+\date{24. Mai 2023}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \Large
+        \textbf{Webbasierte Multiplayer Schach-App}
+        
+        \vspace{0.5cm}
+        
+        Bachelorarbeit
+        
+        \vspace{1.5cm}
+        
+        \normalsize
+        vorgelegt von\\
+        Jasper Paul Fülle\\
+        Matrikelnummer 3367654
+        
+        \vspace{1cm}
+        
+        Betreut von\\
+        Prof. Dr. Thorsten Thormälen
+        
+        \vspace{1cm}
+        
+        \begin{tabular}{>{\raggedright}p{4cm}>{\raggedleft}p{4cm}}
+        Studiengang & Wirtschaftsinformatik \\
+        \end{tabular}
+        
+        \vspace{1cm}
+        
+        \today
+        
+        \vfill
+        
+        \includegraphics[width=0.4\textwidth]{logo_uni}
+        
+        \vspace{0.5cm}
+        
+        Fakultät Wirtschaftswissenschaften\\
+        Universität XYZ
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\chapter{Einleitung}
+    \section{Motivation}
+    \section{Zielsetzung}
+    \section{Aufbau der Arbeit}
+
+\chapter{Theoretische Grundlagen}
+    \section{Schach}
+    \section{Web-Technologien}
+        \subsection{Node.js und Express}
+        \subsection{Socket.io}
+        \subsection{React}
+        \subsection{PostgreSQL}
+
+\chapter{Systemarchitektur}
+    \section{Frontend}
+        \subsection{React-Komponenten}
+        \subsection{Benutzerführung}
+        \subsection{Kommunikation mit dem Backend}
+    \section{Backend}
+        \subsection{API-Endpunkte}
+        \subsection{Datenbankstruktur}
+        \subsection{Echtzeit-Kommunikation}
+
+\chapter{Implementierung}
+    \section{Frontend-Entwicklung}
+    \section{Backend-Entwicklung}
+    \section{Datenbank-Integration}
+
+\chapter{Tests und Evaluation}
+    \section{Funktionalitätstests}
+    \section{Usability-Tests}
+    \section{Performancetests}
+    \section{Sicherheitstests}
+
+\chapter{Fazit und Ausblick}
+    \section{Zusammenfassung der Ergebnisse}
+    \section{Limitationen}
+    \section{Potenzielle Erweiterungen und Weiterentwicklung}
+
+\appendix
+\chapter{Anhang}
+    \section{Installationsanleitung}
+    \section{Quellcode}
+    \section{Abbildungsverzeichnis}
+
+\backmatter
+\listoffigures
+\listoftables
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+
+\end{document}
+
