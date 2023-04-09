@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.js';
+import App, {SocketContext} from './App.js';
 import reportWebVitals from './reportWebVitals.js';
 import { BrowserRouter } from "react-router-dom";
 import {ChakraProvider, ColorModeScript} from '@chakra-ui/react'
@@ -9,6 +9,7 @@ import '@fontsource/exo-2/400.css'
 import '@fontsource/exo-2/500.css'
 import '@fontsource/exo-2/600.css'
 import '@fontsource/exo-2/700.css'
+import UserContext from "./AccountContext.js";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -17,10 +18,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
       <BrowserRouter>
+      <UserContext>
           <ChakraProvider theme={customTheme}>
               <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
               <App/>
           </ChakraProvider>
+      </UserContext>
       </BrowserRouter>
   </React.StrictMode>
 );

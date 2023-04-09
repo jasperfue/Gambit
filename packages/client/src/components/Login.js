@@ -3,7 +3,6 @@ import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {AccountContext} from "../AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
 import {useNavigate} from 'react-router-dom';
-import socket from "../Socket.js";
 import {
     Button,
     FormControl,
@@ -21,9 +20,11 @@ import {
     useColorModeValue, useColorMode,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import {SocketContext} from "../App.js";
 
 const Login = (props) => {
     const {setUser} = useContext(AccountContext);
+    const {socket} = useContext(SocketContext);
     const [loginError, setLoginError] = useState(null);
     const [signUpError, setSignUpError] = useState(null);
     const navigate = useNavigate();
@@ -71,6 +72,7 @@ const Login = (props) => {
                 return res.json();
             })
             .then(data => {
+                console.log(data);
                 if (!data.loggedIn) {
                     setLoginError(data.message);
                     setSubmitting(false);

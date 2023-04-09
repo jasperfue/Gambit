@@ -36,7 +36,6 @@ function UserContext({children}) {
                 setUser({ ...data });
 
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <AccountContext.Provider value ={{user, setUser}}>

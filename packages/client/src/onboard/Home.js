@@ -1,13 +1,14 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {AccountContext} from "../AccountContext.js";
 import { useNavigate, useLocation } from "react-router-dom";
-import socket from "../Socket.js";
 import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
 import FriendList from "../components/FriendList.js";
 import ActiveGames from "../components/ActiveGames.js";
+import {SocketContext} from "../App.js";
 
 const Home = () => {
-    const {user, setUser} = useContext(AccountContext);
+    const {socket} = useContext(SocketContext);
+    const {user} = useContext(AccountContext);
     const [time, setTime] = useState(null);
     const navigate = useNavigate();
     const [logOutError, setLogOutError] = useState('');

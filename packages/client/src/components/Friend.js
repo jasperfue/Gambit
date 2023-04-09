@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {
     HStack,
     Box,
@@ -24,9 +24,10 @@ import {
 import { useNavigate } from "react-router";
 import { GiChessQueen, GiSwordsEmblem } from "react-icons/gi";
 import {ViewIcon} from "@chakra-ui/icons";
-import socket from "../Socket.js";
+import {SocketContext} from "../App.js";
 
 const Friend = (props) => {
+    const {socket} = useContext(SocketContext);
     const green = useColorModeValue('green.500', 'green.400');
     const red = useColorModeValue('red.500', 'red.400');
     const navigate = useNavigate();

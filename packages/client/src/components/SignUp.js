@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from "react";
-import socket from "../Socket.js";
 import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {
     Box, Button, Flex,
@@ -15,8 +14,10 @@ import {AccountContext} from "../AccountContext.js";
 import {useNavigate} from "react-router";
 import {SignUpSchema} from "@gambit/common";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
+import {SocketContext} from "../App.js";
 
 const SignUp = (props) => {
+    const {socket} = useContext(SocketContext);
     const {setUser} = useContext(AccountContext);
     const [signUpError, setSignUpError] = useState(null);
     const contrast = useColorModeValue("purple.500", "white");

@@ -7,13 +7,14 @@ import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Ch
 import {Chess} from 'chess.js';
 import ReactChessClock from "./ReactChessClock.js";
 import {AccountContext} from "../AccountContext.js";
-import socket from "../Socket.js";
 import {useFetcher, useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
+import {SocketContext} from "../App.js";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
+    const {socket} = useContext(SocketContext);
     const [whitePlayer, setWhitePlayer] = useState('');
     const [blackPlayer, setBlackPlayer] = useState('');
     const [orientation, setOrientation] = useState('');
@@ -422,7 +423,6 @@ const ChessGame = () => {
                                         startingTimeWhite={startingTimeWhite}
                                         startingTimeBlack={startingTimeBlack}
                                         orientation={orientation}
-                                        socket={socket}
                                     />
                                     {orientation === 'white' ? (
                                         <>

@@ -1,14 +1,15 @@
 // ActiveGames.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Button, Text, Box, Icon, useColorModeValue} from '@chakra-ui/react';
-import socket from "../Socket.js";
 import { GiChessQueen } from "react-icons/gi";
+import {SocketContext} from "../App.js";
 
 const ActiveGames = (props) => {
     const [activeGames, setActiveGames] = useState([]);
     const navigate = useNavigate();
     const primaryButton = useColorModeValue("primary-light", "primary-dark");
+    const {socket} = useContext(SocketContext);
 
     useEffect(() => {
         socket.on('active_games', (activeGames) => {

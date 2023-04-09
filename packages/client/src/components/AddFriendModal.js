@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     Button,
     Modal,
@@ -15,7 +15,7 @@ import {
     useColorModeValue, useColorMode
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import socket from "../Socket.js";
+import {SocketContext} from "../App.js";
 
 const AddFriendModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,6 +26,7 @@ const AddFriendModal = () => {
     const red = useColorModeValue("red.500", "red.400");
     const { colorMode } = useColorMode();
     const primaryButton = useColorModeValue("primary-light", "primary-dark");
+    const {socket} = useContext(SocketContext);
 
     return (
         <>

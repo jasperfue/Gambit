@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import socket from "../Socket.js";
+import React, {useEffect, useState, useContext} from 'react';
 import Friend from "./Friend.js";
 import FriendRequest from "./FriendRequest.js";
 import AddFriendModal from "./AddFriendModal.js";
 import { VStack, Text } from '@chakra-ui/react';
+import {SocketContext} from "../App.js";
 
 const FriendList = (props) => {
+    const {socket} = useContext(SocketContext);
     const [friends, setFriends] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
 

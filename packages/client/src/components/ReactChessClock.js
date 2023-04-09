@@ -1,7 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useContext} from "react";
 import {useColorModeValue, Flex, Box} from "@chakra-ui/react";
+import {SocketContext} from "../App.js";
 
 const ReactChessClock = (props) => {
+    const {socket} = useContext(SocketContext);
     const [time, setTime] = useState(props.time);
     const [timeWhite, setTimeWhite] = useState(props.remainingTimeWhite
         ? props.remainingTimeWhite.minutes * 60 + props.remainingTimeWhite.seconds
@@ -10,7 +12,6 @@ const ReactChessClock = (props) => {
         ? props.remainingTimeBlack.minutes * 60 + props.remainingTimeBlack.seconds
         : props.time.minutes * 60);
     const [orientation, setOrientation] = useState(props.orientation);
-    const [socket, setSocket] = useState(props.socket);
     const currentTimer = useRef(0);
     const [currentTurn, setCurrentTurn] = useState(props.currentState);
     const [startingTimeWhite, setStartingTimeWhite] = useState(props.startingTimeWhite);

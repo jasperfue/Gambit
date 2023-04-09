@@ -19,8 +19,10 @@ import {
 import { SunIcon, MoonIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AccountContext } from "../AccountContext.js";
 import {useNavigate} from "react-router-dom";
-import socket from "../Socket.js";
+import {SocketContext} from "../App.js";
+
 const Navbar = () => {
+    const {socket} = useContext(SocketContext);
     const { colorMode, toggleColorMode } = useColorMode();
     const textColor = useColorModeValue("black", "white");
     const { user, setUser } = useContext(AccountContext);
@@ -42,13 +44,10 @@ const Navbar = () => {
         navigate("/");
     }
 
-    const friendsPage = () => {
-        console.log("Friends");
-    }
-
     const logOut = () => {
         socket.emit('logout' ,({done}) => {
             if(done) {
+                localStorage.removeItem('token');
                 setUser({loggedIn: false});
             } else {
                 console.log('logging out failed');

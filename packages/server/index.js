@@ -6,6 +6,7 @@ const cors = require('cors');
 const {corsConfig} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
+const {initializeUser} = require("./controllers/socketController.js");
 const {initializeChessListeners} = require("./src/socketChessListeners.js");
 const {authorizeUser} = require("./controllers/socketController.js");
 
@@ -13,13 +14,6 @@ const server = require('http').createServer(app);
 const io = new Server(server, {
     transports: ['websocket'],
     cors: corsConfig,
-    cookie: {
-        name: "sid", // Beispielname
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production" ? "true" : "auto",
-        expires: 1000 * 60 * 60 * 6,
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    },
 });
 
 
@@ -28,16 +22,15 @@ app.use(
     cors(corsConfig)
 );
 app.use(express.json());
-//app.use(sessionMiddleware);
 app.use("/auth", authRouter);
 
 
-//io.engine.use(sessionMiddleware);
 io.use(authorizeUser);
 initializeListeners(io);
 initializeChessListeners(io);
-io.on('connection', (socket) => {
-        socket.on('login', () => {
+io.on('connection', async (socket) => {
+   await initializeUser(socket);
+        /*socket.on('login', () => {
             socket.request.session.reload(function(err) {
                 if(err) {
                     console.log("RELOAD", err);
@@ -45,7 +38,7 @@ io.on('connection', (socket) => {
                     authorizeUser(socket, () => {});
                 }
             });
-        });
+        });*/
 });
 
 

@@ -12,12 +12,12 @@ module.exports.handleLogin = (req, res) => {
         res.json({loggedIn: false});
         return;
     }
-    jwt.verify(token, process.env.JWT_SECRET, (err, token) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
         if(err) {
             res.json({loggedIn: false});
             return
         }
-        res.json({loggedIn: true, token});
+        res.json({loggedIn: true, token, ...decodedPayload});
     })
 };
 
@@ -32,21 +32,22 @@ module.exports.attemptLogin = async (req, res) => {
             potentialLogin.rows[0].password
         );
         if (isSamePassword) {
-            jwt.sign(
-                {
+            const user = {
                 username: req.body.username,
                 id: potentialLogin.rows[0].id,
                 userid: potentialLogin.rows[0].userid,
-            },
+            }
+            jwt.sign(
+                user,
                 process.env.JWT_SECRET,
-                {expiresIn: "1min"},
+                {expiresIn: "24h"},
                 (err,token) => {
                 if(err) {
                     console.log(err);
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
                     return;
                 } else {
-                    res.json({loggedIn: true, token});
+                    res.json({loggedIn: true, token, ...user});
                 }
             }
             );
@@ -73,12 +74,13 @@ module.exports.attemptSignUp = async (req, res) => {
         const newUserQuery = await query('INSERT INTO users(username, email, password, userid) values ($1, $2, $3, $4) RETURNING id, username, userid',
             [req.body.username, req.body.email, hashedPass, uuidv4()]
         );
+        const user = {
+            username: req.body.username,
+            id: newUserQuery.rows[0].id,
+            userid: newUserQuery.rows[0].userid,
+        }
         jwt.sign(
-            {
-                username: req.body.username,
-                id: newUserQuery.rows[0].id,
-                userid: newUserQuery.rows[0].userid,
-            },
+            user,
             process.env.JWT_SECRET,
             {expiresIn: "1min"},
             (err,token) => {
@@ -87,7 +89,7 @@ module.exports.attemptSignUp = async (req, res) => {
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
                     return;
                 } else {
-                    res.json({loggedIn: true, token});
+                    res.json({loggedIn: true, token, ...user});
                 }
             }
         );

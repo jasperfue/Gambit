@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from "react";
-import UserContext from "./AccountContext.js";
+import React, {useCallback, useEffect, useState, createContext} from "react";
+import UserContext, {AccountContext} from "./AccountContext.js";
 import Views from "./Views.js";
 import Navbar from "./components/Navbar.js";
 import {
@@ -15,13 +15,23 @@ import {
     Center,
     HStack,
 } from "@chakra-ui/react";
-import socket from "./Socket.js";
+import socketConn from "./Socket.js";
 import {useNavigate} from "react-router";
+import {useContext} from "react";
+
+
+export const SocketContext = createContext();
 
 function App() {
     const [gameRequests, setGameRequests] = useState([]);
     const { colorMode } = useColorMode();
     const navigate = useNavigate();
+    const {user} = useContext(AccountContext);
+    const [socket, setSocket] = useState(() => socketConn(user));
+    useEffect(() => {
+        console.log(user);
+        setSocket(() => socketConn(user));
+    }, [user]);
 
         useEffect(() => {
             if (!socket.connected) {
@@ -77,7 +87,7 @@ function App() {
     }, []);
 
     return (
-        <UserContext>
+            <SocketContext.Provider value={{socket}}>
             <Box bg={colorMode === "light" ? "gray.200" : "purple.900"} minH="100vh">
                 <Navbar />
                 <Views />
@@ -110,7 +120,7 @@ function App() {
                     </Modal>
                 ))}
             </Box>
-        </UserContext>
+            </SocketContext.Provider>
     );
 }
 

@@ -23,7 +23,6 @@ const initializeListeners = (io) => {
             onDisconnect(client).catch(() => {
                 cb({done: false});
             }).then(() => {
-                logout(client);
                 cb({done: true});
             })
         });
@@ -34,6 +33,7 @@ const initializeListeners = (io) => {
 
         client.on('send_game_Request', async (friend, time, callback) => {
             const receiver = io.sockets.sockets.get(io.of('/').adapter.rooms.get(friend.userid).values().next().value)
+            console.log(receiver.id);
             client.to(friend.userid).emit('game_request', client.user.username, time);
             client.once('cancel_game_request', (username) => {
                 if(username === receiver.user.username) {
