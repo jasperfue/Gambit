@@ -12,12 +12,14 @@ module.exports.authorizeUser = (socket, next) => {
                 return;
             }
             socket.user = {...decodedPayload};
+            console.log('initializeUSER');
+            initializeUser(socket);
         })
     }
     next();
 }
 
-module.exports.initializeUser = async socket => {
+const initializeUser = async socket => {
     console.log(socket.user);
     socket.join(socket.user.userid);
     let activeGames = await getActiveGames(socket.user.username);
@@ -34,32 +36,36 @@ module.exports.initializeUser = async socket => {
     socket.emit('friends', friends);
 
     const friendRequests = await getFriendRequests(socket);
-    socket.emit('friend_requests', friendRequests);
+        socket.emit('friend_requests', friendRequests);
 
    const gameData = await getActiveGamesData(socket.user.username);
-    socket.emit('active_games', gameData);
+   socket.emit('active_games', gameData);
 
 };
 
 
 
 const getFriendRequests = async (socket) => {
-    const sentFriendRequests = await redisClient.lrange(
-        `friend_requests:${socket.user.username}`,
-        0,
-        -1
-    );
-    const usernameFriendRequest = (request) => {
-        const requestSplitted = request.split('.');
-        return requestSplitted[0];
+    if(socket.user) {
+        const sentFriendRequests = await redisClient.lrange(
+            `friend_requests:${socket.user.username}`,
+            0,
+            -1
+        );
+        const usernameFriendRequest = (request) => {
+            const requestSplitted = request.split('.');
+            return requestSplitted[0];
+        }
+        return sentFriendRequests.map(usernameFriendRequest);
     }
-    return sentFriendRequests.map(usernameFriendRequest);
+    return [];
 }
 
 module.exports.getFriendRequests = getFriendRequests;
 
 
 const getFriends = async (socket) => {
+    if(socket.user) {
     console.log("GET FRIENDS");
     const friendList = await redisClient.lrange(
         `friends:${socket.user.username}`,
@@ -72,6 +78,8 @@ const getFriends = async (socket) => {
         socket.to(friendRooms).emit("connected", "true", socket.user.username);
     }
     return parsedFriendList;
+    }
+    return [];
 }
 
 module.exports.getFriends = getFriends;

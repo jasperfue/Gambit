@@ -6,7 +6,6 @@ const cors = require('cors');
 const {corsConfig} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
-const {initializeUser} = require("./controllers/socketController.js");
 const {initializeChessListeners} = require("./src/socketChessListeners.js");
 const {authorizeUser} = require("./controllers/socketController.js");
 
@@ -29,16 +28,9 @@ io.use(authorizeUser);
 initializeListeners(io);
 initializeChessListeners(io);
 io.on('connection', async (socket) => {
-   await initializeUser(socket);
-        /*socket.on('login', () => {
-            socket.request.session.reload(function(err) {
-                if(err) {
-                    console.log("RELOAD", err);
-                } else {
-                    authorizeUser(socket, () => {});
-                }
-            });
-        });*/
+        socket.on('login', async () => {
+        await authorizeUser(socket, () => {})
+        });
 });
 
 

@@ -41,7 +41,6 @@ const Home = () => {
     }, [location.pathname]);
 
     useEffect(() => {
-        console.log(user.loggedIn)
         console.log('home');
         socket.connect();
         socket.on('connect_error', (err => {
