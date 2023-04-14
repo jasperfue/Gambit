@@ -187,6 +187,11 @@ const newMove = (socket, io) => (roomId, player, move, cb) => {
         io.to(roomId).emit('Stop_Clocks');
         chessClock.ChessClockAPI.emit('stop');
         endGame(roomId);
+    } else if (chessInstance.finalPosition().isStalemate()) {
+        io.to(roomId).emit('Stalemate');
+        io.to(roomId).emit('Stop_Clocks');
+        chessClock.ChessClockAPI.emit('stop');
+        endGame(roomId);
     } else {
         chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
             io.to(roomId).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);

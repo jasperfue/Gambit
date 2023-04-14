@@ -255,6 +255,15 @@ const ChessGame = () => {
                 }
             });
 
+            socket.on('Stalemate', () => {
+                toast({
+                    title: 'Stalemate',
+                    status: 'warning',
+                    position: 'top',
+                    isClosable: true
+                });
+            });
+
             socket.on('resigned', (color) => {
                 ground.set({viewOnly: true});
                 if(orientation !== color) {
@@ -280,6 +289,7 @@ const ChessGame = () => {
         return () => {
             socket.off('opponentMove');
             socket.off('Checkmate');
+            scoket.off('Stalemate');
             socket.off('Time_Over');
             socket.off('Cancel_Game');
             socket.off('resigned');
