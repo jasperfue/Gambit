@@ -12,8 +12,34 @@
 \usepackage{array}
 \usepackage{footnote}
 \usepackage{natbib}
+\usepackage{listings}
+\usepackage{xcolor}
 \bibliographystyle{unsrtnat}
 \newcommand{\footcite}[1]{\footnotemark\footnotetext{\cite{#1}}}
+
+\renewcommand{\lstlistingname}{Code Snippet}
+\lstdefinestyle{codeStyle}{
+  language=Java, 
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  breaklines=true,
+  breakatwhitespace=true,
+  stringstyle=\color{red},
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},
+  frame=single,
+  rulecolor=\color{gray},
+  captionpos=b,
+  escapeinside={\%*}{*)},
+}
+
 
 
 
@@ -121,16 +147,60 @@ Die Arbeit endet mit dem \textit{Anhang}, der zusätzliche Grafiken und die List
    Die zweite Zusatzregel ist die \textit{Bauernumwandlung}. Sie besagt, dass falls ein Bauer die gegnerische Grundreihe erreicht, dieser Bauer in eine Dame, einen Springer, einen Turm oder einen Läufer umgewandelt werden kann (siehe Abbildung \ref{fig:promotion}).
     \section{Web-Technologien}
         \subsection{Node.js und Express}
-Node.js ist eine Javascript-Laufzeitumgebung, welche erstmals 2009 angekündigt wurde\footcite{nodeyoutube} und speziell für die Entwicklung von skalierbaren Netzwerkanwendungen entworfen wurde\footcite{nodejs}. Skalierbarkeit bedeutet, dass mit steigender Benutzeranzahl der Ressourcenverbrauch idealerweise linear steigt. Zu relevanten Ressourcen von Webanwendungen gehören Rechenleistung, Ein-/Ausgabeoperationen (\textit{I/O}) und Arbeitsspeicher, wobei Node.js vor allem die Skalierbarkeit von I/O intensiven Anwendungen verbessert\footcite{nodejsbook}.
-I/O-Zugriffe sind beispielsweise Zugriffe auf Datenbanken, Webservices oder auf das Dateisystem. Node.js setzt dabei vollständig auf asynchrone Zugriffe. Dabei wartet der Thread nicht auf das Ergebnis eines I/O-Zugriffs, sondern beendet die Abarbeitung und gibt seinen Speicher frei. Sobald der I/O-Zugriff abgeschlossen ist, wird eine zuvor definierte Callback Funktion durchgeführt. Bei einem synchronen Zugriff, wie es bei einigen anderen Laufzeitumgebungen der Fall ist, würde der Thread auf das Ergebnis warten und dieses anschließend weiterverarbeiten, wobei jedoch sein Speicherplatz zum Teil belegt bleibt. Diese Vorteile in der Skalierbarkeit sind jedoch erst bei sehr vielen Zugriffen erkennbar.
+        \subsubsection{Node.js und seine Vorteile}
+Node.js ist eine JavaScript-Laufzeitumgebung, welche erstmals 2009 angekündigt wurde\footcite{nodeyoutube} und speziell für die Entwicklung von skalierbaren Netzwerkanwendungen entworfen wurde\footcite{nodejs}. Skalierbarkeit bedeutet, dass mit steigender Benutzeranzahl der Ressourcenverbrauch idealerweise linear steigt. Zu den relevanten Ressourcen von Webanwendungen gehören Rechenleistung, Ein-/Ausgabeoperationen (\textit{I/O}) und Arbeitsspeicher, wobei Node.js vor allem die Skalierbarkeit von I/O intensiven Anwendungen verbessert\footcite{nodejsbook}.
+I/O-Zugriffe sind beispielsweise Zugriffe auf Datenbanken, Webservices oder auf das Dateisystem. Node.js setzt dabei vollständig auf asynchrone Zugriffe. Dabei wartet der Thread nicht auf das Ergebnis eines I/O-Zugriffs, sondern führt andere Aufgaben aus, bis das Ergebnis verfügbar ist. Anschließend wird eine zuvor definierte Callback Funktion (siehe Code Snippet \ref{lst:callback}) durchgeführt. Bei einem synchronen Zugriff, wie es bei einigen anderen Laufzeitumgebungen der Fall ist, würde der Thread auf das Ergebnis warten und dieses anschließend weiterverarbeiten, wobei jedoch sein Speicherplatz zum Teil belegt bleibt. Die Vorteile hinsichtlich der Skalierbarkeit werden jedoch erst bei einer hohen Anzahl von Zugriffen erkennbar.
 
-Was für mich der größte und entscheidende Vorteil der Nutzung von Node.js ist, ist die Nutzung der gleichen Programmiersprache für Frontend und Backend, zumal die Syntax von Javascript mir auch schon ein wenig geläufig war.
-In einem Team-Projekt kann das natürlich besonders nützlich sein, da Kommunikationsbarrieren durch unterschiedliche Programmiersprachen von Frontend und Backend niedriger sind. Natürlich versteht deshalb der Frontend-Entwickler nicht alles was  der Backend-Entwickler macht und umgekehrt, jedoch gibt es eine gemeinsame Grundlage.
+\begin{lstlisting}[style=codeStyle, caption={Beispiel einer Callback Funktion \textbf{Quelle: } \cite{nodejsbook}}, label={lst:callback}]
+database.query(  "SELECT * FROM user",  function(result) {
+result...
+});
+\end{lstlisting}
 
-Express ist ein leichtgewichtiges und sehr beliebtes Web-Frameworks, welches unter Node.js zur Verfügung steht. Es ermöglicht die Verwendung von Middleware, Routing und anderen Hilfsmitteln.
-//Middleware Definition
-//Routing Definition
+
+Ein für mich großer und entscheidender Vorteil der Nutzung von Node.js ist, ist die Nutzung der gleichen Programmiersprache für Frontend und Backend, zumal die Syntax von JavaScript mir auch schon ein wenig geläufig war.
+In einem Team-Projekt kann das natürlich besonders nützlich sein, da Kommunikationsbarrieren durch unterschiedliche Programmiersprachen von Frontend und Backend niedriger sind. Natürlich versteht deshalb der Frontend-Entwickler nicht alles was  der Backend-Entwickler macht und umgekehrt, jedoch gibt es eine gemeinsame Grundlage. Neben den Kommunikationsvorteilen ermöglicht die Verwendung von der gleichen Programmiersprache im Frontend und Backend das Teilen von Code. So ist es zum Beispiel möglich Callback Funktionen vom Frontend an das Backend zu senden und dort aufzurufen.
+
+Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück senden von einem Result mittels dem HTTP-Protokoll. Das HTTP-Protokoll verwendet verschiedene Methoden wie GET, POST, PUT und DELETE, um unterschiedliche Aktionen durchzuführen. Zum Beispiel wird GET zum Abrufen von Informationen verwendet, während POST zum Senden von Daten verwendet wird. Die Art und Weise wie ein Request verarbeitet werden soll ist dabei selbst zu definieren (siehe Abbildung \ref{fig:node-request}). Dabei kann der Request sein, eine bestimmte Seite zu laden, womit dann mit der entsprechenden HTML-Datei geantwortet wird, oder es kann als API genutzt werden, um Beispielsweise Daten einer Datenbank zu übermitteln. Um die Verarbeitung dieser Anfragen weniger komplex zu gestalten gibt es die Erweiterung \textit{Express} für Node.js.
+
+\subsubsection{Express}
+\textit{Express} ist ein leichtgewichtiges und sehr beliebtes Web-Frameworks, welches unter Node.js zur Verfügung steht. Es dient zur Vereinfachung der API von Node.js und stellt hilfreiche Funktionen bereit\footcite{expressbook}. Es ermöglicht beispielsweise die Verwendung von \textit{Middleware} und \textit{Routing}.
+
+\textit{Middleware} ermöglicht, dass eine Anfrage an den Node.js Server nicht ausschließlich von einer Funktion bearbeitet werden muss, welche das Ergebnis zurücksendet, sondern von mehreren Funktionen, die sich um verschiedene Teile der Request kümmern (siehe Abbildung \ref{fig:express-request}). Diese Funktionen heißen \textit{Middleware}. Dabei gibt es eine von uns definierte Reihenfolge der Middlewares. Zum Beispiel können wir definieren, dass zu erst der Request von einer Middleware geloggt werden soll, anschließend soll der Benutzer Authentifiziert werden. Will der Benutzer eine URL aufrufen, für die er keine Berechtigung hat wird eine \glqq not authorized\grqq{ }Seite zurück gesendet und die nächste Middleware wird nicht aufgerufen. Ansonsten wird die nächste Middleware der Kette ausgeführt, wie zum Beispiel das senden von Informationen (siehe Abbildung \ref{fig:middleware-beispiel}). Ein Vorteil der Nutzung von Middlewares ist, dass es bereits viele vordefinierte Middlewares (auch von Dritten) gibt, welche nützliche Funktionalitäten mitbringen. Die Anfrage des Frontends in mehrere kleinere Funktionen aufzuteilen, anstatt eine Funktion zu schreiben, welche sich um all dies kümmert verringert die Komplexität enorm.
+
+\textit{Routing} hilft dabei zu identifizieren bei welchem Request welche Middleware ausgeführt	werden soll (siehe Abbildung \ref{fig:routing-beispiel}). Beispielsweise kann eine Anfrage an die URL \url{/auth} mit den angegeben Login Daten des Benutzers gesendet werden. Unter diesem Pfad können wir dann bestimmte Middlewares verwenden, welche sich mit der Authentifizierung des Benutzers befassen.
         \subsection{Socket.io}
+Die Kommunikation mit dem HTTP-Protokoll hat den Nachteil, dass für jeden Datenaustausch eine neue Verbindung aufgebaut und wieder geschlossen wird, was zu einer Latenz führt, welche für Echtzeit-Anwendungen ungeeignet ist. Diese Problematik behebt das Framework \textit{socket.io}. %QUELLE BENÖTIGT%
+
+Es ermöglicht eine direkte, bidirektionale Echtzeitübertragung von Daten mittels Websockets und fünf anderen Protokollen zwischen den Clients und dem Server. Diese Echtzeitkommunikation ist für viele Multiplayer-Spiele, wie auch für diese Schach-App, essentiell. So können beim Spielen mit Schachuhr Millisekunden entscheidend sein.
+Neben der Kommunikation mittels Websockets überprüft socket.io unter anderem Timeouts, Verbindungsabbrüche, stellt Verbindungen automatisch wieder her und sorgt dafür, dass die Events in der richtigen Reihenfolge beim Server und beim Client ankommen. 
+
+Die Kommunikation mit Socket.io läuft ausschließlich über Events. So kann man sowohl bei dem Client, als auch bei dem Server Eventlistener definieren, die auf ein bestimmtes Event hören und darauf hin eine Funktion auf den übertragenen Daten anwenden. Diese Eventlistener (definiert mit der Funktion \verb|.on()|) haben als ersten Parameter den Namen des Events als String, auf den dieser Listener hören soll und als zweiten Parameter die auszuführende Callback Funktion, welche mit den Parametern aufgerufen wird, die beim senden des Events übertragen wurden.
+
+Events können basierend auf verschiedenen Aktionen wie zum Beispiel dem Drücken eines Buttons im Frontend oder als Reaktion eines eingegangenen Events auf dem Server gesendet werden (mit der Funktion \verb|.emit()|) (siehe Abbildung \ref{fig:socket.io-beispiel}). Der erste Parameter der \verb|emit|-Funktion ist wieder der Name des Events als String und im Anschluss kann man beliebig viele Parameter übertragen mit denen die Callback-Funktion des Listeners aufgerufen wird.
+
+Ein wichtiges Feature von socket.io sind die Räume\footcite{socket-rooms}. Sockets im Backend können ihnen Beitreten und sie Verlassen. Serverseitig kann man dadurch an alle Sockets, die in einem bestimmten Raum sind etwas senden, ohne es allen einzeln schicken zu müssen. Hier kann man sich entschließen das Event an alle clients im Raum zu versenden (\verb|io.to(...).emit(...)|) oder an alle, außer den sender (\verb|socket.to(...).emit(...)|) (siehe Code Snippet \ref{lst:socket-rooms}).
+
+Des weiteren erhält jede socket beim Verbinden eine eigene ID, die ebenfalls als Raum genutzt werden kann. Dementsprechend ist \verb|io.to(socket.id).emit('hello');| äquivalent zu \verb|socket.emit('hello');|.
+
+
+\begin{lstlisting}[style=codeStyle, caption={Beispiel zum Beitreten Raums und das senden eines Events in diesen Raum}, label={lst:socket-rooms}]
+//Server
+io.on("connection", (socket) => {
+  socket.join("Chat");
+  socket.on("message", (text) => {
+  	socket.to("Chat").emit("message", text);
+  }
+  //Empfangen der Nachricht und weiterleiten an alle im Raum, ausser Sender.
+});
+
+//Frontend
+...
+socket.emit("message", "hello world"); //Senden
+socket.on("message", text => console.log(text)); //Empfangen
+...
+\end{lstlisting}
+//QUELLE socket.io im nodejsbook
         \subsection{React}
         \subsection{PostgreSQL}
 
@@ -198,6 +268,51 @@ Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework ve
   \label{fig:promotion}
 \end{figure}
 
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{node-request.jpg}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
+  \caption{Ablauf einer Anfrage an einen Node.js Server}
+  \label{fig:node-request}
+\end{figure}
+
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{express-request.jpg}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
+  \caption{Ablauf einer Anfrage an einen Node.js Server mit Express}
+  \label{fig:express-request}
+\end{figure}
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{Middleware-Beispiel.jpg}
+  
+  \vspace{20mm}
+  
+  \includegraphics[width=160mm]{Middleware-Beispiel-2.jpg}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
+  \caption{Beispiel der Nutzung von Middlewares}
+  \label{fig:middleware-beispiel}
+\end{figure}
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{express-routing-example.jpg}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
+  \caption{Beispiel der Nutzung von Routing}
+  \label{fig:routing-beispiel}
+\end{figure}
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=70mm]{socket.io-server-beispiel.png}
+  \includegraphics[width=70mm]{socket.io-client-beispiel.png}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{socketio}
+  \caption{Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}
+  \label{fig:socket.io-beispiel}
+\end{figure}
 
 
 \bibliography{Bibliography}
