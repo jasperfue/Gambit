@@ -5,11 +5,13 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{14}{figure.Alph0.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Die Zusatzregel \textit {en passant}}}{14}{figure.Alph0.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{15}{figure.Alph0.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{15}{figure.Alph0.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{15}{figure.Alph0.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Beispiel der Nutzung von Middlewares}}{16}{figure.Alph0.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Beispiel der Nutzung von Routing}}{17}{figure.Alph0.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{17}{figure.Alph0.8}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{20}{figure.Alph0.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Die Zusatzregel \textit {en passant}}}{21}{figure.Alph0.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{21}{figure.Alph0.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{21}{figure.Alph0.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{22}{figure.Alph0.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Beispiel der Nutzung von Middlewares}}{23}{figure.Alph0.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Beispiel der Nutzung von Routing}}{24}{figure.Alph0.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{24}{figure.Alph0.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{25}{figure.Alph0.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{25}{figure.Alph0.10}%

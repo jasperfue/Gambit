@@ -18,6 +18,7 @@
 \newcommand{\footcite}[1]{\footnotemark\footnotetext{\cite{#1}}}
 
 \renewcommand{\lstlistingname}{Code Snippet}
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 \lstdefinestyle{codeStyle}{
   language=Java, 
   basicstyle=\ttfamily\small,
@@ -33,7 +34,7 @@
   breakatwhitespace=true,
   stringstyle=\color{red},
   keywordstyle=\color{blue},
-  commentstyle=\color{green},
+  commentstyle=\color{darkgreen},
   frame=single,
   rulecolor=\color{gray},
   captionpos=b,
@@ -172,14 +173,14 @@ Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück s
         \subsection{Socket.io}
 Die Kommunikation mit dem HTTP-Protokoll hat den Nachteil, dass für jeden Datenaustausch eine neue Verbindung aufgebaut und wieder geschlossen wird, was zu einer Latenz führt, welche für Echtzeit-Anwendungen ungeeignet ist. Diese Problematik behebt das Framework \textit{socket.io}. %QUELLE BENÖTIGT%
 
-Es ermöglicht eine direkte, bidirektionale Echtzeitübertragung von Daten mittels Websockets und fünf anderen Protokollen zwischen den Clients und dem Server. Diese Echtzeitkommunikation ist für viele Multiplayer-Spiele, wie auch für diese Schach-App, essentiell. So können beim Spielen mit Schachuhr Millisekunden entscheidend sein.
+Es ermöglicht eine direkte, bidirektionale Echtzeitübertragung von Daten mittels Websockets und fünf anderen Protokollen zwischen den Clients und dem Server. Diese Echtzeitkommunikation ist für viele Spiele, wie auch für diese Schach-App, essentiell. So können beim Spielen mit Schachuhr Millisekunden entscheidend sein.
 Neben der Kommunikation mittels Websockets überprüft socket.io unter anderem Timeouts, Verbindungsabbrüche, stellt Verbindungen automatisch wieder her und sorgt dafür, dass die Events in der richtigen Reihenfolge beim Server und beim Client ankommen. 
 
 Die Kommunikation mit Socket.io läuft ausschließlich über Events. So kann man sowohl bei dem Client, als auch bei dem Server Eventlistener definieren, die auf ein bestimmtes Event hören und darauf hin eine Funktion auf den übertragenen Daten anwenden. Diese Eventlistener (definiert mit der Funktion \verb|.on()|) haben als ersten Parameter den Namen des Events als String, auf den dieser Listener hören soll und als zweiten Parameter die auszuführende Callback Funktion, welche mit den Parametern aufgerufen wird, die beim senden des Events übertragen wurden.
 
 Events können basierend auf verschiedenen Aktionen wie zum Beispiel dem Drücken eines Buttons im Frontend oder als Reaktion eines eingegangenen Events auf dem Server gesendet werden (mit der Funktion \verb|.emit()|) (siehe Abbildung \ref{fig:socket.io-beispiel}). Der erste Parameter der \verb|emit|-Funktion ist wieder der Name des Events als String und im Anschluss kann man beliebig viele Parameter übertragen mit denen die Callback-Funktion des Listeners aufgerufen wird.
 
-Ein wichtiges Feature von socket.io sind die Räume\footcite{socket-rooms}. Sockets im Backend können ihnen Beitreten und sie Verlassen. Serverseitig kann man dadurch an alle Sockets, die in einem bestimmten Raum sind etwas senden, ohne es allen einzeln schicken zu müssen. Hier kann man sich entschließen das Event an alle clients im Raum zu versenden (\verb|io.to(...).emit(...)|) oder an alle, außer den sender (\verb|socket.to(...).emit(...)|) (siehe Code Snippet \ref{lst:socket-rooms}).
+Ein wichtiges Feature von socket.io sind die Räume\footcite{socket-rooms}. Sockets im Backend können ihnen Beitreten und sie Verlassen. Serverseitig kann man dadurch an alle Sockets, die in einem bestimmten Raum sind etwas senden, ohne es allen einzeln schicken zu müssen (siehe Abbildung \ref{fig:socket.io-room}). Hier kann man sich entschließen das Event an alle clients im Raum zu versenden (\verb|io.to(...).emit(...)|) oder an alle, außer den sender (\verb|socket.to(...).emit(...)|) (siehe Code Snippet \ref{lst:socket-rooms}).
 
 Des weiteren erhält jede socket beim Verbinden eine eigene ID, die ebenfalls als Raum genutzt werden kann. Dementsprechend ist \verb|io.to(socket.id).emit('hello');| äquivalent zu \verb|socket.emit('hello');|.
 
@@ -202,8 +203,156 @@ socket.on("message", text => console.log(text)); //Empfangen
 \end{lstlisting}
 //QUELLE socket.io im nodejsbook
         \subsection{React}
-        \subsection{PostgreSQL}
+React ist eine der beliebtesten (nach einer Umfrage von 2022 von Stack Overflow sogar die beliebteste\footcite{stack-overflow-survey}) Frontend Javascript Bibliotheken. Es basiert auf Komponenten, welche wiederverwendbar und kombinierbar sind und vereinfacht die Verwaltung von Interaktionen mit User Interfaces. Dabei benutzt React eine Syntax Erweiterung namens \textit{JSX}. Mit dieser Erweiterung ist es möglich HTML Elemente in JavaScript Dateien zu verwenden, welches es ermöglicht die Logik hinter getrennten HTML und JavaScript Dateien in eine Datei zu kombinieren. Die Idee hinter React ist, dass wenn sich nur ein bestimmter Teil des User Interfaces im Vergleich zum aktuell sichtbaren User Interface ändert, auch nur dieser Teil neu gerendert wird und nicht das ganze User Interface. Diese reaktiven Änderungen veranlasst React mittels seiner \textit{Hooks}.
 
+Ich werde die Art und Weise wie React und seine Hooks funktionieren an dem Beispiel \ref{lst:react-example} erklären.
+In diesem Beispiel implementieren wir die Komponente \textit{ExampleComponent}, welche zum Beispiel mittels dem Tag \verb|<ExampleComponent initialCount={10} loadingDelay={3000} />| verwendet werden kann. 
+
+Die zwei übergebenen Variablen \textit{initialCount} und \textit{loadingDelay} werden auch \textbf{props} genannt, welche in der Komponente verwendet werden können. Eine Komponente ist eine Funktion, welche als Rückgabe den HTML-Code hat, welcher angezeigt werden soll.
+
+Die Komponente hat den lokalen State \textit{count}, welchen wir mittels der \textbf{useState} Hook initialisieren. Die Funktion \textit{useState} nimmt als Argument den initialen Wert des States und gibt uns zwei Elemente zurück, einmal die sich verändernde State Variable \textit{count} und die Funktion \textit{setCount}, um einen neuen Wert in den State \textit{count} zu schreiben. Der zurückgegebenen Funktion \textit{setCount} kann entweder ein konkreter Wert übergeben werden, oder aber eine Funktion welche beschreibt wie der neue Wert sich aus dem alten Wert bilden soll (siehe Zeile 31 in Beispiel \ref{lst:react-example}).
+
+Die Hook \textbf{useEffekt} nimmt zwei Argumente, eine Funktion und ein sogenanntes \textit{Dependency Array}. Das Array enthält Variablen, deren Wertänderung das Ausführen der übergebenen Funktion auslöst. So wird in unserem Beispiel die Funktion einmal beim ersten Rendern der Komponente und dann bei jeder Änderung von \textit{count} oder dem prop \textit{loadingDelay} ausgeführt. Dadurch bleibt der Titel dieser Beispiel Webanwendung immer konsistent mit dem aktuellen \textit{count} State. Als Rückgabe kann die übergebene Funktion eine weitere Funktion haben, welche ausgeführt wird, sobald die Komponente \textit{unmounted} wird. Das ist eine Phase im Lebenszyklus einer Komponente, die ausgeführt wird, sobald eine Komponente nicht mehr angezeigt wird, weil zum Beispiel auf eine andere Unterseite navigiert wird. In unserem Fall soll dann der Titel der Webanwendung nicht mehr den aktuellen Count repräsentieren, sondern \glqq React App\grqq .
+
+\textbf{useCallback} ist eine Hook, welche unnötige Code Ausführungen vermeidet und daher ausschließlich performante Vorteile bietet. Sie nimmt die gleichen Argumente wie die \textit{useEffect} Hook und durch sie können wir eine Funktion definieren, welche nur neu initialisiert wird, falls sich eine der Variablen im \textit{Dependency Array} ändert. Würden wir sie als reguläre JavaScript Funktion definieren, würde immer wenn die Komponente gerendert wird die Funktion neu initialisiert werden.
+
+Ein weiteres wichtiges Konzept in React ist der \textit{Context}. Mit ihm lassen sich Daten über mehrere Ebenen von verschachtelten Komponenten verfügbar machen, ohne dass man sie explizit als Prop an alle Komponenten weitergeben muss. Ein Kontext lässt sich mittels der Hook \textbf{useContext} importieren. In unserem Beispiel verwenden wir ihn um ein ThemeContext zu importieren und je nach theme ändern wir die Hintergrundfarbe unserer Komponente (siehe Zeile 35 in Beispiel \ref{lst:react-example}).
+
+In der Rückgabe der Komponente können wir nicht nur HTML, sondern auch JavaScript innerhalb von geschweiften Klammern verwenden. So prüfen wir in unserem Beispiel mit dem ternären Operator den Wert von \textit{isLoading} und zeigen entsprechende Elemente an (siehe Zeilen 36-44, Beispiel \ref{lst:react-example}).
+%react-key-concepts
+\begin{lstlisting}[style=codeStyle, caption={Beispiel einer React Komponente}, label={lst:react-example}]
+import React, { useState, useEffect, useCallback, useContext } from "react";
+
+// Beispiel Context
+const ThemeContext = React.createContext({ theme: "light" });
+
+// Beispiel Component Props
+function ExampleComponent({ initialCount, loadingDelay }) {
+  // Beispiel useState
+  const [count, setCount] = useState(initialCount || 0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Beispiel useContext
+  const { theme } = useContext(ThemeContext);
+
+  // Beispiel useEffect
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, loadingDelay || 2000);
+
+    return () => {
+      document.title = "React App";
+      clearTimeout(timer);
+    };
+  }, [count, loadingDelay]);
+  
+  // Beispiel useCallback
+  const incrementCount = useCallback(() => {
+    setCount((prevCount) => prevCount + 1);
+  }, []);
+
+  return (
+    <div style={{ backgroundColor: theme === "light" ? "#fff" : "#333" }}>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <p>Count: {count}</p>
+          <button onClick={incrementCount}>Increment count</button>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default ExampleComponent;
+\end{lstlisting}
+        \subsection{PostgreSQL und Redis}
+        \subsubsection{PostgreSQL}
+PostgreSQL ist ein Objektrelationales Open-Source Datenbanksystem, welches erstmals 1989 veröffentlicht wurde\footcite{postgresql-book}. Die Verwaltung von Datenbanken basiert auf sogenannte Datenbankmanagementsystemen (DBMS). Das beliebteste DBMS für PostgreSQL ist \textit{pgAdmin}\footcite{pgAdmin}.  In relationalen Datenbanken sind Daten in Tabellen organisiert. Zur Bearbeitung und Auswertung von solchen Datenbanken wird die Structured Query Language (\textbf{SQL}) verwendet, die in drei Bereiche unterteilt ist\footcite{sql-book}:
+\begin{itemize}
+ \item Data Definition Language (DDL): Um Datenbanken, Tabellen und ihren Strukturen anzulegen, zu ändern und zu löschen.
+ \item  Data Manipulation Language (DML): Zum Einfügen, Ändern, Löschen und Aktualisieren von Daten in Tabellen.
+ \item Data Control Language (DCL): Zur Administration von Datenbanken
+\end{itemize}
+
+Tabellen bestehen aus Zeilen, die als Tupel bezeichnet werden, und Spalten, die als Attribute bezeichnet werden. Jedes Attribut hat einen bestimmten, von uns definierten Wertebereich, beispielsweise kann ein Attribut \glqq Preis\grqq{ }eine Zahl mit zwei Nachkommastellen oder ein Attribut \glqq Name\grqq{ }eine Zeichenkette mit maximal 20 Zeichen sein.  Attributen können bestimme Restriktionen (auch \textit{Constraints} genannt) zugewiesen werden, wie zum Beispiel die UNIQUE Restriktion, welche definiert, dass jeder Wert des Attributs nur einmal vorkommen darf.
+Ein weiteres wichtiges Konzept sind Primär- und Fremdschlüssel. Mit Hilfe von ihnen können Tupel verschiedener Tabellen in Beziehung gebracht werden. Ein Primärschlüssel ist ein Attribut, welches jeden Tupel einer Tabelle eindeutig identifiziert und welches als Fremdschlüssel in anderen Tabellen referenziert werden kann. Als Beispiel könnte eine Artikelnummer in einer Tabelle der Artikel als Primärschlüssel genutzt werden, welche in einer Tabelle Rechnung mit verschiedenen abgeschlossenen Bestellungen als Fremdschlüssel referenziert werden kann.
+
+Zudem ist PostgreSQL ACID-konform. \textbf{ACID} steht für folgende Fachbegriffe\footcite{sql-book}:
+\begin{itemize}
+ \item \textit{Atomicity (Atomarität)}: eine Transaktion, wie das Einfügen eines Tupels oder das Erstellen einer Tabelle, wird entweder ganz oder gar nicht ausgeführt.
+ \item \textit{Consistency (Konsistenz)}: Sicherstellung, dass die Datenbank immer in einem konsistenten Zustand ist, auch wenn eine Transaktion unter- oder abgebrochen wird.
+ \item \textit{Isolation}: Während einer Transaktion wird die Datenbank isoliert, da während einer Transaktion ein inkonsistenter Zustand herrschen kann. Diese Isolation wird am Ende der Transaktion aufgehoben.
+  \item \textit{Durability (Dauerhaftigkeit)}: Nach einer abgeschlossenen Transaktion sind die Änderungen an der Datenbank dauerhaft abgespeichert, sodass beispielsweise ein Systemabsturz die Daten nicht gefährden kann.
+\end{itemize}
+
+In Node.js kann auf eine PostgreSQL Datenbank mittels dem Framework \textit{node-postgres} zugegriffen werden\footcite{node-postgres}.
+        \subsubsection{Redis}
+Redis ist eine No-SQL (Not only SQL) Datenbank, welche nicht wie relationale Datenbanken auf Tabellen basieren, sondern in diesem Fall auf \textit{Key-Value}-Paaren. Redis zeichnet sich vor allem durch seine verschiedenen Datentypen und seine schnellen Schreib- und Lesevorgänge aus, welche durch die Speicherung in den Arbeitsspeicher resultieren\footcite{redis-book}. Daher ist es gut für Daten geeignet, welche eine hohe Speicherungs- oder Abruffrequenz haben. Obwohl Redis hauptsächlich im Arbeitsspeicher arbeitet bietet es auch Optionen zur Datensicherung auf der Festplatte, um Datenverluste zu vermeiden. Oft dient Redis als Cache-Speicher um häufig verwendete Daten temporär zu speichern und dadurch den Zugriff auf die Daten zu beschleunigen\footcite{redis}. 
+
+Zu den möglichen Datentypen zählen Strings, Listen, Sets, Hashes, sortierte Sets, Streams und einige weitere\footcite{redis}. 	
+
+ Zudem ermöglicht Redis eine gute Skalierbarkeit indem mehrere Redis Instanzen verbunden werden, anstatt eine Instanz hoch zu skalieren.
+       
+        \subsection{Weitere verwendete Bibliotheken}
+        \subsubsection{JSON Web Token}
+        
+        \subsubsection{Chakra UI}
+Chakra UI ist eine simple Komponenten Bibliothek, welche das designen von React Anwendungen vereinfacht\footcite{chakraui}. Es stellt Komponenten zur Verfügung, welchen verschiedene Attribute zugeordnet werden können um diese nach eigenem ermessen zu designen (siehe Code Beispiel \ref{lst:chakra-example} und Abbildung \ref{fig:chakra-example}).
+
+\begin{lstlisting}[style=codeStyle, caption={Beispiel mit Chakra UI designten React Komponente (siehe Abbildung  \textbf{Quelle: } \cite{chakraui}}, label={lst:chakra-example}]
+import * as React from "react";
+import { Box, Center, Image, Flex, Badge, Text } from "@chakra-ui/react";
+import { MdStar } from "react-icons/md";
+
+export default function Example() {
+  return (
+    <Center h="100vh">
+      <Box p="5" maxW="320px" borderWidth="1px">
+        <Image borderRadius="md" src="https://bit.ly/2k1H1t6" />
+        <Flex align="baseline" mt={2}>
+          <Badge colorScheme="pink">Plus</Badge>
+          <Text
+            ml={2}
+            textTransform="uppercase"
+            fontSize="sm"
+            fontWeight="bold"
+            color="pink.800"
+          >
+            Verified &bull; Cape Town
+          </Text>
+        </Flex>
+        <Text mt={2} fontSize="xl" fontWeight="semibold" lineHeight="short">
+          Modern, Chic Penthouse with Mountain, City & Sea Views
+        </Text>
+        <Text mt={2}>$119/night</Text>
+        <Flex mt={2} align="center">
+          <Box as={MdStar} color="orange.400" />
+          <Text ml={1} fontSize="sm">
+            <b>4.84</b> (190)
+          </Text>
+        </Flex>
+      </Box>
+    </Center>
+  );
+}
+\end{lstlisting}
+        \subsubsection{Formik und Yup}
+Formik ist die beliebteste Open Source Bibliothek für Formulare in React \footcite{formik}. Es vereinfacht die Handhabung von Formularen und bietet Funktionalitäten wie eine Validation der eingegebenen Werte des Formulars, Fehlermeldungen oder die Verwendung von multi-steps Formularen.
+
+Yup ist eine Bibliothek um einfach Schemata zu definieren, die ein bestimmtes Formular erfüllen soll. Es ermöglicht komplexe Schema mit wenig Code zu generieren\footcite{Yup}.
+
+Die Validierung von Formik-Formularen mittels Yup-Schemata ist bereits unterstützt und ermöglicht eine einfache Handhabung von Überprüfung und Fehlerbehandlung bei Benutzereingaben.
+        \subsubsection{chess.js}
+Chess.js ist eine TypeScript Schach Bibliothek, welche die gesamte Schachlogik zur Verfügung stellt. Es bietet Methoden, welche alle aktuell möglichen Züge ausgibt, einen Zug macht und verschiedene Notationen des Zugs zurückgibt, überprüft ob es sich um ein Schachmatt oder Patt handelt, eine Partie mittels einer FEN\footcite{FEN} oder PGN\footcite{PGN} Notation laden kann und vieles weitere. 
+        \subsubsection{chessground}
+        \subsubsection{kokopu}
+        
+        
 \chapter{Systemarchitektur}
 Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
 
@@ -312,6 +461,22 @@ Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework ve
     \footnotesize\sffamily\textbf{Quelle:} \cite{socketio}
   \caption{Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}
   \label{fig:socket.io-beispiel}
+\end{figure}
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{socket.io-rooms.png}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{socket-rooms}
+  \caption{Darstellung eines Raumes \textit{myroom} mit zwei sockets}
+  \label{fig:socket.io-room}
+\end{figure}
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=60mm]{Chakra-UI Beispiel.png}
+    \footnotesize\sffamily\textbf{Quelle:} \cite{chakraui}
+  \caption{Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref{lst:chakra-example}}
+  \label{fig:chakra-example}
 \end{figure}
 
 

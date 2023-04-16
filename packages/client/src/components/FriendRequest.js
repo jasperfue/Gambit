@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { HStack, Text, Button } from '@chakra-ui/react';
-import socket from '../Socket.js';
 import {SocketContext} from "../App.js";
 
 const FriendRequest = (props) => {

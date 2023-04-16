@@ -7,7 +7,7 @@ import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Ch
 import {Chess} from 'chess.js';
 import ReactChessClock from "./ReactChessClock.js";
 import {AccountContext} from "../AccountContext.js";
-import {useFetcher, useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import PromotionModal from "./PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
 import {SocketContext} from "../App.js";
@@ -289,7 +289,7 @@ const ChessGame = () => {
         return () => {
             socket.off('opponentMove');
             socket.off('Checkmate');
-            scoket.off('Stalemate');
+            socket.off('Stalemate');
             socket.off('Time_Over');
             socket.off('Cancel_Game');
             socket.off('resigned');

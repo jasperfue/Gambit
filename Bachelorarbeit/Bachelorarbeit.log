@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  14 APR 2023 19:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  16 APR 2023 18:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -361,24 +361,24 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 ) (Bachelorarbeit.aux)
 \openout1 = `Bachelorarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -439,18 +439,18 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 57.
+Package hyperref Info: Link coloring OFF on input line 58.
 (Bachelorarbeit.out) (Bachelorarbeit.out)
 \@outlinefile=\write3
 \openout3 = `Bachelorarbeit.out'.
 
 \c@lstlisting=\count295
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 84.
+(Font)              <12> on input line 85.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 84.
+(Font)              <8> on input line 85.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 84.
+(Font)              <6> on input line 85.
  [1
 
 {C:/Users/jaspe/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] (Bachelorarb
@@ -459,7 +459,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.38 ...erline {6.2}Limitationen}{13}{section.6.2}
+l.45 ...line {6}Fazit und Ausblick}{19}{chapter.6}
                                                   % [1
 
 ])
@@ -469,13 +469,13 @@ l.38 ...erline {6.2}Limitationen}{13}{section.6.2}
  [2]
 Kapitel 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 106.
+(Font)              <7> on input line 107.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 106.
+(Font)              <5> on input line 107.
 [3
 
 ]
-Overfull \hbox (1.81366pt too wide) in paragraph at lines 124--125
+Overfull \hbox (1.81366pt too wide) in paragraph at lines 125--126
 \OT1/cmr/m/n/12 Diese Ba-che-lor-ar-beit glie-dert sich in sechs Haupt-ka-pi-te
 l, die je-weils un-ter-schied-li-che Aspek-
  []
@@ -489,101 +489,138 @@ Kapitel 2.
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 154.
+nput line 155.
 
 [6]
-Overfull \hbox (26.94946pt too wide) in paragraph at lines 182--183
-\OT1/cmr/m/n/12 man sich ent-schlie-^^Yen das Event an al-le cli-ents im Raum z
-u ver-sen-den ([][]\OT1/cmtt/m/n/12 io.to(...).emit(...)[]\OT1/cmr/m/n/12 )
+Overfull \hbox (8.76236pt too wide) in paragraph at lines 183--184
+\OT1/cmr/m/n/12 den ([][]\OT1/cmtt/m/n/12 io.to(...).emit(...)[]\OT1/cmr/m/n/12
+ ) oder an al-le, au-^^Yer den sen-der ([][]\OT1/cmtt/m/n/12 socket.to(...).emi
+t(...)[]\OT1/cmr/m/n/12 )
  []
 
-[7] [8]
-Kapitel 3.
-[9
+[7]
+Overfull \hbox (89.23747pt too wide) in paragraph at lines 208--210
+\OT1/cmr/m/n/12 wel-che zum Bei-spiel mit-tels dem Tag [][]\OT1/cmtt/m/n/12 <Ex
+ampleComponent initialCount={10} loadingDelay={3000} />
+ []
 
-] [10]
+[8] [9]
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
+240.
+ (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
+File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [10]
+Overfull \hbox (29.85231pt too wide) in paragraph at lines 290--291
+[]\OT1/cmr/m/it/12 Durability (Dau-er-haf-tig-keit)\OT1/cmr/m/n/12 : Nach ei-ne
+r ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
+ []
+
+[11] [12]
+Overfull \hbox (13.60242pt too wide) in paragraph at lines 351--352
+\OT1/cmr/m/n/12 Chess.js ist ei-ne Ty-pe-S-cript Schach Bi-blio-thek, wel-che d
+ie ge-sam-te Schach-lo-gik zur Verf[]ugung
+ []
+
+[13] [14]
+Kapitel 3.
+[15
+
+] [16]
 Kapitel 4.
-[11
+[17
 
 ]
 Kapitel 5.
-[12
+[18
 
 ]
 Kapitel 6.
-[13
+[19
 
 ] (Bachelorarbeit.lof)
 \tf@lof=\write5
 \openout5 = `Bachelorarbeit.lof'.
 
-<./images//Schachentwicklung.jpg, id=382, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=589, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
-Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 24
-6.
+Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 39
+5.
 (pdftex.def)             Requested size: 455.24408pt x 111.36414pt.
 LaTeX Font Info:    Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 248.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 397.
 
-<./images//en-passant.jpeg, id=384, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=591, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
-Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 254.
+Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 403.
 (pdftex.def)             Requested size: 455.24408pt x 148.51175pt.
-<./images//promotion.jpeg, id=386, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=593, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
-Package pdftex.def Info: ./images//promotion.jpeg  used on input line 262.
+Package pdftex.def Info: ./images//promotion.jpeg  used on input line 411.
 (pdftex.def)             Requested size: 225.27734pt x 227.62204pt.
-<./images//node-request.jpg, id=388, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=595, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
-Package pdftex.def Info: ./images//node-request.jpg  used on input line 273.
+Package pdftex.def Info: ./images//node-request.jpg  used on input line 422.
 (pdftex.def)             Requested size: 455.24408pt x 149.694pt.
-<./images//express-request.jpg, id=391, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=598, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
-Package pdftex.def Info: ./images//express-request.jpg  used on input line 282.
+Package pdftex.def Info: ./images//express-request.jpg  used on input line 431.
 
 (pdftex.def)             Requested size: 455.24408pt x 137.34811pt.
-<./images//Middleware-Beispiel.jpg, id=394, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=601, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
-290.
+439.
 (pdftex.def)             Requested size: 455.24408pt x 202.9357pt.
-<./images//Middleware-Beispiel-2.jpg, id=395, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=602, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
-e 294.
+e 443.
 (pdftex.def)             Requested size: 455.24408pt x 226.08426pt.
-<./images//express-routing-example.jpg, id=398, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=605, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
-ine 302.
+ine 451.
 (pdftex.def)             Requested size: 455.24408pt x 182.10199pt.
-<./images//socket.io-server-beispiel.png, id=401, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=608, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
- line 310.
+ line 459.
 (pdftex.def)             Requested size: 199.16928pt x 160.43173pt.
-<./images//socket.io-client-beispiel.png, id=403, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=610, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
- line 311.
+ line 460.
 (pdftex.def)             Requested size: 199.16928pt x 146.417pt.
- (Bachelorarbeit.bbl [14
+<./images//socket.io-rooms.png, id=613, 690.58pt x 332.24126pt>
+File: ./images//socket.io-rooms.png Graphic file (type png)
+<use ./images//socket.io-rooms.png>
+Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 468.
 
- <./images//Schachentwicklung.jpg> <./images//en-passant.jpeg>] [15 <./images//
-promotion.jpeg> <./images//node-request.jpg> <./images//express-request.jpg>] [
-16 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>] [
-17 <./images//express-routing-example.jpg> <./images//socket.io-server-beispiel
-.png> <./images//socket.io-client-beispiel.png>]
+(pdftex.def)             Requested size: 455.24408pt x 219.02135pt.
+<./images//Chakra-UI Beispiel.png, id=615, 254.1495pt x 301.125pt>
+File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
+<use ./images//Chakra-UI Beispiel.png>
+Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 4
+76.
+(pdftex.def)             Requested size: 170.71652pt x 202.27649pt.
+ (Bachelorarbeit.bbl [20
+
+ <./images//Schachentwicklung.jpg>] [21 <./images//en-passant.jpeg> <./images//
+promotion.jpeg> <./images//node-request.jpg>] [22 <./images//express-request.jp
+g>] [23 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jp
+g>] [24 <./images//express-routing-example.jpg> <./images//socket.io-server-bei
+spiel.png> <./images//socket.io-client-beispiel.png>] [25 <./images//socket.io-
+rooms.png> <./images//Chakra-UI Beispiel.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 14--18
 []\OT1/cmr/m/n/12 Astrid Han-sen.  Wie ein schach-spiel zum wett-streit der sys
 -te-
@@ -613,39 +650,53 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--24
 sportschau . de / schach /
  []
 
-[18
 
-]) [19] (Bachelorarbeit.aux)
+Underfull \hbox (badness 2753) in paragraph at lines 67--71
+[]\OT1/cmr/m/n/12 Stack Over-flow.  Stack over-flow sur-vey 2022, 2022.  URL []
+$\OT1/cmtt/m/n/12 https : / / survey .
+ []
+
+[26
+
+]
+Underfull \hbox (badness 2941) in paragraph at lines 123--125
+[]\OT1/cmr/m/n/12 Forsyth-edwards no-ta-ti-on (fen), 2023.  URL []$\OT1/cmtt/m/
+n/12 https : / / de . wikipedia . org / wiki /
+ []
+
+) [27] (Bachelorarbeit.aux)
 Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
-(rerunfilecheck)             Checksum: 09B3D2640C8B80741885AB3A5BDBEB4D;5049.
+(rerunfilecheck)             Checksum: 84E0C24AF2621E31A819AEC0A0C4C87B;5330.
  ) 
 Here is how much of TeX's memory you used:
- 13540 strings out of 478338
- 218056 string characters out of 2836700
- 831942 words of memory out of 3000000
- 31654 multiletter control sequences out of 15000+600000
- 476536 words of font info for 53 fonts, out of 8000000 for 9000
+ 13814 strings out of 478338
+ 222571 string characters out of 2836700
+ 869647 words of memory out of 3000000
+ 31793 multiletter control sequences out of 15000+600000
+ 477171 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,8n,77p,1349b,1288s stack positions out of 10000i,1000n,20000p,200000b,80000s
-<C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmr10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmr12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jaspe/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jaspe/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jaspe/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/jasp
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/U
-sers/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx1
-0.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmssi12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on Bachelorarbeit.pdf (20 pages, 635694 bytes).
+ 72i,8n,77p,1349b,2072s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1200.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\tctt1095.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jaspe/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jaspe/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jaspe/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jaspe/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/j
+aspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C
+:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss
+12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmssi12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on Bachelorarbeit.pdf (28 pages, 939369 bytes).
 PDF statistics:
- 539 PDF objects out of 1000 (max. 8388607)
- 118 named destinations out of 1000 (max. 500000)
- 339 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 809 PDF objects out of 1000 (max. 8388607)
+ 246 named destinations out of 1000 (max. 500000)
+ 357 words of extra memory for PDF output out of 10000 (max. 10000000)
 
