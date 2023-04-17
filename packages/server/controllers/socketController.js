@@ -158,11 +158,29 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
         "time",
         JSON.stringify(time),
         "pgn",
-        pgn
+        pgn,
+        "chat",
+        JSON.stringify([])
     );
     await addActiveGame(whitePlayer, roomId);
     await addActiveGame(blackPlayer, roomId);
 }
+
+module.exports.addChatMessage = async (roomId, username, message) => {
+    try {
+        // Get the current chat messages from Redis
+        const chatJson = await redisClient.hget(`game:${roomId}`, 'chat');
+        const chat = JSON.parse(chatJson) || [];
+
+        // Add the new message to the chat array
+        chat.push({ username, message });
+
+        // Update the chat messages in Redis
+        await redisClient.hset(`game:${roomId}`, 'chat', JSON.stringify(chat));
+    } catch (error) {
+        console.error('Error adding chat message:', error);
+    }
+};
 
 const removeActiveGame = async (username, roomId) => {
     // Hole das aktuelle Array von aktiven Spielen

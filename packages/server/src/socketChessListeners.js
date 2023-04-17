@@ -1,3 +1,4 @@
+const {addChatMessage} = require("../controllers/socketController.js");
 const {deleteGame} = require("../controllers/socketController.js");
 const {newChessMove} = require("../controllers/socketController.js");
 const {initializeGame} = require("../controllers/socketController.js");
@@ -81,6 +82,13 @@ module.exports.initializeChessListeners = (io) => {
                 queue.get(time.string).push(client);
             }
         });
+        client.on('sendMessage', async ({message, username, roomId}) => {
+            console.log('NEW MESSAGE', message);
+            if(!isGuest(username)) {
+                await addChatMessage(roomId, username, message);
+            }
+            io.to(roomId).emit("message", {message, username, roomId});
+            });
     });
 }
 
