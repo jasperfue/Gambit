@@ -27,7 +27,7 @@ const FriendList = (props) => {
                         friend.connected = status;
                     }
                     return friend;
-                })
+                });
             })
         });
         socket.on('friend_request_accepted', (friend) => {

@@ -82,7 +82,7 @@ module.exports.attemptSignUp = async (req, res) => {
         jwt.sign(
             user,
             process.env.JWT_SECRET,
-            {expiresIn: "1min"},
+            {expiresIn: "24h"},
             (err,token) => {
                 if(err) {
                     console.log(err);

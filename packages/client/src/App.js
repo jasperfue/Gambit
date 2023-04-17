@@ -29,14 +29,14 @@ function App() {
     const {user} = useContext(AccountContext);
     const [socket, setSocket] = useState(() => socketConn(user));
     useEffect(() => {
-        console.log(user);
         setSocket(() => socketConn(user));
     }, [user]);
 
         useEffect(() => {
+            console.log(socket);
             if (!socket.connected) {
                 socket.connect();
-            }
+            } else {
                 socket.on("game_request", (username, time) => {
                     setGameRequests((prevGameRequests) => [
                         ...prevGameRequests,
@@ -53,7 +53,8 @@ function App() {
                     socket.off('game_request');
                     socket.off('cancel_game_request');
                 }
-        }, []);
+            }
+        }, [socket.connected]);
 
 
     const handleCloseModal = (index) => {

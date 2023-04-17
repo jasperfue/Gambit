@@ -9,7 +9,6 @@ function UserContext({children}) {
     const [user, setUser] = useState({loggedIn: null, token: localStorage.getItem("token")});
 
     useEffect(() => {
-        console.log('Context');
         fetch("http://localhost:4000/auth/login", {
             credentials: "include",
             headers: {
@@ -31,7 +30,6 @@ function UserContext({children}) {
                     setUser({ loggedIn: false });
                     return;
                 }
-                console.log(data);
                 console.log('logged IN');
                 setUser({ ...data });
 

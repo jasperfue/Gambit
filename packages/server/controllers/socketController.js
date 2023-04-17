@@ -13,14 +13,16 @@ module.exports.authorizeUser = (socket, next) => {
             }
             socket.user = {...decodedPayload};
             console.log('initializeUSER');
-            initializeUser(socket);
-        })
+        });
     }
     next();
 }
 
-const initializeUser = async socket => {
-    console.log(socket.user);
+module.exports.initializeUser = async (socket, next) => {
+    if(!socket.user) {
+        next();
+        return;
+    }
     socket.join(socket.user.userid);
     let activeGames = await getActiveGames(socket.user.username);
     await redisClient.hset(
@@ -33,6 +35,10 @@ const initializeUser = async socket => {
         JSON.stringify(activeGames)
     );
     const friends = await getFriends(socket);
+    const friendRooms = friends.map(friend => friend.userid);
+    if (friendRooms.length > 0) {
+        socket.to(friendRooms).emit("connected", "true", socket.user.username);
+    }
     socket.emit('friends', friends);
 
     const friendRequests = await getFriendRequests(socket);
@@ -41,6 +47,7 @@ const initializeUser = async socket => {
    const gameData = await getActiveGamesData(socket.user.username);
    socket.emit('active_games', gameData);
 
+   next();
 };
 
 
@@ -73,10 +80,6 @@ const getFriends = async (socket) => {
         -1
     );
     const parsedFriendList = await parseFriendList(friendList);
-    const friendRooms = parsedFriendList.map(friend => friend.userid);
-    if (friendRooms.length > 0) {
-        socket.to(friendRooms).emit("connected", "true", socket.user.username);
-    }
     return parsedFriendList;
     }
     return [];

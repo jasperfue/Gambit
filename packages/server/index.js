@@ -7,7 +7,7 @@ const {corsConfig} = require('./controllers/serverController.js');
 const {initializeListeners} = require('./src/socketServer.js');
 const authRouter = require('./routers/authRouter.js');
 const {initializeChessListeners} = require("./src/socketChessListeners.js");
-const {authorizeUser} = require("./controllers/socketController.js");
+const {authorizeUser, initializeUser} = require("./controllers/socketController.js");
 
 const server = require('http').createServer(app);
 const io = new Server(server, {
@@ -25,13 +25,9 @@ app.use("/auth", authRouter);
 
 
 io.use(authorizeUser);
+io.use(initializeUser)
 initializeListeners(io);
 initializeChessListeners(io);
-io.on('connection', async (socket) => {
-        socket.on('login', async () => {
-        await authorizeUser(socket, () => {})
-        });
-});
 
 
 server.listen(4000, () => {
