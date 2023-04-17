@@ -3,11 +3,19 @@ const {query} = require("../src/database.js");
 const {v4: uuidv4} = require('uuid');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const cookie = require("cookie");
 
-const getJwt = req => req.headers["authorization"]?.split(" ")[1];
+
+const getJwtFromCookie = req => {
+    const jwtCookie = req.headers["cookie"] && cookie.parse(req.headers["cookie"])["jwt"];
+    return jwtCookie;
+};
+
+
 
 module.exports.handleLogin = (req, res) => {
-    const token = getJwt(req);
+    const token = getJwtFromCookie(req);
+    console.log(token);
     if(!token) {
         res.json({loggedIn: false});
         return;
@@ -47,6 +55,13 @@ module.exports.attemptLogin = async (req, res) => {
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
                     return;
                 } else {
+                    const jwtCookie = cookie.serialize("jwt", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production", // Set the Secure flag only in production
+                        maxAge: 24 * 60 * 60, // 24 hours
+                        sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
+                    });
+                    res.setHeader("Set-Cookie", jwtCookie);
                     res.json({loggedIn: true, token, ...user});
                 }
             }
@@ -89,6 +104,13 @@ module.exports.attemptSignUp = async (req, res) => {
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
                     return;
                 } else {
+                    const jwtCookie = cookie.serialize("jwt", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production", // Set the Secure flag only in production
+                        maxAge: 24 * 60 * 60, // 24 hours
+                        sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
+                    });
+                    res.setHeader("Set-Cookie", jwtCookie);
                     res.json({loggedIn: true, token, ...user});
                 }
             }

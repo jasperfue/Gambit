@@ -79,9 +79,7 @@ const Login = (props) => {
                     return;
                 }
                 setUser({...data});
-                localStorage.setItem("token", data.token);
                 setLoginError(null);
-                socket.emit('login');
                 navigate('/');
             });
     }
