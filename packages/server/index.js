@@ -13,6 +13,7 @@ const server = require('http').createServer(app);
 const io = new Server(server, {
     transports: ['websocket'],
     cors: corsConfig,
+    cookie: true
 });
 
 
@@ -22,7 +23,6 @@ app.use(
 );
 app.use(express.json());
 app.use("/auth", authRouter);
-
 
 io.use(authorizeUser);
 io.use(initializeUser)

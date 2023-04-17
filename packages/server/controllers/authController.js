@@ -5,17 +5,28 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const cookie = require("cookie");
 
-
 const getJwtFromCookie = req => {
     const jwtCookie = req.headers["cookie"] && cookie.parse(req.headers["cookie"])["jwt"];
     return jwtCookie;
 };
 
+module.exports.handleLogout = (req, res) => {
+    res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("jwt", "", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: -1,
+            sameSite: "lax",
+        })
+    );
+    res.sendStatus(204);
+}
+
 
 
 module.exports.handleLogin = (req, res) => {
     const token = getJwtFromCookie(req);
-    console.log(token);
     if(!token) {
         res.json({loggedIn: false});
         return;
@@ -23,9 +34,10 @@ module.exports.handleLogin = (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
         if(err) {
             res.json({loggedIn: false});
-            return
+            return;
         }
-        res.json({loggedIn: true, token, ...decodedPayload});
+        res.json({loggedIn: true, token, username: decodedPayload.username});
+        return;
     })
 };
 
@@ -62,7 +74,7 @@ module.exports.attemptLogin = async (req, res) => {
                         sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
-                    res.json({loggedIn: true, token, ...user});
+                    res.json({loggedIn: true, token,  username: user.username});
                 }
             }
             );
@@ -111,7 +123,7 @@ module.exports.attemptSignUp = async (req, res) => {
                         sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
-                    res.json({loggedIn: true, token, ...user});
+                    res.json({loggedIn: true, token, user: user.username});
                 }
             }
         );

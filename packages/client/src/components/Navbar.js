@@ -45,14 +45,26 @@ const Navbar = () => {
     }
 
     const logOut = () => {
-        socket.emit('logout' ,({done}) => {
-            if(done) {
-                localStorage.removeItem('token');
-                setUser({loggedIn: false});
-            } else {
-                console.log('logging out failed');
-            }
-        });
+        fetch("http://localhost:4000/auth/logout", {
+            method: "GET",
+            credentials: "include",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    socket.emit('logout' ,({done}) => {
+                        if(done) {
+                            setUser({loggedIn: false});
+                        } else {
+                            console.log('logging out failed');
+                        }
+                    });
+                } else {
+                    console.error("Error logging out");
+                }
+            })
+            .catch((error) => {
+                console.error("Error logging out:", error);
+            });
     }
 
     return (

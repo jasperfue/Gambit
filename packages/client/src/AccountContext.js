@@ -6,14 +6,11 @@ const {createContext} = require('react');
 export const AccountContext = createContext();
 
 function UserContext({children}) {
-    const [user, setUser] = useState({loggedIn: null, token: localStorage.getItem("token")});
+    const [user, setUser] = useState({loggedIn: null, token: null});
 
     useEffect(() => {
         fetch("http://localhost:4000/auth/login", {
             credentials: "include",
-            headers: {
-                "authorization": `Bearer ${user.token}`
-            }
         })
             .catch(err => {
                 return;
@@ -31,8 +28,7 @@ function UserContext({children}) {
                     return;
                 }
                 console.log('logged IN');
-                setUser({ ...data });
-
+                setUser({ ...data});
             });
     }, []);
     return (

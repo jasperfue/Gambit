@@ -30,6 +30,7 @@ function App() {
     const [socket, setSocket] = useState(() => socketConn(user));
     useEffect(() => {
         setSocket(() => socketConn(user));
+        console.log('Neue SOCKET VERBINDUNG');
     }, [user]);
 
         useEffect(() => {

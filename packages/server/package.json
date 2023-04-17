@@ -17,6 +17,7 @@
     "kokopu": "^4.4.0",
     "pg": "^8.8.0",
     "socket.io": "^4.5.4",
+    "socket.io-cookie-parser": "^1.0.0",
     "uuid": "^9.0.0"
   },
   "scripts": {

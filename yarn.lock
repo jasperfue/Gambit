@@ -4519,10 +4519,23 @@ convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.6.0,
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.9.0.tgz#7faae62353fb4213366d0ca98358d22e8368b05f"
   integrity sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==
 
+cookie-parser@^1.3.2:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.6.tgz#3ac3a7d35a7a03bbc7e365073a26074824214594"
+  integrity sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==
+  dependencies:
+    cookie "0.4.1"
+    cookie-signature "1.0.6"
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
+
+cookie@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
+  integrity sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
 
 cookie@0.4.2, cookie@~0.4.1:
   version "0.4.2"
@@ -10276,6 +10289,13 @@ socket.io-client@^4.5.4:
     debug "~4.3.2"
     engine.io-client "~6.4.0"
     socket.io-parser "~4.2.1"
+
+socket.io-cookie-parser@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/socket.io-cookie-parser/-/socket.io-cookie-parser-1.0.0.tgz#41abd6cb557992d7b474b23e1b7d07c964817c61"
+  integrity sha512-XBr6UAVQBmI5EE0A019CNgeV7H7QVMHGeWt6OfVS8XH0Pjv9HOmH0/Ak5LX2j6xmH0fKfv6YFXAtjtfp3xmBlQ==
+  dependencies:
+    cookie-parser "^1.3.2"
 
 socket.io-parser@~4.2.1:
   version "4.2.2"
