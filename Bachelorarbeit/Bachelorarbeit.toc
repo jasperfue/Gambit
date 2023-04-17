@@ -16,10 +16,10 @@
 \contentsline {subsubsection}{PostgreSQL}{10}{subsubsection*.4}%
 \contentsline {subsubsection}{Redis}{12}{subsubsection*.5}%
 \contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{12}{subsection.2.2.5}%
-\contentsline {subsubsection}{JSON Web Token}{12}{subsubsection*.6}%
+\contentsline {subsubsection}{JWT}{12}{subsubsection*.6}%
 \contentsline {subsubsection}{Chakra UI}{12}{subsubsection*.7}%
 \contentsline {subsubsection}{Formik und Yup}{13}{subsubsection*.8}%
-\contentsline {subsubsection}{chess.js}{13}{subsubsection*.9}%
+\contentsline {subsubsection}{chess.js}{14}{subsubsection*.9}%
 \contentsline {subsubsection}{chessground}{14}{subsubsection*.10}%
 \contentsline {subsubsection}{kokopu}{14}{subsubsection*.11}%
 \contentsline {chapter}{\numberline {3}Systemarchitektur}{15}{chapter.3}%

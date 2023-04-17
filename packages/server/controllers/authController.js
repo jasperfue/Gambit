@@ -18,6 +18,7 @@ module.exports.handleLogout = (req, res) => {
             secure: process.env.NODE_ENV === "production",
             maxAge: -1,
             sameSite: "lax",
+            path: "/"
         })
     );
     res.sendStatus(204);
@@ -36,7 +37,7 @@ module.exports.handleLogin = (req, res) => {
             res.json({loggedIn: false});
             return;
         }
-        res.json({loggedIn: true, token, username: decodedPayload.username});
+        res.json({loggedIn: true, username: decodedPayload.username});
         return;
     })
 };
@@ -72,9 +73,10 @@ module.exports.attemptLogin = async (req, res) => {
                         secure: process.env.NODE_ENV === "production", // Set the Secure flag only in production
                         maxAge: 24 * 60 * 60, // 24 hours
                         sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
+                        path: "/"
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
-                    res.json({loggedIn: true, token,  username: user.username});
+                    res.json({loggedIn: true,  username: user.username});
                 }
             }
             );
@@ -123,7 +125,7 @@ module.exports.attemptSignUp = async (req, res) => {
                         sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
-                    res.json({loggedIn: true, token, user: user.username});
+                    res.json({loggedIn: true, user: user.username});
                 }
             }
         );

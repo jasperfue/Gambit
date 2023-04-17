@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  17 APR 2023 11:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  17 APR 2023 18:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -516,13 +516,21 @@ Overfull \hbox (29.85231pt too wide) in paragraph at lines 288--289
 r ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
  []
 
-[11] [12]
-Overfull \hbox (13.60242pt too wide) in paragraph at lines 349--350
+[11]
+
+Package natbib Warning: Citation `JWT' on page 12 undefined on input line 301.
+
+
+Package natbib Warning: Citation `Http-only' on page 12 undefined on input line
+ 301.
+
+[12] [13]
+Overfull \hbox (13.60242pt too wide) in paragraph at lines 350--351
 \OT1/cmr/m/n/12 Chess.js ist ei-ne Ty-pe-S-cript Schach Bi-blio-thek, wel-che d
 ie ge-sam-te Schach-lo-gik zur Verf[]ugung
  []
 
-[13] [14]
+[14]
 Kapitel 3.
 [15
 
@@ -542,77 +550,77 @@ Kapitel 6.
 \tf@lof=\write5
 \openout5 = `Bachelorarbeit.lof'.
 
-<./images//Schachentwicklung.jpg, id=589, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=594, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
 Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 39
-3.
+5.
 (pdftex.def)             Requested size: 455.24408pt x 111.36414pt.
 LaTeX Font Info:    Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 395.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 397.
 
-<./images//en-passant.jpeg, id=591, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=596, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
-Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 401.
+Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 403.
 (pdftex.def)             Requested size: 455.24408pt x 148.51175pt.
-<./images//promotion.jpeg, id=593, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=598, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
-Package pdftex.def Info: ./images//promotion.jpeg  used on input line 409.
+Package pdftex.def Info: ./images//promotion.jpeg  used on input line 411.
 (pdftex.def)             Requested size: 225.27734pt x 227.62204pt.
-<./images//node-request.jpg, id=595, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=600, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
-Package pdftex.def Info: ./images//node-request.jpg  used on input line 420.
+Package pdftex.def Info: ./images//node-request.jpg  used on input line 422.
 (pdftex.def)             Requested size: 455.24408pt x 149.694pt.
-<./images//express-request.jpg, id=598, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=603, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
-Package pdftex.def Info: ./images//express-request.jpg  used on input line 429.
+Package pdftex.def Info: ./images//express-request.jpg  used on input line 431.
 
 (pdftex.def)             Requested size: 455.24408pt x 137.34811pt.
-<./images//Middleware-Beispiel.jpg, id=601, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=606, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
-437.
+439.
 (pdftex.def)             Requested size: 455.24408pt x 202.9357pt.
-<./images//Middleware-Beispiel-2.jpg, id=602, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=607, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
-e 441.
+e 443.
 (pdftex.def)             Requested size: 455.24408pt x 226.08426pt.
-<./images//express-routing-example.jpg, id=605, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=610, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
-ine 449.
+ine 451.
 (pdftex.def)             Requested size: 455.24408pt x 182.10199pt.
-<./images//socket.io-server-beispiel.png, id=608, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=613, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
- line 457.
+ line 459.
 (pdftex.def)             Requested size: 199.16928pt x 160.43173pt.
-<./images//socket.io-client-beispiel.png, id=610, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=615, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
- line 458.
+ line 460.
 (pdftex.def)             Requested size: 199.16928pt x 146.417pt.
-<./images//socket.io-rooms.png, id=613, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=618, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
-Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 466.
+Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 468.
 
 (pdftex.def)             Requested size: 455.24408pt x 219.02135pt.
-<./images//Chakra-UI Beispiel.png, id=615, 254.1495pt x 301.125pt>
+<./images//Chakra-UI Beispiel.png, id=620, 254.1495pt x 301.125pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
 Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 4
-74.
+76.
 (pdftex.def)             Requested size: 170.71652pt x 202.27649pt.
  (Bachelorarbeit.bbl [20
 
@@ -665,39 +673,44 @@ Underfull \hbox (badness 2941) in paragraph at lines 123--125
 n/12 https : / / de . wikipedia . org / wiki /
  []
 
-) [27] (Bachelorarbeit.aux)
+)
+
+Package natbib Warning: There were undefined citations.
+
+[27] (Bachelorarbeit.aux)
 Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: 84E0C24AF2621E31A819AEC0A0C4C87B;5330.
  ) 
 Here is how much of TeX's memory you used:
- 13814 strings out of 478338
- 222571 string characters out of 2836700
+ 13818 strings out of 478338
+ 222616 string characters out of 2836700
  869645 words of memory out of 3000000
- 31793 multiletter control sequences out of 15000+600000
- 477171 words of font info for 55 fonts, out of 8000000 for 9000
+ 31794 multiletter control sequences out of 15000+600000
+ 477479 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,8n,77p,1349b,2072s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1200.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\tctt1095.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jaspe/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jaspe/AppData/Local/Pr
-ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jaspe/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jaspe/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/j
-aspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C
+amsfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jaspe/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jaspe/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jaspe/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users
+/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C
 :/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss
-12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmssi12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on Bachelorarbeit.pdf (28 pages, 939357 bytes).
+10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmss12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmssi12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on Bachelorarbeit.pdf (28 pages, 950934 bytes).
 PDF statistics:
- 809 PDF objects out of 1000 (max. 8388607)
- 246 named destinations out of 1000 (max. 500000)
+ 819 PDF objects out of 1000 (max. 8388607)
+ 248 named destinations out of 1000 (max. 500000)
  357 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -297,8 +297,9 @@ Zu den möglichen Datentypen zählen Strings, Listen, Sets, Hashes, sortierte Se
  Zudem ermöglicht Redis eine gute Skalierbarkeit indem mehrere Redis Instanzen verbunden werden, anstatt eine Instanz hoch zu skalieren.
        
         \subsection{Weitere verwendete Bibliotheken}
-        \subsubsection{JSON Web Token}
-        
+        \subsubsection{JWT}
+JWT (\textit{JSON Web Token}) ist ein offener Standard, der eine sichere Möglichkeit bietet Informationen in Form eines JSON Objekts zu übertragen\footcite{JWT}. Diesen Informationen kann vertraut werden, da sie mittels eines privaten Server seitigen secrets mit verschiedenen Algorithmen  verschlüsselt (\textit{signiert}) werden. Der meist verwendete Anwendungsbereich für JSON Web Tokens ist die Authentifizierung, bei der der vom Backend generierte Token in einer Session oder einem Cookie gespeichert wird. Dieser kann beim Laden einer Seite aus dem HTTP Request entnommen und mittels des secrets verifiziert werden. Dabei ist wichtig zu beachten, dass der Token nicht Client seitig mit manipulierbar sein darf, da das ein Sicherheitsrisiko darstellen kann. Dies kann beispielsweise mit einem HTTP-Only Cookie\footcite{Http-only} erreicht werden.
+ 
         \subsubsection{Chakra UI}
 Chakra UI ist eine simple Komponenten Bibliothek, welche das designen von React Anwendungen vereinfacht\footcite{chakraui}. Es stellt Komponenten zur Verfügung, welchen verschiedene Attribute zugeordnet werden können um diese nach eigenem ermessen zu designen (siehe Code Beispiel \ref{lst:chakra-example} und Abbildung \ref{fig:chakra-example}).
 
@@ -348,6 +349,7 @@ Die Validierung von Formik-Formularen mittels Yup-Schemata ist bereits unterstü
         \subsubsection{chess.js}
 Chess.js ist eine TypeScript Schach Bibliothek, welche die gesamte Schachlogik zur Verfügung stellt. Es bietet Methoden, welche alle aktuell möglichen Züge ausgibt, einen Zug macht und verschiedene Notationen des Zugs zurückgibt, überprüft ob es sich um ein Schachmatt oder Patt handelt, eine Partie mittels einer FEN\footcite{FEN} oder PGN\footcite{PGN} Notation laden kann und vieles weitere. 
         \subsubsection{chessground}
+        
         \subsubsection{kokopu}
         
         

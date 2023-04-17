@@ -1,11 +1,15 @@
 const redisClient = require('../src/redis.js');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
+const cookie = require('cookie');
 
 
 
 module.exports.authorizeUser = (socket, next) => {
-    const token = socket.handshake.auth.token;
+    let token = null;
+    if(socket.request.headers.cookie) {
+        token = cookie.parse(socket.request.headers.cookie).jwt;
+    }
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
             if (err) {
