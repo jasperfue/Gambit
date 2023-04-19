@@ -2,9 +2,10 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Box, VStack, Input, Button, Text, Flex, useColorModeValue} from '@chakra-ui/react';
 import { BiSend } from 'react-icons/bi';
 import {AccountContext} from "../AccountContext.js";
-import socket from "../Socket.js";
+import {SocketContext} from "../App.js";
 
 const Chat = ({ roomId, spectator, oldMessages }) => {
+    const {socket} = useContext(SocketContext);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState(oldMessages);
     const {user} = useContext(AccountContext);
