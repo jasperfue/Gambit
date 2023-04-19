@@ -17,9 +17,9 @@ import {
     HStack,
 } from "@chakra-ui/react";
 import { SunIcon, MoonIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import { AccountContext } from "../AccountContext.js";
+import { AccountContext } from "../Context/AccountContext.js";
 import {useNavigate} from "react-router-dom";
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const Navbar = () => {
     const {socket} = useContext(SocketContext);

@@ -1,11 +1,7 @@
-const {addChatMessage} = require("../controllers/socketController.js");
-const {deleteGame} = require("../controllers/socketController.js");
-const {newChessMove} = require("../controllers/socketController.js");
-const {initializeGame} = require("../controllers/socketController.js");
-const {getGame} = require("../controllers/socketController.js");
+const {deleteGame, getGame, initializeGame, newChessMove, addChatMessage} = require("../controllers/socketController.js");
 const {v4: UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
-const {Game, DateValue, pgnWrite} = require('kokopu');
+
 
 const waitingPlayers = new Map();
 waitingPlayers.set('1 + 0', []);
@@ -76,17 +72,15 @@ module.exports.initializeChessListeners = (io) => {
                 var opponent = queue.get(time.string).shift();
                 const gameData = await createChessGame(io, client, opponent, time);
 
-                client.emit('joinedGame', client.user.username, opponent.user.username, gameData.roomId, gameData.playerIsWhite);
-                opponent.emit('joinedGame', opponent.user.username, client.user.username, gameData.roomId, !gameData.playerIsWhite);
+                client.emit('joinedGame', client.user.username, opponent.user.username, gameData.roomId);
+                opponent.emit('joinedGame', opponent.user.username, client.user.username, gameData.roomId);
             } else {
                 queue.get(time.string).push(client);
             }
         });
         client.on('sendMessage', async ({message, username, roomId}) => {
             console.log('NEW MESSAGE', message);
-            if(!isGuest(username)) {
-                await addChatMessage(roomId, username, message);
-            }
+            await addChatMessage(roomId, username, message);
             io.to(roomId).emit("message", {message, username, roomId});
             });
     });
@@ -94,9 +88,12 @@ module.exports.initializeChessListeners = (io) => {
 
 
 const createChessGame = async (io, socket1, socket2, time) => {
+    const chessInstance = await import('./Chess.mjs').then(ChessFile => {
+        return ChessFile.Chess();
+    });
+
     let whitePlayer;
     let blackPlayer;
-    const chessInstance = new Game();
     var roomId = UUIDv4();
     socket1.join(roomId);
     socket2.join(roomId);
@@ -110,15 +107,11 @@ const createChessGame = async (io, socket1, socket2, time) => {
         whitePlayer = socket2;
     }
 
-
-    chessInstance.playerName('w', whitePlayer.user.username);
-    chessInstance.playerName('b', blackPlayer.user.username);
-    chessInstance.date(new DateValue(new Date()));
-    if (!isGuest(socket1.user.username)) {
-        await initializeGame(roomId, whitePlayer, blackPlayer, time, pgnWrite(chessInstance, {withPlyCount: true}));
-    }
+    const d = new Date();
+    chessInstance.header('White', whitePlayer.user.username, 'Black', blackPlayer.user.username, 'Date', d.toDateString());
+    await initializeGame(roomId, whitePlayer, blackPlayer, time, chessInstance.pgn());
     const chessClock = new ServerChessClock(time);
-    currentGames[roomId] = {chessClock, chessInstance,  whitePlayer, blackPlayer};
+    currentGames[roomId] = {chessClock,  whitePlayer, blackPlayer};
 
 
     chessClock.startStartingTimer('white');
@@ -141,7 +134,7 @@ const createChessGame = async (io, socket1, socket2, time) => {
         io.to(roomId).emit('Stop_Clocks');
         endGame(roomId);
     });
-    return {roomId, playerIsWhite}
+    return {roomId, playerIsWhite};
 }
 
 module.exports.createChessGame = createChessGame;
@@ -171,58 +164,62 @@ function isGuest(username) {
     return username.startsWith('guest');
 }
 
-const newMove = (socket, io) => (roomId, player, move, cb) => {
+const newMove = (socket, io) => async (roomId, player, move, cb) => {
     if(!currentGames[roomId]) {
         cb({done: false, errMsg: "Game does not exist"});
         return;
     }
-    const {chessClock, chessInstance} = currentGames[roomId];
+    const {chessClock} = currentGames[roomId];
     console.log(move);
-    let current = chessInstance.mainVariation().nodes()[chessInstance.mainVariation().nodes().length - 1];
-    if (!current) {
-        current = chessInstance.mainVariation();
-    }
+    const chessInstance = await import('./Chess.mjs').then(ChessFile => {
+        return ChessFile.Chess();
+    });
+    chessInstance.loadPgn(await getGame(roomId).then(data => {
+        return data.pgn
+    }));
     try {
-        current.play(move.san);
-    } catch (InvalidNotation) {
-        console.log(InvalidNotation);
-        cb({done: false, errMsg: InvalidNotation.message});
+        chessInstance.move(move)
+    } catch(error) {
+        cb({done: false, errMsg: error});
         return;
     }
+
     socket.to(roomId).emit('opponentMove', move);
-    if (chessInstance.finalPosition().isCheckmate()) {
-        io.to(roomId).emit('Checkmate', socket.user.username);
-        io.to(roomId).emit('Stop_Clocks');
-        chessClock.ChessClockAPI.emit('stop');
-        endGame(roomId);
-    } else if (chessInstance.finalPosition().isStalemate()) {
-        io.to(roomId).emit('Stalemate');
-        io.to(roomId).emit('Stop_Clocks');
-        chessClock.ChessClockAPI.emit('stop');
-        endGame(roomId);
-    } else {
+    if(chessInstance.isGameOver()) {
+        if (chessInstance.isCheckmate()) {
+            io.to(roomId).emit('Checkmate', socket.user.username);
+            io.to(roomId).emit('Stop_Clocks');
+            chessClock.ChessClockAPI.emit('stop');
+            endGame(roomId);
+        } else {
+            io.to(roomId).emit('Stalemate');
+            io.to(roomId).emit('Stop_Clocks');
+            chessClock.ChessClockAPI.emit('stop');
+            endGame(roomId);
+        }
+        cb({done: true});
+        return;
+    }
         chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
             io.to(roomId).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
         });
-    }
 
     console.log('opponentMove', move);
-    if (chessInstance.plyCount() === 1) {
+    if (chessInstance.history().length === 1) {
         chessClock.startStartingTimer('black');
         io.to(roomId).emit('stop_starting_time_white');
-    } else if (chessInstance.plyCount() === 2) {
+    } else if (chessInstance.history().length === 2) {
         chessClock.startTimer('white');
         io.to(roomId).emit('stop_starting_time_black');
     }
-    if (!isGuest(socket.user.username)) {
-        newChessMove(pgnWrite(chessInstance), roomId).then(r => cb({done: true}));
-    } else {
-        cb({done: true});
-    }
+    newChessMove(chessInstance.pgn(), roomId).then(r => cb({done: true}));
 }
 
 const leaveQueue = (client) => (time) => {
     let queue;
+    if(!client.user?.username) {
+        return;
+    }
     if (isGuest(client.user.username)) {
         queue = waitingGuests.get(time.string);
     } else {

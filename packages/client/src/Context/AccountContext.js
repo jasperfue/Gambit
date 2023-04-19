@@ -23,11 +23,6 @@ function UserContext({children}) {
                 return r.json();
             })
             .then(data => {
-                if (!data.loggedIn) {
-                    setUser({ loggedIn: false });
-                    return;
-                }
-                console.log('logged IN');
                 setUser({ ...data});
             });
     }, []);

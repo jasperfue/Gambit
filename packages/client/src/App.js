@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useState, createContext} from "react";
-import UserContext, {AccountContext} from "./AccountContext.js";
+import React, {useCallback, useEffect, useState} from "react";
 import Views from "./Views.js";
-import Navbar from "./components/Navbar.js";
+import Navbar from "./Components/Navbar.js";
 import {
     Box,
     useColorMode,
@@ -15,29 +14,20 @@ import {
     Center,
     HStack,
 } from "@chakra-ui/react";
-import socketConn from "./Socket.js";
 import {useNavigate} from "react-router";
 import {useContext} from "react";
+import {SocketContext} from "./Context/SocketContext.js";
 
 
-export const SocketContext = createContext();
 
 function App() {
     const [gameRequests, setGameRequests] = useState([]);
     const { colorMode } = useColorMode();
     const navigate = useNavigate();
-    const {user} = useContext(AccountContext);
-    const [socket, setSocket] = useState(() => socketConn(user));
-    useEffect(() => {
-        setSocket(() => socketConn(user));
-        console.log('Neue SOCKET VERBINDUNG');
-    }, [user]);
+    const {socket} = useContext(SocketContext);
 
         useEffect(() => {
             console.log(socket);
-            if (!socket.connected) {
-                socket.connect();
-            } else {
                 socket.on("game_request", (username, time) => {
                     setGameRequests((prevGameRequests) => [
                         ...prevGameRequests,
@@ -54,8 +44,7 @@ function App() {
                     socket.off('game_request');
                     socket.off('cancel_game_request');
                 }
-            }
-        }, [socket.connected]);
+        }, []);
 
 
     const handleCloseModal = (index) => {
@@ -89,7 +78,6 @@ function App() {
     }, []);
 
     return (
-            <SocketContext.Provider value={{socket}}>
             <Box bg={colorMode === "light" ? "gray.200" : "purple.900"} minH="100vh">
                 <Navbar />
                 <Views />
@@ -122,7 +110,6 @@ function App() {
                     </Modal>
                 ))}
             </Box>
-            </SocketContext.Provider>
     );
 }
 

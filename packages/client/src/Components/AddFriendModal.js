@@ -15,7 +15,7 @@ import {
     useColorModeValue, useColorMode
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const AddFriendModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();

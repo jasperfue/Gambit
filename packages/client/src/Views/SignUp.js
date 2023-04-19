@@ -10,11 +10,11 @@ import {
     InputRightElement, Link, Text,
     useColorModeValue, VStack
 } from "@chakra-ui/react";
-import {AccountContext} from "../AccountContext.js";
+import {AccountContext} from "../Context/AccountContext.js";
 import {useNavigate} from "react-router";
 import {SignUpSchema} from "@gambit/common";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const SignUp = (props) => {
     const {socket} = useContext(SocketContext);

@@ -3,7 +3,7 @@ import Friend from "./Friend.js";
 import FriendRequest from "./FriendRequest.js";
 import AddFriendModal from "./AddFriendModal.js";
 import { VStack, Text } from '@chakra-ui/react';
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const FriendList = (props) => {
     const {socket} = useContext(SocketContext);

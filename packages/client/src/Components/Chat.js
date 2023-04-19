@@ -1,10 +1,10 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Box, VStack, Input, Button, Text, Flex, useColorModeValue} from '@chakra-ui/react';
 import { BiSend } from 'react-icons/bi';
-import {AccountContext} from "../AccountContext.js";
-import {SocketContext} from "../App.js";
+import {AccountContext} from "../Context/AccountContext.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
-const Chat = ({ roomId, spectator, oldMessages }) => {
+const Chat = ({ roomId, spectator, oldMessages, guestName }) => {
     const {socket} = useContext(SocketContext);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState(oldMessages);
@@ -19,7 +19,11 @@ const Chat = ({ roomId, spectator, oldMessages }) => {
     const sendMessage = useCallback((e) => {
         e.preventDefault();
         if (message) {
-            socket.emit('sendMessage', { message, username: user.username, roomId });
+            if(!user.loggedIn) {
+                socket.emit('sendMessage', { message, username: guestName, roomId });
+            } else {
+                socket.emit('sendMessage', { message, username: user.username, roomId });
+            }
             setMessage('');
         }
     }, [message, user, roomId]);
@@ -48,8 +52,8 @@ const Chat = ({ roomId, spectator, oldMessages }) => {
                         key={index}
                         borderRadius="md"
                         p={2}
-                        backgroundColor={msg.username === user.username ? yourMessage : notYourMessage}
-                        alignSelf={msg.username === user.username ? 'flex-end' : 'flex-start'}
+                        backgroundColor={(msg.username === user.username || msg.username === guestName) ? yourMessage : notYourMessage}
+                        alignSelf={(msg.username === user.username || msg.username === guestName) ? 'flex-end' : 'flex-start'}
                         marginBottom="2"
                     >
                         <Text fontWeight="bold">{msg.username}</Text>

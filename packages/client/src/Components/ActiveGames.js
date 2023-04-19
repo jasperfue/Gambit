@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Button, Text, Box, Icon, useColorModeValue} from '@chakra-ui/react';
 import { GiChessQueen } from "react-icons/gi";
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const ActiveGames = (props) => {
     const [activeGames, setActiveGames] = useState([]);

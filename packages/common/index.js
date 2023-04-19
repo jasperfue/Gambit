@@ -3,8 +3,11 @@ require('yup-password')(Yup);
 
 const LoginSchema = Yup.object().shape({
     username: Yup.string()
-        .min(3, 'Username hat to be at least 3 characters long')
+        .min(3, 'Username has to be at least 3 characters long')
         .max(20, 'Username cannot be longer than 20 characters')
+        .test('not_guest', 'Username cannot start with "guest"', (value) => {
+            return !value.startsWith('guest');
+        })
         .required('Username is a required field'),
     password: Yup.string()
         .min(8, 'Password has to be at least 8 characters long')
@@ -18,8 +21,11 @@ const LoginSchema = Yup.object().shape({
 
 const SignUpSchema = Yup.object({
     username: Yup.string()
-        .min(3, 'Username hat to be at least 3 characters long')
+        .min(3, 'Username has to be at least 3 characters long')
         .max(20, 'Username cannot be longer than 20 characters')
+        .test('not_guest', 'Username cannot start with "guest"', (value) => {
+            return !value.startsWith('guest');
+        })
         .required('Username is a required field'),
     email: Yup.string()
         .email('Invalid E-Mail')

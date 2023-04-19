@@ -168,8 +168,12 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
         "chat",
         JSON.stringify([])
     );
-    await addActiveGame(whitePlayer, roomId);
-    await addActiveGame(blackPlayer, roomId);
+    if (!whitePlayer.user.username.startsWith('guest')) {
+        await addActiveGame(whitePlayer, roomId);
+    }
+    if (!blackPlayer.user.username.startsWith('guest')) {
+        await addActiveGame(blackPlayer, roomId);
+    }
 }
 
 module.exports.addChatMessage = async (roomId, username, message) => {
@@ -213,10 +217,12 @@ module.exports.deleteGame = async (roomId) => {
     const game = await redisClient.hgetall(`game:${roomId}`);
     const whitePlayerUsername = game.whitePlayer;
     const blackPlayerUsername = game.blackPlayer;
-
-    // Entferne das Spiel aus den aktiven Spielen beider Spieler
-    await removeActiveGame(whitePlayerUsername, roomId);
-    await removeActiveGame(blackPlayerUsername, roomId);
+    if(!whitePlayerUsername.startsWith('guest')) {
+        await removeActiveGame(whitePlayerUsername, roomId);
+    }
+    if(!blackPlayerUsername.startsWith('guest')) {
+        await removeActiveGame(blackPlayerUsername, roomId);
+    }
 
     // Lösche den Redis-Eintrag für das Spiel
     await redisClient.del(`game:${roomId}`);

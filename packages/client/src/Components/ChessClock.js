@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState, useContext} from "react";
 import {useColorModeValue, Flex, Box} from "@chakra-ui/react";
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
-const ReactChessClock = (props) => {
+const ChessClock = (props) => {
     const {socket} = useContext(SocketContext);
     const [time, setTime] = useState(props.time);
     const [timeWhite, setTimeWhite] = useState(props.remainingTimeWhite
@@ -186,4 +186,4 @@ const ReactChessClock = (props) => {
     );
 
 }
-export default ReactChessClock;
+export default ChessClock;

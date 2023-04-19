@@ -3,15 +3,15 @@ import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
 import 'chessground/assets/chessground.cburnett.css'
-import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Chess/ChessLogic.js";
+import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Utils/ChessLogic.js";
 import {Chess} from 'chess.js';
-import ReactChessClock from "./ReactChessClock.js";
-import {AccountContext} from "../AccountContext.js";
+import ChessClock from "../Components/ChessClock.js";
+import {AccountContext} from "../Context/AccountContext.js";
 import {useLocation, useParams} from "react-router-dom";
-import PromotionModal from "./PromotionModal.js";
+import PromotionModal from "../Components/PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
-import Chat from "./Chat.js";
-import {SocketContext} from "../App.js";
+import Chat from "../Components/Chat.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -37,7 +37,6 @@ const ChessGame = () => {
     const bg = useColorModeValue("white", "purple.500");
     const toast = useToast();
     const button = useColorModeValue("start-game-light", "start-game-dark");
-    const [isGuestGame, setIsGuestGame] = useState(null);
     const [oldMessages, setOldMessages] = useState([]);
 
 
@@ -54,8 +53,14 @@ const ChessGame = () => {
                 chess.loadPgn(data.pgn);
                 setOldMessages(JSON.parse(data.chat));
                 if (data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
-                    setOrientation("white");
-                    setSpectator(true);
+                    if (location.state?.client === data.whitePlayer) {
+                        setOrientation("white");
+                    } else if (location.state?.client === data.blackPlayer) {
+                        setOrientation("black");
+                    } else {
+                        setOrientation("white");
+                        setSpectator(true);
+                    }
                 } else if (data.whitePlayer === user.username) {
                     setOrientation("white");
                 } else {
@@ -68,47 +73,9 @@ const ChessGame = () => {
                     setRemainingTimeWhite(data.currentTimes.remainingTimeWhite);
                     setRemainingTimeBlack(data.currentTimes.remainingTimeBlack);
                 }
-                setIsGuestGame(false);
                 setInitialized(true);
             } else {
-                if (location.state) {
-                    if (location.state.playerColourIsWhite) {
-                        setWhitePlayer(location.state.client);
-                        setBlackPlayer(location.state.opponent);
-                        setOrientation("white");
-                    } else {
-                        setOrientation("black");
-                        setBlackPlayer(location.state.client);
-                        setWhitePlayer(location.state.opponent);
-                    }
-                    setTimeMode(location.state.time);
-                    setCurrentChessClockState("sw");
-                    let startingTime;
-                    switch (location.state.time.type) {
-                        case "Bullet" :
-                            startingTime = 15;
-                            break;
-                        case "Blitz" :
-                            startingTime = 20;
-                            break;
-                        case "Rapid" :
-                            startingTime = 30;
-                            break;
-                        case "Classical" :
-                            startingTime = 45;
-                            break;
-                        default :
-                            startingTime = 20;
-                            break;
-                    }
-                    setStartingTimeBlack(startingTime);
-                    setStartingTimeWhite(startingTime);
-                    setIsGuestGame(true);
-                    setInitialized(true);
-                } else {
-                    console.log(errMsg)
-                    setError(errMsg);
-                }
+                setError(errMsg);
             }
         });
     }, [roomId]);
@@ -429,7 +396,7 @@ const ChessGame = () => {
                                             </Heading>
                                         </>
                                     )}
-                                    <ReactChessClock
+                                    <ChessClock
                                         currentState={currentChessClockState}
                                         remainingTimeWhite={remainingTimeWhite}
                                         remainingTimeBlack={remainingTimeBlack}
@@ -452,14 +419,14 @@ const ChessGame = () => {
                                             </Heading>
                                         </>
                                     )}
-                                    {!spectator || (navigator.share && !isGuestGame) ?
+                                    {!spectator || navigator.share ?
                                         <Box display="flex" justifyContent="center" marginTop={4}>
                                             {!spectator && (
                                                 <Button variant={button} onClick={resign} marginRight={2}>
                                                     Resign
                                                 </Button>
                                             )}
-                                            {navigator.share && !isGuestGame && (
+                                            {navigator.share && (
                                                 <Button variant={button} onClick={shareUrl}>
                                                     Share
                                                 </Button>
@@ -490,7 +457,7 @@ const ChessGame = () => {
                                 flexDirection="column"
                                 justifyContent="space-between"
                             >
-                                <Chat roomId={roomId} spectator={spectator} oldMessages={oldMessages} />
+                                <Chat roomId={roomId} spectator={spectator} oldMessages={oldMessages} guestName={location.state?.client} />
                             </Box>
                         </>
                     ) : error === '' ? (

@@ -1,17 +1,16 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
-import {AccountContext} from "../AccountContext.js";
+import {AccountContext} from "../Context/AccountContext.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
-import FriendList from "../components/FriendList.js";
-import ActiveGames from "../components/ActiveGames.js";
-import {SocketContext} from "../App.js";
+import FriendList from "../Components/FriendList.js";
+import ActiveGames from "../Components/ActiveGames.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const Home = () => {
     const {socket} = useContext(SocketContext);
     const {user} = useContext(AccountContext);
     const [time, setTime] = useState(null);
     const navigate = useNavigate();
-    const [logOutError, setLogOutError] = useState('');
     const equity = useColorModeValue("white", "purple.500");
     const button = useColorModeValue("start-game-light", "start-game-dark");
     const location = useLocation();
@@ -55,14 +54,12 @@ const Home = () => {
     useEffect(() => {
         if(time !== null) {
             socket.emit('find_game', user, time);
-            socket.on('joinedGame', (client, opponent, roomId, playerColour) => {
+            socket.on('joinedGame', (client, opponent, roomId) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 navigate(`game/${roomId}`, {
                     state: {
                         client: client,
-                        opponent: opponent,
-                        playerColourIsWhite: playerColour,
-                        time: time
+                        opponent: opponent
                     }
                 });
             });

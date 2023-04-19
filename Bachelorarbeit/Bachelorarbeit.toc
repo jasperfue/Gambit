@@ -21,7 +21,6 @@
 \contentsline {subsubsection}{Formik und Yup}{13}{subsubsection*.8}%
 \contentsline {subsubsection}{chess.js}{14}{subsubsection*.9}%
 \contentsline {subsubsection}{chessground}{14}{subsubsection*.10}%
-\contentsline {subsubsection}{kokopu}{14}{subsubsection*.11}%
 \contentsline {chapter}{\numberline {3}Systemarchitektur}{15}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Frontend}{16}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}React-Komponenten}{16}{subsection.3.1.1}%
@@ -30,21 +29,21 @@
 \contentsline {section}{\numberline {3.2}Backend}{16}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}API-Endpunkte}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Datenbankstruktur}{16}{subsection.3.2.2}%
-\contentsline {subsubsection}{PostgreSQL}{16}{subsubsection*.12}%
-\contentsline {subsubsection}{Redis}{16}{subsubsection*.13}%
+\contentsline {subsubsection}{PostgreSQL}{16}{subsubsection*.11}%
+\contentsline {subsubsection}{Redis}{16}{subsubsection*.12}%
 \contentsline {subsection}{\numberline {3.2.3}Echtzeit-Kommunikation}{16}{subsection.3.2.3}%
-\contentsline {chapter}{\numberline {4}Implementierung}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{17}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{17}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{17}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Tests und Evaluation}{18}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Funktionalitätstests}{18}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Usability-Tests}{18}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Performancetests}{18}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Sicherheitstests}{18}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Fazit und Ausblick}{19}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Zusammenfassung der Ergebnisse}{19}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Limitationen}{19}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Potenzielle Erweiterungen und Weiterentwicklung}{19}{section.6.3}%
-\contentsline {chapter}{Abbildungsverzeichnis}{20}{appendix*.14}%
-\contentsline {chapter}{Literaturverzeichnis}{26}{appendix*.15}%
+\contentsline {chapter}{\numberline {4}Implementierung}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{18}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Datenbank-Integration}{18}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Tests und Evaluation}{19}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Funktionalitätstests}{19}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Usability-Tests}{19}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Performancetests}{19}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Sicherheitstests}{19}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Fazit und Ausblick}{20}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Zusammenfassung der Ergebnisse}{20}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Limitationen}{20}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Potenzielle Erweiterungen und Weiterentwicklung}{20}{section.6.3}%
+\contentsline {chapter}{Abbildungsverzeichnis}{21}{appendix*.13}%
+\contentsline {chapter}{Literaturverzeichnis}{28}{appendix*.14}%

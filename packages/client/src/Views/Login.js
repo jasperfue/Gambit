@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from "react";
 import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
-import {AccountContext} from "../AccountContext.js";
+import {AccountContext} from "../Context/AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
 import {useNavigate} from 'react-router-dom';
 import {
@@ -20,7 +20,7 @@ import {
     useColorModeValue, useColorMode,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const Login = (props) => {
     const {setUser} = useContext(AccountContext);

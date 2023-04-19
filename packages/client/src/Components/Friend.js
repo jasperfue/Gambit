@@ -24,7 +24,7 @@ import {
 import { useNavigate } from "react-router";
 import { GiChessQueen, GiSwordsEmblem } from "react-icons/gi";
 import {ViewIcon} from "@chakra-ui/icons";
-import {SocketContext} from "../App.js";
+import {SocketContext} from "../Context/SocketContext.js";
 
 const Friend = (props) => {
     const {socket} = useContext(SocketContext);
