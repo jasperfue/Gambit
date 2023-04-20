@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect, useCallback} from "react";
 import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {AccountContext} from "../Context/AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
@@ -38,18 +38,18 @@ const Login = (props) => {
 
     useEffect(() => {
         socket.connect();
-    }, []);
+    }, [socket]);
 
 
-    const handleClick = () => setShowPassword(!showPassword);
+    const handleClick = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
 
 
-    const handleModeChange = (newMode) => {
+    const handleModeChange = useCallback((newMode) => {
         navigate(newMode);
-    };
+    }, [navigate]);
 
 
-    const submitLogin = (values, setSubmitting) => {
+    const submitLogin = useCallback((values, setSubmitting) => {
         fetch("http://localhost:4000/auth/login", {
             method: "POST",
             credentials: "include",
@@ -82,7 +82,7 @@ const Login = (props) => {
                 setLoginError(null);
                 navigate('/');
             });
-    }
+    }, [setLoginError, setUser, navigate]);
 
     return (
             <Flex width="100vw" height="70vh" alignItems="center" justifyContent="center" paddingTop="10vh" color={contrast}>

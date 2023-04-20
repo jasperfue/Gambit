@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useCallback, useContext} from "react";
 import {
     Flex,
     Box,
@@ -36,15 +36,15 @@ const Navbar = () => {
         navigate("/Login");
     }
 
-    const signUpPage = () => {
+    const signUpPage = useCallback(() => {
         navigate("/SignUp");
-    }
+    }, [navigate]);
 
-    const homePage = () => {
+    const homePage = useCallback(() => {
         navigate("/");
-    }
+    }, [navigate]);
 
-    const logOut = () => {
+    const logOut = useCallback(() => {
         fetch("http://localhost:4000/auth/logout", {
             method: "GET",
             credentials: "include",
@@ -65,7 +65,7 @@ const Navbar = () => {
             .catch((error) => {
                 console.error("Error logging out:", error);
             });
-    }
+    }, [socket, setUser]);
 
     return (
         <Flex

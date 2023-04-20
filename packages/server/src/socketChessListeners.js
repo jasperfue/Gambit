@@ -23,8 +23,7 @@ const currentGames = {};
 console.log('initialized Current Games');
 
 
-module.exports.initializeChessListeners = (io) => {
-        io.on('connection', client => {
+module.exports.initializeChessListeners = (client, io) => {
         client.on('newMove', newMove(client, io));
         client.on('leave_queue', leaveQueue(client));
         client.on('resign', resign(io));
@@ -38,6 +37,7 @@ module.exports.initializeChessListeners = (io) => {
             if (!client.rooms.has(roomId)) {
                 client.join(roomId);
             }
+            console.log(client.rooms);
             const data = currentGames[roomId];
             const chessClock = data.chessClock;
             getGame(roomId)
@@ -82,8 +82,7 @@ module.exports.initializeChessListeners = (io) => {
             console.log('NEW MESSAGE', message);
             await addChatMessage(roomId, username, message);
             io.to(roomId).emit("message", {message, username, roomId});
-            });
-    });
+        });
 }
 
 

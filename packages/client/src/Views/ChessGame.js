@@ -40,7 +40,6 @@ const ChessGame = () => {
     const [oldMessages, setOldMessages] = useState([]);
 
 
-    window.history.replaceState({}, document.title)
 
 
     const getGameData = useCallback(() => {
@@ -78,7 +77,7 @@ const ChessGame = () => {
                 setError(errMsg);
             }
         });
-    }, [roomId]);
+    }, [socket, roomId]);
 
 
 
@@ -93,8 +92,9 @@ const ChessGame = () => {
         }
         return () => {
             socket.off('connect');
+            socket.emit('leaveRoom', roomId);
         };
-    }, []);
+    }, [socket, roomId]);
 
 
     useEffect(() => {
@@ -118,14 +118,6 @@ const ChessGame = () => {
 
     }, [initialized]);
 
-    useEffect(() => {
-        // Diese Funktion wird aufgerufen, wenn die Komponente unmountet wird
-        return () => {
-            if (socket) {
-                socket.emit('leaveRoom', roomId);
-            }
-        };
-    }, [socket, roomId]);
 
     useEffect(() => {
         if(ground) {
@@ -264,7 +256,7 @@ const ChessGame = () => {
             socket.off('Cancel_Game');
             socket.off('resigned');
         }
-    }, [ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
+    }, [socket, ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
 
     const onMove = useCallback(() => {
         return (orig, dest) => {
@@ -290,7 +282,7 @@ const ChessGame = () => {
             }
             refreshBoard(ground, chess);
         };
-    }, [chess, socket, roomId, ground, orientation]);
+    }, [socket, chess, socket, roomId, ground, orientation]);
 
 
     const promotion = useCallback(
@@ -354,7 +346,7 @@ const ChessGame = () => {
         }).catch(err => {
             console.error(err);
         });
-    }, []);
+    }, [navigator.share]);
 
 
     return (

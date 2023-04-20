@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, {useState, useContext, useCallback} from 'react';
 import { HStack, Text, Button } from '@chakra-ui/react';
 import {SocketContext} from "../Context/SocketContext.js";
 
@@ -6,7 +6,7 @@ const FriendRequest = (props) => {
     const {socket} = useContext(SocketContext);
     const [error, setError] = useState('');
 
-    const acceptFriendRequest = () => {
+    const acceptFriendRequest = useCallback(() => {
         socket.emit('accept_friend_request', props.request, ({ errMsg, done, newFriend }) => {
             if (done) {
                 props.setFriendRequests((friendRequests) =>
@@ -17,9 +17,9 @@ const FriendRequest = (props) => {
                 setError(errMsg);
             }
         });
-    };
+    }, [socket, props.request, props.setFriends, props.setFriendRequests]);
 
-    const declineFriendRequest = () => {
+    const declineFriendRequest = useCallback(() => {
         socket.emit('decline_friend_request', props.request, ({ errMsg, done }) => {
             if (done) {
                 props.setFriendRequests((friendRequests) =>
@@ -29,7 +29,7 @@ const FriendRequest = (props) => {
                 setError(errMsg);
             }
         });
-    };
+    }, [socket, props.request, props.setFriendRequests]);
 
     return (
         <>

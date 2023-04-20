@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext} from "react";
+import React, {useEffect, useRef, useState, useContext, useCallback} from "react";
 import {useColorModeValue, Flex, Box} from "@chakra-ui/react";
 import {SocketContext} from "../Context/SocketContext.js";
 
@@ -19,7 +19,7 @@ const ChessClock = (props) => {
     const bg = useColorModeValue("gray.200", "purple.700");
     const bgStartingTimer = useColorModeValue("purple.200", "purple.200");
 
-    const decrease = (setFunction) => {
+    const decrease = useCallback((setFunction) => {
         setFunction(seconds => {
             if (seconds === 0) {
                 setCurrentTurn('off');
@@ -27,7 +27,7 @@ const ChessClock = (props) => {
                 return seconds - 1;
             }
         });
-    }
+    }, []);
 
     useEffect(() => {
         console.log('toggle');
@@ -94,18 +94,18 @@ const ChessClock = (props) => {
     }, [socket]);
 
 
-    function stopClocks() {
+    const stopClocks = useCallback(() => {
         if (currentTimer.current !== 0) {
             clearInterval(currentTimer.current);
             currentTimer.current = 0;
         }
-    }
+    }, [currentTimer.current])
 
-    function updateTime(timeWhite, timeBlack) {
+    const updateTime = useCallback((timeWhite, timeBlack) => {
         console.log(timeWhite, timeBlack);
         setTimeWhite(timeWhite.minutes * 60 + timeWhite.seconds);
         setTimeBlack(timeBlack.minutes * 60 + timeBlack.seconds);
-    }
+    }, [timeWhite, timeBlack]);
 
 
     return (

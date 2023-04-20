@@ -6,10 +6,7 @@ const {createContext} = require('react');
 export const SocketContext = createContext();
 
 function SocketConnectionContext({children}) {
-    const [socket, setSocket] = useState(new io("http://localhost:4000", {
-        autoConnect: false,
-        withCredentials: true,
-    }));
+    const [socket, setSocket] = useState(null);
     const {user} = useContext(AccountContext);
 
     useEffect(() => {
@@ -17,6 +14,7 @@ function SocketConnectionContext({children}) {
             autoConnect: true,
             withCredentials: true,
         }));
+        console.log('NEUE VERBINDUNG', user);
     }, [user]);
 
     return (

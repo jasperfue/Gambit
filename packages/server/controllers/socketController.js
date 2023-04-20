@@ -9,7 +9,6 @@ module.exports.authorizeUser = (socket, next) => {
     let token = null;
     if(socket.request.headers.cookie) {
         token = cookie.parse(socket.request.headers.cookie).jwt;
-    }
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
             if (err) {
@@ -18,11 +17,44 @@ module.exports.authorizeUser = (socket, next) => {
                 return;
             }
             socket.user = {...decodedPayload};
-            console.log('initializeUSER');
         });
+    }
     }
     next();
 }
+
+
+module.exports.onServerShutdown = async () => {
+    console.log('ONSERVERSHUTDOWN');
+    try {
+        // Finde alle Schlüssel, die mit 'game:' beginnen
+        const gameKeys = await redisClient.keys('game:*');
+
+        if (gameKeys.length > 0) {
+            // Lösche alle gefundenen Schlüssel
+            await Promise.all(gameKeys.map(async key => await redisClient.del(key)));
+            console.log('Alle "game:..." Einträge wurden gelöscht.');
+        } else {
+            console.log('Keine "game:..." Einträge zum Löschen gefunden.');
+        }
+    } catch (error) {
+        console.error('Fehler beim Löschen der "game:..." Einträge:', error);
+    }
+
+    try {
+        const userKeys = await redisClient.keys('userid:*');
+        if(userKeys.length > 0) {
+            await Promise.all(userKeys.map(async key => await redisClient.hset(key, "activeGames", JSON.stringify([]), "connected", false)));
+            console.log('Alle activeGames gelöscht und connected false');
+        } else {
+            console.log('Keine userKeys zum löschen von activeGames');
+        }
+    } catch (error) {
+        console.error('Fehler beim Löschen von activeGames aus userid:*');
+    }
+
+}
+
 
 module.exports.initializeUser = async (socket, next) => {
     if(!socket.user) {

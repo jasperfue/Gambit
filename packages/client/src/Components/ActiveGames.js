@@ -1,5 +1,5 @@
 // ActiveGames.js
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Button, Text, Box, Icon, useColorModeValue} from '@chakra-ui/react';
 import { GiChessQueen } from "react-icons/gi";
@@ -19,18 +19,18 @@ const ActiveGames = (props) => {
         return () => {
             socket.off('active_games');
         }
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         socket.emit('get_active_Games', ({activeGames}) => {
             setActiveGames(activeGames);
         });
-    }, [props.refreshKey]);
+    }, [socket, props.refreshKey]);
 
 
-    const handleButtonClick = (gameId) => {
+    const handleButtonClick = useCallback((gameId) => {
         navigate(`/game/${gameId}`);
-    };
+    }, [navigate]);
 
     return (
         <>

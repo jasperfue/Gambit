@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import {
     Box, Button, Flex,
@@ -28,17 +28,17 @@ const SignUp = (props) => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
-    const handleClick = () => setShowPassword(!showPassword);
+    const handleClick = useCallback(() => setShowPassword(!showPassword), [setShowPassword]);
 
-    const handleModeChange = (newMode) => {
+    const handleModeChange = useCallback((newMode) => {
         navigate(newMode);
-    };
+    }, [navigate]);
 
     useEffect(() => {
         socket.connect();
-    }, []);
+    }, [socket]);
 
-    const submitSignUp = (values) => {
+    const submitSignUp = useCallback((values) => {
         fetch("http://localhost:4000/auth/signup", {
             method: "POST",
             credentials: "include",
@@ -62,7 +62,7 @@ const SignUp = (props) => {
             setSignUpError(null);
             navigate('/');
         })
-    }
+    }, [setUser, setSignUpError, navigate]);
 
     return (
         <Flex width="100vw" height="70vh" alignItems="center" justifyContent="center" paddingTop="10vh" color={contrast}>

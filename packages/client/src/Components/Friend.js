@@ -41,7 +41,7 @@ const Friend = (props) => {
     const cancelGameRequest = useCallback(() => {
         setIsModalOpen(false);
         socket.emit('cancel_game_request', props.friend.username);
-    }, []);
+    }, [socket]);
 
     const sendGameRequest = useCallback(
         (time) => {
@@ -55,9 +55,9 @@ const Friend = (props) => {
         setIsModalOpen(true);
     }, [socket, props.friend]);
 
-    const handleGameClick = (game) => {
+    const handleGameClick = useCallback((game) => {
         navigate(`/game/${game}`);
-    }
+    }, [navigate]);
 
     const handleGameRequestDenied = useCallback(() => {
         toast({

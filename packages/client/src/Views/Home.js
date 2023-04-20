@@ -29,9 +29,9 @@ const Home = () => {
         {type: 'Classical', minutes: 30, increment: 20, string: '30 + 20'}
     ];
 
-    const refreshData = () => {
+    const refreshData = useCallback(() => {
         setRefreshKey((prevKey) => prevKey + 1);
-    };
+    }, [setRefreshKey, refreshKey]);
 
 
 
@@ -49,7 +49,7 @@ const Home = () => {
         return () => {
             socket.off('connect_error');
         }
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         if(time !== null) {
@@ -67,14 +67,14 @@ const Home = () => {
                 socket.off('joinedGame');
             }
         }
-    }, [time]);
+    }, [socket, time]);
 
 
 
     const cancelGame = useCallback(() => {
         socket.emit('leave_queue', time);
         setTime(null);
-    }, [socket, time]);
+    }, [socket, setTime, time]);
 
     return (
         <>

@@ -6,7 +6,7 @@ const {createContext} = require('react');
 export const AccountContext = createContext();
 
 function UserContext({children}) {
-    const [user, setUser] = useState({loggedIn: null, token: null});
+    const [user, setUser] = useState({loggedIn: null});
 
     useEffect(() => {
         fetch("http://localhost:4000/auth/login", {

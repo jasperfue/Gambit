@@ -26,7 +26,7 @@ const Chat = ({ roomId, spectator, oldMessages, guestName }) => {
             }
             setMessage('');
         }
-    }, [message, user, roomId]);
+    }, [socket, message, user, roomId]);
 
     useEffect(() => {
         socket.on('message', (data) => {

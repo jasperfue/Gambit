@@ -42,7 +42,7 @@ const FriendList = (props) => {
             socket.off('friend_requests');
             socket.off('friends');
         }
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         socket.emit('get_friends', ({friendList}) => {
@@ -52,7 +52,7 @@ const FriendList = (props) => {
         socket.emit('get_friend_requests', ({requests}) => {
             setFriendRequests(requests);
         });
-    }, [props.refreshKey])
+    }, [socket, props.refreshKey])
 
     useEffect(() => {
         console.log(friends);

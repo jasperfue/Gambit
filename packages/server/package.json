@@ -21,6 +21,9 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "cross-env-shell DEBUG=socket.io:* nodemon index.js"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
