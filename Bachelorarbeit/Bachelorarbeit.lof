@@ -2,18 +2,19 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Ordnerstruktur des Frontends}}{17}{figure.3.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ordnerstruktur des Frontends}}{18}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Aufbau und Verschachtelungen der React Komponenten}}{19}{figure.3.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{21}{figure.Alph0.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Die Zusatzregel \textit {en passant}}}{22}{figure.Alph0.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{22}{figure.Alph0.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{22}{figure.Alph0.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{23}{figure.Alph0.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Beispiel der Nutzung von Middlewares}}{24}{figure.Alph0.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Beispiel der Nutzung von Routing}}{25}{figure.Alph0.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{25}{figure.Alph0.8}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{26}{figure.Alph0.9}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Beispiel eines verschlüsselten Tokens von JWT}}{26}{figure.Alph0.10}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{27}{figure.Alph0.11}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{23}{figure.Alph0.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Die Zusatzregel \textit {en passant}}}{24}{figure.Alph0.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{24}{figure.Alph0.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{24}{figure.Alph0.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{25}{figure.Alph0.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Beispiel der Nutzung von Middlewares}}{26}{figure.Alph0.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Beispiel der Nutzung von Routing}}{27}{figure.Alph0.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{27}{figure.Alph0.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{28}{figure.Alph0.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Beispiel eines verschlüsselten Tokens von JWT}}{28}{figure.Alph0.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{29}{figure.Alph0.11}%

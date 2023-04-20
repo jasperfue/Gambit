@@ -14,6 +14,7 @@
 \usepackage{footnote}
 \usepackage{natbib}
 \usepackage{listings}
+\usepackage{tikz}
 \usepackage{xcolor}
 \bibliographystyle{unsrtnat}
 \newcommand{\footcite}[1]{\footnotemark\footnotetext{\cite{#1}}}
@@ -397,6 +398,7 @@ Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:
 .4 Friend.js.
 .4 FriendList.js.
 .4 FriendRequest.js.
+.4 GameRequests.js.
 .4 Navbar.js.
 .4 PromotionModal.js.
 .3 contexts/.
@@ -425,6 +427,7 @@ Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:
 
 Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebaut:
 \begin{itemize}
+\item \textbf{public:} In diesem Ordner befinden sich statische Ressourcen, wie zum Beispiel Bilder des Logos, die von der Anwendung verwendet werden.
 \item \textbf{components:} Dieser Ordner enthält alle React-Komponenten, die für die Anwendung verwendet werden, wie z.B. ActiveGames, Chat, ChessClock und Friendlist. Diese Komponenten sind modular und stellen jeweils nur ein Teil eines User Interfaces dar.
 \item \textbf{contexts:} Hier befinden sich die React Contexts, die zum Verwalten von globalen Zuständen und Kommunikationsschnittstellen verwendet werden. In unserem Fall ist das der \textit{AccountContext}, welcher Informationen zum User speichert und \textit{SocketContext}, welcher die socket zur Kommunikation mit dem Backend bereitstellt.
 \item \textbf{themes:} Dieser Ordner enthält die Theme.js-Datei, die für das Styling und die Anpassung des Aussehens der Anwendung mittels Chakra UI verantwortlich ist. Hier können benutzerdefinierte Farben, Schriftarten und andere Stile definiert werden.
@@ -434,6 +437,59 @@ Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebau
 \end{itemize}
     
         \subsection{React-Komponenten}
+Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert. 
+    
+\usetikzlibrary{positioning}
+    
+\begin{figure}[h]
+        \centering
+        \begin{tikzpicture}
+\node {index}
+    child {node {AccountContext}
+    		child {node {SocketContext}
+    			child {node {ChakraProvider} [sibling distance = 2.5cm]
+    				child {node {ColorModeScript}}
+    				child {node {App}
+    					child {node {Navbar}}
+    					child {node {Views} [sibling distance = 2.6cm]
+    						child {node {Home} edge from parent [dashed]					
+    							child {node {ActiveGames} edge from parent [solid]}
+    							child {node {FriendList} [sibling distance = 2.0cm] edge from parent [solid]
+								child {node {Friend}}
+    								child {node {...}}
+    								child {node {FriendRequest}}
+    								child {node {...}}    							
+    							}
+    						}
+    						child {node {Login} edge from parent [dashed]}  
+    						child {node {SignUp} edge from parent [dashed]}  				
+    						child {node {ChessGame} edge from parent [dashed]
+						child {node {ChessClock} edge from parent [solid]}
+						child {node {Chat} edge from parent [solid]}    						
+    						}
+						child {node {GameRequests}}  
+    					}
+    				} 
+    			}
+    		}
+    	};
+    		
+
+    \node[anchor=north east, xshift=-7cm] (dashed) at (current bounding box.north east) {};
+    \draw[dashed] (dashed.east) -- ++(0.8cm, 0);
+
+    \node[anchor=west, right=1cm of dashed] {Route Komponenten};
+
+    \node[below=0.3cm of dashed] (solid) {};
+    \draw[solid] (solid.east) -- ++(0.8cm, 0);
+
+    \node[anchor=west, right=1cm of solid] {enthaltene Unterkomponenten};
+\end{tikzpicture}
+    	
+\caption{Aufbau und Verschachtelungen der React Komponenten}
+\label{fig:frontend_tikz}
+        
+        \end{figure}
     
         \subsection{Benutzerführung}
         \subsection{Kommunikation mit dem Backend}
