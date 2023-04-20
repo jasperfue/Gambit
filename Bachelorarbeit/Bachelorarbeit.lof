@@ -2,9 +2,8 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Ordnerstruktur des Frontends}}{18}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Aufbau und Verschachtelungen der React Komponenten}}{19}{figure.3.2}%
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ordnerstruktur des Frontends}}{19}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Aufbau der React-Komponenten für eingeloggte Benutzer}}{20}{figure.3.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{23}{figure.Alph0.1}%
@@ -18,3 +17,6 @@
 \contentsline {figure}{\numberline {9}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{28}{figure.Alph0.9}%
 \contentsline {figure}{\numberline {10}{\ignorespaces Beispiel eines verschlüsselten Tokens von JWT}}{28}{figure.Alph0.10}%
 \contentsline {figure}{\numberline {11}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{29}{figure.Alph0.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}}{29}{figure.Alph0.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}}{30}{figure.Alph0.13}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Das Modal der Komponente GameRequest in hellem Farbschema}}{30}{figure.Alph0.14}%

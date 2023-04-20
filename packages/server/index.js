@@ -13,6 +13,9 @@ var ON_DEATH = require('death')({uncaughtException: true, debug: true}); //this 
 
 ON_DEATH(function(signal, err) {
     onServerShutdown().then(() => process.exit());
+    if(err) {
+        console.error(err);
+    }
     //await onShutdown();
 });
 

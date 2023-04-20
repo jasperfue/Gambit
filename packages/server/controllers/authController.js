@@ -123,9 +123,10 @@ module.exports.attemptSignUp = async (req, res) => {
                         secure: process.env.NODE_ENV === "production", // Set the Secure flag only in production
                         maxAge: 24 * 60 * 60, // 24 hours
                         sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
+                        path: "/"
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
-                    res.json({loggedIn: true, user: user.username});
+                    res.json({loggedIn: true,  username: user.username});
                 }
             }
         );

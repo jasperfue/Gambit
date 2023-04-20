@@ -1,23 +1,27 @@
-import React, {useCallback, useEffect, useState, useContext} from "react";
+import React from "react";
 import Views from "./Views.js";
-import Navbar from "./Components/Navbar.js";
-import {Box, useColorMode} from "@chakra-ui/react";
-import {SocketContext} from "./Context/SocketContext.js";
-import {AccountContext} from "./Context/AccountContext.js";
+import { ChakraBaseProvider, ColorModeScript} from "@chakra-ui/react";
+import SocketConnectionContext from "./Context/SocketContext.js";
+import UserContext from "./Context/AccountContext.js";
+import customTheme from "./Theme/theme.js";
+import {BrowserRouter} from "react-router-dom";
 
 
 
 function App() {
-    const { colorMode } = useColorMode();
-    const {socket} = useContext(SocketContext);
-    const {user} = useContext(AccountContext);
 
 
     return (
-            <Box bg={colorMode === "light" ? "gray.200" : "purple.900"} minH="100vh">
-                <Navbar />
-                <Views />
-            </Box>
+        <BrowserRouter>
+            <UserContext>
+                <SocketConnectionContext>
+                    <ChakraBaseProvider theme={customTheme}>
+                        <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
+                        <Views />
+                    </ChakraBaseProvider>
+                </SocketConnectionContext>
+            </UserContext>
+        </BrowserRouter>
     );
 }
 

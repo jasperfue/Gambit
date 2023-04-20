@@ -15,6 +15,7 @@
 \usepackage{natbib}
 \usepackage{listings}
 \usepackage{tikz}
+\usetikzlibrary{positioning}
 \usepackage{xcolor}
 \bibliographystyle{unsrtnat}
 \newcommand{\footcite}[1]{\footnotemark\footnotetext{\cite{#1}}}
@@ -146,6 +147,8 @@ Die Arbeit endet mit dem \textit{Anhang}, der zusätzliche Grafiken und die List
    Die erste ist das so genannte \textit{en passant}-Regel. Dabei ist es einem Bauern möglich einen gegnerischen Bauer diagonal zu schlagen, falls dieser zwei Felder gezogen ist und nun auf der gleichen Höhe wie der eigene Bauer steht (siehe Abbildung \ref{fig:en-passant}).
    
    Die zweite Zusatzregel ist die \textit{Bauernumwandlung}. Sie besagt, dass falls ein Bauer die gegnerische Grundreihe erreicht, dieser Bauer in eine Dame, einen Springer, einen Turm oder einen Läufer umgewandelt werden kann (siehe Abbildung \ref{fig:promotion}).
+   
+   //Schachuhr Konfigurationen erklären.
     \section{Web-Technologien}
         \subsection{Node.js und Express}
         \subsubsection{Node.js und seine Vorteile}
@@ -223,6 +226,8 @@ Die Hook \textbf{useEffekt} nimmt zwei Argumente, eine Funktion und ein sogenann
 Ein weiteres wichtiges Konzept in React ist der \textit{Context}. Mit ihm lassen sich Daten über mehrere Ebenen von verschachtelten Komponenten verfügbar machen, ohne dass man sie explizit als Prop an alle Komponenten weitergeben muss. Ein Kontext lässt sich mittels der Hook \textbf{useContext} importieren. In unserem Beispiel verwenden wir ihn um ein ThemeContext zu importieren und je nach theme ändern wir die Hintergrundfarbe unserer Komponente (siehe Zeile 35 in Beispiel \ref{lst:react-example}).
 
 In der Rückgabe der Komponente können wir nicht nur HTML, sondern auch JavaScript innerhalb von geschweiften Klammern verwenden. So prüfen wir in unserem Beispiel mit dem ternären Operator den Wert von \textit{isLoading} und zeigen entsprechende Elemente an (siehe Zeilen 36-44, Beispiel \ref{lst:react-example}).
+
+//ROUTER noch erklären
 %react-key-concepts
 \begin{lstlisting}[style=codeStyle, caption={Beispiel einer React Komponente}, label={lst:react-example}]
 import React, { useState, useEffect, useCallback, useContext } from "react";
@@ -361,7 +366,7 @@ Die Integration von Yup-Schemata in Formik-Formulare ist bereits unterstützt, w
 
         \subsubsection{chess.js}
         \label{sec:chess.js}
-Chess.js ist eine Schach Bibliothek, welche die gesamte Schachlogik zur Verfügung stellt\footcite{chess.js}. Es bietet Methoden, welche alle aktuell möglichen Züge ausgibt, einen Zug ausführt und verschiedene Notationen des Zuges zurückgibt, überprüft ob es sich um ein Schachmatt oder Patt handelt, eine Partie mittels einer FEN\footcite{FEN} oder PGN\footcite{PGN} Notation laden kann und vieles weitere. 
+Chess.js ist eine Schach Bibliothek, welche die gesamte Schachlogik zur Verfügung stellt\footcite{chessjs}. Es bietet Methoden, welche alle aktuell möglichen Züge ausgibt, einen Zug ausführt und verschiedene Notationen des Zuges zurückgibt, überprüft ob es sich um ein Schachmatt oder Patt handelt, eine Partie mittels einer FEN\footcite{FEN} oder PGN\footcite{PGN} Notation laden kann und vieles weitere. 
         \subsubsection{chessground}
         \label{sec:chessground}
 Chessground ist ein Open-Source-Schach-User-Interface, das ursprünglich für die Online-Schachplattform \url{lichess.org} entwickelt wurde\footcite{chessground}. Es bietet zahlreiche Konfigurationsmöglichkeiten, wie zum Beispiel Animationen beim bewegen von Figuren, Auswahl der anklickbaren und bewegbaren Figuren, Anpassung des Figurendesigns und vieles mehr. Die eigentliche Schachlogik ist nicht enthalten, sodass verschiedene Schachvarianten mit Sonderregelungen implementiert werden können.
@@ -374,7 +379,7 @@ Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerf
 
 Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Kommunikation mittels WebSockets is so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Die Echtzeit-Kommunikation zwischen den Spielern wird mit Hilfe von Socket.io\footcite{socketio} ermöglicht, einer Bibliothek, die bidirektionale Kommunikation über WebSockets unterstützt. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL\footcite{postgresql}-Datenbank verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Freundeslisten und Daten aktiver Spiele werden in einer Redis\footcite{redis}-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
     \section{Frontend}
-Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:react}), Socket.io für die Echtzeitkommunikation (Abschnitt \ref{sec:socket.io}) und der Bibliotheken in Abschnitt \ref{sec:weiteres} entwickelt.
+Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:react}), Socket.io (Abschnitt \ref{sec:socket.io}) und weiteren Bibliotheken aus Abschnitt \ref{sec:weiteres} entwickelt.
 
 \begin{figure}[h]
 \centering
@@ -428,29 +433,54 @@ Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:
 Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebaut:
 \begin{itemize}
 \item \textbf{public:} In diesem Ordner befinden sich statische Ressourcen, wie zum Beispiel Bilder des Logos, die von der Anwendung verwendet werden.
-\item \textbf{components:} Dieser Ordner enthält alle React-Komponenten, die für die Anwendung verwendet werden, wie z.B. ActiveGames, Chat, ChessClock und Friendlist. Diese Komponenten sind modular und stellen jeweils nur ein Teil eines User Interfaces dar.
-\item \textbf{contexts:} Hier befinden sich die React Contexts, die zum Verwalten von globalen Zuständen und Kommunikationsschnittstellen verwendet werden. In unserem Fall ist das der \textit{AccountContext}, welcher Informationen zum User speichert und \textit{SocketContext}, welcher die socket zur Kommunikation mit dem Backend bereitstellt.
-\item \textbf{themes:} Dieser Ordner enthält die Theme.js-Datei, die für das Styling und die Anpassung des Aussehens der Anwendung mittels Chakra UI verantwortlich ist. Hier können benutzerdefinierte Farben, Schriftarten und andere Stile definiert werden.
-\item \textbf{utils:} In diesem Ordner befinden sich Hilfsdateien, wie ChessLogic.js, die ausgelagerte Funktionen für das Schachspiel beinhaltet.
-\item \textbf{views:} Dieser Ordner enthält die verschiedenen Seiten der Anwendung, wie Home, Login und Signup. Zu diese Seiten können mittels des React-Routers über verschiedene URLs navigiert werden. Jede dieser Seiten verwendet die Komponenten aus dem components-Ordner, um eine vollständige Benutzeroberfläche zu erstellen.
-\item Die Dateien App.js, index.js und Views.js sind beispielsweise für das importieren der Kontexte, das definieren der Routen der view Dateien und ähnliches verantwortlich.
+\item \textbf{components:} Dieser Ordner enthält alle React-Komponenten, die für die Anwendung verwendet werden. Sie sind modular und stellen jeweils nur ein Teil eines User Interfaces dar.
+\item \textbf{contexts:} Hier befinden sich die React Contexts, die zum Verwalten von globalen Zuständen und Kommunikationsschnittstellen verwendet werden.
+\item \textbf{themes:} Dieser Ordner enthält Dateien, die für das Design und die Anpassung des Aussehens der Anwendung mittels Chakra UI verantwortlich sind.
+\item \textbf{utils:} In diesem Ordner befinden sich Hilfsdateien, die ausgelagerte Funktionen zur Verfügung stellen.
+\item \textbf{views:} Dieser Ordner enthält die verschiedenen Seiten der Anwendung. Zu diese Seiten kann mit Hilfe des React-Routers über verschiedene URLs navigiert werden. Diese Seiten verwenden teilweise die Komponenten aus dem components-Ordner, um eine vollständige Benutzeroberfläche darzustellen.
 \end{itemize}
     
         \subsection{React-Komponenten}
-Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert. 
+Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_tikz} zeigt die Struktur der Anwendung für eingeloggte User. Nicht eingeloggte Benutzer sehen lediglich die Komponenten ActiveGames und FriendList nicht, während der restliche Aufbau gleich bleibt. In diesem Abschnitt werden die wichtigsten Komponenten und ihre Funktionen innerhalb der Anwendung erläutert.
+        
+\begin{itemize}
+\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines Contexts zur Verfügung. Diese Informationen beinhalten, ob ein Benutzer angemeldet ist und falls er das ist seinen Usernamen.
+\item \textbf{SocketContext:} In diesem React Context wird eine socket.io Verbindung mit dem Server hergestellt und allen darauf folgenden Komponenten bereitgestellt.
+\item \textbf{ChakraBaseProvider und ColorModeScript:} Diese importierten Komponenten von ChakraUI stellen die Funktionen zum designen bereit. Dazu gehören Beispielsweise das Verwenden des globalen Zustands des Farbenschemas (dunkel oder hell) oder das zugreifen auf definierte Stile in der themes.js Datei, welche wir den beiden Komponenten übergeben.
+\item \textbf{Views:} Diese Komponente beinhaltet das User Interface. Mit Hilfe des React-Routers werden hier die Komponenten des \verb|view|-Ordners unter einem bestimmten Pfad definiert. Des weiteren beinhaltet es die Komponenten GameRequest und Navbar, welche durch die Definition in dieser Komponente auf jedem Pfad vorhanden sind.
+\begin{itemize}
+\item \textbf{Navbar:} Die Navigationsleiste besteht aus dem Logo und einem Button zum wechseln des Farbschemas. Je nachdem, ob ein Benutzer angemeldet ist oder nicht beinhaltet es noch Buttons zum Anmelden, Registrieren oder Abmelden (siehe Abbildungen \ref{fig:home-not-logged-in} \& \ref{fig:home-logged-in}).
+\item \textbf{GameRequests:} Diese Komponente ist dafür Verantwortlich beim Eingang einer Spiel Anfrage eines Freundes, dieses als Modal darzustellen und bietet die Möglichkeit diese Anfrage zu beantworten (siehe Abbildung \ref{fig:game-request}).
+\end{itemize}
+\item \textbf{Home:} Diese Komponente stellt die Startseite dar und enthält die Buttons zum Starten eines Spiels mit verschiedenen Schachuhr Konfigurationen (siehe Abbildung \ref{fig:home-not-logged-in}). Ist ein Benutzer angemeldet sind auch noch die Komponenten ActiveGames und FriendList auf der rechten Seite vorhanden (siehe Abbildung \ref{fig:home-logged-in}).
+\begin{itemize}
+\item \textbf{ActiveGames:} ActiveGames ist eine Komponente die alle derzeit aktiven Spiele mit den Informationen der Usernames und wer welche Farbe spielt als Buttons darstellt (siehe Abbildung \ref{fig:home-logged-in}).
+\item \textbf{FriendList:} Diese Komponente verwaltet alle Freunde und Freundschaftsanfragen eines Benutzers, während die Darstellung die Unterkomponenten Friend und FriendRequest übernehmen.
+\begin{itemize}
+\item \textbf{Friend:} Übernimmt die Darstellung eines Freundes. Mittels eines farbigen Punktes ist erkennbar, ob dieser Freund gerade online ist (grün) oder nicht (rot) (siehe Abbildung \ref{fig:home-logged-in}). Ist er online erscheint noch mindestens ein weiterer Button. Es beinhaltet ein Icon in Form von gekreuzten Schwertern und einem Schild. Dies hat die Funktion einen Freund zu einem Spiel herauszufordern. Falls dieser Freund gerade ein aktives Spiel hat erscheint noch ein zweiter Button mit einem Auge als Icon, welches den Benutzer zu dem aktiven Spiel des Freundes navigiert.
+\item \textbf{FriendRequest:} Eine Freundschaftsanfrage wird mittels dieser Komponente dargestellt und beantwortet (siehe Abbildung \ref{fig:home-logged-in}).
+\item \textbf{AddFriendModal:} Mit Hilfe dieser Komponente können Freundschaftsanfragen unter Angabe des Usernames versendet werden.
+\end{itemize}
+\end{itemize}
+\item \textbf{Login \& SignUp:} Komponenten, die das Anmelden und Registrieren mittels Formularen mit Formik und Yup (siehe Abschnitt \ref{sec:formik}) ermöglichen und mit dem Server zur Authentifizierung kommunizieren. 
+\item \textbf{ChessGame:} 
+\begin{itemize}
+\item \textbf{ChessClock:} 
+\item \textbf{Chat:}
+\end{itemize}
+\end{itemize}
+        
+
     
-\usetikzlibrary{positioning}
     
 \begin{figure}[h]
         \centering
         \begin{tikzpicture}
-\node {index}
+\node {App}
     child {node {AccountContext}
     		child {node {SocketContext}
-    			child {node {ChakraProvider} [sibling distance = 2.5cm]
-    				child {node {ColorModeScript}}
-    				child {node {App}
-    					child {node {Navbar}}
+    			child {node {ChakraBaseProvider} [sibling distance = 2.5cm]
+    				child {node [xshift= -2cm] {ColorModeScript}}
     					child {node {Views} [sibling distance = 2.6cm]
     						child {node {Home} edge from parent [dashed]					
     							child {node {ActiveGames} edge from parent [solid]}
@@ -458,8 +488,9 @@ Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert.
 								child {node {Friend}}
     								child {node {...}}
     								child {node {FriendRequest}}
-    								child {node {...}}    							
-    							}
+    								child {node {...}}
+    								child {node {AddFriendModal}}    							
+    							 }
     						}
     						child {node {Login} edge from parent [dashed]}  
     						child {node {SignUp} edge from parent [dashed]}  				
@@ -467,12 +498,12 @@ Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert.
 						child {node {ChessClock} edge from parent [solid]}
 						child {node {Chat} edge from parent [solid]}    						
     						}
-						child {node {GameRequests}}  
+						child {node {GameRequests}}
+						child {node {Navbar}}  
     					}
     				} 
     			}
-    		}
-    	};
+    		};
     		
 
     \node[anchor=north east, xshift=-7cm] (dashed) at (current bounding box.north east) {};
@@ -486,7 +517,7 @@ Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert.
     \node[anchor=west, right=1cm of solid] {enthaltene Unterkomponenten};
 \end{tikzpicture}
     	
-\caption{Aufbau und Verschachtelungen der React Komponenten}
+\caption{Aufbau der React-Komponenten für eingeloggte Benutzer}
 \label{fig:frontend_tikz}
         
         \end{figure}
@@ -504,12 +535,6 @@ Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert.
     \section{Frontend-Entwicklung}
     \section{Backend-Entwicklung}
     \section{Datenbank-Integration}
-
-\chapter{Tests und Evaluation}
-    \section{Funktionalitätstests}
-    \section{Usability-Tests}
-    \section{Performancetests}
-    \section{Sicherheitstests}
 
 \chapter{Fazit und Ausblick}
     \section{Zusammenfassung der Ergebnisse}
@@ -614,6 +639,28 @@ Der Aufbau der React-Komponenten ist in der Abbildung ... visualisiert.
     \footnotesize\sffamily\textbf{Quelle:} \cite{chakraui}
   \caption{Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref{lst:chakra-example}}
   \label{fig:chakra-example}
+\end{figure}
+  
+
+  \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{Home_not_logged_in.png}
+  \caption{Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}
+  \label{fig:home-not-logged-in}
+\end{figure}
+  
+    \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=160mm]{Home_logged_in.png}
+  \caption{Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}
+  \label{fig:home-logged-in}
+\end{figure}
+  
+      \begin{figure}[ht]
+\raggedleft
+  \includegraphics[width=100mm]{game_request.png}
+  \caption{Das Modal der Komponente GameRequest in hellem Farbschema}
+  \label{fig:game-request}
 \end{figure}
 
 
