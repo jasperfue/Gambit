@@ -15,6 +15,7 @@
 \usepackage{natbib}
 \usepackage{listings}
 \usepackage{tikz}
+\usepackage{pgf-umlsd}
 \usetikzlibrary{positioning}
 \usepackage{xcolor}
 \bibliographystyle{unsrtnat}
@@ -524,6 +525,68 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
     
         \subsection{Benutzerführung}
         \subsection{Kommunikation mit dem Backend}
+        
+\begin{figure}
+  \centering
+  \begin{sequencediagram}
+    \newinst[1]{clientA}{Client A}
+    \newinst[2]{clientB}{Client B}
+    \newinst[2]{server}{Server}
+    \newinst[2]{redis}{Redis DB}
+    
+    \begin{call}{clientA}{find\_game}{server}{}
+    \end{call}
+    
+    \begin{sdblock}{Check Queue}{}
+      \begin{call}{server}{Get waitingGuests}{redis}{guestQueue}
+      \end{call}
+      \begin{call}{server}{Get waitingPlayers}{redis}{playerQueue}
+      \end{call}
+    \end{sdblock}
+    
+    \begin{sdblock}{No Player in Queue}{}
+      \begin{call}{server}{Add to Queue}{redis}{}
+      \end{call}
+    \end{sdblock}
+    
+    \begin{call}{clientB}{find\_game}{server}{}
+    \end{call}
+    
+    \begin{sdblock}{Player in Queue}{}
+      \begin{call}{server}{Remove from Queue}{redis}{}
+      \end{call}
+      \begin{call}{server}{Initialize ServerChessClock}{server}{}
+      \end{call}
+      \begin{call}{server}{Write Game IDs}{redis}{}
+      \end{call}
+      \begin{call}{server}{Write Game State}{redis}{}
+      \end{call}
+      \begin{call}{server}{joined\_game}{clientA}{}
+      \end{call}
+      \begin{call}{server}{joined\_game}{clientB}{}
+      \end{call}
+    \end{sdblock}
+    
+    \begin{call}{clientA}{get\_game}{server}{}
+    \end{call}
+    \begin{call}{clientB}{get\_game}{server}{}
+    \end{call}
+    
+    \begin{call}{server}{Get Game Info \& Times}{redis}{gameInfo}
+    \end{call}
+    
+    \begin{call}{server}{Send Game Info \& Times}{clientA}{}
+    \end{call}
+    \begin{call}{server}{Send Game Info \& Times}{clientB}{}
+    \end{call}
+    
+  \end{sequencediagram}
+  \caption{Sequenzdiagramm des Schachspielstartprozesses (aktualisiert)}
+  \label{fig:sequence_diagram_updated}
+\end{figure}
+
+
+  
     \section{Backend}
         \subsection{API-Endpunkte}
         \subsection{Datenbankstruktur}

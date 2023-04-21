@@ -1,4 +1,4 @@
-const {deleteGame, getGame, initializeGame, newChessMove, addChatMessage} = require("../controllers/socketController.js");
+const {deleteGame, getGame, initializeGame, newChessMove, addChatMessage, addPlayerInQueue, getPlayerInQueue, removeFromQueue} = require("../controllers/socketController.js");
 const {v4: UUIDv4} = require('uuid');
 const [ServerChessClock] = require("./ServerChessClock.js");
 
@@ -38,8 +38,7 @@ module.exports.initializeChessListeners = (client, io) => {
                 client.join(roomId);
             }
             console.log(client.rooms);
-            const data = currentGames[roomId];
-            const chessClock = data.chessClock;
+            const chessClock = currentGames[roomId].chessClock;
             getGame(roomId)
                 .catch(() => {
                     console.log('kein Eintrag in redis');
@@ -61,21 +60,17 @@ module.exports.initializeChessListeners = (client, io) => {
                 )
         });
         client.on('find_game', async (user, time) => {
-            let queue;
-            if (user.loggedIn) {
-                queue = waitingPlayers;
-            } else {
-                queue = waitingGuests;
+            const queuePlayer = await getPlayerInQueue(user.loggedIn, time.string);
+            if (!user.loggedIn) {
                 client.user = {username:`guest-${UUIDv4().slice(0, 8)}`};
             }
-            if (queue.get(time.string).length > 0) {
-                var opponent = queue.get(time.string).shift();
-                const gameData = await createChessGame(io, client, opponent, time);
-
-                client.emit('joinedGame', client.user.username, opponent.user.username, gameData.roomId);
-                opponent.emit('joinedGame', opponent.user.username, client.user.username, gameData.roomId);
+            if(queuePlayer && Object.keys(queuePlayer).length !== 0) {
+                console.log(queuePlayer);
+                const gameData = await createChessGame(io, queuePlayer.username, client.user.username, time);
+                io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, gameData.roomId);
+                client.emit('joined_game', client.user.username, queuePlayer.username, gameData.roomId);
             } else {
-                queue.get(time.string).push(client);
+                await addPlayerInQueue(user.loggedIn, time.string, client.id, client.user.username);
             }
         });
         client.on('sendMessage', async ({message, username, roomId}) => {
@@ -86,7 +81,7 @@ module.exports.initializeChessListeners = (client, io) => {
 }
 
 
-const createChessGame = async (io, socket1, socket2, time) => {
+const createChessGame = async (io, username1, username2, time) => {
     const chessInstance = await import('./Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
@@ -94,23 +89,21 @@ const createChessGame = async (io, socket1, socket2, time) => {
     let whitePlayer;
     let blackPlayer;
     var roomId = UUIDv4();
-    socket1.join(roomId);
-    socket2.join(roomId);
 
     const playerIsWhite = Math.random() < 0.5;
     if (playerIsWhite) {
-        whitePlayer = socket1;
-        blackPlayer = socket2;
+        whitePlayer = username1;
+        blackPlayer = username2;
     } else {
-        blackPlayer = socket1;
-        whitePlayer = socket2;
+        blackPlayer = username1;
+        whitePlayer = username2;
     }
 
     const d = new Date();
-    chessInstance.header('White', whitePlayer.user.username, 'Black', blackPlayer.user.username, 'Date', d.toDateString());
+    chessInstance.header('White', whitePlayer, 'Black', blackPlayer, 'Date', d.toDateString());
     await initializeGame(roomId, whitePlayer, blackPlayer, time, chessInstance.pgn());
     const chessClock = new ServerChessClock(time);
-    currentGames[roomId] = {chessClock,  whitePlayer, blackPlayer};
+    currentGames[roomId] = {chessClock};
 
 
     chessClock.startStartingTimer('white');
@@ -214,21 +207,11 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
     newChessMove(chessInstance.pgn(), roomId).then(r => cb({done: true}));
 }
 
-const leaveQueue = (client) => (time) => {
-    let queue;
+const leaveQueue = (client) => async (time) => {
     if(!client.user?.username) {
         return;
-    }
-    if (isGuest(client.user.username)) {
-        queue = waitingGuests.get(time.string);
     } else {
-        queue = waitingPlayers.get(time.string);
-    }
-    const clientIndex = queue.findIndex(c => c.id === client.id);
-    if (clientIndex !== -1) {
-        queue.splice(clientIndex, 1);
-    } else {
-        return;
+        await removeFromQueue(!isGuest(client.user.username), time.string, client.user.username, client.id);
     }
 
 }

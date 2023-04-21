@@ -54,7 +54,7 @@ const Home = () => {
     useEffect(() => {
         if(time !== null) {
             socket.emit('find_game', user, time);
-            socket.on('joinedGame', (client, opponent, roomId) => {
+            socket.on('joined_game', (client, opponent, roomId) => {
                 console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
                 navigate(`game/${roomId}`, {
                     state: {

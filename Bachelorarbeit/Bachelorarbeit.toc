@@ -32,13 +32,13 @@
 \contentsline {subsubsection}{PostgreSQL}{18}{subsubsection*.11}%
 \contentsline {subsubsection}{Redis}{18}{subsubsection*.12}%
 \contentsline {subsection}{\numberline {3.2.3}Echtzeit-Kommunikation}{18}{subsection.3.2.3}%
-\contentsline {chapter}{\numberline {4}Implementierung}{21}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{21}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{21}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{21}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{22}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{22}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{22}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{22}{section.5.3}%
-\contentsline {chapter}{Abbildungsverzeichnis}{23}{appendix*.13}%
-\contentsline {chapter}{Literaturverzeichnis}{31}{appendix*.14}%
+\contentsline {chapter}{\numberline {4}Implementierung}{22}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{22}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Datenbank-Integration}{22}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{23}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{23}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{23}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{23}{section.5.3}%
+\contentsline {chapter}{Abbildungsverzeichnis}{24}{appendix*.13}%
+\contentsline {chapter}{Literaturverzeichnis}{32}{appendix*.14}%

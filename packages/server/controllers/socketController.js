@@ -23,6 +23,55 @@ module.exports.authorizeUser = (socket, next) => {
     next();
 }
 
+module.exports.getPlayerInQueue = async (loggedIn, time) => {
+    return new Promise((resolve, reject) => {
+        const key = loggedIn ? `waitingPlayers${time}` : `waitingGuests${time}`;
+        redisClient.rpop(key, (err, result) => {
+            if (err) {
+                console.error(`Fehler beim Abrufen von ${key}`, err);
+                reject(err);
+            } else {
+                if(result) {
+                    const user = result.split(':');
+                    resolve({id: user[0], username: user[1]});
+                } else {
+                    resolve(result);
+                }
+            }
+        });
+    });
+};
+
+module.exports.removeFromQueue = async (loggedIn, time, username, userid) => {
+    return new Promise((resolve, reject) => {
+            const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
+            redisClient.lrem(key, 0, `${userid}:${username}`, (err, result) => {
+                if (err) {
+                    console.error(`Fehler beim Entfernen von Einträgen mit Benutzername ${username} aus ${key}`, err);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+    });
+};
+
+
+
+module.exports.addPlayerInQueue = async (loggedIn, time, userid, username) => {
+    return new Promise((resolve, reject) => {
+        const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
+            redisClient.lpush(key, `${userid}:${username}`, (err, result) => {
+                if (err) {
+                    console.error('Fehler beim Hinzufügen in waitingPlayers', err);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+    });
+};
+
 
 module.exports.onServerShutdown = async () => {
     console.log('ONSERVERSHUTDOWN');
@@ -175,27 +224,27 @@ const getActiveGamesData = async (username) => {
 
 module.exports.getActiveGamesData = getActiveGamesData;
 
-const addActiveGame = async (socket, gameId) => {
+const addActiveGame = async (username, gameId) => {
     // Hole das aktuelle Array von aktiven Spielen
-    getActiveGames(socket.user.username).then(async activeGames => {
+    getActiveGames(username).then(async activeGames => {
         // Füge das neue Spiel zum Array hinzu
         activeGames.push(gameId);
         // Speichere das aktualisierte Array zurück in den Redis-Hash
         await redisClient.hset(
-            `userid:${socket.user.username}`,
+            `userid:${username}`,
             "activeGames",
             JSON.stringify(activeGames)
         );
     });
 }
 
-module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, pgn) => {
+module.exports.initializeGame = async (roomId, whitePlayerUsername, blackPlayerUsername, time, pgn) => {
     await redisClient.hset(
         `game:${roomId}`,
         "whitePlayer",
-        whitePlayer.user.username,
+        whitePlayerUsername,
         "blackPlayer",
-        blackPlayer.user.username,
+        blackPlayerUsername,
         "time",
         JSON.stringify(time),
         "pgn",
@@ -203,11 +252,11 @@ module.exports.initializeGame = async (roomId, whitePlayer, blackPlayer, time, p
         "chat",
         JSON.stringify([])
     );
-    if (!whitePlayer.user.username.startsWith('guest')) {
-        await addActiveGame(whitePlayer, roomId);
+    if (!whitePlayerUsername.startsWith('guest')) {
+        await addActiveGame(whitePlayerUsername, roomId);
     }
-    if (!blackPlayer.user.username.startsWith('guest')) {
-        await addActiveGame(blackPlayer, roomId);
+    if (!blackPlayerUsername.startsWith('guest')) {
+        await addActiveGame(blackPlayerUsername, roomId);
     }
 }
 
