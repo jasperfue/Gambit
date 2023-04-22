@@ -14,24 +14,26 @@
 \contentsline {subsection}{\numberline {2.2.3}React}{8}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{10}{subsection.2.2.4}%
 \contentsline {subsubsection}{PostgreSQL}{10}{subsubsection*.4}%
-\contentsline {subsubsection}{Redis}{12}{subsubsection*.5}%
+\contentsline {subsubsection}{Redis}{11}{subsubsection*.5}%
 \contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{12}{subsection.2.2.5}%
 \contentsline {subsubsection}{JWT}{12}{subsubsection*.6}%
 \contentsline {subsubsection}{Chakra UI}{12}{subsubsection*.7}%
 \contentsline {subsubsection}{Formik und Yup}{13}{subsubsection*.8}%
-\contentsline {subsubsection}{chess.js}{14}{subsubsection*.9}%
+\contentsline {subsubsection}{chess.js}{13}{subsubsection*.9}%
 \contentsline {subsubsection}{chessground}{14}{subsubsection*.10}%
 \contentsline {chapter}{\numberline {3}Systemarchitektur}{15}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Frontend}{16}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}React-Komponenten}{16}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Benutzerführung}{18}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Kommunikation mit dem Backend}{18}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Backend}{18}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}API-Endpunkte}{18}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Datenbankstruktur}{18}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.1}Einführung}{15}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Architekturübersicht}{16}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Frontend-Architektur}{16}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}React-Komponenten}{16}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Backend-Architektur}{18}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Interaktion zwischen Frontend und Backend}{18}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Backend}{18}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}API-Endpunkte}{18}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Datenbankstruktur}{18}{subsection.3.6.2}%
 \contentsline {subsubsection}{PostgreSQL}{18}{subsubsection*.11}%
 \contentsline {subsubsection}{Redis}{18}{subsubsection*.12}%
-\contentsline {subsection}{\numberline {3.2.3}Echtzeit-Kommunikation}{18}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.6.3}Echtzeit-Kommunikation}{18}{subsection.3.6.3}%
 \contentsline {chapter}{\numberline {4}Implementierung}{22}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{22}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Backend-Entwicklung}{22}{section.4.2}%

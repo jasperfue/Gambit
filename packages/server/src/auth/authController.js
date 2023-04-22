@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const {query} = require("../src/database.js");
+const {query} = require("../database.js");
 const {v4: uuidv4} = require('uuid');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();

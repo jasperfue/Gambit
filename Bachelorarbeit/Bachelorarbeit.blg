@@ -1,0 +1,127 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Bachelorarbeit.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: eg-alpha.bst
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: Bibliography.bib
+Warning--entry type for "react" isn't style-file defined
+--line 1 of file Bibliography.bib
+Warning--entry type for "chakraui" isn't style-file defined
+--line 8 of file Bibliography.bib
+Warning--entry type for "nodejs" isn't style-file defined
+--line 15 of file Bibliography.bib
+Warning--entry type for "socketio" isn't style-file defined
+--line 22 of file Bibliography.bib
+Warning--entry type for "postgresql" isn't style-file defined
+--line 29 of file Bibliography.bib
+Warning--entry type for "redis" isn't style-file defined
+--line 36 of file Bibliography.bib
+Warning--entry type for "schachskandal" isn't style-file defined
+--line 57 of file Bibliography.bib
+Warning--entry type for "chesscom3" isn't style-file defined
+--line 64 of file Bibliography.bib
+Warning--entry type for "bobby" isn't style-file defined
+--line 71 of file Bibliography.bib
+Warning--I'm ignoring nodejsbook's extra "author" field
+--line 80 of file Bibliography.bib
+I was expecting a `,' or a `}'---line 93 of file Bibliography.bib
+ : 
+ : @book{expressbook,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--entry type for "socket-rooms" isn't style-file defined
+--line 101 of file Bibliography.bib
+Warning--entry type for "stack-overflow-survey" isn't style-file defined
+--line 107 of file Bibliography.bib
+"{" immediately follows a field name---line 119 of file Bibliography.bib
+ : publisher
+ :          {Packt Publishing}
+I'm skipping whatever remains of this entry
+Warning--I'm ignoring postgresql-book's extra "author" field
+--line 125 of file Bibliography.bib
+Warning--entry type for "pgAdmin" isn't style-file defined
+--line 140 of file Bibliography.bib
+Warning--entry type for "node-postgres" isn't style-file defined
+--line 147 of file Bibliography.bib
+Warning--entry type for "formik" isn't style-file defined
+--line 164 of file Bibliography.bib
+Warning--entry type for "Yup" isn't style-file defined
+--line 171 of file Bibliography.bib
+Warning--entry type for "chessjs" isn't style-file defined
+--line 177 of file Bibliography.bib
+Warning--entry type for "FEN" isn't style-file defined
+--line 183 of file Bibliography.bib
+Warning--entry type for "PGN" isn't style-file defined
+--line 189 of file Bibliography.bib
+Warning--entry type for "JWT" isn't style-file defined
+--line 195 of file Bibliography.bib
+I was expecting a `,' or a `}'---line 201 of file Bibliography.bib
+ : 
+ : @online{Http-only,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--entry type for "Http-only" isn't style-file defined
+--line 201 of file Bibliography.bib
+"{" immediately follows a field name---line 203 of file Bibliography.bib
+ : year
+ :     {2023},
+I'm skipping whatever remains of this entry
+Warning--entry type for "chessground" isn't style-file defined
+--line 208 of file Bibliography.bib
+"{" immediately follows a field name---line 210 of file Bibliography.bib
+ : year
+ :     {2023},
+I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in Http-only
+Warning--to sort, need author or key in Yup
+Warning--to sort, need author or key in chessjs
+Warning--to sort, need author or key in FEN
+Warning--to sort, need author or key in PGN
+Warning--to sort, need author or key in chessground
+Warning--empty publisher in sql-book
+Warning--empty publisher in postgresql-book
+Warning--empty publisher in redis-book
+Warning--empty publisher in schachgeschichte
+You've used 29 entries,
+            2855 wiz_defined-function locations,
+            717 strings with 6699 characters,
+and the built_in function-call counts, 7420 in all, are:
+= -- 657
+> -- 190
+< -- 23
++ -- 46
+- -- 46
+* -- 408
+:= -- 1065
+add.period$ -- 36
+call.type$ -- 29
+change.case$ -- 132
+chr.to.int$ -- 29
+cite$ -- 45
+duplicate$ -- 371
+empty$ -- 761
+format.name$ -- 89
+if$ -- 1576
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 14
+newline$ -- 120
+num.names$ -- 69
+pop$ -- 282
+preamble$ -- 1
+purify$ -- 168
+quote$ -- 0
+skip$ -- 359
+stack$ -- 0
+substring$ -- 209
+swap$ -- 52
+text.length$ -- 23
+text.prefix$ -- 20
+top$ -- 0
+type$ -- 226
+warning$ -- 10
+while$ -- 46
+width$ -- 31
+write$ -- 286
+(There were 5 error messages)

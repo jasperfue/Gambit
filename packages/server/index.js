@@ -3,13 +3,19 @@ const express = require('express');
 const app = express();
 const helmet = require('helmet');
 const cors = require('cors');
-const {corsConfig} = require('./controllers/serverController.js');
-const {initializeListeners} = require('./src/socketServer.js');
-const authRouter = require('./routers/authRouter.js');
-const {onServerShutdown} = require("./controllers/socketController.js");
-const {initializeChessListeners} = require("./src/socketChessListeners.js");
-const {authorizeUser, initializeUser} = require("./controllers/socketController.js");
+const {initializeListeners} = require('./src/sockets/socketController.js');
+const authRouter = require('./src/routers/authRouter.js');
+const {authorizeUser, initializeUser} = require("./src/sockets/socketAuthorize.js");
+const {onServerShutdown} = require("./src/redis/redisController.js");
+const {initializeChessListeners} = require("./src/sockets/socketChessController.js");
 var ON_DEATH = require('death')({uncaughtException: true, debug: true}); //this is intentionally ugly
+
+
+const corsConfig = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+}
+
 
 ON_DEATH(function(signal, err) {
     onServerShutdown().then(() => process.exit());

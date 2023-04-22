@@ -1,6 +1,6 @@
-const {deleteGame, getGame, initializeGame, newChessMove, addChatMessage, addPlayerInQueue, getPlayerInQueue, removeFromQueue} = require("../controllers/socketController.js");
+const {deleteGame, getGame, initializeGame, newChessMove, addChatMessage, addPlayerInQueue, getPlayerInQueue, removeFromQueue} = require("../redis/redisController.js");
 const {v4: UUIDv4} = require('uuid');
-const [ServerChessClock] = require("./ServerChessClock.js");
+const [ServerChessClock] = require("../chess/ServerChessClock.js");
 
 
 const waitingPlayers = new Map();
@@ -66,9 +66,9 @@ module.exports.initializeChessListeners = (client, io) => {
             }
             if(queuePlayer && Object.keys(queuePlayer).length !== 0) {
                 console.log(queuePlayer);
-                const gameData = await createChessGame(io, queuePlayer.username, client.user.username, time);
-                io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, gameData.roomId);
-                client.emit('joined_game', client.user.username, queuePlayer.username, gameData.roomId);
+                const roomId = await createChessGame(io, queuePlayer.username, client.user.username, time);
+                io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, roomId);
+                client.emit('joined_game', client.user.username, queuePlayer.username, roomId);
             } else {
                 await addPlayerInQueue(user.loggedIn, time.string, client.id, client.user.username);
             }
@@ -82,7 +82,7 @@ module.exports.initializeChessListeners = (client, io) => {
 
 
 const createChessGame = async (io, username1, username2, time) => {
-    const chessInstance = await import('./Chess.mjs').then(ChessFile => {
+    const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
 
@@ -126,7 +126,7 @@ const createChessGame = async (io, username1, username2, time) => {
         io.to(roomId).emit('Stop_Clocks');
         endGame(roomId);
     });
-    return {roomId, playerIsWhite};
+    return roomId;
 }
 
 module.exports.createChessGame = createChessGame;
@@ -163,7 +163,7 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
     }
     const {chessClock} = currentGames[roomId];
     console.log(move);
-    const chessInstance = await import('./Chess.mjs').then(ChessFile => {
+    const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
     chessInstance.loadPgn(await getGame(roomId).then(data => {

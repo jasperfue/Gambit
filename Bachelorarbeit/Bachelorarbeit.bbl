@@ -1,0 +1,127 @@
+\begin{thebibliography}{\uppercase{PGN23}}
+
+\bibitem[Add21]{sql-book}
+\textsc{Addams R.}:
+\newblock \emph{SQL - Der Grundkurs für Ausbildung und Praxis}.
+\newblock 2021.
+
+\bibitem[Ade23]{chakraui}
+\textsc{Adebayo S.}:
+\newblock Chakra ui - a simple, modular and accessible component library for
+  building react applications, 2023.
+
+\bibitem[aut23]{JWT}
+\textsc{auth0}:
+\newblock Introduction to json web tokens, 2023.
+
+\bibitem[che]{chessground}
+Chessground.
+
+\bibitem[che18]{chesscom3}
+\textsc{chess.com}:
+\newblock We've reached 3000000000 live chess games, 2018.
+
+\bibitem[che23]{chessjs}
+chess.js, 2023.
+
+\bibitem[FEN23]{FEN}
+Forsyth-edwards notation (fen), 2023.
+
+\bibitem[For23]{formik}
+\textsc{Formium}:
+\newblock Fomik docs - build forms in react, without the tears, 2023.
+
+\bibitem[Fou23]{nodejs}
+\textsc{Foundation O.}:
+\newblock Node.js - an open-source, cross-platform javascript runtime
+  environment., 2023.
+
+\bibitem[Gro23]{postgresql}
+\textsc{Group T. P. G.~D.}:
+\newblock Postgresql - the world's most advanced open source relational
+  database., 2023.
+
+\bibitem[Hah16]{expressbook}
+\textsc{Hahn E.~M.}:
+\newblock \emph{Express in Action - Writing, Builing and Testing Node.js
+  applications}.
+\newblock Manning Publications, 2016.
+
+\bibitem[Han]{bobby}
+\textsc{Hansen A.}:
+\newblock Wie ein schachspiel zum wettstreit der systeme wurde.
+
+\bibitem[Htt]{Http-only}
+Using http cookies.
+
+\bibitem[JSC12]{nodeyoutube}
+\textsc{JSConf}:
+\newblock Ryan dahl: Node js, 2012.
+
+\bibitem[Le21]{postgresql-book}
+\textsc{Le D. Q.~H.}:
+\newblock \emph{Developing Modern Database Applications with PostgreSQL}.
+\newblock 2021.
+
+\bibitem[Ltd23]{redis}
+\textsc{Ltd. R.}:
+\newblock Redis - the open source, in-memory data store used by millions of
+  developers as a database, cache, streaming engine, and message broker., 2023.
+
+\bibitem[MP23]{react}
+\textsc{Meta~Platforms I.}:
+\newblock React – a javascript library for building user interfaces, 2023.
+
+\bibitem[Nel16]{redis-book}
+\textsc{Nelson J.}:
+\newblock \emph{Mastering Redis - take your knowledge of Redis to the next
+  level to build enthralling applications with ease}.
+\newblock 2016.
+
+\bibitem[np23]{node-postgres}
+\textsc{node postgres}:
+\newblock node-postgres, 2023.
+
+\bibitem[Ove22]{stack-overflow-survey}
+\textsc{Overflow S.}:
+\newblock Stack overflow survey 2022, 2022.
+
+\bibitem[pgA23]{pgAdmin}
+\textsc{pgAdmin}:
+\newblock pgadmin - postgresql tools, 2023.
+
+\bibitem[PGN23]{PGN}
+Portable game notation (pgn), 2023.
+
+\bibitem[Pre15]{nodejsbook}
+\textsc{Prediger R.}:
+\newblock \emph{NODE.JS - Professionell hochperformante Software entwickeln}.
+\newblock Carl Hanser Verlag, 2015.
+
+\bibitem[Rob12]{webdesign}
+\textsc{Robbins J.~N.}:
+\newblock \emph{Learning Web Design}.
+\newblock O'REILLY, 2012.
+
+\bibitem[Soc]{socket-rooms}
+\textsc{Socket.io}:
+\newblock Socket.io rooms.
+
+\bibitem[Soc23]{socketio}
+\textsc{Socket.IO}:
+\newblock Socket.io - bidirectional and low-latency communication for every
+  platform., 2023.
+
+\bibitem[Spo22]{schachskandal}
+\textsc{Sportschau}:
+\newblock Nach schach-eklat – ermittlungen gegen niemann und carlsen, 2022.
+
+\bibitem[vdL74]{schachgeschichte}
+\textsc{van~der Linde A.}:
+\newblock \emph{Geschichte und Litteratur des Schachspiels, Erster Band}.
+\newblock 1874.
+
+\bibitem[Yup23]{Yup}
+Yup, 2023.
+
+\end{thebibliography}

@@ -1,27 +1,8 @@
-const redisClient = require('../src/redis.js');
+const redisClient = require('./redis.js');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const cookie = require('cookie');
 
-
-module.exports.authorizeUser = (socket, next) => {
-    let token = null;
-    console.log(socket.request.headers.cookie);
-    if (socket.request.headers.cookie) {
-        token = cookie.parse(socket.request.headers.cookie).jwt;
-        if (token) {
-            jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
-                if (err) {
-                    console.log("VERIFY ERROR: ", err);
-                    next(new Error('No session'));
-                    return;
-                }
-                socket.user = {...decodedPayload};
-            });
-        }
-    }
-    next();
-}
 
 module.exports.getPlayerInQueue = async (loggedIn, time) => {
     return new Promise((resolve, reject) => {
@@ -105,43 +86,21 @@ module.exports.onServerShutdown = async () => {
 }
 
 
-module.exports.initializeUser = async (socket, next) => {
-    if (!socket.user) {
-        next();
-        return;
-    }
-    socket.join(socket.user.userid);
-    getActiveGames(socket.user.username).then(async activeGames => {
-        await redisClient.hset(
-            `userid:${socket.user.username}`,
-            "userid",
-            socket.user.userid,
-            "connected",
-            true,
-            "activeGames",
-            JSON.stringify(activeGames)
-        );
-    });
-    getFriends(socket).then(friends => {
-        const friendRooms = friends.map(friend => friend.userid);
-        if (friendRooms.length > 0) {
-            socket.to(friendRooms).emit("connected", "true", socket.user.username);
-        }
-        socket.emit('friends', friends);
-    });
-
-    getFriendRequests(socket).then(friendRequests => socket.emit('friend_requests', friendRequests));
-
-    getActiveGamesData(socket.user.username).then(gameData => socket.emit('active_games', gameData));
-
-    next();
-};
+module.exports.setUser = async (username, userid, connected) => {
+    await redisClient.hset(
+        `userid:${username}`,
+        "userid",
+        userid,
+        "connected",
+        connected,
+    );
+}
 
 
-const getFriendRequests = async (socket) => {
-    if (socket.user) {
+const getFriendRequests = async (username) => {
+    if (username) {
         const sentFriendRequests = await redisClient.lrange(
-            `friend_requests:${socket.user.username}`,
+            `friend_requests:${username}`,
             0,
             -1
         );
@@ -157,11 +116,11 @@ const getFriendRequests = async (socket) => {
 module.exports.getFriendRequests = getFriendRequests;
 
 
-const getFriends = async (socket) => {
-    if (socket.user) {
+const getFriends = async (username) => {
+    if (username) {
         console.log("GET FRIENDS");
         const friendList = await redisClient.lrange(
-            `friends:${socket.user.username}`,
+            `friends:${username}`,
             0,
             -1
         );
@@ -173,25 +132,21 @@ const getFriends = async (socket) => {
 
 module.exports.getFriends = getFriends;
 
-const friendRequestIsValid = async (socket, requestName, cb) => {
-    if (!socket.user?.username) {
-        cb({done: false, errorMsg: "Please try again later"});
-        return false;
+const friendRequestIsValid = async (username, requestName) => {
+    if (!username) {
+        return {errorMsg: "Please try again later"};
     }
-    if (requestName === socket.user.username) {
-        cb({done: false, errorMsg: "You can not add yourself as a Friend"});
-        return false;
+    if (requestName === username) {
+        return {errorMsg: "You can not add yourself as a Friend"};
     }
     const friend = await redisClient.hgetall(`userid:${requestName}`);
     if (!Object.keys(friend).length) {
-        cb({done: false, errorMsg: "User doesn't exist"});
-        return false;
+        return {errorMsg: "User doesn't exist"};
     }
     friend.activeGames = JSON.parse(friend.activeGames);
-    const currentFriendList = await redisClient.lrange(`friends:${socket.user.username}`, 0, -1);
+    const currentFriendList = await redisClient.lrange(`friends:${username}`, 0, -1);
     if (!!Object.keys(currentFriendList).length && currentFriendList.indexOf([requestName, friend.userid].join('.')) !== -1) {
-        cb({done: false, errorMsg: "You are already friends with that user"});
-        return false;
+        return {errorMsg: "You are already friends with that user"};
     }
     return friend;
 }
@@ -347,82 +302,67 @@ module.exports.newChessMove = async (pgn, roomId) => {
     });
 }
 
-module.exports.requestFriend = async (socket, requestName, cb) => {
-    const requestedFriend = await friendRequestIsValid(socket, requestName, cb);
+module.exports.requestFriend = async (username, userid, requestName) => {
+    const requestedFriend = await friendRequestIsValid(username, requestName);
+    if(requestedFriend.errorMsg) {
+        return {errorMsg: requestedFriend.errorMsg};
+    }
     const currentFriendRequests = await redisClient.lrange(`friend_requests:${requestName}`, 0, -1);
-    if (!!Object.keys(currentFriendRequests).length && currentFriendRequests.indexOf([socket.user.username, socket.user.userid].join('.')) !== -1) {
-        cb({done: false, errorMsg: "You've already sent a friend request to this user"});
-        return;
+    if (!!Object.keys(currentFriendRequests).length && currentFriendRequests.indexOf([username, userid].join('.')) !== -1) {
+        return {errorMsg: "You've already sent a friend request to this user"};
     }
     if (requestedFriend) {
-        await redisClient.lpush(`friend_requests:${requestName}`, [socket.user.username, socket.user.userid].join("."));
-        cb({done: true});
-        socket.to(requestedFriend.userid).emit('friend_request', socket.user.username);
-
+        await redisClient.lpush(`friend_requests:${requestName}`, [username, userid].join("."));
+        return {userid: requestedFriend.userid};
     }
 }
 
-module.exports.addFriend = async (socket, friendName, cb) => {
-    const friend = await friendRequestIsValid(socket, friendName, cb);
+module.exports.addFriend = async (username,userid, friendName) => {
+    const friend = await friendRequestIsValid(username, friendName);
+    if(friend.errMsg) {
+        return {errMsg: friend.errMsg};
+    }
     if (friend) {
-        await redisClient.lrem(`friend_requests:${socket.user.username}`, 1, friendName + "." + friend.userid, (err, reply) => {
+        await redisClient.lrem(`friend_requests:${username}`, 1, friendName + "." + friend.userid, (err, reply) => {
             if (err) {
                 console.log(err);
+                return {errMsg: err};
             } else {
                 console.log("Wert erfolgreich entfernt", reply);
             }
         });
-        await redisClient.lpush(`friends:${socket.user.username}`, [friendName, friend.userid].join("."));
-        await redisClient.lpush(`friends:${friendName}`, [socket.user.username, socket.user.userid].join('.'))
+        await redisClient.lpush(`friends:${username}`, [friendName, friend.userid].join("."));
+        await redisClient.lpush(`friends:${friendName}`, [username, userid].join('.'))
         const newFriend = {
             username: friendName,
             userid: friend.userid,
             connected: friend.connected,
             activeGames: friend.activeGames
         };
-        const activeGames = await getActiveGames(socket.user.username);
+        const activeGames = await getActiveGames(username);
         const oldFriend = {
-            username: socket.user.username,
-            userid: socket.user.userid,
+            username: username,
+            userid: userid,
             connected: 'true',
             activeGames: activeGames
         }
-        cb({done: true, newFriend});
-        socket.to(friend.userid).emit('friend_request_accepted', oldFriend);
+        return{newFriend, oldFriend};
     }
 }
 
-module.exports.declineFriend = async (socket, name, cb) => {
+module.exports.declineFriend = async (username, name) => {
     const friend = await redisClient.hgetall(`userid:${name}`);
     if (friend) {
-        await redisClient.lrem(`friend_requests:${socket.user.username}`, 1, name + "." + friend.userid, (err, reply) => {
+        await redisClient.lrem(`friend_requests:${username}`, 1, name + "." + friend.userid, (err, reply) => {
             if (err) {
-                cb({done: false, errMsg: "Friend request could not be found"});
-            } else {
-                cb({done: true});
+                return {errMsg: "Friend request could not be found"};
             }
         });
     } else {
-        cb({done: false, errMsg: "User could not be found"});
+        return {errMsg: "User could not be found"};
     }
 }
 
-
-module.exports.onDisconnect = async (socket) => {
-    if (!socket.user) {
-        return;
-    }
-    await redisClient.hset(
-        `userid:${socket.user.username}`,
-        "connected",
-        false
-    );
-    const friendList = await redisClient.lrange(`friends:${socket.user.username}`, 0, -1);
-    const friendRooms = await parseFriendList(friendList).then(friends =>
-        friends.map(friend => friend.userid)
-    );
-    socket.to(friendRooms).emit('connected', "false", socket.user.username);
-}
 
 
 const parseFriendList = async (friendList) => {

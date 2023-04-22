@@ -1,4 +1,4 @@
-const redisClient = require("../src/redis.js");
+const redisClient = require("../redis/redis.js");
 module.exports.rateLimiter = (secondsLimit, limitAmount) => async (req, res, next) => {
     const ip = req.connection.remoteAddress;
     [response] = await redisClient
