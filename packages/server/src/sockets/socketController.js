@@ -1,3 +1,4 @@
+const {getUserData} = require("../redis/redisController.js");
 const {onDisconnect} = require("./socketAuthorize.js");
 const {createChessGame} = require("./socketChessController.js");
 const {getActiveGamesData} = require("../redis/redisController.js");

@@ -1,7 +1,5 @@
 const redisClient = require('./redis.js');
-const jwt = require('jsonwebtoken');
 require('dotenv').config()
-const cookie = require('cookie');
 
 
 module.exports.getPlayerInQueue = async (loggedIn, time) => {
@@ -96,6 +94,18 @@ module.exports.setUser = async (username, userid, connected) => {
     );
 }
 
+const getUserData = async (username, field = null) => {
+    let result;
+    if(field) {
+        result = await redisClient.hget(`userid:${username}`, field);
+    } else {
+        result = await redisClient.hgetall(`userid:${username}`);
+    }
+    return result;
+}
+
+module.exports.getUserData = getUserData;
+
 
 const getFriendRequests = async (username) => {
     if (username) {
@@ -139,7 +149,7 @@ const friendRequestIsValid = async (username, requestName) => {
     if (requestName === username) {
         return {errorMsg: "You can not add yourself as a Friend"};
     }
-    const friend = await redisClient.hgetall(`userid:${requestName}`);
+    const friend = await getUserData(requestName);
     if (!Object.keys(friend).length) {
         return {errorMsg: "User doesn't exist"};
     }
@@ -153,7 +163,7 @@ const friendRequestIsValid = async (username, requestName) => {
 
 
 const getActiveGames = async (username) => {
-    const activeGamesJson = await redisClient.hget(`userid:${username}`, "activeGames");
+    const activeGamesJson = await getUserData(username, "activeGames");
     if (activeGamesJson) {
         return JSON.parse(activeGamesJson);
     } else {
@@ -235,7 +245,7 @@ module.exports.addChatMessage = async (roomId, username, message) => {
 
 const removeActiveGame = async (username, roomId) => {
     // Hole das aktuelle Array von aktiven Spielen
-    redisClient.hget(`userid:${username}`, "activeGames").then(async activeGamesJson => {
+    const activeGamesJson = await getUserData(username, "activeGames");
         let activeGames = [];
         if (activeGamesJson) {
             activeGames = JSON.parse(activeGamesJson);
@@ -250,7 +260,6 @@ const removeActiveGame = async (username, roomId) => {
             "activeGames",
             JSON.stringify(updatedActiveGames)
         );
-    });
 };
 
 
@@ -351,7 +360,7 @@ module.exports.addFriend = async (username,userid, friendName) => {
 }
 
 module.exports.declineFriend = async (username, name) => {
-    const friend = await redisClient.hgetall(`userid:${name}`);
+    const friend = await getUserData(name);
     if (friend) {
         await redisClient.lrem(`friend_requests:${username}`, 1, name + "." + friend.userid, (err, reply) => {
             if (err) {
@@ -369,7 +378,7 @@ const parseFriendList = async (friendList) => {
     const newFriendList = [];
     for (let friend of friendList) {
         const parsedFriend = friend.split('.');
-        const friendConnected = await redisClient.hget(`userid:${parsedFriend[0]}`, "connected");
+        const friendConnected = await getUserData(parsedFriend[0], "connected");
         const activeGames = await getActiveGamesData(parsedFriend[0]);
         newFriendList.push({
             username: parsedFriend[0],
