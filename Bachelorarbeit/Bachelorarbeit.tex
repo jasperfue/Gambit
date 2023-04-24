@@ -175,9 +175,19 @@ In einem Team-Projekt kann das natürlich besonders nützlich sein, da Kommunika
 
 Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück senden von einem Result mittels dem HTTP-Protokoll. Das HTTP-Protokoll verwendet verschiedene Methoden wie GET, POST, PUT und DELETE, um unterschiedliche Aktionen durchzuführen. Zum Beispiel wird GET zum Abrufen von Informationen verwendet, während POST zum Senden von Daten verwendet wird. Die Art und Weise wie ein Request verarbeitet werden soll ist dabei selbst zu definieren (siehe Abbildung \ref{fig:node-request}). Dabei kann der Request sein, eine bestimmte Seite zu laden, womit dann mit der entsprechenden HTML-Datei geantwortet wird, oder es kann als API genutzt werden, um Beispielsweise Daten einer Datenbank zu übermitteln. Um die Verarbeitung dieser Anfragen weniger komplex zu gestalten gibt es die Erweiterung \textit{Express} für Node.js.
 
+
 \subsubsection{Express}
 \label{sec:express}
 \textit{Express} ist ein leichtgewichtiges und sehr beliebtes Web-Frameworks, welches unter Node.js zur Verfügung steht. Es dient zur Vereinfachung der API von Node.js und stellt hilfreiche Funktionen bereit \cite{expressbook}. Es ermöglicht beispielsweise die Verwendung von \textit{Middleware} und \textit{Routing}.
+
+Anfragen über das HTTP Protokoll können mit den folgenden Operationen gemacht werden \cite{expressbook}:
+
+\begin{itemize}
+\item \textbf{GET:} Wie der Name schon sagt dient diese Methode dazu Daten vom Backend zu bekommen.
+\item \textbf{POST:} Wird verwendet um Daten dem Server zu übermitteln, welche dieser verarbeiten soll.
+\item \textbf{PUT:} Ist eine Methode um Daten auf dem Server zu ändern.
+\item \textbf{DELETE:} Diese Operation soll bestimmte Daten auf dem Server löschen.
+\end{itemize}
 
 \textit{Middleware} ermöglicht, dass eine Anfrage an den Node.js Server nicht ausschließlich von einer Funktion bearbeitet werden muss, welche das Ergebnis zurücksendet, sondern von mehreren Funktionen, die sich um verschiedene Teile der Request kümmern (siehe Abbildung \ref{fig:express-request}). Diese Funktionen heißen \textit{Middleware}. Dabei gibt es eine von uns definierte Reihenfolge der Middlewares. Zum Beispiel können wir definieren, dass zu erst der Request von einer Middleware geloggt werden soll, anschließend soll der Benutzer Authentifiziert werden. Will der Benutzer eine URL aufrufen, für die er keine Berechtigung hat wird eine \glqq not authorized\grqq{ }Seite zurück gesendet und die nächste Middleware wird nicht aufgerufen. Ansonsten wird die nächste Middleware der Kette ausgeführt, wie zum Beispiel das senden von Informationen (siehe Abbildung \ref{fig:middleware-beispiel}). Ein Vorteil der Nutzung von Middlewares ist, dass es bereits viele vordefinierte Middlewares (auch von Dritten) gibt, welche nützliche Funktionalitäten mitbringen. Die Anfrage des Frontends in mehrere kleinere Funktionen aufzuteilen, anstatt eine Funktion zu schreiben, welche sich um all dies kümmert verringert die Komplexität enorm.
 
@@ -196,6 +206,9 @@ Events können basierend auf verschiedenen Aktionen wie zum Beispiel dem Drücke
 Ein wichtiges Feature von socket.io sind die Räume\footnote{Quelle: \url{https://socket.io/docs/v4/rooms/} am 22. April 2023}. Sockets im Backend können ihnen Beitreten und sie Verlassen. Serverseitig kann man dadurch an alle Sockets, die in einem bestimmten Raum sind etwas senden, ohne es allen einzeln schicken zu müssen (siehe Abbildung \ref{fig:socket.io-room}). Hier kann man sich entschließen das Event an alle clients im Raum zu versenden (\verb|io.to(...).emit(...)|) oder an alle, außer den sender (\verb|socket.to(...).emit(...)|) (siehe Code Snippet \ref{lst:socket-rooms}).
 
 Des weiteren erhält jede socket beim Verbinden eine eigene ID, die ebenfalls als Raum genutzt werden kann. Dementsprechend ist \verb|io.to(socket.id).emit('hello');| äquivalent zu \verb|socket.emit('hello');|.
+
+Socket.io unterstützt wie Express Middlewares, welche bei einem Verbindungsaufbau ausgeführt werden. Dabei sind die übergebene Argumente die socket und die next Funktion als nächste Middleware.
+Es bietet sich daher an Authetifikation oder die Initialisierung von Listenern als Middleware  zu behandeln.
 
 
 \begin{lstlisting}[style=codeStyle, caption={Beispiel zum Beitreten Raums und das senden eines Events in diesen Raum}, label={lst:socket-rooms}]
@@ -216,6 +229,7 @@ socket.on("message", text => console.log(text)); //Empfangen
 \end{lstlisting}
 //QUELLE socket.io im nodejsbook
         \subsection{React}
+        \subsubsection{React}
         \label{sec:react}
 React ist eine der beliebtesten (nach einer Umfrage von 2022 von Stack Overflow sogar die beliebteste \cite{stack-overflow-survey}) Frontend Javascript Bibliotheken. Es basiert auf Komponenten, welche wiederverwendbar und kombinierbar sind und vereinfacht die Verwaltung von Interaktionen mit User Interfaces. Dabei benutzt React eine Syntax Erweiterung namens \textit{JSX}. Mit dieser Erweiterung ist es möglich HTML Elemente in JavaScript Dateien zu verwenden, welches es ermöglicht die Logik hinter getrennten HTML und JavaScript Dateien in eine Datei zu kombinieren. Die Idee hinter React ist, dass wenn sich nur ein bestimmter Teil des User Interfaces im Vergleich zum aktuell sichtbaren User Interface ändert, auch nur dieser Teil neu gerendert wird und nicht das ganze User Interface. Diese reaktiven Änderungen veranlasst React mittels seiner \textit{Hooks}.
 
@@ -285,6 +299,70 @@ function ExampleComponent({ initialCount, loadingDelay }) {
 }
 
 export default ExampleComponent;
+\end{lstlisting}
+
+\subsubsection{React Router}
+\label{sec:react-router}
+React Router ermöglicht die Erstellung von Anwendung mit mehreren Seiten unter verschiedenen Pfaden \cite{react-key-concepts}. Das ist sinnvoll um als Benutzer direkt einen Pfad angeben zu können um an die gewünschte Seite zu kommen oder sie zu teilen. Ein Beispiel der Funktion von verschiedenen Komponenten auf verschiedenen Pfaden finden Sie in Abbildung \ref{lst:react-router-example}. 
+
+In diesem Beispiel wird unter dem Pfad \glqq /\grqq{ }die Komponente \verb|Dashboard| angezeigt, während unter dem Pfad \glqq /orders\grqq{ } die React Komponente \verb|Orders| gerendert wird. Dafür werden die Komponenten \verb|BrowserRouter|, \verb|Routes| und \verb|Route| des Pakets \verb|react-router-dom| benötigt.
+\begin{itemize}
+\item \textbf{BrowserRouter} ermöglicht alle Routing Funktionen und Komponenten zu verwenden.
+\item \textbf{Routes} enthält alle Definition der Pfade. Es kann auch mehrmals verwendet werden um verschiedene Gruppen von Routen zu definieren.
+\item \textbf{Route} legt eine einzelne Route fest. Im \verb|path| kann angegeben werden, welcher Pfad diese Route aktivieren soll und \verb|element| definiert die React Komponente, welche unter diesem Pfad gerendert werden soll.
+\end{itemize}
+
+React Router ermöglicht alledings auch noch ein paar weitere Funktionen, wie zum Beispiel die Hooks \verb|useParams()| und \verb|useNaviagte()| \cite{react-key-concepts}. 
+
+Es ist möglich bei einer Route Komponente mit \glqq :\grqq{ }in einem Pfad einen String zu übertragen. Auf diesen String kann dann mit der \verb|useParams()| Hook zugegriffen werden, wie bei \verb|OrderDetail| in dem Beispiel \ref{lst:react-router-example}. 
+
+Mit der \verb|useNavigate()| Hook kann zu einem bestimmten Pfad gesprungen werden. Ein Beispiel dafür ist die \verb|navigateToOrders()| Funktion, welche beim klicken auf den Button in der App Komponente ausgelöst wird (Beipiel \ref{lst:react-router-example}).
+
+
+\begin{lstlisting}[style=codeStyle, caption={Beispiel von verschiedenen Komponenten auf verschiedenen Pfaden \\
+Quelle: \cite{react-key-concepts} (abgewandelt)}, label={lst:react-router-example}]
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+import Dashboard from './routes/Dashboard';
+import Orders from './routes/Orders';
+
+function App() {
+	const navigate = useNavigate();
+	
+	const navigateToOrders = useCallback(() => {
+		navigate('/orders');
+	}, [navigate]);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={ <OrderDetail /> } />
+      </Routes>
+      <Button onClick={navigateToOrders}> To Orders </Button>
+    </BrowserRouter>
+  );
+
+
+export default App;
+
+function OrderDetail() {
+
+  const params = useParams();
+
+  const orderId = params.id; 
+  
+  useEffect(() => {
+	//fetch Data with orderId  
+  }, [])
+
+  return (
+  // Show Data
+  );
+}
+
+export default OrderDetail;
 \end{lstlisting}
         \subsection{PostgreSQL und Redis}
         \subsubsection{PostgreSQL}
@@ -378,32 +456,81 @@ Chess.js ist eine Schach Bibliothek, welche die gesamte Schachlogik zur Verfügu
         \subsubsection{chessground}
         \label{sec:chessground}
 Chessground ist ein Open-Source-Schach-User-Interface, das ursprünglich für die Online-Schachplattform \url{lichess.org} entwickelt wurde\footnote{Quelle: \url{https://github.com/lichess-org/chessground} am 22. April 2023}. Es bietet zahlreiche Konfigurationsmöglichkeiten, wie zum Beispiel Animationen beim bewegen von Figuren, Auswahl der anklickbaren und bewegbaren Figuren, Anpassung des Figurendesigns und vieles mehr. Die eigentliche Schachlogik ist nicht enthalten, sodass verschiedene Schachvarianten mit Sonderregelungen implementiert werden können.
+
+\subsubsection{bcrypt}
+\label{sec:bcrypt}
+Bcrypt ist eine Bibliothek welche entwickelt wurde um Passwörter zu verschlüsseln. Es basiert auf Blowfish, einem Verschlüsselungsalgorithmus, und löst das Problem, dass durch schnellere Hardware Passwörter immer schneller kodiert und dekodiert werden können und dadurch Sicherheitsrisiken entstehen. Es löst dieses Problem dadurch, dass es die Passwörter um einen selbst definierbaren Faktor zeitlich länger kodiert indem es mehrere Iterationen durchführt\footnote{Quelle: \url{https://auth0.com/blog/hashing-in-action-understanding-bcrypt/}}.
         
         
 \chapter{Systemarchitektur}
 \section{Einführung}
+In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten.
 Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
 
 Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerfreundliche Oberfläche zu schaffen. Das Frontend basiert auf dem React-Framework\footcite{react}, das es ermöglicht, wiederverwendbare Komponenten zu entwickeln und den Anwendungsstatus effizient zu verwalten. Das User-Interface basiert auf Chakra UI\footcite{chakraui}, einem modernen und flexiblen Komponenten-Bibliothekssystem, das die Entwicklung von responsiven und zugänglichen Benutzeroberflächen erleichtert. Die Benutzerführung und die Kommunikation zwischen den React-Komponenten sind so gestaltet, dass sie eine nahtlose und intuitive Benutzererfahrung bieten.
 
-Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Kommunikation mittels WebSockets is so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Die Echtzeit-Kommunikation zwischen den Spielern wird mit Hilfe von Socket.io\footcite{socketio} ermöglicht, einer Bibliothek, die bidirektionale Kommunikation über WebSockets unterstützt. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL\footcite{postgresql}-Datenbank verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Freundeslisten und Daten aktiver Spiele werden in einer Redis\footcite{redis}-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
+Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL\footcite{postgresql}-Datenbank verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Freundeslisten und Daten aktiver Spiele werden in einer Redis\footcite{redis}-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
 \section{Architekturübersicht}
+Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert die Hauptkomponenten und deren Schnittstellen der Kommunikation.
 
+Im Frontend gibt es drei Komponenten, welche die Web-API verwenden: Der \textit{UserContext}, \textit{Login} und \textit{SignUp}. Unsere Web-API verwendet dabei nur die Methoden GET und POST. Der \textit{UserContext} ist verantwortlich für die Verwaltung des Benutzerzustands, während die Komponenten \textit{Login} und \textit{SignUp} das setzen des Benutzerzustands über das Anmelden und Registrieren unterstützen. Der \textit{SocketContext} baut die Socket.io Verbindung für die Echtzeitkommunikation auf und stellt sie den restlichen React Komponenten zur Verfügung, um Events zu senden und zu empfangen.
+
+Die Anfragen über die Web-API werden durch den in \textit{authRouter} definierten Express Router entgegengenommen. Zur Behandlung werden in ihm verschieden Middlewares der Datei \textit{authController} für verschiedene Anfragen festgelegt, welche auf die PostgreSQL Datenbank zugreifen. Die Web-API und die PostgreSQL Datenbank werden lediglich für das Registrieren und Anmelden von Benutzern verwendet.
+
+Beim herstellen einer Socket.io Verbindung in \textit{SocketContext} werden im Backend die Middlewares aus \textit{socketMiddleware} ausgeführt, welche unter anderem die Listener aus \textit{socketController} und \textit{socketChessContoller} initialisieren. Der Unterschied zwischen den Listenern aus den beiden Dateien ist dabei, dass \textit{socketController} sich um allgemeine Funktionen wie das Versenden von Freundschaftsanfragen oder das senden von Informationen an das Frontend kümmert, während \textit{socketChessController} Listener enthält, welche sich um Funktionen des Schachspiels kümmert, wie zum Beispiel das Behandeln eines neuen Zugs. 
+
+Alle Dateien im sockets Package verwenden den \textit{redisController}, um Daten in der Redis Datenbank abzurufen und zu speichern. Beispielsweise werden Freundschaftsanfragen, Freunde und Daten aktiver Spiele in der Redis Datenbank von dem \textit{redisController} verwaltet, abgerufen und gespeichert.
+
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}
- \begin{umlpackage}{Frontend}
+ \begin{umlpackage}[x=4]{Frontend}
  \begin{umlcomponent}{UserContext}
  \begin{umlcomponent}{SocketContext}
- \umlbasiccomponent{React Components}
+ \umlbasiccomponent{Login}
+ \umlbasiccomponent[x=3]{SignUp}
  \end{umlcomponent}
  \end{umlcomponent}
  \end{umlpackage}
  
  
- \begin{umlpackage}[x=8]{Backend}
- \begin{umlcomponent}{Express Router}
- \end{umlcomponent}
+ \begin{umlpackage}[y=-5]{Backend}
+ \begin{umlpackage}{sockets}
+ \umlbasiccomponent{socketController}
+ \umlbasiccomponent[x=5]{socketChessController}
+ \umlbasiccomponent[x=2.5, y=-2.5]{socketMiddleware}
  \end{umlpackage}
+ \umlbasiccomponent[x=2.5, y=-5]{redisController}
+ \umlbasiccomponent[x=10]{authRouter}
+ \umlbasiccomponent[x=10, y=-5]{authController}
+ \end{umlpackage}
+ 
+\umlHVassemblyconnector[with port, anchor2=130]{SocketContext}{sockets}
+
+\umlHVassemblyconnector[with port]{UserContext}{authRouter}
+\umlVHVassemblyconnector[with port, anchor1=-90]{Login}{authRouter}
+\umlVHVassemblyconnector[with port, anchor1=-90]{SignUp}{authRouter}
+
+\umlnote[x=-1,y=2]{SocketContext-west-port}{socket.io-client}
+\umlnote[x=12, y=2]{UserContext-east-port}{Web-API}
+\umlnote[x=12, y=-1]{authRouter-north-port}{Express Router}
+ 
+ \umlbasiccomponent[x=2.5, y=-13]{Redis DB}
+ \umlbasiccomponent[x=10, y=-13]{PostgreSQL DB}
+ 
+\umlassemblyconnector[anchor1=-90, anchor2=90]{authRouter}{authController} 
+\umlVHassemblyconnector[anchor1=-90, anchor2=-180]{socketController}{redisController}
+\umlVHassemblyconnector[anchor1=-90, anchor2=0]{socketChessController}{redisController}
+\umlVHassemblyconnector[anchor1=-90, anchor2=90]{socketMiddleware}{redisController}
+
+ 
+ \umlassemblyconnector[with port, anchor1=-90, anchor2=90]{authController}{PostgreSQL DB}
+  \umlassemblyconnector[with port, anchor1=-90, anchor2=90]{redisController}{Redis DB}
 \end{tikzpicture}
+\caption{Komponentendiagramm der Anwenundung}
+\label{fig:Komponentendiagramm}
+\end{figure}
+
     \section{Frontend-Architektur}
 Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:react}), Socket.io (Abschnitt \ref{sec:socket.io}) und weiteren Bibliotheken aus Abschnitt \ref{sec:weiteres} entwickelt.
 
@@ -489,10 +616,11 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{itemize}
 \end{itemize}
 \item \textbf{Login \& SignUp:} Komponenten, die das Anmelden und Registrieren mittels Formularen mit Formik und Yup (siehe Abschnitt \ref{sec:formik}) ermöglichen und mit dem Server zur Authentifizierung kommunizieren. 
-\item \textbf{ChessGame:} 
+\item \textbf{ChessGame:} Die Komponente ChessGame ist das Herzstück unserer Anwendung, da dort das eigentliche Schachspiel stattfindet. Die ChessGame Komponente wird durch den Pfad \verb|/game/:roomId| gerendert und holt sich durch die roomId die Spieldaten vom Backend.  In der Abbildung \ref{fig:chess-game} ist eine beispielhafte Komponente zu sehen. Auf der rechten Seite neben dem Brett befindet sich die \textit{ChessClock} Komponete und daneben befindet sich noch die \textit{Chat} Komponente. Das Spielfeld und die Figuren entstehen durch die Bibliothek chessground (siehe Abschnitt, während die Spiellogik hinter dem Schachspiel von chess.js verwaltet wird (siehe Abschnitt \ref{sec:chess.js}). Eine dataillierte Beschreibung, was in der Komponente beim spielen oder empfangen eines Zuges passiert befindet sich im Abschnitt \ref{sec:Schachspiel}.
+
 \begin{itemize}
-\item \textbf{ChessClock:} 
-\item \textbf{Chat:}
+\item \textbf{ChessClock:} ChessClock ist eine Komponente, die die Verwaltung und Darstellung der Schachuhren übernimmt.
+\item \textbf{Chat:} Die Chat Komponente repräsentiert einen simplen gehaltenen Chat in dem die beiden Spieler kommunizieren können. Zuschauer können ihn lesen, allerdings nichts selber schreiben, da sie Tipps geben könnten.
 \end{itemize}
 \end{itemize}
         
@@ -547,6 +675,17 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \label{fig:frontend_tikz}
         
         \end{figure}
+        
+        \subsection{Das Schachspiel}
+        \label{sec:Schachspiel}
+Das Schachspiel und die zugehörigen Schach Uhren sind getrennt gehalten um die Modularität und Fehleranalysen zu vereinfachen. Die Schachuhren und das Spiel haben jeweils eigene Events und Listener auf die sie hören.
+
+In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. 
+        \subsubsection{Das Spiel}
+Das Schachspiel findet in der Komponente \textit{ChessGame} statt. Dort werden Events empfangen, die einen neuen Zug senden, signalisieren, dass der Gegner aufgegeben hat, dass das Spiel aufgrund von Schachmatt Unentschieden oder einer abgelaufenen Schachuhr endet oder das das Spiel aufgrund von einer abgelaufenen Startzeit abgebrochen wird. Im folgenden werde ich die Abläufe und die Funktionsweise des Schachspiels im Frontend erklären.
+
+\textbf{Spielen eines Zugs}: Im Aktivitätendiagramm in Abbildung \ref{fig:chess-move} ist der Ablauf eines neuen Zuges dargestellt.
+        \subsubsection{Die Uhr}
     
         \section{Backend-Architektur}
         \section{Interaktion zwischen Frontend und Backend}
@@ -612,13 +751,6 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{figure}
 
 
-  
-    \section{Backend}
-        \subsection{API-Endpunkte}
-        \subsection{Datenbankstruktur}
-        		\subsubsection{PostgreSQL}
-        		\subsubsection{Redis}
-        \subsection{Echtzeit-Kommunikation}
 
 \chapter{Implementierung}
     \section{Frontend-Entwicklung}
@@ -661,8 +793,9 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{figure}
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=160mm]{node-request.jpg}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Ablauf einer Anfrage an einen Node.js Server}
   \label{fig:node-request}
@@ -670,8 +803,9 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=160mm]{express-request.jpg}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Ablauf einer Anfrage an einen Node.js Server mit Express}
   \label{fig:express-request}
@@ -690,8 +824,9 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{figure}
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=160mm]{express-routing-example.jpg}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Beispiel der Nutzung von Routing}
   \label{fig:routing-beispiel}
@@ -707,24 +842,27 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{figure}
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=160mm]{socket.io-rooms.png}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{socket-rooms}
   \caption{Darstellung eines Raumes \textit{myroom} mit zwei sockets}
   \label{fig:socket.io-room}
 \end{figure}
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=100mm]{jwt-beispiel.png}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{JWT}
   \caption{Beispiel eines verschlüsselten Tokens von JWT}
   \label{fig:jwt-example}
 \end{figure}
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=60mm]{Chakra-UI Beispiel.png}
+\raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{chakraui}
   \caption{Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref{lst:chakra-example}}
   \label{fig:chakra-example}
@@ -732,24 +870,38 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
   
 
   \begin{figure}[ht]
-\raggedleft
+  \centering
   \includegraphics[width=160mm]{Home_not_logged_in.png}
   \caption{Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}
   \label{fig:home-not-logged-in}
 \end{figure}
   
     \begin{figure}[ht]
-\raggedleft
+    \centering
   \includegraphics[width=160mm]{Home_logged_in.png}
   \caption{Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}
   \label{fig:home-logged-in}
 \end{figure}
   
       \begin{figure}[ht]
-\raggedleft
+      \centering
   \includegraphics[width=100mm]{game_request.png}
   \caption{Das Modal der Komponente GameRequest in hellem Farbschema}
   \label{fig:game-request}
+\end{figure}
+
+      \begin{figure}[ht]
+      \centering
+  \includegraphics[width=160mm]{ChessGame.png}
+  \caption{Beispiel einer ChessGame-Komponente}
+  \label{fig:chess-game}
+\end{figure}
+
+      \begin{figure}[ht]
+      \centering
+  \includegraphics[width=120mm]{Interaktion Schach Zug.png}
+  \caption{Aktivitätsdiagramm eines Schach Zugs}
+  \label{fig:chess-move}
 \end{figure}
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  22 APR 2023 16:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  24 APR 2023 18:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1070,7 +1070,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.45 ...}{Abbildungsverzeichnis}{24}{appendix*.13}
+l.46 ...r}{Literaturverzeichnis}{37}{appendix*.17}
                                                   % [1
 
 ])
@@ -1103,39 +1103,63 @@ Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 166.
 
 [6]
-Overfull \hbox (8.76236pt too wide) in paragraph at lines 196--197
+Overfull \hbox (8.76236pt too wide) in paragraph at lines 206--207
 \OT1/cmr/m/n/12 den ([][]\OT1/cmtt/m/n/12 io.to(...).emit(...)[]\OT1/cmr/m/n/12
  ) oder an al-le, au-^^Yer den sen-der ([][]\OT1/cmtt/m/n/12 socket.to(...).emi
 t(...)[]\OT1/cmr/m/n/12 )
  []
 
-[7]
-Overfull \hbox (89.23747pt too wide) in paragraph at lines 222--224
+[7] [8]
+Overfull \hbox (89.23747pt too wide) in paragraph at lines 236--238
 \OT1/cmr/m/n/12 wel-che zum Bei-spiel mit-tels dem Tag [][]\OT1/cmtt/m/n/12 <Ex
 ampleComponent initialCount={10} loadingDelay={3000} />
  []
 
-[8]
+[9]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-256.
+270.
  (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-[9] [10]
-Overfull \hbox (29.85231pt too wide) in paragraph at lines 307--308
+[10]
+Overfull \hbox (11.37457pt too wide) in paragraph at lines 308--309
+\OT1/cmr/m/n/12 wer-den die Kom-po-nen-ten [][]\OT1/cmtt/m/n/12 BrowserRouter[]
+\OT1/cmr/m/n/12 , [][]\OT1/cmtt/m/n/12 Routes []\OT1/cmr/m/n/12 und [][]\OT1/cm
+tt/m/n/12 Route []\OT1/cmr/m/n/12 des Pa-kets [][]\OT1/cmtt/m/n/12 react-router
+-dom
+ []
+
+[11] [12]
+Overfull \hbox (29.85231pt too wide) in paragraph at lines 385--386
 []\OT1/cmr/m/it/12 Durability (Dau-er-haf-tig-keit)\OT1/cmr/m/n/12 : Nach ei-ne
 r ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
  []
 
-[11] [12]
-Overfull \hbox (51.49187pt too wide) in paragraph at lines 380--381
+[13] [14]
+
+LaTeX Warning: Citation `chakraui' on page 15 undefined on input line 444.
+
+
+LaTeX Warning: Citation `chakraui' on page 15 undefined on input line 444.
+
+
+Overfull \hbox (51.49187pt too wide) in paragraph at lines 458--459
 \OT1/cmr/m/n/12 Schachplattform []$\OT1/cmtt/m/n/12 l i c h e s s . o r g$[] \O
 T1/cmr/m/n/12 ent-wi-ckelt wur-de[][][]. Es bie-tet zahl-rei-che Kon-fi-gu-ra-t
 i-onsm[]oglichkeiten,
  []
 
-[13] [14]
+[15] [16]
 Kapitel 3.
+
+LaTeX Warning: Citation `chakraui' on page 17 undefined on input line 470.
+
+
+LaTeX Warning: Citation `redis' on page 17 undefined on input line 472.
+
+[17
+
+]
 Missing character: There is no F in font nullfont!
 Missing character: There is no r in font nullfont!
 Missing character: There is no o in font nullfont!
@@ -1153,7 +1177,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 399.
+(Font)              <10.95> on input line 494.
 Missing character: There is no B in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no c in font nullfont!
@@ -1168,24 +1192,45 @@ Missing character: There is no k in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
-[15
+Missing character: There is no s in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no s in font nullfont!
 
-]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[16] [17]
-Overfull \hbox (34.46211pt too wide) in paragraph at lines 544--545
+Overfull \hbox (10.73314pt too wide) in paragraph at lines 529--530
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18] [19]
+Overfull \hbox (34.46211pt too wide) in paragraph at lines 672--673
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[20]
 \pgf@layerbox@umlsd@background=\box131
 \pgf@layerboxsaved@umlsd@background=\box132
 \pgf@layerbox@umlsd@threadlayer=\box133
 \pgf@layerboxsaved@umlsd@threadlayer=\box134
+
 Missing character: There is no [ in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no c in font nullfont!
@@ -1200,145 +1245,170 @@ Missing character: There is no ] in font nullfont!
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess to''? on input li
-ne 590.
+ne 729.
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess from''? on input 
-line 590.
+line 729.
 
-[18] [19] [20] [21]
+[21] [22] [23] [24] [25]
 Kapitel 4.
-[22
+[26
 
 ]
 Kapitel 5.
-[23
+[27
 
 ] (Bachelorarbeit.lof)
 \tf@lof=\write6
 \openout6 = `Bachelorarbeit.lof'.
 
-<./images//Schachentwicklung.jpg, id=598, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=659, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
-Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 63
-8.
+Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 77
+0.
 (pdftex.def)             Requested size: 455.24408pt x 111.36414pt.
 LaTeX Font Info:    Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 640.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 772.
 
-<./images//en-passant.jpeg, id=600, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=661, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
-Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 646.
+Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 778.
 (pdftex.def)             Requested size: 455.24408pt x 148.51175pt.
-<./images//promotion.jpeg, id=602, 870.25125pt x 879.285pt>
+ [28
+
+ <./images//Schachentwicklung.jpg>]
+<./images//promotion.jpeg, id=674, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
-Package pdftex.def Info: ./images//promotion.jpeg  used on input line 654.
+Package pdftex.def Info: ./images//promotion.jpeg  used on input line 786.
 (pdftex.def)             Requested size: 225.27734pt x 227.62204pt.
-<./images//node-request.jpg, id=604, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=676, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
-Package pdftex.def Info: ./images//node-request.jpg  used on input line 665.
+Package pdftex.def Info: ./images//node-request.jpg  used on input line 797.
 (pdftex.def)             Requested size: 455.24408pt x 149.694pt.
-<./images//express-request.jpg, id=606, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=678, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
-Package pdftex.def Info: ./images//express-request.jpg  used on input line 674.
+Package pdftex.def Info: ./images//express-request.jpg  used on input line 807.
 
 (pdftex.def)             Requested size: 455.24408pt x 137.34811pt.
-<./images//Middleware-Beispiel.jpg, id=608, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=680, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
-682.
+816.
 (pdftex.def)             Requested size: 455.24408pt x 202.9357pt.
-<./images//Middleware-Beispiel-2.jpg, id=609, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=681, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
-e 686.
+e 820.
 (pdftex.def)             Requested size: 455.24408pt x 226.08426pt.
-<./images//express-routing-example.jpg, id=611, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=683, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
-ine 694.
+ine 828.
 (pdftex.def)             Requested size: 455.24408pt x 182.10199pt.
-<./images//socket.io-server-beispiel.png, id=613, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=685, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
- line 702.
+ line 837.
 (pdftex.def)             Requested size: 199.16928pt x 160.43173pt.
-<./images//socket.io-client-beispiel.png, id=615, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=687, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
- line 703.
+ line 838.
 (pdftex.def)             Requested size: 199.16928pt x 146.417pt.
-<./images//socket.io-rooms.png, id=617, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=689, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
-Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 711.
+Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 846.
 
 (pdftex.def)             Requested size: 455.24408pt x 219.02135pt.
-<./images//jwt-beispiel.png, id=619, 962.59625pt x 1083.04625pt>
+
+
+LaTeX Warning: Citation `socket-rooms' on page 29 undefined on input line 848.
+
+<./images//jwt-beispiel.png, id=690, 962.59625pt x 1083.04625pt>
 File: ./images//jwt-beispiel.png Graphic file (type png)
 <use ./images//jwt-beispiel.png>
-Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 719.
+Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 855.
 (pdftex.def)             Requested size: 284.52756pt x 320.12386pt.
-<./images//Chakra-UI Beispiel.png, id=621, 254.1495pt x 301.125pt>
+
+LaTeX Warning: Citation `JWT' on page 29 undefined on input line 857.
+
+<./images//Chakra-UI Beispiel.png, id=691, 254.1495pt x 301.125pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
-Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 7
-27.
+Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 8
+64.
 (pdftex.def)             Requested size: 170.71652pt x 202.27649pt.
-<./images//Home_not_logged_in.png, id=625, 1156.32pt x 537.207pt>
+
+LaTeX Warning: Citation `chakraui' on page 29 undefined on input line 866.
+
+<./images//Home_not_logged_in.png, id=694, 1156.32pt x 537.207pt>
 File: ./images//Home_not_logged_in.png Graphic file (type png)
 <use ./images//Home_not_logged_in.png>
-Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 7
-36.
+Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 8
+74.
 (pdftex.def)             Requested size: 455.24408pt x 211.49358pt.
-<./images//Home_logged_in.png, id=626, 1156.32pt x 537.207pt>
+<./images//Home_logged_in.png, id=695, 1156.32pt x 537.207pt>
 File: ./images//Home_logged_in.png Graphic file (type png)
 <use ./images//Home_logged_in.png>
-Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 743.
+Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 881.
 (pdftex.def)             Requested size: 455.24408pt x 211.49358pt.
-<./images//game_request.png, id=627, 530.58224pt x 286.671pt>
+<./images//game_request.png, id=696, 530.58224pt x 286.671pt>
 File: ./images//game_request.png Graphic file (type png)
 <use ./images//game_request.png>
-Package pdftex.def Info: ./images//game_request.png  used on input line 750.
+Package pdftex.def Info: ./images//game_request.png  used on input line 888.
 (pdftex.def)             Requested size: 284.52756pt x 153.73271pt.
- (Bachelorarbeit.bbl [24
+<./images//ChessGame.png, id=697, 1156.32pt x 537.207pt>
+File: ./images//ChessGame.png Graphic file (type png)
+<use ./images//ChessGame.png>
+Package pdftex.def Info: ./images//ChessGame.png  used on input line 895.
+(pdftex.def)             Requested size: 455.24408pt x 211.49358pt.
+<./images//Interaktion Schach Zug.png, id=698, 593.21625pt x 556.0775pt>
+File: ./images//Interaktion Schach Zug.png Graphic file (type png)
+<use ./images//Interaktion Schach Zug.png>
+Package pdftex.def Info: ./images//Interaktion Schach Zug.png  used on input li
+ne 902.
+(pdftex.def)             Requested size: 341.43306pt x 320.06451pt.
+(Bachelorarbeit.bbl [29 <./images//en-passant.jpeg> <./images//promotion.jpeg>]
+[30 <./images//node-request.jpg> <./images//express-request.jpg>] [31 <./images
+//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>] [32 <./images
+//express-routing-example.jpg> <./images//socket.io-server-beispiel.png> <./ima
+ges//socket.io-client-beispiel.png>] [33 <./images//socket.io-rooms.png> <./ima
+ges//jwt-beispiel.png>] [34 <./images//Chakra-UI Beispiel.png> <./images//Home_
+not_logged_in.png>] [35 <./images//Home_logged_in.png> <./images//game_request.
+png>] [36 <./images//ChessGame.png> <./images//Interaktion Schach Zug.png>])
+[37
 
- <./images//Schachentwicklung.jpg>] [25 <./images//en-passant.jpeg> <./images//
-promotion.jpeg> <./images//node-request.jpg>] [26 <./images//express-request.jp
-g>] [27 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jp
-g>] [28 <./images//express-routing-example.jpg> <./images//socket.io-server-bei
-spiel.png> <./images//socket.io-client-beispiel.png>] [29 <./images//socket.io-
-rooms.png> <./images//jwt-beispiel.png>] [30 <./images//Chakra-UI Beispiel.png>
- <./images//Home_not_logged_in.png>] [31 <./images//Home_logged_in.png> <./imag
-es//game_request.png>]
-[32
+] (Bachelorarbeit.aux)
 
-]) [33] (Bachelorarbeit.aux)
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
-(rerunfilecheck)             Checksum: 8FAF4F602A8A629175A93524C06A0F26;5014.
+(rerunfilecheck)             Checksum: A4147E3C4EAA0C19F9BE6E13D7BF603B;4618.
  ) 
 Here is how much of TeX's memory you used:
- 31422 strings out of 478338
- 640624 string characters out of 2836700
- 1282151 words of memory out of 3000000
- 49070 multiletter control sequences out of 15000+600000
- 478396 words of font info for 59 fonts, out of 8000000 for 9000
+ 32798 strings out of 478338
+ 679318 string characters out of 2836700
+ 1365396 words of memory out of 3000000
+ 50410 multiletter control sequences out of 15000+600000
+ 478704 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,22n,97p,1349b,2101s stack positions out of 10000i,1000n,20000p,200000b,80000s
- <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
-1200.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\tctt1095.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+ 84i,22n,97p,1305b,2101s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt
+1095.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\tcrm1200.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/f
 onts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/jaspe/AppData/Local/Program
@@ -1356,9 +1426,9 @@ TeX/fonts/type1/public/amsfonts/cm/cmssi12.pfb><C:/Users/jaspe/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppData
 /Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jasp
 e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on Bachelorarbeit.pdf (34 pages, 1160327 bytes).
+Output written on Bachelorarbeit.pdf (38 pages, 1275910 bytes).
 PDF statistics:
- 831 PDF objects out of 1000 (max. 8388607)
- 252 named destinations out of 1000 (max. 500000)
- 461 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 888 PDF objects out of 1000 (max. 8388607)
+ 286 named destinations out of 1000 (max. 500000)
+ 447 words of extra memory for PDF output out of 10000 (max. 10000000)
 

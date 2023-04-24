@@ -1,5 +1,5 @@
 const {getUserData} = require("../redis/redisController.js");
-const {onDisconnect} = require("./socketAuthorize.js");
+const {onDisconnect} = require("./socketMiddleware.js");
 const {createChessGame} = require("./socketChessController.js");
 const {getActiveGamesData} = require("../redis/redisController.js");
 const {getFriends} = require("../redis/redisController.js");
@@ -46,7 +46,7 @@ const initializeListeners = (client, io) => {
                 if(accepted) {
                     const roomId = await createChessGame(io, client.user.username, receiver.user.username, time);
                     callback({accepted: true, roomId: roomId});
-                    cb(roomId);
+                    cb(roomId); 
                 } else {
                     callback({accepted: false});
                 }

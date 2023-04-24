@@ -9,9 +9,10 @@ import ChessClock from "../Components/ChessClock.js";
 import {AccountContext} from "../Context/AccountContext.js";
 import {useLocation, useParams} from "react-router-dom";
 import PromotionModal from "../Components/PromotionModal.js";
-import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button} from "@chakra-ui/react";
+import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button, Icon} from "@chakra-ui/react";
 import Chat from "../Components/Chat.js";
 import {SocketContext} from "../Context/SocketContext.js";
+import { BsClock } from "react-icons/bs";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -375,6 +376,10 @@ const ChessGame = () => {
                             >
                                 <div id={roomId} style={{ width: '75VH', height: '75VH' }} />
                                 <VStack justifyContent="center" alignItems="center" m={10} spacing={4} >
+                                    <Box display="flex" alignItems="center">
+                                        <Icon as={BsClock} boxSize={6} marginRight={2} />
+                                        <Heading as="h3" size="sm" marginBottom="1">{timeMode.string}</Heading>
+                                    </Box>
                                     {orientation === 'white' ? (
                                         <>
                                             <Heading as="h2" size="lg" marginBottom="2">
@@ -396,7 +401,6 @@ const ChessGame = () => {
                                         startingTimeWhite={startingTimeWhite}
                                         startingTimeBlack={startingTimeBlack}
                                         orientation={orientation}
-                                        socket={socket}
                                     />
                                     {orientation === 'white' ? (
                                         <>
