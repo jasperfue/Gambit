@@ -62,7 +62,7 @@ module.exports.initializeChessListeners = (client, io) => {
         client.on('find_game', async (user, time) => {
             const queuePlayer = await getPlayerInQueue(user.loggedIn, time.string);
             if (!user.loggedIn) {
-                client.user = {username:`guest-${UUIDv4().slice(0, 8)}`};
+                client.user = {username:`guest-${UUIDv4().slice(0, 8)}`, userid: client.id};
             }
             if(queuePlayer && Object.keys(queuePlayer).length !== 0) {
                 console.log(queuePlayer);
@@ -70,7 +70,7 @@ module.exports.initializeChessListeners = (client, io) => {
                 io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, roomId);
                 client.emit('joined_game', client.user.username, queuePlayer.username, roomId);
             } else {
-                await addPlayerInQueue(user.loggedIn, time.string, client.id, client.user.username);
+                await addPlayerInQueue(user.loggedIn, time.string, client.user.userid, client.user.username);
             }
         });
         client.on('sendMessage', async ({message, username, roomId}) => {
@@ -166,10 +166,14 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
     const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
-    chessInstance.loadPgn(await getGame(roomId).then(data => {
-        return data.pgn
-    }));
     try {
+        chessInstance.loadPgn(await getGame(roomId, "pgn").then(pgn => {
+            if(!pgn) {
+                cb({done: false, errMsg: "Game does not exist"});
+                return;
+            }
+            return pgn;
+        }));
         chessInstance.move(move)
     } catch(error) {
         cb({done: false, errMsg: error});

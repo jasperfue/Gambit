@@ -5,11 +5,11 @@ const {validateSignUp, validateLogin} = require('../auth/validateForm.js')
 const {rateLimiter} = require('../auth/rateLimiter.js')
 
 
-router.route('/login').get(handleLogin).post(validateLogin,rateLimiter(60, 10), attemptLogin);
+router.route('/login').get(rateLimiter(60, 10), handleLogin).post(rateLimiter(60, 10), validateLogin, attemptLogin);
 
 
 router.post('/signup', validateSignUp, rateLimiter(60, 10), attemptSignUp);
 
-router.route('/logout').get(handleLogout);
+router.get('/logout', handleLogout);
 
 module.exports = router;

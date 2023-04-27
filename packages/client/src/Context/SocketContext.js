@@ -10,11 +10,13 @@ function SocketConnectionContext({children}) {
     const {user} = useContext(AccountContext);
 
     useEffect(() => {
-        setSocket(new io("http://localhost:4000", {
-            autoConnect: true,
-            withCredentials: true,
-        }));
-        console.log('NEUE VERBINDUNG', user);
+        if(user) {
+            setSocket(new io("http://localhost:4000", {
+                autoConnect: true,
+                withCredentials: true,
+            }));
+            console.log('NEUE VERBINDUNG', user);
+        }
     }, [user]);
 
     return (

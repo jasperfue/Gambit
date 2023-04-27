@@ -4,7 +4,6 @@ import {SocketContext} from "../Context/SocketContext.js";
 
 const ChessClock = (props) => {
     const {socket} = useContext(SocketContext);
-    const [time, setTime] = useState(props.time);
     const [timeWhite, setTimeWhite] = useState(props.remainingTimeWhite
         ? props.remainingTimeWhite.minutes * 60 + props.remainingTimeWhite.seconds
         : props.time.minutes * 60);

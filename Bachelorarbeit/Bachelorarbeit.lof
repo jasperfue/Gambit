@@ -1,26 +1,30 @@
 \babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {ngerman}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{4}{figure.1.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Die Zusatzregel \textit {en passant}}}{7}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{8}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{9}{figure.2.3}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{10}{figure.2.4}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Beispiel der Nutzung von Middlewares}}{11}{figure.2.5}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Beispiel der Nutzung von Routing}}{12}{figure.2.6}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{12}{figure.2.7}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{13}{figure.2.8}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Beispiel eines verschlüsselten Tokens von JWT}}{19}{figure.2.9}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{20}{figure.2.10}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Komponentendiagramm der Anwenundung}}{25}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Ordnerstruktur des Frontends}}{26}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Aufbau der React-Komponenten für angemeldete Benutzer}}{29}{figure.3.3}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}}{30}{figure.3.4}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}}{30}{figure.3.5}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Das Modal der Komponente GameRequest in hellem Farbschema}}{31}{figure.3.6}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Beispiel einer ChessGame-Komponente}}{31}{figure.3.7}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Aktivitätsdiagramm eines Schach Zugs}}{33}{figure.3.8}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Aktivitätsdiagramm eines empfangenen Schach Zugs}}{34}{figure.3.9}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Ordnerstruktur des Backends}}{35}{figure.3.10}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Sequenzdiagramm des Schachspielstartprozesses mit unbekanntem Gegner}}{40}{figure.3.11}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Komponentendiagramm der Anwenundung}}{22}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Ordnerstruktur des Frontends}}{23}{figure.3.2}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Aufbau der React-Komponenten für eingeloggte Benutzer}}{24}{figure.3.3}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Sequenzdiagramm des Schachspielstartprozesses (aktualisiert)}}{25}{figure.3.4}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Relatives Suchinteresse des Wortes \textit {Chess} auf Google in den letzten 5 Jahren.}}{28}{figure.Alph0.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Die Zusatzregel \textit {en passant}}}{29}{figure.Alph0.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Die Zusatzregel \textit {Bauernumwandlung}}}{29}{figure.Alph0.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server}}{30}{figure.Alph0.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Ablauf einer Anfrage an einen Node.js Server mit Express}}{30}{figure.Alph0.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Beispiel der Nutzung von Middlewares}}{31}{figure.Alph0.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Beispiel der Nutzung von Routing}}{32}{figure.Alph0.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}}{32}{figure.Alph0.8}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Darstellung eines Raumes \textit {myroom} mit zwei sockets}}{33}{figure.Alph0.9}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Beispiel eines verschlüsselten Tokens von JWT}}{33}{figure.Alph0.10}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Darstellung der mit Chakra UI designten React Komponente aus dem Code Beispiel \ref {lst:chakra-example}}}{34}{figure.Alph0.11}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}}{34}{figure.Alph0.12}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}}{35}{figure.Alph0.13}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Das Modal der Komponente GameRequest in hellem Farbschema}}{35}{figure.Alph0.14}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Beispiel einer ChessGame-Komponente}}{36}{figure.Alph0.15}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Aktivitätsdiagramm eines Schach Zugs}}{36}{figure.Alph0.16}%

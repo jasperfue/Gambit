@@ -12,7 +12,7 @@ module.exports.getPlayerInQueue = async (loggedIn, time) => {
             } else {
                 if(result) {
                     const user = result.split(':');
-                    resolve({id: user[0], username: user[1]});
+                    resolve({id: user[1], username: user[0]});
                 } else {
                     resolve(result);
                 }
@@ -24,7 +24,7 @@ module.exports.getPlayerInQueue = async (loggedIn, time) => {
 module.exports.removeFromQueue = async (loggedIn, time, username, userid) => {
     return new Promise((resolve, reject) => {
             const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
-            redisClient.lrem(key, 0, `${userid}:${username}`, (err, result) => {
+            redisClient.lrem(key, 0, `${username}:${userid}`, (err, result) => {
                 if (err) {
                     console.error(`Fehler beim Entfernen von Einträgen mit Benutzername ${username} aus ${key}`, err);
                     reject(err);
@@ -40,7 +40,7 @@ module.exports.removeFromQueue = async (loggedIn, time, username, userid) => {
 module.exports.addPlayerInQueue = async (loggedIn, time, userid, username) => {
     return new Promise((resolve, reject) => {
         const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
-            redisClient.lpush(key, `${userid}:${username}`, (err, result) => {
+            redisClient.lpush(key, `${username}:${userid}`, (err, result) => {
                 if (err) {
                     console.error('Fehler beim Hinzufügen in waitingPlayers', err);
                     reject(err);
@@ -281,12 +281,17 @@ module.exports.deleteGame = async (roomId) => {
     });
 };
 
-const getGame = async (roomId) => {
-    const game = await redisClient.hgetall(`game:${roomId}`);
-    if (!game || Object.keys(game).length === 0) {
+const getGame = async (roomId, key = null) => {
+    let result;
+    if (key) {
+        result = await redisClient.hget(`game:${roomId}`, key);
+    } else {
+        result = await redisClient.hgetall(`game:${roomId}`);
+    }
+    if (!result || Object.keys(result).length === 0) {
         return false;
     }
-    return game;
+    return result;
 }
 module.exports.getGame = getGame;
 
