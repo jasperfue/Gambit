@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  27 APR 2023 19:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  28 APR 2023 14:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -348,6 +348,32 @@ LaTeX Info: Redefining \Cpagerefrange on input line 2370.
 LaTeX Info: Redefining \labelcref on input line 2370.
 LaTeX Info: Redefining \labelcpageref on input line 2370.
 )
+(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/03/12 v3.6j Customizing captions (AR)
+
+(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/03/12 v2.4 caption3 kernel (AR)
+\caption@tempdima=\dimen169
+\captionmargin=\dimen170
+\caption@leftmargin=\dimen171
+\caption@rightmargin=\dimen172
+\caption@width=\dimen173
+\caption@indent=\dimen174
+\caption@parindent=\dimen175
+\caption@hangindent=\dimen176
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count284
+\c@continuedfloat=\count285
+Package caption Info: hyperref package is loaded.
+)
+(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/02/19 v1.6 Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 239.
+\c@subfigure=\count286
+Package caption Info: New subtype `subtable' on input line 239.
+\c@subtable=\count287
+)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlayer-sc
 rpage.sty
 Package: scrlayer-scrpage 2022/10/12 v3.38 KOMA-Script package (end user interf
@@ -420,23 +446,23 @@ Package scrlayer-scrpage Warning: It seems that package `titlesec' is used
 1: section
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrheading by
-(scrlayer-scrpage)                \clearmainofpairofpagestyles on input line 28
+(scrlayer-scrpage)                \clearmainofpairofpagestyles on input line 30
 .
 
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrplain by
-(scrlayer-scrpage)                \clearplainofpairofpagestyles on input line 2
-9.
+(scrlayer-scrpage)                \clearplainofpairofpagestyles on input line 3
+1.
 
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrheadfoot by
-(scrlayer-scrpage)                \clearpairofpagestyles on input line 30.
+(scrlayer-scrpage)                \clearpairofpagestyles on input line 32.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen169
+\col@sep=\dimen177
 \ar@mcellbox=\box53
-\extrarowheight=\dimen170
+\extrarowheight=\dimen178
 \NC@list=\toks21
 \extratabsurround=\skip53
 \backup@length=\skip54
@@ -445,26 +471,26 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/mdwtools\footnote.sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 \fn@notes=\box55
-\fn@width=\dimen171
+\fn@width=\dimen179
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count284
+\lst@mode=\count288
 \lst@gtempboxa=\box56
 \lst@token=\toks22
-\lst@length=\count285
-\lst@currlwidth=\dimen172
-\lst@column=\count286
-\lst@pos=\count287
-\lst@lostspace=\dimen173
-\lst@width=\dimen174
-\lst@newlines=\count288
-\lst@lineno=\count289
-\lst@maxwidth=\dimen175
+\lst@length=\count289
+\lst@currlwidth=\dimen180
+\lst@column=\count290
+\lst@pos=\count291
+\lst@lostspace=\dimen181
+\lst@width=\dimen182
+\lst@newlines=\count292
+\lst@lineno=\count293
+\lst@maxwidth=\dimen183
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count290
-\lst@skipnumbers=\count291
+\c@lstnumber=\count294
+\lst@skipnumbers=\count295
 \lst@framebox=\box57
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
@@ -480,8 +506,8 @@ y
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -common.tex
 \pgfutil@everybye=\toks23
-\pgfutil@tempdima=\dimen176
-\pgfutil@tempdimb=\dimen177
+\pgfutil@tempdima=\dimen184
+\pgfutil@tempdimb=\dimen185
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -common-lists.tex))
@@ -513,26 +539,26 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 filtered.code.tex
 \pgfkeys@tmptoks=\toks26
 ))
-\pgf@x=\dimen178
-\pgf@y=\dimen179
-\pgf@xa=\dimen180
-\pgf@ya=\dimen181
-\pgf@xb=\dimen182
-\pgf@yb=\dimen183
-\pgf@xc=\dimen184
-\pgf@yc=\dimen185
-\pgf@xd=\dimen186
-\pgf@yd=\dimen187
+\pgf@x=\dimen186
+\pgf@y=\dimen187
+\pgf@xa=\dimen188
+\pgf@ya=\dimen189
+\pgf@xb=\dimen190
+\pgf@yb=\dimen191
+\pgf@xc=\dimen192
+\pgf@yc=\dimen193
+\pgf@xd=\dimen194
+\pgf@yd=\dimen195
 \w@pgf@writea=\write3
 \r@pgf@reada=\read3
-\c@pgf@counta=\count292
-\c@pgf@countb=\count293
-\c@pgf@countc=\count294
-\c@pgf@countd=\count295
+\c@pgf@counta=\count296
+\c@pgf@countb=\count297
+\c@pgf@countc=\count298
+\c@pgf@countd=\count299
 \t@pgf@toka=\toks27
 \t@pgf@tokb=\toks28
 \t@pgf@tokc=\toks29
-\pgf@sys@id@count=\count296
+\pgf@sys@id@count=\count300
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
 fg
@@ -551,8 +577,8 @@ File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
 ssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfsyssoftpath@smallbuffer@items=\count297
-\pgfsyssoftpath@bigbuffer@items=\count298
+\pgfsyssoftpath@smallbuffer@items=\count301
+\pgfsyssoftpath@bigbuffer@items=\count302
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
 sprotocol.code.tex
@@ -590,8 +616,8 @@ code.tex
 code.tex)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
 r.code.tex
-\pgfmath@dimen=\dimen188
-\pgfmath@count=\count299
+\pgfmath@dimen=\dimen196
+\pgfmath@count=\count303
 \pgfmath@box=\box59
 \pgfmath@toks=\toks30
 \pgfmath@stack@operand=\toks31
@@ -617,39 +643,39 @@ ions.misc.code.tex)
 ions.integerarithmetics.code.tex)))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
 .code.tex
-\c@pgfmathroundto@lastzeros=\count300
+\c@pgfmathroundto@lastzeros=\count304
 ))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
 tex)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 epoints.code.tex
 File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@picminx=\dimen189
-\pgf@picmaxx=\dimen190
-\pgf@picminy=\dimen191
-\pgf@picmaxy=\dimen192
-\pgf@pathminx=\dimen193
-\pgf@pathmaxx=\dimen194
-\pgf@pathminy=\dimen195
-\pgf@pathmaxy=\dimen196
-\pgf@xx=\dimen197
-\pgf@xy=\dimen198
-\pgf@yx=\dimen199
-\pgf@yy=\dimen256
-\pgf@zx=\dimen257
-\pgf@zy=\dimen258
+\pgf@picminx=\dimen197
+\pgf@picmaxx=\dimen198
+\pgf@picminy=\dimen199
+\pgf@picmaxy=\dimen256
+\pgf@pathminx=\dimen257
+\pgf@pathmaxx=\dimen258
+\pgf@pathminy=\dimen259
+\pgf@pathmaxy=\dimen260
+\pgf@xx=\dimen261
+\pgf@xy=\dimen262
+\pgf@yx=\dimen263
+\pgf@yy=\dimen264
+\pgf@zx=\dimen265
+\pgf@zy=\dimen266
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 epathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@path@lastx=\dimen259
-\pgf@path@lasty=\dimen260
+\pgf@path@lastx=\dimen267
+\pgf@path@lasty=\dimen268
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 epathusage.code.tex
 File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@shorten@end@additional=\dimen261
-\pgf@shorten@start@additional=\dimen262
+\pgf@shorten@end@additional=\dimen269
+\pgf@shorten@start@additional=\dimen270
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 escopes.code.tex
@@ -657,19 +683,19 @@ File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfpic=\box60
 \pgf@hbox=\box61
 \pgf@layerbox@main=\box62
-\pgf@picture@serial@count=\count301
+\pgf@picture@serial@count=\count305
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 egraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgflinewidth=\dimen263
+\pgflinewidth=\dimen271
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 etransformations.code.tex
 File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@pt@x=\dimen264
-\pgf@pt@y=\dimen265
-\pgf@pt@temp=\dimen266
+\pgf@pt@x=\dimen272
+\pgf@pt@y=\dimen273
+\pgf@pt@temp=\dimen274
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 equick.code.tex
@@ -686,14 +712,14 @@ File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 earrows.code.tex
 File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfarrowsep=\dimen267
+\pgfarrowsep=\dimen275
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 eshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@max=\dimen268
-\pgf@sys@shading@range@num=\count302
-\pgf@shadingcount=\count303
+\pgf@max=\dimen276
+\pgf@sys@shading@range@num=\count306
+\pgf@shadingcount=\count307
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 eimage.code.tex
@@ -732,8 +758,8 @@ File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
 mp-version-0-65.sty
 Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@nodesepstart=\dimen269
-\pgf@nodesepend=\dimen270
+\pgf@nodesepstart=\dimen277
+\pgf@nodesepend=\dimen278
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
 mp-version-1-18.sty
@@ -754,8 +780,8 @@ Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
 .tex)
-\pgffor@iter=\dimen271
-\pgffor@skip=\dimen272
+\pgffor@iter=\dimen279
+\pgffor@skip=\dimen280
 \pgffor@stack=\toks33
 \pgffor@toks=\toks34
 ))
@@ -766,34 +792,34 @@ Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
 aryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@plot@mark@count=\count304
-\pgfplotmarksize=\dimen273
+\pgf@plot@mark@count=\count308
+\pgfplotmarksize=\dimen281
 )
-\tikz@lastx=\dimen274
-\tikz@lasty=\dimen275
-\tikz@lastxsaved=\dimen276
-\tikz@lastysaved=\dimen277
-\tikz@lastmovetox=\dimen278
-\tikz@lastmovetoy=\dimen279
-\tikzleveldistance=\dimen280
-\tikzsiblingdistance=\dimen281
+\tikz@lastx=\dimen282
+\tikz@lasty=\dimen283
+\tikz@lastxsaved=\dimen284
+\tikz@lastysaved=\dimen285
+\tikz@lastmovetox=\dimen286
+\tikz@lastmovetoy=\dimen287
+\tikzleveldistance=\dimen288
+\tikzsiblingdistance=\dimen289
 \tikz@figbox=\box65
 \tikz@figbox@bg=\box66
 \tikz@tempbox=\box67
 \tikz@tempbox@bg=\box68
-\tikztreelevel=\count305
-\tikznumberofchildren=\count306
-\tikznumberofcurrentchild=\count307
-\tikz@fig@count=\count308
+\tikztreelevel=\count309
+\tikznumberofchildren=\count310
+\tikznumberofcurrentchild=\count311
+\tikz@fig@count=\count312
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
 matrix.code.tex
 File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfmatrixcurrentrow=\count309
-\pgfmatrixcurrentcolumn=\count310
-\pgf@matrix@numberofcolumns=\count311
+\pgfmatrixcurrentrow=\count313
+\pgfmatrixcurrentcolumn=\count314
+\pgf@matrix@numberofcolumns=\count315
 )
-\tikz@expandcount=\count312
+\tikz@expandcount=\count316
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarytopaths.code.tex
@@ -809,21 +835,21 @@ Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/xstring\xstring.sty
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/xstring\xstring.tex
-\integerpart=\count313
-\decimalpart=\count314
+\integerpart=\count317
+\decimalpart=\count318
 )
 Package: xstring 2023/01/14 v1.85 String manipulations (CT)
 ) (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count315
-\calc@Bcount=\count316
-\calc@Adimen=\dimen282
-\calc@Bdimen=\dimen283
+\calc@Acount=\count319
+\calc@Bcount=\count320
+\calc@Adimen=\dimen290
+\calc@Bdimen=\dimen291
 \calc@Askip=\skip55
 \calc@Bskip=\skip56
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count317
+\calc@Ccount=\count321
 \calc@Cskip=\skip57
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgfopts\pgfopts.sty
@@ -844,7 +870,7 @@ File: tikzlibraryarrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
 aryarrows.code.tex
 File: pgflibraryarrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\arrowsize=\dimen284
+\arrowsize=\dimen292
 ))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibraryshapes.code.tex
@@ -936,20 +962,20 @@ z/libraries\tikzlibrarydecorations.markings.code.tex
 z/libraries\tikzlibrarydecorations.code.tex
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
 decorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen285
-\pgfdecoratedremainingdistance=\dimen286
-\pgfdecoratedinputsegmentcompleteddistance=\dimen287
-\pgfdecoratedinputsegmentremainingdistance=\dimen288
-\pgf@decorate@distancetomove=\dimen289
-\pgf@decorate@repeatstate=\count318
-\pgfdecorationsegmentamplitude=\dimen290
-\pgfdecorationsegmentlength=\dimen291
+\pgfdecoratedcompleteddistance=\dimen293
+\pgfdecoratedremainingdistance=\dimen294
+\pgfdecoratedinputsegmentcompleteddistance=\dimen295
+\pgfdecoratedinputsegmentremainingdistance=\dimen296
+\pgf@decorate@distancetomove=\dimen297
+\pgf@decorate@repeatstate=\count322
+\pgfdecorationsegmentamplitude=\dimen298
+\pgfdecorationsegmentlength=\dimen299
 )
 \tikz@lib@dec@box=\box91
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
 ions\pgflibrarydecorations.markings.code.tex))
-\c@tikzumlPackageLayers=\count319
+\c@tikzumlPackageLayers=\count323
 \pgf@layerbox@package0=\box92
 \pgf@layerboxsaved@package0=\box93
 \pgf@layerbox@package1=\box94
@@ -958,7 +984,7 @@ ions\pgflibrarydecorations.markings.code.tex))
 \pgf@layerboxsaved@package2=\box97
 \pgf@layerbox@package3=\box98
 \pgf@layerboxsaved@package3=\box99
-\c@tikzumlFragmentLayers=\count320
+\c@tikzumlFragmentLayers=\count324
 \pgf@layerbox@fragment0=\box100
 \pgf@layerboxsaved@fragment0=\box101
 \pgf@layerbox@fragment1=\box102
@@ -967,7 +993,7 @@ ions\pgflibrarydecorations.markings.code.tex))
 \pgf@layerboxsaved@fragment2=\box105
 \pgf@layerbox@fragment3=\box106
 \pgf@layerboxsaved@fragment3=\box107
-\c@tikzumlStateLayers=\count321
+\c@tikzumlStateLayers=\count325
 \pgf@layerbox@state0=\box108
 \pgf@layerboxsaved@state0=\box109
 \pgf@layerbox@state1=\box110
@@ -976,7 +1002,7 @@ ions\pgflibrarydecorations.markings.code.tex))
 \pgf@layerboxsaved@state2=\box113
 \pgf@layerbox@state3=\box114
 \pgf@layerboxsaved@state3=\box115
-\c@tikzumlComponentLayers=\count322
+\c@tikzumlComponentLayers=\count326
 \pgf@layerbox@component0=\box116
 \pgf@layerboxsaved@component0=\box117
 \pgf@layerbox@component1=\box118
@@ -991,46 +1017,46 @@ ions\pgflibrarydecorations.markings.code.tex))
 \pgf@layerboxsaved@activity=\box127
 \pgf@layerbox@connections=\box128
 \pgf@layerboxsaved@connections=\box129
-\c@tikzumlPackageClassNum=\count323
-\c@tikzumlPackageSubPackageNum=\count324
-\c@tikzumlRelationNum=\count325
-\c@tikzumlNoteNum=\count326
-\c@pos=\count327
-\c@posT=\count328
-\c@posStereo=\count329
-\c@tikzumlPackageLevel=\count330
-\tikzumlNestingSymbolSize=\dimen292
-\c@tikzumlSystemUseCaseNum=\count331
-\c@tikzumlSystemLevel=\count332
-\c@tikzumlUseCaseNum=\count333
-\c@tikzumlActorNum=\count334
-\c@tikzumlStateJoinNum=\count335
-\c@tikzumlStateDecisionNum=\count336
-\c@tikzumlStateInitialNum=\count337
-\c@tikzumlStateFinalNum=\count338
-\c@tikzumlStateEnterNum=\count339
-\c@tikzumlStateExitNum=\count340
-\c@tikzumlStateEndNum=\count341
-\c@tikzumlStateHistoryNum=\count342
-\c@tikzumlStateDeepHistoryNum=\count343
-\c@tikzumlStateLevel=\count344
-\c@tikzumlStateSubStateNum=\count345
-\c@tikzumlStateText=\count346
-\c@tikzumlObjectNum=\count347
-\c@tikzumlCallLevel=\count348
-\c@tikzumlCallNum=\count349
-\c@tikzumlFragmentLevel=\count350
-\c@tikzumlFragmentLevelNum=\count351
-\c@tikzumlFragmentNum=\count352
-\c@tikzumlFragmentPartNum=\count353
-\c@tikzumlCallStartFragmentNum=\count354
-\c@tikzumlCallEndFragmentNum=\count355
-\c@tikzumlSDNodeNum=\count356
+\c@tikzumlPackageClassNum=\count327
+\c@tikzumlPackageSubPackageNum=\count328
+\c@tikzumlRelationNum=\count329
+\c@tikzumlNoteNum=\count330
+\c@pos=\count331
+\c@posT=\count332
+\c@posStereo=\count333
+\c@tikzumlPackageLevel=\count334
+\tikzumlNestingSymbolSize=\dimen300
+\c@tikzumlSystemUseCaseNum=\count335
+\c@tikzumlSystemLevel=\count336
+\c@tikzumlUseCaseNum=\count337
+\c@tikzumlActorNum=\count338
+\c@tikzumlStateJoinNum=\count339
+\c@tikzumlStateDecisionNum=\count340
+\c@tikzumlStateInitialNum=\count341
+\c@tikzumlStateFinalNum=\count342
+\c@tikzumlStateEnterNum=\count343
+\c@tikzumlStateExitNum=\count344
+\c@tikzumlStateEndNum=\count345
+\c@tikzumlStateHistoryNum=\count346
+\c@tikzumlStateDeepHistoryNum=\count347
+\c@tikzumlStateLevel=\count348
+\c@tikzumlStateSubStateNum=\count349
+\c@tikzumlStateText=\count350
+\c@tikzumlObjectNum=\count351
+\c@tikzumlCallLevel=\count352
+\c@tikzumlCallNum=\count353
+\c@tikzumlFragmentLevel=\count354
+\c@tikzumlFragmentLevelNum=\count355
+\c@tikzumlFragmentNum=\count356
+\c@tikzumlFragmentPartNum=\count357
+\c@tikzumlCallStartFragmentNum=\count358
+\c@tikzumlCallEndFragmentNum=\count359
+\c@tikzumlSDNodeNum=\count360
 \tikzumlCall@xa=\skip58
 \tikzumlCall@xb=\skip59
-\c@tikzumlComponentLevel=\count357
-\c@tikzumlComponentSubComponentNum=\count358
-\c@tikzumlConnectorNum=\count359
+\c@tikzumlComponentLevel=\count361
+\c@tikzumlComponentSubComponentNum=\count362
+\c@tikzumlConnectorNum=\count363
 \tikzuml@AC@xa=\skip60
 \tikzuml@AC@ya=\skip61
 \tikzuml@AC@xb=\skip62
@@ -1056,52 +1082,65 @@ ions\pgflibrarydecorations.markings.code.tex))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgf-umlsd\pgf-umlsd.sty
 Package: pgf-umlsd 2011/07/27 v0.6 Some LaTeX macros for UML Sequence Diagrams.
 
-\c@preinst=\count360
-\c@instnum=\count361
-\c@threadnum=\count362
-\c@seqlevel=\count363
-\c@callevel=\count364
-\c@callselflevel=\count365
-\c@blocklevel=\count366
+\c@preinst=\count364
+\c@instnum=\count365
+\c@threadnum=\count366
+\c@seqlevel=\count367
+\c@callevel=\count368
+\c@callselflevel=\count369
+\c@blocklevel=\count370
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-) (Bachelorarbeit.aux)
+) (Bachelorarbeit.aux
+
+LaTeX Warning: Label `fig:friend_request' multiply defined.
+
+
+LaTeX Warning: Label `fig:friend_request@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:friend_request' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:friend_request@cref' multiply defined.
+
+)
 \openout1 = `Bachelorarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count367
-\scratchdimen=\dimen293
+\scratchcounter=\count371
+\scratchdimen=\dimen301
 \scratchbox=\box130
-\nofMPsegments=\count368
-\nofMParguments=\count369
+\nofMPsegments=\count372
+\nofMParguments=\count373
 \everyMPshowfont=\toks37
-\MPscratchCnt=\count370
-\MPscratchDim=\dimen294
-\MPnumerator=\count371
-\makeMPintoPDFobject=\count372
+\MPscratchCnt=\count374
+\MPscratchDim=\dimen302
+\MPnumerator=\count375
+\makeMPintoPDFobject=\count376
 \everyMPtoPDFconversion=\toks38
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
@@ -1148,11 +1187,14 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 88.
+Package hyperref Info: Link coloring OFF on input line 90.
 (Bachelorarbeit.out) (Bachelorarbeit.out)
 \@outlinefile=\write4
 \openout4 = `Bachelorarbeit.out'.
 
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
 
 
 Package scrlayer-scrpage Warning: Very small head height detected!
@@ -1164,9 +1206,9 @@ Package scrlayer-scrpage Warning: Very small head height detected!
 (scrlayer-scrpage)                geometry option `head=14.5pt'
 (scrlayer-scrpage)                \relax to avoid this warning.
 
-\c@lstlisting=\count373
+\c@lstlisting=\count377
 (titlepage.tex
-<./images//unilogo.pdf, id=178, 489.4512pt x 167.33328pt>
+<./images//unilogo.pdf, id=186, 489.4512pt x 167.33328pt>
 File: ./images//unilogo.pdf Graphic file (type pdf)
 <use ./images//unilogo.pdf>
 Package pdftex.def Info: ./images//unilogo.pdf  used on input line 8.
@@ -1220,8 +1262,8 @@ Package scrlayer-scrpage Warning: \headheight to low.
 (scrlayer-scrpage)                processing, but you should do this yourself,
 (scrlayer-scrpage)                e.g., setting geometry's option
 (scrlayer-scrpage)                `head=14.49998pt'.
-(scrlayer-scrpage)                I'll also decrease \topmargin on input line 5
-9.
+(scrlayer-scrpage)                I'll also decrease \topmargin on input line 6
+2.
 
 
 Overfull \vbox (2.49998pt too high) has occurred while \output is active []
@@ -1231,7 +1273,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.59 ...erline {5.2}Limitationen}{42}{section.5.2}
+l.62 ...line {5}Fazit und Ausblick}{44}{chapter.5}
                                                   % [2
 
 ])
@@ -1250,14 +1292,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 5.
-<./images//Schachentwicklung.jpg, id=262, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=273, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
 Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 10
 .
 (pdftex.def)             Requested size: 455.24408pt x 111.36414pt.
-LaTeX Font Info:    Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 12.
 [4
 
  <./images//Schachentwicklung.jpg>]
@@ -1268,12 +1308,12 @@ l, die je-weils un-ter-schied-li-che Aspek-
 
 [5]) (Theoretische Grundlagen.tex [6]
 Kapitel 2.
-<./images//en-passant.jpeg, id=306, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=315, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
 Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 13.
 (pdftex.def)             Requested size: 455.24408pt x 148.51175pt.
-<./images//promotion.jpeg, id=308, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=317, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
 Package pdftex.def Info: ./images//promotion.jpeg  used on input line 21.
@@ -1288,24 +1328,24 @@ Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 39.
 
 [8 <./images//promotion.jpeg>]
-<./images//node-request.jpg, id=338, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=348, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
 Package pdftex.def Info: ./images//node-request.jpg  used on input line 55.
 (pdftex.def)             Requested size: 455.24408pt x 149.694pt.
  [9 <./images//node-request.jpg>]
-<./images//express-request.jpg, id=351, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=362, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
 Package pdftex.def Info: ./images//express-request.jpg  used on input line 71.
 (pdftex.def)             Requested size: 455.24408pt x 137.34811pt.
-<./images//Middleware-Beispiel.jpg, id=353, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=364, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
 82.
 (pdftex.def)             Requested size: 341.43306pt x 152.20177pt.
-<./images//Middleware-Beispiel-2.jpg, id=354, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=365, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
@@ -1315,20 +1355,20 @@ e 86.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//express-routing-example.jpg, id=358, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=369, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
 ine 98.
 (pdftex.def)             Requested size: 455.24408pt x 182.10199pt.
 [10 <./images//express-request.jpg>]
-<./images//socket.io-server-beispiel.png, id=368, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=378, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
  line 119.
 (pdftex.def)             Requested size: 199.16928pt x 160.43173pt.
-<./images//socket.io-client-beispiel.png, id=370, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=380, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
@@ -1341,26 +1381,25 @@ Overfull \hbox (8.76236pt too wide) in paragraph at lines 126--127
 t(...)[]\OT1/cmr/m/n/12 )
  []
 
-[11 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>]
-<./images//socket.io-rooms.png, id=383, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=386, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
 Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 131.
 
 (pdftex.def)             Requested size: 455.24408pt x 219.02135pt.
-
+[11 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>]
 [12 <./images//express-routing-example.jpg> <./images//socket.io-server-beispie
-l.png> <./images//socket.io-client-beispiel.png>] [13 <./images//socket.io-room
-s.png>]
+l.png> <./images//socket.io-client-beispiel.png>]
 Overfull \hbox (72.59181pt too wide) in paragraph at lines 166--168
 \OT1/cmr/m/n/12 che zum Bei-spiel mit-tels dem Tag [][]\OT1/cmtt/m/n/12 <Exampl
 eComponent initialCount={10} loadingDelay={3000} />
  []
 
-[14]
+[13 <./images//socket.io-rooms.png>] [14]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
 199.
- (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
+
+(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 [15]
@@ -1376,13 +1415,13 @@ r ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
  []
 
 [18]
-<./images//jwt-beispiel.png, id=569, 962.59625pt x 1083.04625pt>
+<./images//jwt-beispiel.png, id=579, 962.59625pt x 1083.04625pt>
 File: ./images//jwt-beispiel.png Graphic file (type png)
 <use ./images//jwt-beispiel.png>
 Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 335.
 (pdftex.def)             Requested size: 284.52756pt x 320.12386pt.
  [19 <./images//jwt-beispiel.png>]
-<./images//Chakra-UI Beispiel.png, id=584, 254.1495pt x 301.125pt>
+<./images//Chakra-UI Beispiel.png, id=594, 254.1495pt x 301.125pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
 Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 3
@@ -1460,64 +1499,109 @@ Overfull \hbox (10.73314pt too wide) in paragraph at lines 66--67
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[24] [25] [26] [27]
-
-LaTeX Warning: Reference `sec:game-suche' on page 28 undefined on input line 16
-8.
-
-[28]
+[24] [25] [26] [27] [28]
 Overfull \hbox (34.46211pt too wide) in paragraph at lines 220--221
  [][] 
  []
 
-<./images//Home_not_logged_in.png, id=734, 1156.32pt x 537.207pt>
+<./images//Home_not_logged_in.png, id=745, 1156.32pt x 537.207pt>
 File: ./images//Home_not_logged_in.png Graphic file (type png)
 <use ./images//Home_not_logged_in.png>
 Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 2
 29.
 (pdftex.def)             Requested size: 455.24408pt x 211.49358pt.
-<./images//Home_logged_in.png, id=735, 1156.32pt x 537.207pt>
+<./images//Home_logged_in.png, id=746, 1156.32pt x 537.207pt>
 File: ./images//Home_logged_in.png Graphic file (type png)
 <use ./images//Home_logged_in.png>
 Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 237.
 (pdftex.def)             Requested size: 455.24408pt x 211.49358pt.
-<./images//game_request.png, id=736, 530.58224pt x 286.671pt>
+<./images//game_request.png, id=747, 530.58224pt x 286.671pt>
 File: ./images//game_request.png Graphic file (type png)
 <use ./images//game_request.png>
 Package pdftex.def Info: ./images//game_request.png  used on input line 244.
 (pdftex.def)             Requested size: 284.52756pt x 153.73271pt.
-<./images//ChessGame.png, id=737, 1155.1155pt x 537.207pt>
+<./images//ChessGame.png, id=748, 1155.1155pt x 537.207pt>
 File: ./images//ChessGame.png Graphic file (type png)
 <use ./images//ChessGame.png>
 Package pdftex.def Info: ./images//ChessGame.png  used on input line 251.
 (pdftex.def)             Requested size: 455.24408pt x 211.7149pt.
 [29] [30 <./images//Home_not_logged_in.png> <./images//Home_logged_in.png>]
 [31 <./images//game_request.png> <./images//ChessGame.png>] [32]
-<./images//Interaktion Schach Zug.png, id=764, 594.22pt x 683.55376pt>
+<./images//Interaktion Schach Zug.png, id=776, 594.22pt x 683.55376pt>
 File: ./images//Interaktion Schach Zug.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug.png  used on input li
-ne 304.
+ne 309.
 (pdftex.def)             Requested size: 341.43306pt x 392.7796pt.
-<./images//Interaktion Schach Zug empfangen.png, id=765, 593.21625pt x 603.2537
+<./images//Interaktion Schach Zug empfangen.png, id=777, 593.21625pt x 603.2537
 5pt>
 File: ./images//Interaktion Schach Zug empfangen.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug empfangen.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug empfangen.png  used o
-n input line 311.
+n input line 316.
 (pdftex.def)             Requested size: 341.43306pt x 347.218pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [33 <./images//Interaktion Schach Zug.png>] [34 <./images//Interaktion Schach Z
-ug empfangen.png>] [35] [36] [37]
-Overfull \hbox (68.8048pt too wide) in paragraph at lines 450--451
+ug empfangen.png>]
+Overfull \hbox (16.05861pt too wide) in paragraph at lines 341--342
+[]\OT1/cmr/bx/n/12 friend[]request[]accepted: \OT1/cmr/m/n/12 Enth[]alt Da-ten 
+ei-nes neu-en Freun-des, wel-cher dei-ne Freund-
+ []
+
+[35] [36] [37]
+Overfull \hbox (35.06183pt too wide) in paragraph at lines 433--436
+\OT1/cmr/m/n/12 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fron-
+tend das Event [][]\OT1/cmtt/m/n/12 send_friend_request
+ []
+
+<./images//Freunde-adden.pdf, id=817, 217.77359pt x 724.62718pt>
+File: ./images//Freunde-adden.pdf Graphic file (type pdf)
+<use ./images//Freunde-adden.pdf>
+Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 446.
+(pdftex.def)             Requested size: 142.26378pt x 473.37932pt.
+
+Overfull \hbox (5.68916pt too wide) in paragraph at lines 446--447
+ [][] 
+ []
+
+
+Underfull \hbox (badness 3058) in paragraph at lines 447--447
+[]\OT1/cmr/m/n/10.95 (a) |Sen-den ei-ner Freund-
+ []
+
+<./images//Freund akzeptieren.pdf, id=818, 195.6108pt x 775.93887pt>
+File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
+<use ./images//Freund akzeptieren.pdf>
+Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 4
+53.
+(pdftex.def)             Requested size: 142.26378pt x 564.32317pt.
+
+Overfull \hbox (5.68916pt too wide) in paragraph at lines 453--454
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 454--454
+[]\OT1/cmr/m/n/10.95 (b) |Ak-zep-tie-ren ei-ner
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[38]
+
+LaTeX Warning: Text page 39 contains only floats.
+
+[39 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>] [40]
+Overfull \hbox (68.8048pt too wide) in paragraph at lines 505--506
 \OT1/cmr/m/n/12 Die letz-ten Ele-men-te sind die War-te-schlan-gen f[]ur Spie-l
 e. Die-se be-ste-hen aus [][]\OT1/cmtt/m/n/12 waitingPlayers:timeMode
  []
 
-[38]
+[41]
 \pgf@layerbox@umlsd@background=\box131
 \pgf@layerboxsaved@umlsd@background=\box132
 \pgf@layerbox@umlsd@threadlayer=\box133
@@ -1537,72 +1621,70 @@ Missing character: There is no ] in font nullfont!
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess to''? on input li
-ne 507.
+ne 562.
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess from''? on input 
-line 507.
+line 562.
 
-) [39] [40]
+) [42] [43]
 Kapitel 4.
-[41
+[44
 
 ]
 Kapitel 5.
-[42
+[45
 
 ] (Bachelorarbeit.lof)
 \tf@lof=\write6
 \openout6 = `Bachelorarbeit.lof'.
 
- (Bachelorarbeit.bbl [43
+ (Bachelorarbeit.bbl [46
 
-]) [44
+]) [47
 
 ] (Bachelorarbeit.aux)
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
-(rerunfilecheck)             Checksum: 73324813AA81B6E9AEDE3DA8E4476DA3;5620.
+(rerunfilecheck)             Checksum: 327A7D9119CC87270E5E02C088B762EE;6004.
  ) 
 Here is how much of TeX's memory you used:
- 34916 strings out of 478338
- 744004 string characters out of 2836700
- 1434311 words of memory out of 3000000
- 52455 multiletter control sequences out of 15000+600000
- 479056 words of font info for 61 fonts, out of 8000000 for 9000
+ 36360 strings out of 478338
+ 772843 string characters out of 2836700
+ 1450066 words of memory out of 3000000
+ 53880 multiletter control sequences out of 15000+600000
+ 478749 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 123i,22n,120p,1373b,2206s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 123i,22n,120p,1373b,2181s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1200.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\tctt1095.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/jaspe/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jaspe/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jas
-pe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Us
-ers/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb
-><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr8.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmsl12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmss10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmss12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi12.pfb><C:/Users/jaspe/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jasp
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/U
-sers/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.
-pfb>
-Output written on Bachelorarbeit.pdf (51 pages, 1417859 bytes).
+onts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/jaspe/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/jaspe/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/
+jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C
+:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
+.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmr7.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmr8.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmsl12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jaspe/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jas
+pe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on Bachelorarbeit.pdf (54 pages, 1514942 bytes).
 PDF statistics:
- 1016 PDF objects out of 1200 (max. 8388607)
- 311 named destinations out of 1000 (max. 500000)
- 505 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1078 PDF objects out of 1200 (max. 8388607)
+ 321 named destinations out of 1000 (max. 500000)
+ 531 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,7 +1,7 @@
 \babel@toc {ngerman}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {ngerman}{}\relax 
-\contentsline {chapter}{Inhaltsverzeichnis}{2}{chapter*.1}%
+\contentsline {chapter}{Inhaltsverzeichnis}{2}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Einleitung}{4}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{4}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Zielsetzung}{5}{section.1.2}%
@@ -10,53 +10,58 @@
 \contentsline {section}{\numberline {2.1}Schach}{7}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Web-Technologien}{8}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Node.js und Express}{8}{subsection.2.2.1}%
-\contentsline {subsubsection}{Node.js und seine Vorteile}{8}{subsubsection*.2}%
-\contentsline {subsubsection}{Express}{9}{subsubsection*.3}%
+\contentsline {subsubsection}{Node.js und seine Vorteile}{8}{subsubsection*.6}%
+\contentsline {subsubsection}{Express}{9}{subsubsection*.8}%
 \contentsline {subsection}{\numberline {2.2.2}Socket.io}{10}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}React}{13}{subsection.2.2.3}%
-\contentsline {subsubsection}{React}{13}{subsubsection*.4}%
-\contentsline {subsubsection}{React Router}{16}{subsubsection*.5}%
+\contentsline {subsubsection}{React}{13}{subsubsection*.14}%
+\contentsline {subsubsection}{React Router}{16}{subsubsection*.15}%
 \contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{17}{subsection.2.2.4}%
-\contentsline {subsubsection}{PostgreSQL}{17}{subsubsection*.6}%
-\contentsline {subsubsection}{Redis}{18}{subsubsection*.7}%
+\contentsline {subsubsection}{PostgreSQL}{17}{subsubsection*.16}%
+\contentsline {subsubsection}{Redis}{18}{subsubsection*.17}%
 \contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{19}{subsection.2.2.5}%
-\contentsline {subsubsection}{JWT}{19}{subsubsection*.8}%
-\contentsline {subsubsection}{Chakra UI}{20}{subsubsection*.9}%
-\contentsline {subsubsection}{Formik und Yup}{21}{subsubsection*.10}%
-\contentsline {subsubsection}{chess.js}{21}{subsubsection*.11}%
-\contentsline {subsubsection}{chessground}{22}{subsubsection*.12}%
-\contentsline {subsubsection}{bcrypt}{22}{subsubsection*.13}%
+\contentsline {subsubsection}{JWT}{19}{subsubsection*.18}%
+\contentsline {subsubsection}{Chakra UI}{20}{subsubsection*.20}%
+\contentsline {subsubsection}{Formik und Yup}{21}{subsubsection*.22}%
+\contentsline {subsubsection}{chess.js}{21}{subsubsection*.23}%
+\contentsline {subsubsection}{chessground}{22}{subsubsection*.24}%
+\contentsline {subsubsection}{bcrypt}{22}{subsubsection*.25}%
 \contentsline {chapter}{\numberline {3}Systemarchitektur}{23}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Einführung}{23}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Architekturübersicht}{24}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Konzept der Schachuhren}{24}{section.3.3}%
+\contentsline {section}{\numberline {3.3}Konzeption der Schachuhren}{24}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Frontend-Architektur}{26}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}React-Komponenten}{27}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Das Schachspiel}{29}{subsection.3.4.2}%
-\contentsline {subsubsection}{Das Spiel}{29}{subsubsection*.14}%
-\contentsline {subsubsection}{Die Uhr}{33}{subsubsection*.15}%
-\contentsline {section}{\numberline {3.5}Backend-Architektur}{34}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Authentifizierung}{35}{subsection.3.5.1}%
-\contentsline {subsubsection}{Authentifizierung mit der Web-API und PostgreSQL}{36}{subsubsection*.16}%
-\contentsline {subsubsection}{Authentifizierung und anschließende Middleware mit Socket.io}{36}{subsubsection*.17}%
-\contentsline {section}{\numberline {3.6}Datenbankstruktur}{37}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}PostgreSQL Datenbank}{37}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Redis}{37}{subsection.3.6.2}%
-\contentsline {subsubsection}{user:username}{37}{subsubsection*.18}%
-\contentsline {subsubsection}{game:roomId}{38}{subsubsection*.19}%
-\contentsline {subsubsection}{activeGames:username}{38}{subsubsection*.20}%
-\contentsline {subsubsection}{friends:username}{38}{subsubsection*.21}%
-\contentsline {subsubsection}{friend\_requests:username}{38}{subsubsection*.22}%
-\contentsline {subsubsection}{Warteschlangen}{38}{subsubsection*.23}%
-\contentsline {section}{\numberline {3.7}Interaktion zwischen Frontend und Backend}{39}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Suchen einer Partie mit unbekanntem Gegner}{39}{subsection.3.7.1}%
-\contentsline {chapter}{\numberline {4}Implementierung}{41}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{41}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{41}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{41}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{42}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{42}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{42}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{42}{section.5.3}%
-\contentsline {chapter}{Abbildungsverzeichnis}{43}{appendix*.24}%
-\contentsline {chapter}{Literaturverzeichnis}{44}{appendix*.25}%
+\contentsline {subsubsection}{Das Spiel}{29}{subsubsection*.33}%
+\contentsline {subsubsection}{Die Uhr}{34}{subsubsection*.36}%
+\contentsline {subsection}{\numberline {3.4.3}Verwaltung von Freunden}{35}{subsection.3.4.3}%
+\contentsline {subsubsection}{\textit {FriendList}-Komponente}{35}{subsubsection*.37}%
+\contentsline {section}{\numberline {3.5}Backend-Architektur}{35}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Authentifizierung}{36}{subsection.3.5.1}%
+\contentsline {subsubsection}{Authentifizierung mit der Web-API und PostgreSQL}{37}{subsubsection*.39}%
+\contentsline {subsubsection}{Authentifizierung und anschließende Middleware mit Socket.io}{37}{subsubsection*.40}%
+\contentsline {subsection}{\numberline {3.5.2}Hinzufügen von Freunden}{38}{subsection.3.5.2}%
+\contentsline {subsubsection}{Versenden einer Freundschaftsanfrage}{38}{subsubsection*.41}%
+\contentsline {subsubsection}{Akzeptieren und Ablehnen einer Freundschaftsanfrage}{38}{subsubsection*.42}%
+\contentsline {section}{\numberline {3.6}Datenbankstruktur}{38}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}PostgreSQL Datenbank}{38}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Redis}{40}{subsection.3.6.2}%
+\contentsline {subsubsection}{user:username}{40}{subsubsection*.44}%
+\contentsline {subsubsection}{game:roomId}{40}{subsubsection*.45}%
+\contentsline {subsubsection}{activeGames:username}{40}{subsubsection*.46}%
+\contentsline {subsubsection}{friends:username}{41}{subsubsection*.47}%
+\contentsline {subsubsection}{friend\_requests:username}{41}{subsubsection*.48}%
+\contentsline {subsubsection}{Warteschlangen}{41}{subsubsection*.49}%
+\contentsline {section}{\numberline {3.7}Interaktion zwischen Frontend und Backend}{41}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Suchen einer Partie mit unbekanntem Gegner}{41}{subsection.3.7.1}%
+\contentsline {chapter}{\numberline {4}Implementierung}{44}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{44}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{44}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Datenbank-Integration}{44}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{45}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{45}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{45}{section.5.3}%
+\contentsline {chapter}{Abbildungsverzeichnis}{46}{appendix*.51}%
+\contentsline {chapter}{Literaturverzeichnis}{47}{appendix*.52}%

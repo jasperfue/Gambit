@@ -68,7 +68,7 @@ Alle Dateien im sockets Package verwenden den \textit{redisController}, um Daten
 \label{fig:Komponentendiagramm}
 \end{figure}
 
-\section{Konzept der Schachuhren}
+\section{Konzeption der Schachuhren}
 Bei der Konzeption der Schachuhren war ein Aspekt besonders entscheidend: Was passiert, falls ein Spieler vorübergehend keine Internetverbindung beim senden oder beim empfangen hat?
 
 Um den Server zu entlasten wäre natürlich eine Client basierte Lösung ideal, bei der mit einem Zug auch die jeweilige aktuelle Zeit gesendet wird. Wenn ein Spieler allerdings eine schlechte Internetverbindung hat und deshalb der Zug im Backend und bei dem anderen Spieler erst später ankommt können sich die Zeiten der beiden Spieler erheblich unterscheiden. Es stellt sich die Frage, welche dieser Zeiten jetzt gültig ist. Trivialerweise entsteht das gleiche Problem bei einer verzögerten Zustellung. Wenn die Zeit auf einem Client bereits abgelaufen wäre, könnte sie auf dem anderen noch weiterlaufen. Hat der Spieler dann gewonnen oder nicht?
@@ -278,7 +278,12 @@ Die Daten die gesendet werden umfassen folgendes:
 \end{itemize}
 Diese Informationen werden für den Fall benötigt, dass man die Seite neu lädt, über die \verb|ActiveGames|-Komponente auf die Seite gelangt, über einen Link der Partie beitritt oder ähnliches. Das Einholen dieser Daten gewährleistet, dass man auch in diesen Fällen noch ohne Veränderungen weiterspielen kann.
 
-Aufgrund der gesendeten Namen der Spieler wird definiert, ob man ein Zuschauer oder ein Spieler ist und wie das Schachbrett, die Namen und die Schachuhren ausgerichtet sind. Ist man Zuschauer wird in chessground definiert, dass man keine Figuren bewegen darf und es gibt kein input Feld für den Chat, welches verhindert, dass man Nachricht versenden kann.
+Aufgrund der gesendeten Namen der Spieler wird entschieden, ob man ein Zuschauer oder ein Spieler ist.  Dafür werden die Benutzernamen mit dem eigenen Benutzernamen im \textit{UserContext} verglichen. Doch was passiert wenn man eine Partie als unangemeldeter Benutzer spielt und deshalb keinen Benutzernamen im \textit{UserContext} hat?
+
+Bei dem Event \verb|joined_game| (siehe Abschnitt \ref{sec:game-suche}) wird der Gast-Benutzername des Spielers mitgesendet und in \verb|location.state| gesetzt. Dadurch kann in der \textit{ChessGame}-Komponente darauf zugegriffen werden und es kann Überprüft werden, ob es sich um einen Spieler oder Zuschauer handelt.
+
+
+Dem entsprechend wird auch bestimmt wie das Schachbrett, die Namen und die Schachuhren ausgerichtet sind. Ist man Zuschauer wird in chessground definiert, dass man keine Figuren bewegen kann und es gibt kein input Feld für den Chat, sodass man keine Nachrichten abschicken kann. Dies verhindert, dass ein Zuschauer Tipps geben könnte.
 
 Zum Spielen der Partie werden folgende Listener definiert:
 \begin{itemize}
@@ -323,6 +328,22 @@ Die Komponente sendet keine Events, sondern hört nur auf die folgenden:
 \item \verb|stop_starting_time_black|: Stoppt die Start Zeit des schwarzen Spielers und lässt die reguläre Zeit des weißen Spielers beginnen.
 \item \verb|stop_clocks|: Wird bei Beendung des Spiels empfangen und stoppt die aktive Uhr.
 \end{itemize}
+
+\subsection{Verwaltung von Freunden}
+Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von Freunden und Freundschaftsanfragen obliegt der \textit{FriendList}-Komponente. Diese Beinhaltet die Unterkomponenten \textit{Friend}, \textit{FriendReqeust} und \textit{AddFriendModal}
+
+\subsubsection{\textit{FriendList}-Komponente}
+
+\textit{FriendList} verwendet zwei States in Form von Arrays: \verb||friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}, beziehungsweise \textit{FriendRequest}, Komponente dargestellt und verwaltet. \textit{FriendList} hört dabei auf die folgenden Events: 
+\begin{itemize}
+\item \textbf{friends:} Ein Event welches nach der Anmeldung des Nutzers empfangen wird, um die Liste der Freunde zu bekommen.
+\item \textbf{friend\_requests:} Genau das gleiche Event, nur zum setzen der Freundschaftsanfragen.
+\item \textbf{friend\_request\_accepted:} Enthält Daten eines neuen Freundes, welcher deine Freundschaftsanfrage angenommen hat. Dieser wird der Freundesliste hinzugefügt.
+\item \textbf{friend\_request:} Eingang einer neuen Freundschaftsanfrage. Wird der Liste der Freundschaftsanfragen hinzugefügt.
+\item \textbf{connected:} Dieses Event wird empfangen, falls ein Freund von dir offline, beziehungsweise online geht. Der betreffende Freundes-Eintrag in der Freundesliste wird aktualisiert.
+\end{itemize}
+
+Des weiteren werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, falls auf den Pfad \verb|/| navigiert wird auf der sich die \textit{Home}-Komponente befindet. Diese beiden Events empfangen mittels Callback-Funktion alle Daten über die Freunde und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der Freunde aktualisiert werden.
 
     
         \section{Backend-Architektur}
@@ -404,6 +425,39 @@ Als zweite Middleware wird der Benutzer mit Daten versorgt, er tritt dem Raum se
 
 Als letzte Middleware werden alle nötigen Listener sowohl für das Schachspiel, als auch für sonstige Funktionen initialisiert.
 
+\subsection{Hinzufügen von Freunden}
+In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Ablauf des Versenden und Akzeptieren einer Freundschaftsanfrage abgebildet.
+Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
+
+\subsubsection{Versenden einer Freundschaftsanfrage}
+Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon nicht der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
+Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall wird, wird der Benutzer ebenfalls darauf hingewiesen.
+Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
+
+\subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
+Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzer werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spieler werden eingeholt und an beide Benutzer werden alle Informationen, wie ob sie online sind oder ob sie aktive Spiele haben, an beide gesendet. Dies stellt sicher, dass sie im Frontend direkt richtig angezeigt werden können.
+
+Beim Ablehnen einer Freundschaftsanfrage wird einfach nur die Freundschaftsanfrage aus Redis gelöscht.
+
+      \begin{figure}[h!]
+      \centering
+      \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+  \includegraphics[width=50mm]{Freunde-adden.pdf}
+  \caption{Senden einer Freundschaftsanfrage}
+  \label{fig:friend_request}
+  \end{subfigure}
+  \hspace{10mm}
+  \begin{subfigure}[b]{0.3\textwidth}
+  \centering
+    \includegraphics[width=50mm]{Freund akzeptieren.pdf}
+  \caption{Akzeptieren einer Freundschaftsanfrage}
+  \label{fig:friend_request}
+  \end{subfigure}
+  \caption{Aktivitätsdiagramme des Versenden und Akzeptieren von Freundschaftsanfragen}
+  \label{fig:Freunde-backend}
+ 
+\end{figure}
 
 		\section{Datenbankstruktur}
 \subsection{PostgreSQL Datenbank}
@@ -418,6 +472,7 @@ Die PostgreSQL Datenbank wird ausschließlich für die Anmeldung und Registrieru
 Jedes dieser Attribute, außer das Passwort, hat die Einschränkung, dass es einzigartig sein muss. Die E-Mail wird bisher nicht genutzt, kann aber in Zukunft zum Bestätigen der Registrierung oder Einrichtung eines Newsletters genutzt werden.
 
 \subsection{Redis}
+\label{sec:redis-data}
 \subsubsection{user:username}
 Unter dem Key \verb|user:username| (wobei hier \verb|username| mit dem entsprechenden Benutzernamen ausgetauscht wird) befindet sich ein Redis Hash. Ein Redis Hash besitzt Key-Value Paare, auf welche man zugreifen kann.
 
@@ -527,4 +582,7 @@ Um eine Schachpartie mit einem zufälligen Gegner zu starten klickt man auf eine
   \caption{Sequenzdiagramm des Schachspielstartprozesses mit unbekanntem Gegner}
   \label{fig:sequence_chess_start}
 \end{figure}
+
+
+
 

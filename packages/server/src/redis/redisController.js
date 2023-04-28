@@ -365,9 +365,9 @@ module.exports.addFriend = async (username,userid, friendName) => {
 }
 
 module.exports.declineFriend = async (username, name) => {
-    const friend = await getUserData(name);
-    if (friend) {
-        await redisClient.lrem(`friend_requests:${username}`, 1, name + "." + friend.userid, (err, reply) => {
+    const friendId = await getUserData(name, "userid");
+    if (friendId) {
+        await redisClient.lrem(`friend_requests:${username}`, 1, name + "." + friendId, (err, reply) => {
             if (err) {
                 return {errMsg: "Friend request could not be found"};
             }
