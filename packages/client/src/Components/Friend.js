@@ -61,7 +61,7 @@ const Friend = (props) => {
             isClosable: true
         });
         setIsModalOpen(false);
-    }, [toast])
+    }, [toast, setIsModalOpen])
 
     const handleGameRequestAccepted = useCallback((game) => {
         toast({

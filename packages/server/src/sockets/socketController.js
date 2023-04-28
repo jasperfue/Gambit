@@ -1,3 +1,4 @@
+const {parseFriendList} = require("../redis/redisController.js");
 const {getUserData} = require("../redis/redisController.js");
 const {onDisconnect} = require("./socketMiddleware.js");
 const {createChessGame} = require("./socketChessController.js");
@@ -29,7 +30,12 @@ const initializeListeners = (client, io) => {
     });
     client.on('get_friends', async (cb) => {
         const friends = await getFriends(client.user?.username);
-        cb({friendList: friends});
+        if(friends) {
+            const parsedFriends = await parseFriendList(friends);
+            cb({friendList: parsedFriends});
+        } else {
+            cb({friendList: []});
+        }
     });
 
     client.on('cancel_game_request', (friend) => {

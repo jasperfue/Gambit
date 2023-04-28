@@ -1,5 +1,6 @@
 const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
+const {parseFriendList} = require("../redis/redisController.js");
 const {getActiveGamesData} = require("../redis/redisController.js");
 const {getFriendRequests} = require("../redis/redisController.js");
 const {getFriends} = require("../redis/redisController.js");
@@ -31,12 +32,13 @@ module.exports.initializeUser = async (socket, next) => {
     }
     socket.join(socket.user.userid);
     await setUser(socket.user.username, socket.user.userid, true);
-    getFriends(socket.user.username).then(friends => {
-        const friendRooms = friends.map(friend => friend.userid);
+    getFriends(socket.user.username).then(async friends => {
+        const parsedFriends = await parseFriendList(friends);
+        const friendRooms = parsedFriends.map(friend => friend.userid);
         if (friendRooms.length > 0) {
             socket.to(friendRooms).emit("connected", "true", socket.user.username);
         }
-        socket.emit('friends', friends);
+        socket.emit('friends', parsedFriends);
     });
 
     getFriendRequests(socket.user.username).then(friendRequests => socket.emit('friend_requests', friendRequests));

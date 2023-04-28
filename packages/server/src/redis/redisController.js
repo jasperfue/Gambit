@@ -134,8 +134,10 @@ const getFriends = async (username) => {
             0,
             -1
         );
-        const parsedFriendList = await parseFriendList(friendList);
-        return parsedFriendList;
+        const parsed = friendList.map(friend => {
+            return {username: friend.split('.')[0], userid: friend.split('.')[1]};
+        });
+        return parsed;
     }
     return [];
 }
@@ -176,14 +178,14 @@ module.exports.getActiveGames = getActiveGames;
 const getActiveGamesData = async (username) => {
     const activeGames = await getActiveGames(username);
     if (activeGames.length > 0) {
-        const gameData = {};
+        const gameData = [];
         for (const game of activeGames) {
             gameData[game] = await getGame(game);
             delete gameData[game].pgn;
         }
         return gameData;
     } else {
-        return {};
+        return [];
     }
 }
 
@@ -382,15 +384,16 @@ module.exports.declineFriend = async (username, name) => {
 const parseFriendList = async (friendList) => {
     const newFriendList = [];
     for (let friend of friendList) {
-        const parsedFriend = friend.split('.');
-        const friendConnected = await getUserData(parsedFriend[0], "connected");
-        const activeGames = await getActiveGamesData(parsedFriend[0]);
+        const friendConnected = await getUserData(friend.username, "connected");
+        const activeGames = await getActiveGamesData(friend.username);
         newFriendList.push({
-            username: parsedFriend[0],
-            userid: parsedFriend[1],
+            username: friend.username,
+            userid: friend.userid,
             connected: friendConnected,
             activeGames: activeGames
         });
     }
     return newFriendList;
 }
+
+module.exports.parseFriendList = parseFriendList;
