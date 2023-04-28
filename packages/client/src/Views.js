@@ -1,5 +1,5 @@
 import {AccountContext} from "./Context/AccountContext.js";
-import { Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import React, {useContext} from "react";
 import Home from "./Views/Home.js"
 import Login from "./Views/Login.js";
@@ -21,7 +21,6 @@ const Views = () => {
 
 
     return (
-
         <Box bg={colorMode === "light" ? "gray.200" : "purple.900"} minH="100vh">
         {user.loggedIn === null || socket === null ?
                 <Flex align="center" justify="center" direction="column" height="80vh">

@@ -40,18 +40,12 @@ const Friend = (props) => {
 
     const cancelGameRequest = useCallback(() => {
         setIsModalOpen(false);
-        socket.emit('cancel_game_request', props.friend.username);
+        socket.emit('cancel_game_request', props.friend);
     }, [socket]);
 
     const sendGameRequest = useCallback(
         (time) => {
-        socket.emit('send_game_Request', props.friend, time, ({accepted, roomId}) => {
-            if(accepted) {
-                handleGameRequestAccepted(roomId);
-            } else {
-                handleGameRequestDenied();
-            }
-        });
+        socket.emit('send_game_Request', props.friend, time);
         setIsModalOpen(true);
     }, [socket, props.friend]);
 

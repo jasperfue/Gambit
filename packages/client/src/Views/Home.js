@@ -10,10 +10,10 @@ const Home = () => {
     const {socket} = useContext(SocketContext);
     const {user} = useContext(AccountContext);
     const [time, setTime] = useState(null);
-    const navigate = useNavigate();
     const equity = useColorModeValue("white", "purple.500");
     const button = useColorModeValue("start-game-light", "start-game-dark");
     const location = useLocation();
+    const navigate = useNavigate();
     const [refreshKey, setRefreshKey] = useState(0);
     const times = [
         {type: 'Bullet', minutes: 1, increment: 0, string: '1 + 0'},
@@ -40,32 +40,23 @@ const Home = () => {
     }, [location.pathname]);
 
     useEffect(() => {
-        console.log('home');
-        socket.connect();
-        socket.on('connect_error', (err => {
-            console.log('err');
-            console.log(err);
-        }));
+        socket.on('joined_game', (client, opponent, roomId) => {
+            console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
+            navigate(`game/${roomId}`, {
+                state: {
+                    client: client,
+                    opponent: opponent
+                }
+            });
+        });
         return () => {
-            socket.off('connect_error');
+            socket.off('joined_game');
         }
     }, [socket]);
 
     useEffect(() => {
         if(time !== null) {
             socket.emit('find_game', user, time);
-            socket.on('joined_game', (client, opponent, roomId) => {
-                console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
-                navigate(`game/${roomId}`, {
-                    state: {
-                        client: client,
-                        opponent: opponent
-                    }
-                });
-            });
-            return () => {
-                socket.off('joinedGame');
-            }
         }
     }, [socket, time]);
 

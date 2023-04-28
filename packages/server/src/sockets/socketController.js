@@ -32,26 +32,22 @@ const initializeListeners = (client, io) => {
         cb({friendList: friends});
     });
 
-    client.on('send_game_Request', async (friend, time, callback) => {
-        const receiver = io.sockets.sockets.get(io.of('/').adapter.rooms.get(friend.userid).values().next().value)
-        console.log(receiver.id);
-        client.to(friend.userid).emit('game_request', client.user.username, time);
-        client.once('cancel_game_request', (username) => {
-            if(username === receiver.user.username) {
-                receiver.emit('cancel_game_request', client.user.username);
-            }
-        });
-        receiver.once('game_request_response', async (username, accepted, cb) => {
-            if(username === client.user.username) {
-                if(accepted) {
-                    const roomId = await createChessGame(io, client.user.username, receiver.user.username, time);
-                    callback({accepted: true, roomId: roomId});
-                    cb(roomId); 
-                } else {
-                    callback({accepted: false});
-                }
-            }
-        });
+    client.on('cancel_game_request', (friend) => {
+        client.to(friend.userid).emit('cancel_game_request', client.user.username);
+    });
+
+    client.on('game_request_response', async (friend, time,  accepted) => {
+        if(accepted) {
+            console.log(friend);
+            const roomId = await createChessGame(io, client.user.username, friend.username, time);
+            io.to([client.user.userid, friend.userid]).emit('joined_game',friend.username, client.user.username, roomId);
+        } else {
+            client.to(friend.userid).emit('game_request_denied', client.user);
+        }
+    });
+
+    client.on('send_game_Request', async (friend, time) => {
+        client.to(friend.userid).emit('game_request', client.user, time);
     });
 
     client.on('get_friend_requests', async (cb) => {

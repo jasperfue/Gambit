@@ -21,17 +21,18 @@ const GameRequests = () => {
 
     useEffect(() => {
         if (socket) {
-            socket.on("game_request", (username, time) => {
+            socket.on("game_request", (user, time) => {
+                console.log(user, time);
                 setGameRequests((prevGameRequests) => [
                     ...prevGameRequests,
                     {
-                        username,
+                        user,
                         time
                     },
                 ]);
             });
             socket.on("cancel_game_request", (username) => {
-                setGameRequests((prevGameRequests) => prevGameRequests.filter(request => request.username !== username));
+                setGameRequests((prevGameRequests) => prevGameRequests.filter(request => request.user.username !== username));
             });
 
             return () => {
@@ -48,7 +49,7 @@ const GameRequests = () => {
     const handleAccept = useCallback(
         (index) => {
             // Handle game request acceptance logic
-            socket.emit('game_request_response', gameRequests[index].username, true,  (roomId) => {
+            socket.emit('game_request_response', gameRequests[index].user, gameRequests[index].time, true,  (roomId) => {
                 navigate(`/game/${roomId}`);
             });
             handleCloseModal(index);
@@ -60,7 +61,7 @@ const GameRequests = () => {
     const handleDecline = useCallback(
         (index) => {
             // Handle game request decline logic
-            socket.emit('game_request_response', gameRequests[index].username, false );
+            socket.emit('game_request_response', gameRequests[index].user, gameRequests[index].time, false );
             handleCloseModal(index);
         },
         [socket, handleCloseModal, gameRequests]
@@ -82,7 +83,7 @@ const GameRequests = () => {
                 <ModalCloseButton />
                 <ModalBody>
                     <Center>
-                        Game Request from {gameRequest.username} in {gameRequest.time.string}
+                        Game Request from {gameRequest.user.username} in {gameRequest.time.string}
                     </Center>
                     <HStack mt={4} justifyContent="center" spacing="24px">
                         <Button colorScheme="green" onClick={() => handleAccept(index)}>

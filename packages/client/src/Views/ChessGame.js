@@ -7,12 +7,13 @@ import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Ut
 import {Chess} from 'chess.js';
 import ChessClock from "../Components/ChessClock.js";
 import {AccountContext} from "../Context/AccountContext.js";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import PromotionModal from "../Components/PromotionModal.js";
 import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button, Icon} from "@chakra-ui/react";
 import Chat from "../Components/Chat.js";
 import {SocketContext} from "../Context/SocketContext.js";
 import { BsClock } from "react-icons/bs";
+import {useParams} from "react-router";
 
 const ChessGame = () => {
     const {user} = useContext(AccountContext);
@@ -81,18 +82,9 @@ const ChessGame = () => {
     }, [socket, roomId]);
 
 
-
     useEffect(() => {
-        if (socket.connected) {
-            getGameData();
-        } else {
-            socket.on('connect', () => {
-                getGameData();
-            });
-            socket.connect();
-        }
+        getGameData();
         return () => {
-            socket.off('connect');
             socket.emit('leaveRoom', roomId);
         };
     }, [socket, roomId]);
