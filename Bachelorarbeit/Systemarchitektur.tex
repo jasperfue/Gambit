@@ -20,6 +20,7 @@ Alle Dateien im sockets Package verwenden den \textit{redisController}, um Daten
 
 \begin{figure}[h!]
 \centering
+\begin{adjustbox}{width=\textwidth}
 \begin{tikzpicture}
  \begin{umlpackage}[x=4]{Frontend}
  \begin{umlcomponent}{UserContext}
@@ -64,6 +65,7 @@ Alle Dateien im sockets Package verwenden den \textit{redisController}, um Daten
  \umlassemblyconnector[with port, anchor1=-90, anchor2=90]{authController}{PostgreSQL DB}
   \umlassemblyconnector[with port, anchor1=-90, anchor2=90]{redisController}{Redis DB}
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Komponentendiagramm der Anwenundung}
 \label{fig:Komponentendiagramm}
 \end{figure}
@@ -85,7 +87,7 @@ Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:
 \begin{figure}[h!]
 \centering
 
-\begin{minipage}{0.6\textwidth}
+\begin{minipage}{0.5\textwidth}
 \dirtree{%
 .1 client/.
 .2 public/.
@@ -156,7 +158,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \item \textbf{Home:} Diese Komponente stellt die Startseite dar und enthält die Buttons zum Starten eines Spiels mit verschiedenen Schachuhr Konfigurationen (siehe Abbildung \ref{fig:home-not-logged-in}). Ist ein Benutzer angemeldet sind auch noch die Komponenten ActiveGames und FriendList auf der rechten Seite vorhanden (siehe Abbildung \ref{fig:home-logged-in}).
 \begin{itemize}
 \item \textbf{ActiveGames:} ActiveGames ist eine Komponente die alle derzeit aktiven Spiele mit den Informationen der Benutzernamen und wer welche Farbe spielt als Buttons darstellt (siehe Abbildung \ref{fig:home-logged-in}). Beim klicken auf einen dieser Buttons wird zu der aktiven Partie navigiert.
-\item \textbf{FriendList:} Diese Komponente verwaltet alle Freunde und Freundschaftsanfragen eines Benutzers, während die Darstellung die Unterkomponenten Friend und FriendRequest übernehmen.
+\item \textbf{FriendList:} Diese Komponente verwaltet alle Freunde und Freundschaftsanfragen eines Benutzers, während die Darstellung und Interaktion die Unterkomponenten \textit{Friend} und \textit{FriendRequest} übernehmen. Die Funktionsweise der Komponente mit seinen Unterkomponenten wird in Abschnitt \ref{sec:Friends} erläutert.
 \begin{itemize}
 \item \textbf{Friend:} Übernimmt die Darstellung eines Freundes. Mittels eines farbigen Punktes ist erkennbar, ob dieser Freund gerade online ist (grün) oder nicht (rot) (siehe Abbildung \ref{fig:home-logged-in}). Ist er online erscheint noch mindestens ein weiterer Button. Es beinhaltet ein Icon in Form von gekreuzten Schwertern und einem Schild. Dies hat die Funktion einen Freund zu einem Spiel herauszufordern. Falls dieser Freund gerade ein aktives Spiel hat erscheint noch ein zweiter Button mit einem Auge als Icon, welches den Benutzer zu dem aktiven Spiel des Freundes als Zuschauer navigiert.//Bilder
 \item \textbf{FriendRequest:} Eine Freundschaftsanfrage wird mittels dieser Komponente dargestellt und beantwortet (siehe Abbildung \ref{fig:home-logged-in}).
@@ -177,6 +179,8 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
  
 \begin{figure}[h!]
         \centering
+        
+\begin{adjustbox}{width=\textwidth}
         \begin{tikzpicture}
 \node {App}
     child {node {AccountContext}
@@ -218,6 +222,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 
     \node[anchor=west, right=1cm of solid] {enthaltene Unterkomponenten};
 \end{tikzpicture}
+\end{adjustbox}
     	
 \caption{Aufbau der React-Komponenten für angemeldete Benutzer}
 \label{fig:frontend_tikz}
@@ -226,7 +231,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 
   \begin{figure}[htbp]
   \centering
-  \includegraphics[width=160mm]{Home_not_logged_in.png}
+  \includegraphics[width=\textwidth]{Home_not_logged_in.png}
   \caption{Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}
   \label{fig:home-not-logged-in}
 \end{figure}
@@ -234,21 +239,21 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
   
     \begin{figure}[htbp]
     \centering
-  \includegraphics[width=160mm]{Home_logged_in.png}
+  \includegraphics[width=\textwidth]{Home_logged_in.png}
   \caption{Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}
   \label{fig:home-logged-in}
 \end{figure}
 
       \begin{figure}[htbp]
       \centering
-  \includegraphics[width=100mm]{game_request.png}
+  \includegraphics[width=0.7\textwidth]{game_request.png}
   \caption{Das Modal der Komponente GameRequest in hellem Farbschema}
   \label{fig:game-request}
 \end{figure}
 
       \begin{figure}[htbp]
       \centering
-  \includegraphics[width=160mm]{ChessGame.png}
+  \includegraphics[width=\textwidth]{ChessGame.png}
   \caption{Beispiel einer ChessGame-Komponente}
   \label{fig:chess-game}
 \end{figure}
@@ -306,14 +311,14 @@ Das Event zum Aufgeben wird nach dem klicken des \glqq resign\grqq{ }Buttons ges
 
       \begin{figure}[h]
       \centering
-  \includegraphics[width=120mm]{Interaktion Schach Zug.png}
+  \includegraphics[width=0.8\textwidth]{Interaktion Schach Zug.png}
   \caption{Aktivitätsdiagramm eines Schach Zugs}
   \label{fig:chess-move}
 \end{figure}
 
       \begin{figure}[h]
       \centering
-  \includegraphics[width=120mm]{Interaktion Schach Zug empfangen.png}
+  \includegraphics[width=0.8\textwidth]{Interaktion Schach Zug empfangen.png}
   \caption{Aktivitätsdiagramm eines empfangenen Schach Zugs}
   \label{fig:chess-opponent-move}
 \end{figure}
@@ -330,11 +335,12 @@ Die Komponente sendet keine Events, sondern hört nur auf die folgenden:
 \end{itemize}
 
 \subsection{Verwaltung von Freunden}
+\label{sec:Friends}
 Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von Freunden und Freundschaftsanfragen obliegt der \textit{FriendList}-Komponente. Diese Beinhaltet die Unterkomponenten \textit{Friend}, \textit{FriendReqeust} und \textit{AddFriendModal}
 
 \subsubsection{\textit{FriendList}-Komponente}
 
-\textit{FriendList} verwendet zwei States in Form von Arrays: \verb||friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}, beziehungsweise \textit{FriendRequest}, Komponente dargestellt und verwaltet. \textit{FriendList} hört dabei auf die folgenden Events: 
+\textit{FriendList} verwendet zwei States in Form von Arrays: \verb|friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}, beziehungsweise \textit{FriendRequest}, Komponente dargestellt und verwaltet. \textit{FriendList} hört dabei auf die folgenden Events: 
 \begin{itemize}
 \item \textbf{friends:} Ein Event welches nach der Anmeldung des Nutzers empfangen wird, um die Liste der Freunde zu bekommen.
 \item \textbf{friend\_requests:} Genau das gleiche Event, nur zum setzen der Freundschaftsanfragen.
@@ -345,7 +351,16 @@ Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von Fr
 
 Des weiteren werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, falls auf den Pfad \verb|/| navigiert wird auf der sich die \textit{Home}-Komponente befindet. Diese beiden Events empfangen mittels Callback-Funktion alle Daten über die Freunde und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der Freunde aktualisiert werden.
 
-    
+\subsubsection{\textit{Friend}-Komponente}
+Diese Komponente stellt einen Freund dar. Es kriegt als props alle wichtigen Daten des Freundes gestellt. Sie hat zwei Grundlegende Funktionen: Das Zuschauen einer Partie eines Freundes, das Herausfordern zu einer Partie. 
+
+Diese beiden Funktionen sind nur verfügbar, falls der Freund gerade online ist, welches über einen grünen Punkt ersichtlich ist. 
+
+\subsubsection{\textit{FriendRequest}-Komponente}
+Die \textit{FriendRequest}-Komponente stellt eine Freundschaftsanfrage dar und erhält ebenfalls seine Daten von der \textit{FriendList}-Komponente, wozu auch die Funktionen \verb|setFriends| und \verb|setFriendRequest| zählen, um die Listen der \textit{FriendList}-Komponente zu ändern.
+Es hört auf keine Events, sendet allerdings zwei Events: \verb|accept_friend_request| und \verb|decline_friend_request|. Die Behandlung dieser Events im Backend wird in Abschnitt \ref{sec:accept-friend-request} erläutert. War das Akzeptieren, beziehungsweise das Ablehnen der Anfrage erfolgreich wird die Freundschaftsanfrage aus der Liste gelöscht und zusätzlich wird gegebenenfalls der neue Freund der Freundesliste hinzugefügt.
+
+
         \section{Backend-Architektur}
 Das Backend basiert auf Node.js mit dem Express Framework. Des weiteren werden als Schnittstellen mit dem Frontend eine Web-API für HTTP Anfragen und ein Socket.io Server bereitgestellt. Das Backend kommuniziert mit zwei Datenbanken: einer PostgreSQL Datenbank für die Benutzerverwaltung und eine Redis Datenbank für häufig aktualisierte und angefragte Daten.
 
@@ -362,7 +377,7 @@ Die Ordnerstruktur des Backends (Abbildung \ref{fig:backend_dirtree}) ist auf di
 \begin{figure}[h]
 \centering
 
-\begin{minipage}{0.6\textwidth}
+\begin{minipage}{0.5\textwidth}
 \dirtree{%
 .1 server/.
 .2 src/.
@@ -435,22 +450,23 @@ Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine o
 Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
 
 \subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
+\label{sec:accept-friend-request}
 Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzer werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spieler werden eingeholt und an beide Benutzer werden alle Informationen, wie ob sie online sind oder ob sie aktive Spiele haben, an beide gesendet. Dies stellt sicher, dass sie im Frontend direkt richtig angezeigt werden können.
 
 Beim Ablehnen einer Freundschaftsanfrage wird einfach nur die Freundschaftsanfrage aus Redis gelöscht.
 
       \begin{figure}[h!]
       \centering
-      \begin{subfigure}[b]{0.3\textwidth}
+      \begin{subfigure}[b]{0.35\textwidth}
       \centering
-  \includegraphics[width=50mm]{Freunde-adden.pdf}
+  \includegraphics[width=\linewidth]{Freunde-adden.pdf}
   \caption{Senden einer Freundschaftsanfrage}
   \label{fig:friend_request}
   \end{subfigure}
   \hspace{10mm}
   \begin{subfigure}[b]{0.3\textwidth}
   \centering
-    \includegraphics[width=50mm]{Freund akzeptieren.pdf}
+    \includegraphics[width=\linewidth]{Freund akzeptieren.pdf}
   \caption{Akzeptieren einer Freundschaftsanfrage}
   \label{fig:friend_request}
   \end{subfigure}
@@ -528,6 +544,8 @@ Um eine Schachpartie mit einem zufälligen Gegner zu starten klickt man auf eine
 \begin{figure}
   \centering
   
+ 
+\begin{adjustbox}{width=\textwidth}
   \begin{sequencediagram}[scale=0.2]
     \newinst{clientA}{Client A}
     \newinst[2]{clientB}{Client B}
@@ -579,6 +597,8 @@ Um eine Schachpartie mit einem zufälligen Gegner zu starten klickt man auf eine
     
     
   \end{sequencediagram}
+  \end{adjustbox}
+  
   \caption{Sequenzdiagramm des Schachspielstartprozesses mit unbekanntem Gegner}
   \label{fig:sequence_chess_start}
 \end{figure}

@@ -1,24 +1,27 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper, 11pt, bibliography=totoc, abstract=true]{scrreprt}  
 \usepackage[utf8]{inputenc}
 \usepackage[english,ngerman]{babel}
-\usepackage{titlesec}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \usepackage{setspace}
 \usepackage{lipsum}
 \usepackage{geometry}
-\usepackage{tocbibind}
 \usepackage{dirtree}
 \usepackage{xurl}
 \usepackage[breaklinks]{hyperref}
 \usepackage{cleveref}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{adjustbox}
+
+\renewcommand{\sectfont}{\rmfamily\bfseries}
+%\usepackage{subfigure}\hyphenation{Bit-rate}
 
 %Einrücken nach Absatz verhindern
 \setlength{\parindent}{0pt}
 
-%Kopf und Fußzeile
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Seiten Kopf- und Fußzeilen
 \usepackage[automark,						
 		headsepline,								
 		plainfootsepline, 
@@ -33,7 +36,8 @@
 \cfoot[\pagemark]{\pagemark} % Seitenzahl zentriert in Fußzeile 
 \ihead{\leftmark}
 \ohead{\rightmark} 
-%BIS HIER KOPF UND FUß
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \usepackage{array}
@@ -77,11 +81,8 @@
 
 
 
-\geometry{a4paper, left=25mm, right=25mm, top=30mm, bottom=30mm}
+%\geometry{a4paper, left=25mm, right=25mm, top=30mm, bottom=30mm}
 
-\titleformat{\chapter}{\normalfont\huge}{\thechapter.}{20pt}{\huge\bfseries}
-\titleformat{\section}{\normalfont\Large}{\thesection}{12pt}{\Large\bfseries}
-\titleformat{\subsection}{\normalfont\large}{\thesubsection}{8pt}{\large\bfseries}
 
 \title{Webbasierte Multiplayer Schach-App}
 \author{Jasper Paul Fülle}

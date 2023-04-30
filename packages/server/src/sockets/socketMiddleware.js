@@ -8,13 +8,11 @@ const {setUser} = require("../redis/redisController.js");
 
 module.exports.authorizeUser = (socket, next) => {
     let token = null;
-    console.log(socket.request.headers.cookie);
     if (socket.request.headers.cookie) {
         token = cookie.parse(socket.request.headers.cookie).jwt;
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
                 if (err) {
-                    console.log("VERIFY ERROR: ", err);
                     next(new Error('No session'));
                     return;
                 }

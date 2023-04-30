@@ -14,7 +14,6 @@ const ActiveGames = (props) => {
     useEffect(() => {
         socket.on('active_games', (activeGames) => {
             setActiveGames(activeGames);
-            console.log('active_games', activeGames)
         });
         return () => {
             socket.off('active_games');

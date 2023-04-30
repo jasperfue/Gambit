@@ -1,5 +1,4 @@
 const {parseFriendList} = require("../redis/redisController.js");
-const {getUserData} = require("../redis/redisController.js");
 const {onDisconnect} = require("./socketMiddleware.js");
 const {createChessGame} = require("./socketChessController.js");
 const {getActiveGamesData} = require("../redis/redisController.js");
@@ -11,7 +10,6 @@ const {addFriend} = require("../redis/redisController.js");
 
 
 const initializeListeners = (client, io) => {
-    client.on('getRooms', (cb) => cb(client.rooms));
     client.on('leaveRoom', (roomId) => {
         client.leave(roomId);
         console.log('CLIENT LEAVE ROOM');
@@ -44,7 +42,6 @@ const initializeListeners = (client, io) => {
 
     client.on('game_request_response', async (friend, time,  accepted) => {
         if(accepted) {
-            console.log(friend);
             const roomId = await createChessGame(io, client.user.username, friend.username, time);
             io.to([client.user.userid, friend.userid]).emit('joined_game',friend.username, client.user.username, roomId);
         } else {
@@ -64,7 +61,7 @@ const initializeListeners = (client, io) => {
     client.on('get_active_Games', async (cb) => {
         if (client.user) {
             const activeGames = await getActiveGamesData(client.user.username);
-            cb({activeGames: activeGames});
+            cb({ activeGames });
         }
     });
     client.on('send_friend_request', (requestName, cb) => {

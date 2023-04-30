@@ -28,7 +28,6 @@ module.exports.initializeChessListeners = (client, io) => {
         client.on('leave_queue', leaveQueue(client));
         client.on('resign', resign(io));
         client.on('get_game_data', (roomId, cb) => {
-            console.log('get_game_data');
             if (!currentGames.hasOwnProperty(roomId)) {
                 cb({done: false, errMsg: "This Game does not exist"});
                 console.log('kein Objekt in currentGames')
@@ -37,7 +36,6 @@ module.exports.initializeChessListeners = (client, io) => {
             if (!client.rooms.has(roomId)) {
                 client.join(roomId);
             }
-            console.log(client.rooms);
             const chessClock = currentGames[roomId].chessClock;
             getGame(roomId)
                 .catch(() => {
@@ -65,7 +63,6 @@ module.exports.initializeChessListeners = (client, io) => {
                 client.user = {username:`guest-${UUIDv4().slice(0, 8)}`, userid: client.id};
             }
             if(queuePlayer && Object.keys(queuePlayer).length !== 0) {
-                console.log(queuePlayer);
                 const roomId = await createChessGame(io, queuePlayer.username, client.user.username, time);
                 io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, roomId);
                 client.emit('joined_game', client.user.username, queuePlayer.username, roomId);
@@ -74,7 +71,6 @@ module.exports.initializeChessListeners = (client, io) => {
             }
         });
         client.on('sendMessage', async ({message, username, roomId}) => {
-            console.log('NEW MESSAGE', message);
             await addChatMessage(roomId, username, message);
             io.to(roomId).emit("message", {message, username, roomId});
         });
@@ -162,7 +158,6 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
         return;
     }
     const {chessClock} = currentGames[roomId];
-    console.log(move);
     const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
@@ -200,7 +195,6 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
             io.to(roomId).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
         });
 
-    console.log('opponentMove', move);
     if (chessInstance.history().length === 1) {
         chessClock.startStartingTimer('black');
         io.to(roomId).emit('stop_starting_time_white');

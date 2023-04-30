@@ -2,7 +2,7 @@
     \section{Schach}
    Schach ist ein strategisches Brettspiel für zwei Spieler, welches auf einem quadratischen Spielfeld mit 64 Feldern gespielt wird. Jeder Spieler beginnt mit 16 Figuren und das Ziel des Spiels ist es, den König des Gegners schachmatt zu setzen, indem man ihn bedroht, ohne dass der Gegner den Angriff verhindern kann. 
    
-   Wie Figuren sich bewegen und andere Figuren schlagen erkläre ich nicht explizit, lediglich zwei Sonderregeln des Schachs werde ich genauer erklären, da diese bei der Umsetzung des Spiels gesondert gehandhabt werden müssen.
+   Wie Figuren sich bewegen und andere Figuren schlagen erkläre ich nicht explizit, lediglich zwei Sonderregeln des Schachs und Schachuhren werde ich genauer erklären, da diese bei der Umsetzung des Spiels gesondert gehandhabt werden müssen.
    
    Die erste ist die so genannte \textit{en passant}-Regel. Dabei ist es einem Bauern möglich einen gegnerischen Bauer diagonal zu schlagen, falls dieser zwei Felder gezogen ist und nun auf der gleichen Höhe wie der eigene Bauer steht (siehe Abbildung \ref{fig:en-passant}).
    
@@ -10,7 +10,7 @@
    
      \begin{figure}[ht]
 \raggedleft
-  \includegraphics[width=160mm]{en-passant.jpeg}
+  \includegraphics[width=\textwidth]{en-passant.jpeg}
     \footnotesize\sffamily\textbf{Quelle:} \url{https://www.chess.com/de/schachregeln}
   \caption{Die Zusatzregel \textit{en passant}}
   \label{fig:en-passant}
@@ -18,7 +18,7 @@
 
   \begin{figure}[ht]
 \centering
-  \includegraphics[height=80mm]{promotion.jpeg}
+  \includegraphics[height=0.4\textwidth]{promotion.jpeg}
    
    
 \raggedleft
@@ -27,8 +27,10 @@
   \label{fig:promotion}
 \end{figure}
 
-   
-   //Schachuhr Konfigurationen erklären.
+Die Notation von Schachuhren besteht aus zwei Zahlen, die mit einem Plus getrennt werden, wie zum Beispiel \glqq 10 + 5\grqq .  Hier steht die erste Zahl, in diesem Fall 10, für die Gesamtzeit, die jedem Spieler zur Verfügung steht, also 10 Minuten. Die zweite Zahl, hier 5, wird als Inkrement bezeichnet. Dies bedeutet, dass nach jedem Zug eines Spielers diesem Spieler zusätzlich 5 Sekunden hinzugefügt werden. Dadurch haben Partien mit Inkrement mehr Zeit, je mehr Züge gespielt werden.
+
+Bei Online-Schachpartien ist es zusätzlich üblich, eine bestimmte Startzeit für den ersten Zug jedes Spielers verstreichen zu lassen. Dies gewährleistet, dass die Uhren erst zu laufen beginnen, wenn beide Spieler bereit sind und mitbekommen haben, dass das Spiel gestartet wurde.
+
     \section{Web-Technologien}
         \subsection{Node.js und Express}
         \subsubsection{Node.js und seine Vorteile}
@@ -52,7 +54,7 @@ Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück s
 
   \begin{figure}[ht]
   \centering
-  \includegraphics[width=160mm]{node-request.jpg}
+  \includegraphics[width=\textwidth]{node-request.jpg}
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Ablauf einer Anfrage an einen Node.js Server}
@@ -68,7 +70,7 @@ Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück s
 
   \begin{figure}[h]
   \centering
-  \includegraphics[width=160mm]{express-request.jpg}
+  \includegraphics[width=\textwidth]{express-request.jpg}
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Ablauf einer Anfrage an einen Node.js Server mit Express}
@@ -79,11 +81,11 @@ Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück s
 
   \begin{figure}[h!]
   \centering
-  \includegraphics[width=120mm]{Middleware-Beispiel.jpg}
+  \includegraphics[width=0.7\textwidth]{Middleware-Beispiel.jpg}
   
-  \vspace{20mm}
+  \vspace{10mm}
   
-  \includegraphics[width=120mm]{Middleware-Beispiel-2.jpg}
+  \includegraphics[width=0.7\textwidth]{Middleware-Beispiel-2.jpg}
   
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
@@ -95,7 +97,7 @@ Node.js basiert auf der Verarbeitung von Requests vom Frontend und dem zurück s
 
   \begin{figure}[ht]
   \centering
-  \includegraphics[width=160mm]{express-routing-example.jpg}
+  \includegraphics[width=\textwidth]{express-routing-example.jpg}
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \cite{expressbook}
   \caption{Beispiel der Nutzung von Routing}
@@ -116,8 +118,8 @@ Events können basierend auf verschiedenen Aktionen wie zum Beispiel dem Drücke
 
   \begin{figure}[ht]
 \raggedleft
-  \includegraphics[width=70mm]{socket.io-server-beispiel.png}
-  \includegraphics[width=70mm]{socket.io-client-beispiel.png}
+  \includegraphics[width=0.45\textwidth]{socket.io-server-beispiel.png}
+  \includegraphics[width=0.45\textwidth]{socket.io-client-beispiel.png}
     \footnotesize\sffamily\textbf{Quelle:} \cite{socketio}
   \caption{Simples Beispiel der Initialisierung einer socket.io Verbindung und das Senden und Empfangen von Events}
   \label{fig:socket.io-beispiel}
@@ -128,7 +130,7 @@ Ein wichtiges Feature von socket.io sind die Räume\footnote{Quelle: \url{https:
 
   \begin{figure}[ht]
   \centering
-  \includegraphics[width=160mm]{socket.io-rooms.png}
+  \includegraphics[width=\textwidth]{socket.io-rooms.png}
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \url{https://socket.io/docs/v4/rooms/} am 27. April 2023
   \caption{Darstellung eines Raumes \textit{myroom} mit zwei sockets}
@@ -332,7 +334,9 @@ JWT (\textit{JSON Web Token}) ist ein offener Standard, der eine sichere Möglic
 
   \begin{figure}[hb]
   \centering
-  \includegraphics[width=100mm]{jwt-beispiel.png}
+  \includegraphics[width=0.6\textwidth]{jwt-beispiel.png}
+  
+  
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \url{https://jwt.io/introduction} am 27. April 2023
   \caption{Beispiel eines verschlüsselten Tokens von JWT}
@@ -345,7 +349,7 @@ Chakra UI ist eine simple Komponenten Bibliothek, welche das designen von React 
 
   \begin{figure}[h]
   \centering
-  \includegraphics[width=60mm]{Chakra-UI Beispiel.png}
+  \includegraphics[width=0.4\textwidth]{Chakra-UI Beispiel.png}
   
 \raggedleft
     \footnotesize\sffamily\textbf{Quelle:} \url{https://chakra-ui.com/} am 27. April 2023

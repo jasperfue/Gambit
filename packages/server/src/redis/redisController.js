@@ -128,7 +128,6 @@ module.exports.getFriendRequests = getFriendRequests;
 
 const getFriends = async (username) => {
     if (username) {
-        console.log("GET FRIENDS");
         const friendList = await redisClient.lrange(
             `friends:${username}`,
             0,
@@ -178,14 +177,14 @@ module.exports.getActiveGames = getActiveGames;
 const getActiveGamesData = async (username) => {
     const activeGames = await getActiveGames(username);
     if (activeGames.length > 0) {
-        const gameData = [];
+        const gameData = {};
         for (const game of activeGames) {
             gameData[game] = await getGame(game);
             delete gameData[game].pgn;
         }
         return gameData;
     } else {
-        return [];
+        return {};
     }
 }
 

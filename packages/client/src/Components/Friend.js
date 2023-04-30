@@ -41,7 +41,7 @@ const Friend = (props) => {
     const cancelGameRequest = useCallback(() => {
         setIsModalOpen(false);
         socket.emit('cancel_game_request', props.friend);
-    }, [socket]);
+    }, [socket, props.friend]);
 
     const sendGameRequest = useCallback(
         (time) => {
@@ -120,7 +120,7 @@ const Friend = (props) => {
                     </MenuList>
                 </Menu>
                 )}
-            {activeGames && Object.keys(activeGames).length > 0 && (
+            {props.friend.activeGames && Object.keys(props.friend.activeGames).length > 0 && (
                 <Menu>
                     <MenuButton
                         as={IconButton}
@@ -133,7 +133,7 @@ const Friend = (props) => {
                     />
                     <MenuList backgroundColor={menuList} p={1} borderRadius="md">
                         {/* Map through the activeGames object and create menu items */}
-                        {Object.keys(activeGames).map((gameId, index) => (
+                        {Object.keys(props.friend.activeGames).map((gameId, index) => (
                             <MenuItem
                                 key={index}
                                 onClick={() => handleGameClick(gameId)}
@@ -144,9 +144,9 @@ const Friend = (props) => {
                             >
                                 <Box display="flex" alignItems="center">
                                     <Icon as={GiChessQueen} color="white" />
-                                    <Text mx={1}>{activeGames[gameId].whitePlayer}</Text>
+                                    <Text mx={1}>{props.friend.activeGames[gameId].whitePlayer}</Text>
                                     <Text>vs.</Text>
-                                    <Text mx={1}>{activeGames[gameId].blackPlayer}</Text>
+                                    <Text mx={1}>{props.friend.activeGames[gameId].blackPlayer}</Text>
                                     <Icon as={GiChessQueen} color="black" />
                                 </Box>
                             </MenuItem>
