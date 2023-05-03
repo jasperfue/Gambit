@@ -1,68 +1,77 @@
 \babel@toc {ngerman}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {ngerman}{}\relax 
-\contentsline {chapter}{\numberline {1}Einleitung}{10}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Motivation}{10}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Zielsetzung}{11}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Aufbau der Arbeit}{11}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Theoretische Grundlagen}{13}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Schach}{13}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Web-Technologien}{14}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Node.js und Express}{14}{subsection.2.2.1}%
-\contentsline {subsubsection}{\nonumberline Node.js und seine Vorteile}{14}{subsubsection*.8}%
-\contentsline {subsubsection}{\nonumberline Express}{15}{subsubsection*.11}%
-\contentsline {subsection}{\numberline {2.2.2}Socket.io}{16}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}React}{19}{subsection.2.2.3}%
-\contentsline {subsubsection}{\nonumberline React}{19}{subsubsection*.18}%
-\contentsline {subsubsection}{\nonumberline React Router}{22}{subsubsection*.20}%
-\contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{24}{subsection.2.2.4}%
-\contentsline {subsubsection}{\nonumberline PostgreSQL}{24}{subsubsection*.22}%
-\contentsline {subsubsection}{\nonumberline Redis}{25}{subsubsection*.24}%
-\contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{25}{subsection.2.2.5}%
-\contentsline {subsubsection}{\nonumberline JWT}{25}{subsubsection*.26}%
-\contentsline {subsubsection}{\nonumberline Chakra UI}{25}{subsubsection*.29}%
-\contentsline {subsubsection}{\nonumberline Formik und Yup}{27}{subsubsection*.32}%
-\contentsline {subsubsection}{\nonumberline chess.js}{27}{subsubsection*.34}%
-\contentsline {subsubsection}{\nonumberline chessground}{27}{subsubsection*.36}%
-\contentsline {subsubsection}{\nonumberline bcrypt}{27}{subsubsection*.38}%
-\contentsline {chapter}{\numberline {3}Systemarchitektur}{29}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Einführung}{29}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Architekturübersicht}{30}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Konzeption der Schachuhren}{30}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Frontend-Architektur}{32}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}React-Komponenten}{32}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Das Schachspiel}{35}{subsection.3.4.2}%
-\contentsline {subsubsection}{\nonumberline Das Spiel}{35}{subsubsection*.47}%
-\contentsline {subsubsection}{\nonumberline Die Uhr}{39}{subsubsection*.51}%
-\contentsline {subsection}{\numberline {3.4.3}Verwaltung von Freunden}{41}{subsection.3.4.3}%
-\contentsline {subsubsection}{\nonumberline \textit {FriendList}-Komponente}{41}{subsubsection*.53}%
-\contentsline {subsubsection}{\nonumberline \textit {Friend}-Komponente}{42}{subsubsection*.55}%
-\contentsline {subsubsection}{\nonumberline \textit {FriendRequest}-Komponente}{42}{subsubsection*.57}%
-\contentsline {section}{\numberline {3.5}Backend-Architektur}{42}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Authentifizierung}{43}{subsection.3.5.1}%
-\contentsline {subsubsection}{\nonumberline Authentifizierung mit der Web-API und PostgreSQL}{44}{subsubsection*.60}%
-\contentsline {subsubsection}{\nonumberline Authentifizierung und anschließende Middleware mit Socket.io}{44}{subsubsection*.62}%
-\contentsline {subsection}{\numberline {3.5.2}Hinzufügen von Freunden}{45}{subsection.3.5.2}%
-\contentsline {subsubsection}{\nonumberline Versenden einer Freundschaftsanfrage}{45}{subsubsection*.64}%
-\contentsline {subsubsection}{\nonumberline Akzeptieren und Ablehnen einer Freundschaftsanfrage}{45}{subsubsection*.66}%
+\contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Zielsetzung}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Aufbau der Arbeit}{2}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Theoretische Grundlagen}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Schach}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Web-Technologien}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Node.js und Express}{6}{subsection.2.2.1}%
+\contentsline {subsubsection}{\nonumberline Node.js und seine Vorteile}{6}{subsubsection*.8}%
+\contentsline {subsubsection}{\nonumberline Express}{7}{subsubsection*.11}%
+\contentsline {subsection}{\numberline {2.2.2}Socket.io}{8}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}React}{11}{subsection.2.2.3}%
+\contentsline {subsubsection}{\nonumberline React}{11}{subsubsection*.18}%
+\contentsline {subsubsection}{\nonumberline React Router}{14}{subsubsection*.20}%
+\contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{16}{subsection.2.2.4}%
+\contentsline {subsubsection}{\nonumberline PostgreSQL}{16}{subsubsection*.22}%
+\contentsline {subsubsection}{\nonumberline Redis}{17}{subsubsection*.24}%
+\contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{17}{subsection.2.2.5}%
+\contentsline {subsubsection}{\nonumberline JWT}{17}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline Chakra UI}{17}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Formik und Yup}{19}{subsubsection*.32}%
+\contentsline {subsubsection}{\nonumberline chess.js}{19}{subsubsection*.34}%
+\contentsline {subsubsection}{\nonumberline chessground}{19}{subsubsection*.36}%
+\contentsline {subsubsection}{\nonumberline bcrypt}{19}{subsubsection*.38}%
+\contentsline {chapter}{\numberline {3}Systemarchitektur}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Einführung}{22}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Architekturübersicht}{23}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Konzeption der Schachuhren}{23}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Frontend-Architektur}{25}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}React-Komponenten}{25}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Authentifizierung}{28}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Das Schachspiel}{29}{subsection.3.4.3}%
+\contentsline {subsubsection}{\nonumberline Das Starten eines Schachspiels}{29}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Das Spiel}{32}{subsubsection*.50}%
+\contentsline {subsubsection}{\nonumberline Die Uhr}{34}{subsubsection*.54}%
+\contentsline {subsubsection}{\nonumberline Der Chat}{35}{subsubsection*.56}%
+\contentsline {subsection}{\numberline {3.4.4}Verwaltung von Freunden}{36}{subsection.3.4.4}%
+\contentsline {subsubsection}{\nonumberline \textit {FriendList}-Komponente}{36}{subsubsection*.58}%
+\contentsline {subsubsection}{\nonumberline \textit {Friend}-Komponente}{37}{subsubsection*.60}%
+\contentsline {subsubsection}{\nonumberline \textit {FriendRequest}-Komponente}{38}{subsubsection*.63}%
+\contentsline {subsubsection}{\nonumberline \textit {AddFriendModal}-Komponente}{38}{subsubsection*.65}%
+\contentsline {subsection}{\numberline {3.4.5}Anzeigen und navigieren zu aktiven Partien}{38}{subsection.3.4.5}%
+\contentsline {section}{\numberline {3.5}Backend-Architektur}{39}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Authentifizierung}{39}{subsection.3.5.1}%
+\contentsline {subsubsection}{\nonumberline Authentifizierung mit der Web-API und PostgreSQL}{40}{subsubsection*.69}%
+\contentsline {subsubsection}{\nonumberline Authentifizierung und anschließende Middleware mit Socket.io}{41}{subsubsection*.71}%
+\contentsline {subsection}{\numberline {3.5.2}Hinzufügen von Freunden}{41}{subsection.3.5.2}%
+\contentsline {subsubsection}{\nonumberline Versenden einer Freundschaftsanfrage}{42}{subsubsection*.73}%
+\contentsline {subsubsection}{\nonumberline Akzeptieren und Ablehnen einer Freundschaftsanfrage}{42}{subsubsection*.75}%
+\contentsline {subsection}{\numberline {3.5.3}Das Schachspiel}{42}{subsection.3.5.3}%
+\contentsline {subsubsection}{\nonumberline Finden eines Gegners}{42}{subsubsection*.78}%
+\contentsline {subsubsection}{\nonumberline Initialisieren eines Spiels nach gefundenem Gegner}{44}{subsubsection*.81}%
+\contentsline {subsubsection}{\nonumberline ServerChessClock}{45}{subsubsection*.84}%
+\contentsline {subsubsection}{\nonumberline Neuer Zug einer Schachpartie}{45}{subsubsection*.86}%
+\contentsline {subsubsection}{\nonumberline Ende einer Schachpartie}{46}{subsubsection*.89}%
 \contentsline {section}{\numberline {3.6}Datenbankstruktur}{46}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}PostgreSQL Datenbank}{46}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Redis}{46}{subsection.3.6.2}%
-\contentsline {subsubsection}{\nonumberline user:username}{46}{subsubsection*.69}%
-\contentsline {subsubsection}{\nonumberline game:roomId}{48}{subsubsection*.71}%
-\contentsline {subsubsection}{\nonumberline activeGames:username}{48}{subsubsection*.73}%
-\contentsline {subsubsection}{\nonumberline friends:username}{48}{subsubsection*.75}%
-\contentsline {subsubsection}{\nonumberline friend\_requests:username}{48}{subsubsection*.77}%
-\contentsline {subsubsection}{\nonumberline Warteschlangen}{48}{subsubsection*.79}%
-\contentsline {section}{\numberline {3.7}Interaktion zwischen Frontend und Backend}{48}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Suchen einer Partie mit unbekanntem Gegner}{49}{subsection.3.7.1}%
-\contentsline {chapter}{\numberline {4}Implementierung}{51}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{51}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{51}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{51}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{52}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{52}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{52}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{52}{section.5.3}%
-\contentsline {chapter}{\nonumberline Literaturverzeichnis}{54}{chapter*.82}%
+\contentsline {subsection}{\numberline {3.6.2}Redis}{47}{subsection.3.6.2}%
+\contentsline {subsubsection}{\nonumberline user:username}{47}{subsubsection*.91}%
+\contentsline {subsubsection}{\nonumberline game:roomId}{47}{subsubsection*.93}%
+\contentsline {subsubsection}{\nonumberline activeGames:username}{47}{subsubsection*.95}%
+\contentsline {subsubsection}{\nonumberline friends:username}{47}{subsubsection*.97}%
+\contentsline {subsubsection}{\nonumberline friend\_requests:username}{47}{subsubsection*.99}%
+\contentsline {subsubsection}{\nonumberline Warteschlangen}{48}{subsubsection*.101}%
+\contentsline {chapter}{\numberline {4}Implementierung}{53}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Frontend-Entwicklung}{53}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{53}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Datenbank-Integration}{53}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{55}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{55}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{55}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{55}{section.5.3}%
+\contentsline {chapter}{\nonumberline Literaturverzeichnis}{57}{chapter*.103}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

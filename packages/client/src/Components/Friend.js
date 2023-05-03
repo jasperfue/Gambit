@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
     HStack,
     Box,
@@ -31,11 +31,27 @@ const Friend = (props) => {
     const green = useColorModeValue('green.500', 'green.400');
     const red = useColorModeValue('red.500', 'red.400');
     const navigate = useNavigate();
-    const [activeGames, setActiveGames] = useState(props.friend.activeGames);
     const menuList = useColorModeValue("white", "purple.900");
     const hover = useColorModeValue("gray.200", "purple.600");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toast = useToast();
+
+    useEffect(() => {
+        socket.on('game_request_accepted', (player1, player2, roomId) => {
+            if(player1 === props.friend.username || player2 === props.friend.username) {
+                handleGameRequestAccepted(roomId);
+            }
+        });
+        socket.on('game_request_denied', (name) => {
+            if(name === props.friend.username) {
+                handleGameRequestDenied(name)
+            }
+        });
+        return () => {
+            socket.off('game_request_accepted');
+            socket.off('game_request_denied');
+        }
+    }, [socket]);
 
 
     const cancelGameRequest = useCallback(() => {
@@ -53,9 +69,10 @@ const Friend = (props) => {
         navigate(`/game/${game}`);
     }, [navigate]);
 
-    const handleGameRequestDenied = useCallback(() => {
+    const handleGameRequestDenied = useCallback((name) => {
         toast({
             title: "Game request denied",
+            description: `${name} denied your game request`,
             status: 'error',
             position: 'top',
             isClosable: true

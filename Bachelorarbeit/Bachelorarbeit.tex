@@ -93,20 +93,35 @@
 \input{titlepage}
 \input{Abstract}
 
+\pagenumbering{Roman}
+\setcounter{page}{1}
 \tableofcontents
+\newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \input{Einleitung}
+\newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 	\input{Theoretische Grundlagen}
+	\newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 \input{Systemarchitektur}
-
+\newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 \chapter{Implementierung}
     \section{Frontend-Entwicklung}
     \section{Backend-Entwicklung}
     \section{Datenbank-Integration}
+    \newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 
 \chapter{Fazit und Ausblick}
     \section{Zusammenfassung der Ergebnisse}
     \section{Limitationen}
+    //ServerchessClock
     \section{Potenzielle Erweiterungen und Weiterentwicklung}
+    //Trennung waitingPlayers, waitingGuests
 
 \appendix
 

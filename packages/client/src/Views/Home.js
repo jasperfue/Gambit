@@ -94,7 +94,7 @@ const Home = () => {
                 </>
                 :
                 <Flex align="center" justify="center" direction="column">
-                    <Text marginBottom="5">Waiting for opponent...</Text>
+                    <Text marginBottom="5">Searching for an opponent...</Text>
                     <Spinner size="lg" marginBottom="5" />
                     <Button variant={button} onClick={cancelGame}>Cancel</Button>
                 </Flex>

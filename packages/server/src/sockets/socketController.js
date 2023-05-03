@@ -43,9 +43,9 @@ const initializeListeners = (client, io) => {
     client.on('game_request_response', async (friend, time,  accepted) => {
         if(accepted) {
             const roomId = await createChessGame(io, client.user.username, friend.username, time);
-            io.to([client.user.userid, friend.userid]).emit('joined_game',friend.username, client.user.username, roomId);
+            io.to([client.user.userid, friend.userid]).emit('game_request_accepted', client.user.username, friend.username, roomId);
         } else {
-            client.to(friend.userid).emit('game_request_denied', client.user);
+            client.to(friend.userid).emit('game_request_denied', client.user.username);
         }
     });
 
