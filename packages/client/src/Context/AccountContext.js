@@ -1,23 +1,22 @@
-import React, {useEffect} from "react";
-
-const {useState} = require("react");
-const {createContext} = require('react');
-
+import React, {useEffect, useState, createContext} from "react";
 export const AccountContext = createContext();
 
-function UserContext({children}) {
+const UserContext = ({children}) => {
     const [user, setUser] = useState({loggedIn: null});
 
+    /**
+     * Set User with Cookie, if possible
+     */
     useEffect(() => {
         fetch("http://localhost:4000/auth/login", {
             credentials: "include",
         })
             .catch(err => {
+                console.log(err);
                 return;
             })
             .then(r => {
                 if (!r || !r.ok || r.status >= 400) {
-                    console.log('not logged In');
                     return;
                 }
                 return r.json();
@@ -32,4 +31,4 @@ function UserContext({children}) {
         </AccountContext.Provider>
     );
 }
-export default UserContext
+export default UserContext;

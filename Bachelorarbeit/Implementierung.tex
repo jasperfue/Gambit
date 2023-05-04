@@ -1,0 +1,108 @@
+
+\chapter{Implementierung}
+    \section{Frontend-Entwicklung}
+    \subsection{Authentifizierung}
+    \subsubsection{Erster Versuch der Authetifizierung mittels Cookie}
+Im Code Snippet \ref{lst:AccountContext} ist der Code der gesamten AccountContext Datei zu sehen, welche den \textit{UserContext} zur Verfügung stellt.
+
+\begin{lstlisting}[style=codeStyle, caption={Die AccountContext.js-Datei}, label={lst:AccountContext}]
+import React, {useEffect, useState, createContext} from "react";
+
+export const AccountContext = createContext();
+
+const UserContext = ({children}) => {
+    const [user, setUser] = useState({loggedIn: null});
+
+     /**
+     * Set User with Cookie, if possible
+     */
+    useEffect(() => {
+        fetch("http://localhost:4000/auth/login", {
+            credentials: "include",
+        })
+            .catch(err => {
+                console.log(err);
+                return;
+            })
+            .then(r => {
+                if (!r || !r.ok || r.status >= 400) {
+                    return;
+                }
+                return r.json();
+            })
+            .then(data => {
+                setUser({ ...data});
+            });
+    }, []);
+    return (
+        <AccountContext.Provider value ={{user, setUser}}>
+            {children}
+        </AccountContext.Provider>
+    );
+}
+export default UserContext;
+\end{lstlisting}
+
+
+In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird in Abschnitt //REF erläutert. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur dieses eine mal ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann.
+
+Gibt es einen Fehler oder eine ungültige Antwort wird der Vorgang abgebrochen, ansonsten wird der \verb|user| mit den erhaltenen Daten gesetzt.
+
+Mögliche Optionen sind dabei:
+\begin{itemize}
+\item \verb|{loggedIn: false}|, falls kein oder ein ungültiger JWT-Token im Cookie war
+\item \verb|{loggedIn: true, username: Max}|, bei erfolgreichem Authentifizieren mit dem JWT-Token im Cookie. (Max ist hier nur ein Beispiel als username)
+\end{itemize}
+Mehr Informationen benötigt der Benutzer aktuell nicht über sich selbst.
+
+\subsubsection{Authentifizierung mittels \textit{SignUp}- oder \textit{Login}-Komponente}
+Um sich mit Hilfe von den \textit{SignUp}- oder \textit{Login}-Komponenten anzumelden wird eine HTTP POST-Anfrage an den Server unter dem Pfad \verb|/auth/login| oder \verb|/auth/signup| gesendet.
+
+Die Funktion zum Senden der Login-Daten an den Server befindet sich in Code Snippet \ref{lst:submitLogin}.
+
+\begin{lstlisting}[style=codeStyle, caption={Die AccountContext.js-Datei}, label={lst:submitLogin}]
+    /**
+     * Submit the form and send it to the server. Set either the user data or an error message based on the response.
+     * @type {function({username, password}, function(boolean): void): void}
+     */
+    const submitLogin = useCallback((values, setSubmitting) => {
+        fetch("http://localhost:4000/auth/login", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values)
+        })
+            .catch(err => {
+                setLoginError("Please try again later");
+                setSubmitting(false);
+                return;
+            })
+            .then(res => {
+                if (!res || !res.ok || res.status >= 400) {
+                    setSubmitting(false);
+                    setLoginError("Please try again later");
+                    return;
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (!data.loggedIn) {
+                    setLoginError(data.message);
+                    setSubmitting(false);
+                    return;
+                }
+                setUser({...data});
+                setLoginError(null);
+                navigate('/');
+            });
+    }, [setLoginError, setUser, navigate]);
+\end{lstlisting}
+
+Die Funktion zum Senden der Registrierungs-Daten sieht genau so aus, nur dass die Anfrage an einen anderen Pfad geht und es mehr Daten enthält, wie zum Beispiel die E-Mail.
+
+Initialisiert wird die Funktion mittels der \textit{useCallback}-Hook um unnötige Neuerstellungen zu vermeiden.Der \glqq Content-Type\grqq{ }hilft dem Server zu erkennen um was für eine Art von Daten es sich handelt, während im Body die angegebenen Anmeldedaten als String verpackt werden. Falls der Server mit einem Fehler Antwortet, wird dieser in dem State \verb|loginError| erfasst. Ansonsten wird der Benutzerstatus gesetzt und es wird auf die \textit{Home}-Komponente navigiert.
+
+    \section{Backend-Entwicklung}
+    \section{Datenbank-Integration}

@@ -22,11 +22,9 @@ import {
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {SocketContext} from "../Context/SocketContext.js";
 
-const Login = (props) => {
+const Login = () => {
     const {setUser} = useContext(AccountContext);
-    const {socket} = useContext(SocketContext);
     const [loginError, setLoginError] = useState(null);
-    const [signUpError, setSignUpError] = useState(null);
     const navigate = useNavigate();
     const contrast = useColorModeValue("purple.500", "white");
     const equity = useColorModeValue("white", "purple.500");
@@ -34,11 +32,6 @@ const Login = (props) => {
     const red = useColorModeValue("red.500", "red.300");
     const hover = useColorModeValue("purple.200", "purple.700");
     const [showPassword, setShowPassword] = useState(false);
-
-
-    useEffect(() => {
-        socket.connect();
-    }, [socket]);
 
 
     const handleClick = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
@@ -49,6 +42,10 @@ const Login = (props) => {
     }, [navigate]);
 
 
+    /**
+     * Submit the form and send it to the server. Set either the user data or an error message based on the response.
+     * @type {function({username, password}, function(boolean): void): void}
+     */
     const submitLogin = useCallback((values, setSubmitting) => {
         fetch("http://localhost:4000/auth/login", {
             method: "POST",
@@ -59,20 +56,19 @@ const Login = (props) => {
             body: JSON.stringify(values)
         })
             .catch(err => {
-                console.log(err);
+                setLoginError("Please try again later");
                 setSubmitting(false);
                 return;
             })
             .then(res => {
-                console.log(res);
                 if (!res || !res.ok || res.status >= 400) {
                     setSubmitting(false);
+                    setLoginError("Please try again later");
                     return;
                 }
                 return res.json();
             })
             .then(data => {
-                console.log(data);
                 if (!data.loggedIn) {
                     setLoginError(data.message);
                     setSubmitting(false);

@@ -283,11 +283,11 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
    \label{sec:Autehtifizierung Frontend}
 Die Authentifizierung findet in drei Komponenten statt: Dem \textit{UserContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Gewissermaßen hat \textit{SocketContext} auch etwas mit der Authentifizierung zu tun, da sobald sich der Anmeldezustand sich verändert eine neue socket Verbindung hergestellt wird. Was im Backend bei einer Authentifizierung stattfindet, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert.
 
-Der \textit{UserContext} beinhaltet den State \verb|user| und der \textit{SocketContext} beinhaltet den State \verb|socket|, welche beide mit \verb|null| initialisiert werden und den Komponenten zur Verfügung gestellt wird.
+Der \textit{UserContext} beinhaltet den State \verb|user| und der \textit{SocketContext} beinhaltet den State \verb|socket|, die den Komponenten zur Verfügung gestellt wird.
 Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob der Benutzer nun angemeldet ist oder nicht und wenn ja, dann seinen Benutzernamen.
 Dies wird in den \verb|user|-State gesetzt.
 
-Wurde der \verb|user| gesetzt, wird im \textit{SocketContext} eine socket Verbindung hergestellt und über den State \verb|socket| den Komponenten zur Verfügung gestellt. Solange eine der beiden States der Kontexte \verb|null| ist, wird ein Lade-Bildschirm gezeigt, um fehlerhafte Darstellungen oder Funktionen zu vermeiden.
+Wurde der \verb|user| gesetzt, wird im \textit{SocketContext} eine socket Verbindung hergestellt. Solange eine der beiden States der Kontexte nicht initialisiert wurde, wird ein Lade-Bildschirm gezeigt, um fehlerhafte Darstellungen oder Funktionen zu vermeiden.
 
 Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}). Auch hier wird nach dem Ändern des \verb|user| States in der \textit{UserContext}-Komponente eine neue socket Verbindung in \textit{SocketContext} hergestellt.
         
