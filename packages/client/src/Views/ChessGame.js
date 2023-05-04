@@ -467,9 +467,6 @@ const ChessGame = () => {
                             <Alert status="warning" borderRadius="md">
                                 <AlertIcon />
                                 <AlertTitle>{error}</AlertTitle>
-                                <AlertDescription>
-                                    Note: We only support watching games of logged In Users.
-                                </AlertDescription>
                             </Alert>
                         </Box>
                     )}

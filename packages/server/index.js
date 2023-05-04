@@ -27,8 +27,7 @@ ON_DEATH(function(signal, err) {
 
 const server = require('http').createServer(app);
 const io = new Server(server, {
-    cors: corsConfig,
-    cookie: true
+    cors: corsConfig
 });
 
 

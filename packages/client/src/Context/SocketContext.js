@@ -12,8 +12,7 @@ function SocketConnectionContext({children}) {
     useEffect(() => {
         if(user) {
             setSocket(new io("http://localhost:4000", {
-                autoConnect: true,
-                withCredentials: true,
+                withCredentials: true
             }));
             console.log('NEUE VERBINDUNG', user);
         }
