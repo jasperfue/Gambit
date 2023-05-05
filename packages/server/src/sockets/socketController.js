@@ -19,13 +19,6 @@ const initializeListeners = (client, io) => {
             onDisconnect(client);
         }
     });
-    client.on('logout', (cb) => {
-        onDisconnect(client).catch(() => {
-            cb({done: false});
-        }).then(() => {
-            cb({done: true});
-        })
-    });
     client.on('get_friends', async (cb) => {
         const friends = await getFriends(client.user?.username);
         if(friends) {

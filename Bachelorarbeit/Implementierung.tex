@@ -240,7 +240,7 @@ Bei der Verbindung wird darauf geachtet, dass die Credentials mitgesendet werden
 Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Verbindung hergestellt wurde, werden die verschiedenen Elemente und Routen in der \verb|Views|-Komponente definiert. So lange wird ein Lade-Bildschirm gezeigt (siehe Code Ausschnitt \ref{lst:Views-user-socket}).
 
 \begin{lstlisting}[style=codeStyle, caption={Ausschnitt der \textit{Views}-Komponente}, label={lst:Views-user-socket}]
-		...
+		   ...
         {user.loggedIn === null || socket === null ?
                 <Flex align="center" justify="center" direction="column" height="80vh">
                     <Heading as='h2' size='lg'>Loading...</Heading>
@@ -255,4 +255,171 @@ Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Ver
 
 
     \section{Backend-Entwicklung}
-    \section{Datenbank-Integration}
+    \subsection{Authentifizierung}
+Die Vorgehensweise im Backend bei der Authentifizierung des Benutzers ist im Kapitel \ref{sec:Authentifizierung Backend} geschildert. In diesem Kapitel werde ich Code Beispiele vorstellen und erläutern.
+
+\subsubsection{Routing-Middlewares}
+Der Code Ausschnitt \ref{lst:routing-Middlewares} zeigt die Reihenfolge der Middlewares bei den Anmelde- und Registrierungsanfragen des Frontends.
+\begin{lstlisting}[style=codeStyle, caption={Ausschnitt aus index.js und die Datei authRouter.js}, label={lst:routing-Middlewares}]
+//index.js
+...
+app.use("/auth", authRouter);
+...
+
+//authRouter.js
+const express = require('express');
+const router = express.Router();
+... //import der Middlewares
+
+router.use(rateLimiter(60, 10));
+
+router.route('/login').get(handleLogin).post(validateLogin, attemptLogin);
+
+router.post('/signup', validateSignUp, attemptSignUp);
+
+router.get('/logout', handleLogout);
+
+module.exports = router;
+\end{lstlisting}
+
+Für jede Anfrage auf den Pfad \verb|/auth| wird die Middleware \verb|rateLimiter| verwendet. Dieser achtet darauf, dass nicht zu viele Anfragen einer IP Adresse gesendet werden. 
+
+\begin{lstlisting}[style=codeStyle, caption={Die rateLimiter Middleware}, label={lst:rateLimiter}]
+const redisClient = require("../redis/redis.js");
+/**
+ * Rate limiter middleware that limits the number of requests from a given IP address within a specified time window.
+ * @param limitAmount - The maximum number of requests allowed within the time window.
+ * @returns {function(*, *, *): Promise<void>} - Middleware function that either sends an error response if the limit is exceeded or calls the next middleware or route handler.
+ */
+module.exports.rateLimiter = (secondsLimit, limitAmount) => async (req, res, next) => {
+    const ip = req.connection.remoteAddress;
+    [response] = await redisClient
+        .multi()
+        .incr(ip)
+        .expire(ip, secondsLimit)
+        .exec();
+    if (response[1] > limitAmount) {
+        res.json({
+            loggedIn: false,
+            message: "Slow down!! Try again in a minute.",
+        });
+        res.sendStatus(429);
+    }
+    else next();
+};
+\end{lstlisting}
+
+Der \verb|rateLimiter| nimmt die Argumente secondsLimit als Zeitfenster und limitAmount als Anfragelimit an und definiert mit Hilfe von ihnen die Middleware. Dafür nutzt er Redis und setzt mit der IP-Adresse als Key die Zahl der Anfragen als Value. Dieser Eintrag wird nach Ablauf des Zeitfensters gelöscht und falls das Anfragelimit innerhalb dieses Zeitfensters überschritten wurde, wird eine Fehlermeldung mit dem Statuscode 429 gesendet, der für \glqq Too Many Requests\grqq{ }steht\footnote{Quelle: \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429} am 05. April 2023}. Andernfalls wird die nächste Middleware aufgerufen.
+
+In unserer Anwendung legen wir fest, dass 10 Anfragen innerhalb von 60 Sekunden gesendet werden dürfen.
+
+Für die erste Authentifizierung im \textit{UserContext} (siehe Abschnitt \ref{sec:Cookie-auth}) wird die Middleware \verb|handleLogin| verwendet.
+
+\begin{lstlisting}[style=codeStyle, caption={Die handleLogin Middleware zum Authentifizieren mit Cookie}, label={lst:handleLogin}]
+const getJwtFromCookie = req => {
+    return req.headers["cookie"] && cookie.parse(req.headers["cookie"])["jwt"];
+};
+
+module.exports.handleLogin = (req, res) => {
+    const token = getJwtFromCookie(req);
+    if(!token) {
+        res.json({loggedIn: false});
+    } else {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+            if (err) {
+                res.json({loggedIn: false});
+            } else {
+                res.json({loggedIn: true, username: decodedPayload.username});
+            }
+        });
+    }
+};
+\end{lstlisting}
+
+Diese Middleware ließt gegebenenfalls den Cookie mit dem JWT-Token und antwortet entsprechend ob er ihn erfolgreich dekodieren konnte oder nicht.
+
+Bei den POST Anfragen des Frontends, über die das ausgefüllte Anmelde-, beziehungsweise Registrierungsformular gesendet wird, wird vor der Auswertung mit den Middlewares \verb|validateLogin| oder \verb|validateSignUp| überprüft, ob das Formular auch dem entsprechenden Yup Schema übereinstimmt. Anschließend wird mit \verb|attemptLogin| oder \verb|attemptSignUp| versucht den Benutzern anzumelden oder zu registrieren.
+
+\begin{lstlisting}[style=codeStyle, caption={Die attemptLogin Middleware zum Anmelden}, label={lst:attemptLogin}]
+/**
+ * Attempts to log in the user by checking the provided credentials against the database.
+ * If the credentials match, creates a JWT token and sets it as a cookie in the response.
+ * @param req - The incoming request object containing the user's login information.
+ * @param res - The outgoing response object.
+ * @returns {Promise<void>} - The Middleware
+ */
+module.exports.attemptLogin = async (req, res) => {
+    const potentialLogin = await query(
+        "SELECT id, username, password, userid FROM users u WHERE u.username=$1",
+        [req.body.username]
+    );
+    if (potentialLogin.rowCount > 0) {
+        const isSamePassword = await bcrypt.compare(
+            req.body.password,
+            potentialLogin.rows[0].password
+        );
+        if (isSamePassword) {
+            const user = {
+                username: req.body.username,
+                userid: potentialLogin.rows[0].userid,
+            }
+            jwt.sign(
+                user,
+                process.env.JWT_SECRET,
+                {expiresIn: "24h"},
+                (err,token) => {
+                if(err) {
+                    res.json({loggedIn: false, message: "Something went wrong, try again later"});
+                } else {
+                    const jwtCookie = cookie.serialize("jwt", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production", // Secure flag only in production
+                        maxAge: 24 * 60 * 60, // 24 hours
+                        sameSite: "lax",
+                        path: "/"
+                    });
+                    res.setHeader("Set-Cookie", jwtCookie);
+                    res.json({loggedIn: true,  username: user.username});
+                }
+            }
+            );
+        } else {
+            res.json({loggedIn: false, message: "Wrong username or password!"});
+        }
+    } else {
+        res.json({loggedIn: false, message: "Wrong username or password!"});
+    }
+};
+\end{lstlisting}
+
+Die Middleware \verb|attemptLogin| überprüft zunächst, ob ein Benutzer mit diesem Benutzernamen existiert und mittels bcrypt ob die Passwörter übereinstimmen. Ist eines davon nicht der Fall wird das Frontend darüber benachrichtigt. Ansonsten wird ein 24 Stunden haltbarer JWT-Token mit dem Benutzernamen und der \verb|userid| generiert und in einen Cookie mit dem Key \glqq jwt\grqq{ }gesetzt, welcher ebenfalls 24 Stunden gültig ist. Wichtig dabei ist, dass das Attribut \verb|httpOnly| auf \verb|true| gesetzt wird, um zu verhindern, dass Client seitiger Code auf den Cookie zugreifen könnte. Anschließend wird dem Frontend noch mit dem JSON Objekt geantwortet (siehe Zeile 39).
+
+Beim Registrieren wird ebenfalls bei Erfolg der Cookie mit dem JWT-Token gesetzt, jedoch sind die Anforderungen natürlich andere. Es wird überprüft, ob bereits ein Account mit dem Benutzernamen oder der E-Mail existiert und falls ja wird dem Frontend entsprechend geantwortet. Anschließend wird die \verb|userid| erstellt, das Passwort mit bcrypt verschlüsselt, der Tupel in der Datenbank gespeichert und der Cookie mit dem JWT-Token erstellt.
+
+\subsubsection{Abmelden}
+Da das Abmelden auch gewissermaßen zum Authentifizierungsprozess gehört, wird hier kurz beschrieben, was im Backend dabei passiert.
+
+\begin{lstlisting}[style=codeStyle, caption={Middleware zum Abmelden}, label={lst:handleLogout}]
+/**
+ * Handles user logout by clearing the JWT cookie.
+ * @param req - The request object.
+ * @param res- The response object.
+ */
+module.exports.handleLogout = (req, res) => {
+    res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("jwt", "", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: -1,
+            sameSite: "lax",
+            path: "/"
+        })
+    );
+    res.sendStatus(204);
+}
+\end{lstlisting}
+
+Eine Anfrage zum Abmelden wird auf den Pfad \verb|auth/logout| gestellt unter der die Middleware aus Code Ausschnitt \ref{lst:handleLogout} durchlaufen wird. In dieser wird ein abgelaufener \glqq jwt\grqq  -Cookie gesetzt, der bewirkt, dass der bisherige \glqq jwt\grqq -Cookie gelöscht wird. Dann wird dem Frontend mit dem Code 204 geantwortet, welcher aussagt, dass die Anfrage erfolgreich bearbeitet wurde, jedoch keine Daten mit der Antwort gesendet werden\footnote{Quelle \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204} am 05. Mai 2023}.
+
+\subsubsection{Socket.io Authentifizierung}

@@ -73,9 +73,12 @@
 \contentsline {subsubsection}{\nonumberline Authentifizierung mittels \textit {SignUp}- oder \textit {Login}-Komponente}{56}{subsubsection*.111}%
 \contentsline {subsubsection}{\nonumberline Socket.io Verbindungsaufbau}{60}{subsubsection*.113}%
 \contentsline {section}{\numberline {4.2}Backend-Entwicklung}{61}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{61}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{63}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{63}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{63}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{63}{section.5.3}%
+\contentsline {subsection}{\numberline {4.2.1}Authentifizierung}{61}{subsection.4.2.1}%
+\contentsline {subsubsection}{\nonumberline Routing-Middlewares}{61}{subsubsection*.115}%
+\contentsline {subsubsection}{\nonumberline Abmelden}{65}{subsubsection*.117}%
+\contentsline {subsubsection}{\nonumberline Socket.io Authentifizierung}{65}{subsubsection*.119}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{67}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{67}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{67}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{67}{section.5.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

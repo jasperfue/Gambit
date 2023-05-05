@@ -19,10 +19,8 @@ import {
 import { SunIcon, MoonIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AccountContext } from "../Context/AccountContext.js";
 import {useNavigate} from "react-router-dom";
-import {SocketContext} from "../Context/SocketContext.js";
 
 const Navbar = () => {
-    const {socket} = useContext(SocketContext);
     const { colorMode, toggleColorMode } = useColorMode();
     const textColor = useColorModeValue("black", "white");
     const { user, setUser } = useContext(AccountContext);
@@ -45,19 +43,12 @@ const Navbar = () => {
     }, [navigate]);
 
     const logOut = useCallback(() => {
-        fetch("http://localhost:4000/auth/logout", {
-            method: "GET",
+        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             credentials: "include",
         })
             .then((response) => {
                 if (response.ok) {
-                    socket.emit('logout' ,({done}) => {
-                        if(done) {
-                            setUser({loggedIn: false});
-                        } else {
-                            console.log('logging out failed');
-                        }
-                    });
+                    setUser({loggedIn: false});
                 } else {
                     console.error("Error logging out");
                 }
@@ -65,7 +56,7 @@ const Navbar = () => {
             .catch((error) => {
                 console.error("Error logging out:", error);
             });
-    }, [socket, setUser]);
+    }, [setUser]);
 
     return (
         <Flex

@@ -6,10 +6,14 @@ require('dotenv').config();
 const cookie = require("cookie");
 
 const getJwtFromCookie = req => {
-    const jwtCookie = req.headers["cookie"] && cookie.parse(req.headers["cookie"])["jwt"];
-    return jwtCookie;
+    return req.headers["cookie"] && cookie.parse(req.headers["cookie"])["jwt"];
 };
 
+/**
+ * Handles user logout by clearing the JWT cookie.
+ * @param req - The request object.
+ * @param res- The response object.
+ */
 module.exports.handleLogout = (req, res) => {
     res.setHeader(
         "Set-Cookie",
@@ -25,23 +29,33 @@ module.exports.handleLogout = (req, res) => {
 }
 
 
-
+/**
+ * Handles login requests by checking for a JWT token in the cookies and verifying it.
+ * @param req - The incoming request object.
+ * @param res- The outgoing response object.
+ */
 module.exports.handleLogin = (req, res) => {
     const token = getJwtFromCookie(req);
     if(!token) {
         res.json({loggedIn: false});
-        return;
+    } else {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+            if (err) {
+                res.json({loggedIn: false});
+            } else {
+                res.json({loggedIn: true, username: decodedPayload.username});
+            }
+        });
     }
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
-        if(err) {
-            res.json({loggedIn: false});
-            return;
-        }
-        res.json({loggedIn: true, username: decodedPayload.username});
-        return;
-    })
 };
 
+/**
+ * Attempts to log in the user by checking the provided credentials against the database.
+ * If the credentials match, creates a JWT token and sets it as a cookie in the response.
+ * @param req - The incoming request object containing the user's login information.
+ * @param res - The outgoing response object.
+ * @returns {Promise<void>} - The Middleware
+ */
 module.exports.attemptLogin = async (req, res) => {
     const potentialLogin = await query(
         "SELECT id, username, password, userid FROM users u WHERE u.username=$1",
@@ -55,7 +69,6 @@ module.exports.attemptLogin = async (req, res) => {
         if (isSamePassword) {
             const user = {
                 username: req.body.username,
-                id: potentialLogin.rows[0].id,
                 userid: potentialLogin.rows[0].userid,
             }
             jwt.sign(
@@ -66,13 +79,12 @@ module.exports.attemptLogin = async (req, res) => {
                 if(err) {
                     console.log(err);
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
-                    return;
                 } else {
                     const jwtCookie = cookie.serialize("jwt", token, {
                         httpOnly: true,
-                        secure: process.env.NODE_ENV === "production", // Set the Secure flag only in production
+                        secure: process.env.NODE_ENV === "production", // Secure flag only in production
                         maxAge: 24 * 60 * 60, // 24 hours
-                        sameSite: "lax", // Optional: Set the SameSite attribute to 'lax' or 'strict' to prevent CSRF attacks
+                        sameSite: "lax",
                         path: "/"
                     });
                     res.setHeader("Set-Cookie", jwtCookie);
@@ -82,10 +94,8 @@ module.exports.attemptLogin = async (req, res) => {
             );
         } else {
             res.json({loggedIn: false, message: "Wrong username or password!"});
-            console.log("not good");
         }
     } else {
-        console.log("not good");
         res.json({loggedIn: false, message: "Wrong username or password!"});
     }
 };
@@ -105,7 +115,6 @@ module.exports.attemptSignUp = async (req, res) => {
         );
         const user = {
             username: req.body.username,
-            id: newUserQuery.rows[0].id,
             userid: newUserQuery.rows[0].userid,
         }
         jwt.sign(
@@ -116,7 +125,6 @@ module.exports.attemptSignUp = async (req, res) => {
                 if(err) {
                     console.log(err);
                     res.json({loggedIn: false, message: "Something went wrong, try again later"});
-                    return;
                 } else {
                     const jwtCookie = cookie.serialize("jwt", token, {
                         httpOnly: true,
