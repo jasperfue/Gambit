@@ -8,7 +8,7 @@ const UserContext = ({children}) => {
      * Set User with Cookie, if possible
      */
     useEffect(() => {
-        fetch("http://localhost:4000/auth/login", {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             credentials: "include",
         })
             .catch(err => {
@@ -17,6 +17,7 @@ const UserContext = ({children}) => {
             })
             .then(r => {
                 if (!r || !r.ok || r.status >= 400) {
+                    console.log(r);
                     return;
                 }
                 return r.json();

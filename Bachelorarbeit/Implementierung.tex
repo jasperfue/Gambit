@@ -2,8 +2,11 @@
 \chapter{Implementierung}
     \section{Frontend-Entwicklung}
     \subsection{Authentifizierung}
+Die verschiedenen Art und Weisen und Abläufe der Authentifizierung wurde im Kapitel \ref{sec:Autehtifizierung Frontend} behandelt.
+In diesem Kapitel werde ich näher auf die genaue Implementierung dieser Abläufe eingehen, erklären wie die Formik Formulare funktionieren und konkrete Code Ausschnitte vorstellen.
     \subsubsection{Erster Versuch der Authetifizierung mittels Cookie}
-Im Code Snippet \ref{lst:AccountContext} ist der Code der gesamten AccountContext Datei zu sehen, welche den \textit{UserContext} zur Verfügung stellt.
+    \label{sec:Cookie-auth}
+Im Code Ausschnitt \ref{lst:AccountContext} ist der Code der gesamten AccountContext Datei zu sehen, welche den \textit{UserContext} zur Verfügung stellt.
 
 \begin{lstlisting}[style=codeStyle, caption={Die AccountContext.js-Datei}, label={lst:AccountContext}]
 import React, {useEffect, useState, createContext} from "react";
@@ -17,7 +20,7 @@ const UserContext = ({children}) => {
      * Set User with Cookie, if possible
      */
     useEffect(() => {
-        fetch("http://localhost:4000/auth/login", {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             credentials: "include",
         })
             .catch(err => {
@@ -44,29 +47,29 @@ export default UserContext;
 \end{lstlisting}
 
 
-In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird in Abschnitt //REF erläutert. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur dieses eine mal ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann.
+In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird in Abschnitt //REF erläutert. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur dieses eine mal ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann. Der restliche Pfad ist als Umgebungsvariable gesetzt um den Pfad flexibel ändern zu können.
 
 Gibt es einen Fehler oder eine ungültige Antwort wird der Vorgang abgebrochen, ansonsten wird der \verb|user| mit den erhaltenen Daten gesetzt.
 
 Mögliche Optionen sind dabei:
 \begin{itemize}
-\item \verb|{loggedIn: false}|, falls kein oder ein ungültiger JWT-Token im Cookie war
-\item \verb|{loggedIn: true, username: Max}|, bei erfolgreichem Authentifizieren mit dem JWT-Token im Cookie. (Max ist hier nur ein Beispiel als username)
+\item \verb|{loggedIn: false}|, falls man nicht authentifiziert werden konnte.
+\item \verb|{loggedIn: true, username: Max}|, bei erfolgreichem Authentifizieren. (Max ist hier nur ein Beispiel als username)
 \end{itemize}
 Mehr Informationen benötigt der Benutzer aktuell nicht über sich selbst.
 
 \subsubsection{Authentifizierung mittels \textit{SignUp}- oder \textit{Login}-Komponente}
 Um sich mit Hilfe von den \textit{SignUp}- oder \textit{Login}-Komponenten anzumelden wird eine HTTP POST-Anfrage an den Server unter dem Pfad \verb|/auth/login| oder \verb|/auth/signup| gesendet.
 
-Die Funktion zum Senden der Login-Daten an den Server befindet sich in Code Snippet \ref{lst:submitLogin}.
+Die Funktion zum Senden der Login-Daten an den Server befindet sich in Code Ausschnitt \ref{lst:submitLogin}.
 
-\begin{lstlisting}[style=codeStyle, caption={Die AccountContext.js-Datei}, label={lst:submitLogin}]
+\begin{lstlisting}[style=codeStyle, caption={Die Funktion zum Senden der Benutzerdaten an das Backend}, label={lst:submitLogin}]
     /**
      * Submit the form and send it to the server. Set either the user data or an error message based on the response.
      * @type {function({username, password}, function(boolean): void): void}
      */
     const submitLogin = useCallback((values, setSubmitting) => {
-        fetch("http://localhost:4000/auth/login", {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -103,6 +106,153 @@ Die Funktion zum Senden der Login-Daten an den Server befindet sich in Code Snip
 Die Funktion zum Senden der Registrierungs-Daten sieht genau so aus, nur dass die Anfrage an einen anderen Pfad geht und es mehr Daten enthält, wie zum Beispiel die E-Mail.
 
 Initialisiert wird die Funktion mittels der \textit{useCallback}-Hook um unnötige Neuerstellungen zu vermeiden.Der \glqq Content-Type\grqq{ }hilft dem Server zu erkennen um was für eine Art von Daten es sich handelt, während im Body die angegebenen Anmeldedaten als String verpackt werden. Falls der Server mit einem Fehler Antwortet, wird dieser in dem State \verb|loginError| erfasst. Ansonsten wird der Benutzerstatus gesetzt und es wird auf die \textit{Home}-Komponente navigiert.
+
+Das Formular wird mittels Formik reaktiv und nutzt Yup Schemata zum überprüfen der eingegebenen Werte.
+
+\begin{lstlisting}[style=codeStyle, caption={Ein Ausschnitt der \textit{Login}-Komponente mit Formik}, label={lst:Login_Formik}]
+...
+<Formik
+    initialValues={{
+        username: "",
+        password: "",
+    }}
+    validationSchema={LoginSchema}
+    validateOnChange={true}
+    onSubmit={(values, { setSubmitting }) => {
+        submitLogin(values, setSubmitting);
+    }}
+>
+    {({ isValid, isSubmitting }) => (
+        <Form style={{ width: "100%" }}>
+        		...
+            <Field name="password">
+               {({ field, form }) => (
+                  <FormControl isInvalid={form.errors.password && form.touched.password}>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <InputGroup>
+                           <Input {...field} 
+                           	id="password" 
+                           	type={showPassword ? 'text' : 'password'} 
+                           	autoComplete="current-password" />
+                           <InputRightElement>
+                               <IconButton
+                                   icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                   onClick={handlePasswordClick}
+                                   variant="ghost"
+                                   _hover={{ bg: hover }}
+                                   aria-label="Toggle password visibility"
+                               />
+                           </InputRightElement>
+                       </InputGroup>
+                       <FormErrorMessage>{form.errors.password}
+                       </FormErrorMessage>
+                   </FormControl>
+               )}
+            </Field>
+            ...
+            <Button
+                type="submit"
+                isDisabled={!isValid || isSubmitting}
+                ...
+            >
+               Log In
+            </Button>
+\end{lstlisting}
+
+In diesem Code Ausschnitt ist das von Formik verwaltete Formular der \textit{Login}-Komponente zu erkennen (die Komponente ist in Abbildung \ref{fig:Login} dargestellt). Als Schema für dieses Formular wird das Yup Schema \verb|LoginSchema| verwendet (siehe Code Ausschnitt \ref{lst:Yup-Login}) und es wird definiert, dass bei jeder neuen Änderung der Eingabefelder des Formulars, die Eingaben auf das Schema getestet werden sollen.
+
+\verb|isValid| und \verb|isSubmitting| (Zeile 13) sind props, die man von Formik zur Verfügung gestellt bekommt und die angeben, ob die Eingabefelder mit dem Schema übereinstimmen und ob gerade noch auf die Antwort des Servers gewartet wird. Dies ist auch der Grund, warum wir \verb|setSubmitting| der \verb|submitLogin| Funktion übergeben. Wird noch auf die Antwort des Servers gewartet oder das Formular stimmt nicht mit dem Schema überein, wird der Button deaktiviert, sodass man ihn nicht mehr klicken kann zum Absenden.
+
+Als Eingabefelder, gibt es  den Benutzernamen und das Passwort. Aus Demonstrationszwecken habe ich in den Code Ausschnitt \ref{lst:Login_Formik} nur das Passwort eingefügt.
+
+Die Props \verb|field| und \verb|form| versorgen das Feld mit Informationen und Funktionen für das Feld und über das gesamte Formular. So wird in Zeile 21 das Input Feld mit dem \verb|field| prop verknüpft, welches Attribute wie die Funktion \verb|field.onChange| oder \verb|field.value| besitzt. \verb|form| wird genutzt um Beispielsweise wie in Zeile 35 ein Fehler beim Passwort anzuzeigen, falls dies nicht mit dem Schema übereinstimmt.
+
+Gestaltet wird das Formular mit Komponenten von Chakra UI, welche viele hilfreiche Komponenten wie \verb|FormErrorMessage| oder \verb|IconButton| bereitstellt. Mit Attributen wie \verb|_hover| oder \verb|variant| können diese Komponenten noch weiter individualisiert werden.
+
+Die \textit{Login}-Komponente besitzt den boolean State \verb|showPassword|, welcher angibt, ob das Passwort zu sehen sein soll oder nicht (Zeile 23). Bei einem Klick auf das Icon mit dem Auge wird die Funktion \verb|handlePasswordClick| ausgeführt, welche den \verb|showPassword| State negiert.
+
+Die Formulierung von Schemata mittels Yup ist relativ simpel.
+
+\begin{lstlisting}[style=codeStyle, caption={Yup Schma für das Anmelden}, label={lst:Yup-Login}]
+const LoginSchema = Yup.object().shape({
+    username: Yup.string()
+        .min(3, 'Username has to be at least 3 characters long')
+        .max(20, 'Username cannot be longer than 20 characters')
+        .test('not_guest', 'Username cannot start with "guest"', (value) => {
+            return !value.startsWith('guest');
+        })
+        .required('Username is a required field'),
+    password: Yup.string()
+        .min(8, 'Password has to be at least 8 characters long')
+        .minLowercase(1, 'At least one character hat to be in lower case')
+        .minUppercase(1, 'At least one character has to be in upper case')
+        .minNumbers(1, 'At least on character has to be a number')
+        .minSymbols(1, 'At least one character has to be a symbol')
+        .minRepeating(3, 'It is only allowed to have at most 3 repeating characters')
+        .required('Password is a required field'),
+});
+\end{lstlisting}
+
+In diesem Beispiel ist das \verb|LoginSchema| zu sehen, welches für die Validierung der Eingabefelder im Anmeldeformular aus Code Ausschnitt \ref{lst:Login_Formik} verwendet wird. Yup ermöglicht es bestimmte Restriktionen an Eingabefelder zu stellen und dabei direkt die Fehlernachricht zu definieren, falls diese Restriktion nicht erfüllt ist. Selbstverständlich sind die Restriktionen für das Registrieren die gleichen, wobei das Registrierungsformular noch ein paar weitere Felder hat.
+
+Ich verwende übliche Restriktionen an Benutzernamen und Passwörter, sodass das Passwort mindestens eine Nummer, ein Symbol, einen Großbuchstaben, ... beinhalten muss. Eine Sonderheit ist, dass der Benutzername nicht mit \glqq guest\grqq{ }beginnen darf, da ich unangemeldete Benutzer bei Schachpartien einen solchen Benutzernamen gebe. 
+
+
+\subsubsection{Socket.io Verbindungsaufbau}
+Immer sobald sich der Benutzerzustand ändert wird eine Socket.io Verbindung hergestellt und den anderen Komponenten zur Verfügung gestellt. Dies hat den Nutzen, dass beim Verbindungsaufbau immer auch die socket auf dem Server authentifiziert werden muss.
+
+Dafür wird die \textit{SocketContext}-Komponente verwendet:
+
+\begin{lstlisting}[style=codeStyle, caption={Die Datei \textit{SocketContext.js}}, label={lst:SocketContext}]
+import {io} from "socket.io-client";
+import React, {useContext, useEffect, useState, createContext} from "react";
+import {AccountContext} from "./AccountContext.js";
+
+export const SocketContext = createContext();
+
+function SocketConnectionContext({children}) {
+    const [socket, setSocket] = useState(null);
+    const {user} = useContext(AccountContext);
+
+    /**
+     * New socket connection every time the user changes.
+     */
+    useEffect(() => {
+        if(user.loggedIn !== null) {
+            setSocket(new io(process.env.REACT_APP_SOCKET_URL, {
+                withCredentials: true
+            }));
+        }
+    }, [user]);
+
+    return (
+        <SocketContext.Provider value={{socket}}>
+            {children}
+        </SocketContext.Provider>
+    );
+}
+
+export default SocketConnectionContext;
+\end{lstlisting}
+
+Bei der Verbindung wird darauf geachtet, dass die Credentials mitgesendet werden, also beispielsweise auch Cookies. Des weiteren wird erst eine Verbindung aufgebaut, sobald die Antwort des Servers auf die Authentifizierungs-Anfrage mittels Cookie (siehe Abschnitt \ref{sec:Cookie-auth}) empfangen wurde und dadurch das \verb|user.loggedIn| Attribut nicht mehr \verb|null| ist. Dies dient dazu einen unnötigen Verbindungsaufbau zu unterlassen, da nach der Antwort des Servers ohnehin eine neue Verbindung aufgebaut werden würde.
+
+Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Verbindung hergestellt wurde, werden die verschiedenen Elemente und Routen in der \verb|Views|-Komponente definiert. So lange wird ein Lade-Bildschirm gezeigt (siehe Code Ausschnitt \ref{lst:Views-user-socket}).
+
+\begin{lstlisting}[style=codeStyle, caption={Ausschnitt der \textit{Views}-Komponente}, label={lst:Views-user-socket}]
+		...
+        {user.loggedIn === null || socket === null ?
+                <Flex align="center" justify="center" direction="column" height="80vh">
+                    <Heading as='h2' size='lg'>Loading...</Heading>
+                    <Spinner size='xl' color="purple.500" marginTop="4"/>
+                </Flex>
+
+                :
+                <>
+                    <Navbar/>
+                    ...
+\end{lstlisting}
+
 
     \section{Backend-Entwicklung}
     \section{Datenbank-Integration}

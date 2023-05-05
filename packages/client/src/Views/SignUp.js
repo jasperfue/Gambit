@@ -14,10 +14,8 @@ import {AccountContext} from "../Context/AccountContext.js";
 import {useNavigate} from "react-router";
 import {SignUpSchema} from "@gambit/common";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
-import {SocketContext} from "../Context/SocketContext.js";
 
-const SignUp = (props) => {
-    const {socket} = useContext(SocketContext);
+const SignUp = () => {
     const {setUser} = useContext(AccountContext);
     const [signUpError, setSignUpError] = useState(null);
     const contrast = useColorModeValue("purple.500", "white");
@@ -34,12 +32,8 @@ const SignUp = (props) => {
         navigate(newMode);
     }, [navigate]);
 
-    useEffect(() => {
-        socket.connect();
-    }, [socket]);
-
     const submitSignUp = useCallback((values) => {
-        fetch("http://localhost:4000/auth/signup", {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
             method: "POST",
             credentials: "include",
             headers: {

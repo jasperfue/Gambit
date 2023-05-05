@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect, useCallback} from "react";
-import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
+import {Formik, Form, Field} from 'formik';
 import {AccountContext} from "../Context/AccountContext.js";
 import {LoginSchema, SignUpSchema} from "@gambit/common"
 import {useNavigate} from 'react-router-dom';
@@ -20,7 +20,6 @@ import {
     useColorModeValue, useColorMode,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import {SocketContext} from "../Context/SocketContext.js";
 
 const Login = () => {
     const {setUser} = useContext(AccountContext);
@@ -34,7 +33,7 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const handleClick = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
+    const handlePasswordClick = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
 
 
     const handleModeChange = useCallback((newMode) => {
@@ -47,7 +46,7 @@ const Login = () => {
      * @type {function({username, password}, function(boolean): void): void}
      */
     const submitLogin = useCallback((values, setSubmitting) => {
-        fetch("http://localhost:4000/auth/login", {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -117,7 +116,7 @@ const Login = () => {
                                             <InputRightElement>
                                                 <IconButton
                                                     icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                                                    onClick={handleClick}
+                                                    onClick={handlePasswordClick}
                                                     variant="ghost"
                                                     _hover={{ bg: hover }}
                                                     aria-label="Toggle password visibility"

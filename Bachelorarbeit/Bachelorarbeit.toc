@@ -15,13 +15,13 @@
 \contentsline {subsection}{\numberline {2.2.3}React}{11}{subsection.2.2.3}%
 \contentsline {subsubsection}{\nonumberline React}{11}{subsubsection*.18}%
 \contentsline {subsubsection}{\nonumberline React Router}{14}{subsubsection*.20}%
-\contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{16}{subsection.2.2.4}%
-\contentsline {subsubsection}{\nonumberline PostgreSQL}{16}{subsubsection*.22}%
+\contentsline {subsection}{\numberline {2.2.4}PostgreSQL und Redis}{15}{subsection.2.2.4}%
+\contentsline {subsubsection}{\nonumberline PostgreSQL}{15}{subsubsection*.22}%
 \contentsline {subsubsection}{\nonumberline Redis}{17}{subsubsection*.24}%
 \contentsline {subsection}{\numberline {2.2.5}Weitere verwendete Bibliotheken}{17}{subsection.2.2.5}%
 \contentsline {subsubsection}{\nonumberline JWT}{17}{subsubsection*.26}%
 \contentsline {subsubsection}{\nonumberline Chakra UI}{17}{subsubsection*.29}%
-\contentsline {subsubsection}{\nonumberline Formik und Yup}{19}{subsubsection*.32}%
+\contentsline {subsubsection}{\nonumberline Formik und Yup}{18}{subsubsection*.32}%
 \contentsline {subsubsection}{\nonumberline chess.js}{19}{subsubsection*.34}%
 \contentsline {subsubsection}{\nonumberline chessground}{19}{subsubsection*.36}%
 \contentsline {subsubsection}{\nonumberline bcrypt}{19}{subsubsection*.38}%
@@ -71,10 +71,11 @@
 \contentsline {subsection}{\numberline {4.1.1}Authentifizierung}{55}{subsection.4.1.1}%
 \contentsline {subsubsection}{\nonumberline Erster Versuch der Authetifizierung mittels Cookie}{55}{subsubsection*.109}%
 \contentsline {subsubsection}{\nonumberline Authentifizierung mittels \textit {SignUp}- oder \textit {Login}-Komponente}{56}{subsubsection*.111}%
-\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{57}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Datenbank-Integration}{57}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{59}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{59}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{59}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{59}{section.5.3}%
+\contentsline {subsubsection}{\nonumberline Socket.io Verbindungsaufbau}{60}{subsubsection*.113}%
+\contentsline {section}{\numberline {4.2}Backend-Entwicklung}{61}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Datenbank-Integration}{61}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{63}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{63}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{63}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{63}{section.5.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
