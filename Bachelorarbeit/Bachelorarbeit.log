@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  6 MAY 2023 16:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  6 MAY 2023 18:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1984,11 +1984,12 @@ Overfull \hbox (4.35622pt too wide) in paragraph at lines 163--164
 e-te For-mu-lar der \OT1/cmr/m/it/10.95 Lo-gin\OT1/cmr/m/n/10.95 -Komponente
  []
 
-[58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69]) [70] [71]
+[58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69] [70] [71]) [72]
+[73]
 chapter 5.
-[72
+[74
 
-] (Bachelorarbeit.lof [73
+] (Bachelorarbeit.lof [75
 
 ])
 \tf@lof=\write6
@@ -1996,7 +1997,7 @@ chapter 5.
 
 
 No file Bachelorarbeit.bbl.
-[74] (Bachelorarbeit.aux)
+[76] (Bachelorarbeit.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2007,13 +2008,13 @@ Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 41144 strings out of 478338
- 880770 string characters out of 2836700
- 1542749 words of memory out of 3000000
- 58072 multiletter control sequences out of 15000+600000
+ 41230 strings out of 478338
+ 882120 string characters out of 2836700
+ 1542887 words of memory out of 3000000
+ 58092 multiletter control sequences out of 15000+600000
  478589 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,24n,106p,10638b,2303s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 108i,24n,106p,10638b,2299s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1095.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\tctt0900.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
@@ -2033,9 +2034,9 @@ ype1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
 TeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppData/Local/Pro
 grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/AppData/
 Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Bachelorarbeit.pdf (85 pages, 1932793 bytes).
+Output written on Bachelorarbeit.pdf (87 pages, 1950473 bytes).
 PDF statistics:
- 1903 PDF objects out of 2073 (max. 8388607)
- 860 named destinations out of 1000 (max. 500000)
+ 1990 PDF objects out of 2073 (max. 8388607)
+ 926 named destinations out of 1000 (max. 500000)
  597 words of extra memory for PDF output out of 10000 (max. 10000000)
 

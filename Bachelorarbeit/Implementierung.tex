@@ -546,6 +546,7 @@ Die \verb|onDisconnect| Methode aus Code Ausschnitt \ref{lst:onDisconnect} wird 
 Das Schachspiel verwaltet die Datei \verb|socketChessController.js|, welche eine der Funktionen zur Listener Initialisierung bereitstellt (siehe \verb|initilializeChessListeners| aus Code ausschnitt \ref{lst:index.js-socket}), wobei \verb|ServerChessClock.js| die Schachuhren bereitstellt.
 
 \subsection{Das Spiel}
+In diesem Abschnitt werde ich einige Aspekte der Implementierung des Schachspiels mit Code Beispielen erläutern. Funktionen wie Aufgeben, das Ende der Partie oder Chat Nachrichten werden im Abschnitt \ref{sec:Schach-Backend} erläutert und zeichnen sich durch geringere Komplexität aus, weshalb sie in diesem Abschnitt nicht nochmals behandelt werden.
 \subsubsection{Initialisierung eines Spiels}
 Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird.
 
@@ -601,4 +602,79 @@ Des weiteren wird ein ServerChessClock Objekt erstellt und in \verb|currentChess
 Eventlistener für die Events der ServerChessClock werden definiert.
 Da die Schachuhren und das Schachspiel möglichst Modular gehalten werden, wird an das Frontend in diesen Listenern immer zwei Events gesendet: \verb|time_over| und \verb|cancel_game| für das Schachspiel und \verb|stop_clocks| für die Schachuhren im Frontend. Bei jeder Möglichkeit wie eine Schachpartie endet wird definiert, dass die Funktion \verb|endGame| ausgeführt werden soll, so auch bei diesen zwei Listenern.
 
+\subsubsection{Neue Züge}
+Beim Eingang eines neuen Zugs mittels des \verb|new_move| Events wird die Methode \verb|newMove| ausgeführt.
+\begin{lstlisting}[style=codeStyle, caption={newMove Methode die beim Eingang eines neuen Zugs aufgerufen wird}, label={lst:newMove}]
+//Listener:
+client.on('new_move', newMove(client, io));
+/**
+ * Handles a new move in a chess game, updates the game state, and communicates
+ * the move to the opponent. Also handles game-over scenarios such as checkmate
+ * and stalemate.
+ *
+ * @param socket - The socket of the player making the move.
+ * @param io - The socket.io instance.
+ * @returns {function(string, Object, Object, function): Promise<void>} - An async function that takes the roomId, player, move, and a callback as arguments.
+ */
+const newMove = (socket, io) => async (roomId, player, move, cb) => {
+    if(!currentChessClocks[roomId]) {
+        cb({done: false, errMsg: "Game does not exist"});
+        return;
+    }
+    const {chessClock} = currentChessClocks[roomId];
+    const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
+        return ChessFile.Chess();
+    });
+    try {
+        chessInstance.loadPgn(await getGame(roomId, "pgn").then(pgn => {
+            if(!pgn) {
+                cb({done: false, errMsg: "Game does not exist"});
+                return;
+            }
+            return pgn;
+        }));
+        chessInstance.move(move)
+    } catch(error) {
+        cb({done: false, errMsg: error});
+        return;
+    }
+
+    socket.to(roomId).emit('opponent_move', move);
+    if(chessInstance.isGameOver()) {
+        if (chessInstance.isCheckmate()) {
+            io.to(roomId).emit('checkmate', socket.user.username);
+        } else {
+            io.to(roomId).emit('draw');
+        }
+        io.to(roomId).emit('stop_clocks');
+        chessClock.ChessClockEvents.emit('stop');
+        endGame(roomId);
+        cb({done: true});
+        return;
+    }
+        chessClock.ChessClockEvents.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
+            io.to(roomId).emit('updated_time', remainingTimeWhite, remainingTimeBlack, turn);
+        });
+
+    if (chessInstance.history().length === 1) {
+        chessClock.startStartingTimer('black');
+        io.to(roomId).emit('stop_starting_time_white');
+    } else if (chessInstance.history().length === 2) {
+        chessClock.startTimer('white');
+        io.to(roomId).emit('stop_starting_time_black');
+    }
+    //Store move in Redis
+    newChessMove(chessInstance.pgn(), roomId).then(r => cb({done: true}));
+}
+\end{lstlisting}
+
+Die Methode holt erst das ServerChessClock Objekt aus dem \verb|currentChessClocks| Array und importiert die aktuelle PGN-Notation des Schachspiels aus der Redis Datenbank in ein chess.js Objekt und macht den Zug darauf. Anschließend wird der Zug an alle anderen im Raum gesendet.
+
+Handelt es sich nach dem Zug um ein Patt oder ein Schachmatt werden die entsprechenden Events an die Schachpartie im Frontend und die Uhr im Front- und Backend gesendet und die Partie wird wieder mit \verb|endGame| beendet.
+
+Ansonsten wird der Schachuhr das Event \verb|toggle| gesendet, welche daraufhin mit der Callback Funktion die aktuellen Zeiten der Spieler durchgibt. Falls es sich nicht um eine reguläre Zeit, sondern um eine Startzeit handelt, wird die Callback Funktion nicht aufgerufen, da die reguläre Zeit noch gar nicht abgelaufen ist. Diese werden anschließend an das Frontend mit \verb|updated_time| gesendet.
+
+Ist der Zug der erst oder zweite Zug der Partie muss die Startzeit von Schwarz, beziehungsweise die reguläre Zeit von weiß sowohl im Frontend, als auch im Backend anfangen zu laufen. Dem Frontend werden dafür die entsprechenden Events gesendet, während die Zeiten in der ServerChessClock durch Funktionsaufrufe anfangen zu laufen.
+
+Als letztes wird der Zug in der Redis Datenbank dokumentiert.
 \subsection{Die Uhr}

@@ -64,8 +64,7 @@ const ChessClock = (props) => {
     }, [currentTurn]);
 
     useEffect(() => {
-        socket.on('updatedTime', (timeWhite, timeBlack, turn) => {
-            console.log('updatedTime');
+        socket.on('updated_time', (timeWhite, timeBlack, turn) => {
             stopClocks();
             updateTime(timeWhite, timeBlack);
             setCurrentTurn(turn);
@@ -83,7 +82,7 @@ const ChessClock = (props) => {
             setCurrentTurn('off');
         });
         return () => {
-            socket.off('updatedTime');
+            socket.off('updated_time');
             socket.off('startClock');
             socket.off('start_starting_Time_White');
             socket.off('start_starting_Time_Black');

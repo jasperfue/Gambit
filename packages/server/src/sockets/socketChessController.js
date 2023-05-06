@@ -24,10 +24,10 @@ console.log('initialized Current Games');
 
 
 module.exports.initializeChessListeners = (client, io) => {
-    client.on('newMove', newMove(client, io));
+    client.on('new_move', newMove(client, io));
     client.on('leave_queue', leaveQueue(client));
     client.on('resign', resign(io));
-    client.on('get_game_data', (roomId, cb) => {
+    client.on('get_game_data', (roomId, guestName, cb) => {
         if (!currentChessClocks.hasOwnProperty(roomId)) {
             cb({done: false, errMsg: "This Game does not exist"});
             console.log('kein Objekt in currentChessClocks')
@@ -35,6 +35,9 @@ module.exports.initializeChessListeners = (client, io) => {
         }
         if (!client.rooms.has(roomId)) {
             client.join(roomId);
+        }
+        if(guestName) {
+            client.user = {username: guestName}
         }
         const chessClock = currentChessClocks[roomId].chessClock;
         getGame(roomId)
@@ -114,16 +117,21 @@ const createChessGame = async (io, username1, username2, time) => {
 
 module.exports.createChessGame = createChessGame;
 
-
+/**
+ *
+ * @param io
+ * @returns {function(string, string): (undefined)}
+ */
 const resign = (io) => (color, roomId) => {
     if (!currentChessClocks[roomId]) {
         console.log("ERROR! CurrentChessClock[roomId] doesn't exist");
         return;
+    } else {
+        const {chessClock} = currentChessClocks[roomId];
+        chessClock.ChessClockEvents.emit('stop');
     }
-    const {chessClock} = currentChessClocks[roomId];
     io.to(roomId).emit('resigned', color);
-    io.to(roomId).emit('Stop_Clocks');
-    chessClock.ChessClockAPI.emit('stop');
+    io.to(roomId).emit('stop_clocks');
     endGame(roomId);
 }
 
@@ -139,6 +147,15 @@ function isGuest(username) {
     return username.startsWith('guest');
 }
 
+/**
+ * Handles a new move in a chess game, updates the game state, and communicates
+ * the move to the opponent. Also handles game-over scenarios such as checkmate
+ * and stalemate.
+ *
+ * @param socket - The socket of the player making the move.
+ * @param io - The socket.io instance.
+ * @returns {function(string, Object, Object, function): Promise<void>} - An async function that takes the roomId, player, move, and a callback as arguments.
+ */
 const newMove = (socket, io) => async (roomId, player, move, cb) => {
     if(!currentChessClocks[roomId]) {
         cb({done: false, errMsg: "Game does not exist"});
@@ -162,24 +179,21 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
         return;
     }
 
-    socket.to(roomId).emit('opponentMove', move);
+    socket.to(roomId).emit('opponent_move', move);
     if(chessInstance.isGameOver()) {
         if (chessInstance.isCheckmate()) {
-            io.to(roomId).emit('Checkmate', socket.user.username);
-            io.to(roomId).emit('Stop_Clocks');
-            chessClock.ChessClockAPI.emit('stop');
-            endGame(roomId);
+            io.to(roomId).emit('checkmate', socket.user.username);
         } else {
-            io.to(roomId).emit('Stalemate');
-            io.to(roomId).emit('Stop_Clocks');
-            chessClock.ChessClockAPI.emit('stop');
-            endGame(roomId);
+            io.to(roomId).emit('draw');
         }
+        io.to(roomId).emit('stop_clocks');
+        chessClock.ChessClockEvents.emit('stop');
+        endGame(roomId);
         cb({done: true});
         return;
     }
-        chessClock.ChessClockAPI.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
-            io.to(roomId).emit('updatedTime', remainingTimeWhite, remainingTimeBlack, turn);
+        chessClock.ChessClockEvents.emit('toggle', ({remainingTimeWhite, remainingTimeBlack, turn}) => {
+            io.to(roomId).emit('updated_time', remainingTimeWhite, remainingTimeBlack, turn);
         });
 
     if (chessInstance.history().length === 1) {
@@ -189,6 +203,7 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
         chessClock.startTimer('white');
         io.to(roomId).emit('stop_starting_time_black');
     }
+    //Store move in Redis
     newChessMove(chessInstance.pgn(), roomId).then(r => cb({done: true}));
 }
 

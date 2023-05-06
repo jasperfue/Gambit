@@ -45,7 +45,7 @@ const ChessGame = () => {
 
 
     const getGameData = useCallback(() => {
-        socket.emit('get_game_data', roomId, ({ done, data, errMsg }) => {
+        socket.emit('get_game_data', roomId, location?.state?.username, ({ done, data, errMsg }) => {
             if (done) {
                 setCurrentChessClockState(data.currentState);
                 setWhitePlayer(data.whitePlayer);
@@ -122,7 +122,7 @@ const ChessGame = () => {
                 }
             });
             refreshBoard(ground, chess);
-            socket.on('opponentMove', (move) => {
+            socket.on('opponent_move', (move) => {
                 if(move.flags.includes('p')) {
                     onOpponentPromotion(move);
                     return;
@@ -167,7 +167,7 @@ const ChessGame = () => {
                 }
             });
 
-            socket.on('Checkmate', (winner) => {
+            socket.on('checkmate', (winner) => {
                 ground.set({viewOnly: true});
                 if(orientation === 'white') {
                     if(winner === whitePlayer) {
@@ -210,9 +210,9 @@ const ChessGame = () => {
                 }
             });
 
-            socket.on('Stalemate', () => {
+            socket.on('draw', () => {
                 toast({
-                    title: 'Stalemate',
+                    title: 'Draw',
                     status: 'warning',
                     position: 'top',
                     isClosable: true
@@ -242,9 +242,9 @@ const ChessGame = () => {
 
         }
         return () => {
-            socket.off('opponentMove');
+            socket.off('opponent_move');
             socket.off('Checkmate');
-            socket.off('Stalemate');
+            socket.off('draw');
             socket.off('time_over');
             socket.off('cancel_game');
             socket.off('resigned');
@@ -265,7 +265,7 @@ const ChessGame = () => {
                 player = blackPlayer;
             }
             var move = chess.move({from: orig, to: dest});
-            socket.emit('newMove',roomId, player, move, ({done, errMsg}) => {
+            socket.emit('new_move',roomId, player, move, ({done, errMsg}) => {
                 if(!done) {
                     console.log(errMsg);
                 }
@@ -286,7 +286,7 @@ const ChessGame = () => {
                 color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
                 promoted: true
             });
-            socket.emit('newMove', move, ({done, errMsg}) => {
+            socket.emit('new_move', move, ({done, errMsg}) => {
                 if(done) {
                     console.log('promotion successful');
                 } else {

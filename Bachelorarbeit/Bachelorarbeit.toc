@@ -80,9 +80,10 @@
 \contentsline {section}{\numberline {4.3}Das Schachspiel}{68}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Das Spiel}{68}{subsection.4.3.1}%
 \contentsline {subsubsection}{\nonumberline Initialisierung eines Spiels}{68}{subsubsection*.121}%
-\contentsline {subsection}{\numberline {4.3.2}Die Uhr}{70}{subsection.4.3.2}%
-\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{72}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{72}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitationen}{72}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{72}{section.5.3}%
+\contentsline {subsubsection}{\nonumberline Neue Züge}{70}{subsubsection*.123}%
+\contentsline {subsection}{\numberline {4.3.2}Die Uhr}{72}{subsection.4.3.2}%
+\contentsline {chapter}{\numberline {5}Fazit und Ausblick}{74}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zusammenfassung der Ergebnisse}{74}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitationen}{74}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Potenzielle Erweiterungen und Weiterentwicklung}{74}{section.5.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
