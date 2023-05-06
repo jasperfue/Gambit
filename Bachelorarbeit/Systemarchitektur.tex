@@ -290,6 +290,8 @@ Dies wird in den \verb|user|-State gesetzt.
 Wurde der \verb|user| gesetzt, wird im \textit{SocketContext} eine socket Verbindung hergestellt. Solange eine der beiden States der Kontexte nicht initialisiert wurde, wird ein Lade-Bildschirm gezeigt, um fehlerhafte Darstellungen oder Funktionen zu vermeiden.
 
 Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}). Auch hier wird nach dem Ändern des \verb|user| States in der \textit{UserContext}-Komponente eine neue socket Verbindung in \textit{SocketContext} hergestellt.
+
+Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} erläutert.
         
         \subsection{Das Schachspiel}
         \label{sec:Schachspiel}
@@ -528,7 +530,7 @@ Die Ordnerstruktur des Backends (Abbildung \ref{fig:backend_dirtree}) ist auf di
 \subsection{Authentifizierung}
 \label{sec:Authentifizierung Backend}
 Die Authentifizierung eines Benutzers läuft über HTTP Anfragen an die Web-API und einer PostgreSQL Datenbank.
-Nachdem die erste Authentifizierung stattgefunden hat wird die Socket.io Verbindung des Clients hergestellt, in der der Benutzer nochmals Authentifiziert wird.
+Nachdem die erste Authentifizierung stattgefunden hat wird die Socket.io Verbindung des Clients hergestellt, in der die Socket Verbindung nochmals Authentifiziert wird.
 Es gibt drei verschiedene Möglichkeiten wie ein Benutzer authentifiziert werden kann: Durch das Anmelden, durch das Registrieren oder durch das Lesen des Cookies beim Aufruf der Seite vom Client.
 
 Die Authentifizierung im Frontend abläuft wird in Abschnitt \ref{sec:Autehtifizierung Frontend} erläutert.
@@ -559,7 +561,7 @@ Wenn der Benutzer keinen gültigen JWT-Token hat, werden trotzdem alle Middlewar
 Als zweite Middleware wird der Benutzer mit Daten versorgt, er tritt dem Raum seiner userid bei und wird als online vermerkt.
 Der beitritt in den Raum seiner userid dient dazu, dass man anschließend nur diese ID braucht um ein Event an den Benutzer zu senden. Dabei wird in Redis \verb|user:username| mit seinen Informationen und \verb|connected| auf \verb|true| gesetzt. Anschließend werden alle Freunde des Benutzers aus der Redis Datenbank geholt und an alle das Event \verb|connected| gesendet, das signalisiert, dass der Benutzer online ist.
 
-Beim Schließen oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
+Beim Schließen der Anwendung oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
 
 Beim Authentifizieren werden auch Informationen bezüglich aktiver Spiele und Freundschaftsanfragen aus Redis abgerufen und mittels den Events \verb|friends|, \verb|friend_requests| und \verb|active_games| werden die Informationen über Freunde, Freundschaftsanfragen und aktive Partien an den Benutzer gesendet.
 
@@ -606,6 +608,7 @@ Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelös
 In diesem Abschnitt erkläre ich, was genau beim Finden eines Gegners, Initialisieren, bei neuen Zügen und neuen Nachrichten im Chat eines Schachspiels passiert.
 
 \subsubsection{Finden eines Gegners}
+\label{sec:find_game}
 Es gibt 3 verschiedene Arten ein Schachspiel zu starten: Ein angemeldeter Benutzer sucht einen zufälligen Gegner, ein angemeldeter Benutzer spielt ein Spiel gegen einen Freund und ein unangemeldeter Benutzer spielt gegen einen zufälligen Gegner.
 
 Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|find_game| mit den Benutzerdaten und der gewählten Zeitkonfiguration vom Frontend gesendet. Ein Sequenzdiagramm des starten eines Spiels mit zufälligem Gegner befindet sich in Abbildung \ref{fig:sequence_chess_start}. Dies beinhaltet folgende Schritte:

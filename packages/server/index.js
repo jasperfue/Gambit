@@ -11,10 +11,7 @@ const {initializeChessListeners} = require("./src/sockets/socketChessController.
 var ON_DEATH = require('death')({uncaughtException: true, debug: true}); //this is intentionally ugly
 
 
-const corsConfig = {
-    origin: 'http://localhost:3000',
-    credentials: true,
-}
+
 
 
 ON_DEATH(function(signal, err) {
@@ -25,6 +22,10 @@ ON_DEATH(function(signal, err) {
     //await onShutdown();
 });
 
+const corsConfig = {
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+}
 const server = require('http').createServer(app);
 const io = new Server(server, {
     cors: corsConfig

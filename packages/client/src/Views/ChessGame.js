@@ -54,9 +54,9 @@ const ChessGame = () => {
                 chess.loadPgn(data.pgn);
                 setOldMessages(JSON.parse(data.chat));
                 if (data.whitePlayer !== user.username && data.blackPlayer !== user.username) {
-                    if (location.state?.client === data.whitePlayer) {
+                    if (location.state?.username === data.whitePlayer) {
                         setOrientation("white");
-                    } else if (location.state?.client === data.blackPlayer) {
+                    } else if (location.state?.username === data.blackPlayer) {
                         setOrientation("black");
                     } else {
                         setOrientation("white");
@@ -135,7 +135,7 @@ const ChessGame = () => {
                 refreshBoard(ground, chess);
                 ground.playPremove();
             });
-            socket.on('Cancel_Game', () => {
+            socket.on('cancel_game', () => {
                 ground.set({viewOnly: true});
                 toast({
                     title: "Canceled Game",
@@ -146,7 +146,7 @@ const ChessGame = () => {
                 });
             });
 
-            socket.on('Time_Over', (color) => {
+            socket.on('time_over', (color) => {
                 ground.set({viewOnly: true});
                 if(color === orientation) {
                     toast({
@@ -245,8 +245,8 @@ const ChessGame = () => {
             socket.off('opponentMove');
             socket.off('Checkmate');
             socket.off('Stalemate');
-            socket.off('Time_Over');
-            socket.off('Cancel_Game');
+            socket.off('time_over');
+            socket.off('cancel_game');
             socket.off('resigned');
         }
     }, [socket, ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);

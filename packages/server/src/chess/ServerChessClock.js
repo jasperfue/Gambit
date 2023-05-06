@@ -5,7 +5,7 @@ function ServerChessClock(time) {
     this.currentMode = 'off';
     this.remainingTimeWhite = {minutes: time.minutes, seconds: 0};
     this.remainingTimeBlack = {minutes: time.minutes, seconds: 0};
-    this.ChessClockAPI = new EventEmitter();
+    this.ChessClockEvents = new EventEmitter();
     this.startingTimeWhite = {seconds: 0};
     this.startingTimeBlack = {seconds: 0};
     switch (time.type) {
@@ -37,10 +37,10 @@ function ServerChessClock(time) {
         }
     }
     const timer = setInterval(decrease, 1000);
-    this.ChessClockAPI.once('toggle', () => {
+    this.ChessClockEvents.once('toggle', () => {
         clearInterval(timer);
     });
-        this.ChessClockAPI.once("stop", () => {
+        this.ChessClockEvents.once("stop", () => {
             clearInterval(timer);
             console.log('STOP CLOCK');
         });
@@ -49,11 +49,11 @@ function ServerChessClock(time) {
 ServerChessClock.prototype.stopCurrentGame = function() {
 
     if(this.getCurrentMode().includes('s')) {
-        this.ChessClockAPI.emit('Cancel Game');
+        this.ChessClockEvents.emit('cancel_game');
     } else if(this.getCurrentMode().includes('w')) {
-        this.ChessClockAPI.emit('Time_Over_White');
+        this.ChessClockEvents.emit('time_over', 'white');
     } else {
-        this.ChessClockAPI.emit('Time_Over_Black');
+        this.ChessClockEvents.emit('time_over', 'black');
     }
     }
 
@@ -102,11 +102,11 @@ ServerChessClock.prototype.startTimer = function (colour) {
         }
     }, 1000);
 
-    this.ChessClockAPI.once("stop", () => {
+    this.ChessClockEvents.once("stop", () => {
         console.log('STOP CLOCK   ___')
         clearInterval(timer);
     });
-    this.ChessClockAPI.once("toggle", (cb) => {
+    this.ChessClockEvents.once("toggle", (cb) => {
         clearInterval(timer);
         if (colour === "white") {
             this.remainingTimeWhite = increment(

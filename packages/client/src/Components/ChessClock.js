@@ -78,7 +78,7 @@ const ChessClock = (props) => {
             stopClocks();
             setCurrentTurn('tw');
         });
-        socket.on('Stop_Clocks', () => {
+        socket.on('stop_clocks', () => {
             stopClocks();
             setCurrentTurn('off');
         });
@@ -87,7 +87,7 @@ const ChessClock = (props) => {
             socket.off('startClock');
             socket.off('start_starting_Time_White');
             socket.off('start_starting_Time_Black');
-            socket.off('Stop_Clocks');
+            socket.off('stop_clocks');
 
         }
     }, [socket]);

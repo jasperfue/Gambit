@@ -12,7 +12,7 @@ module.exports.getPlayerInQueue = async (loggedIn, time) => {
             } else {
                 if(result) {
                     const user = result.split(':');
-                    resolve({id: user[1], username: user[0]});
+                    resolve({userid: user[1], username: user[0]});
                 } else {
                     resolve(result);
                 }
@@ -37,10 +37,10 @@ module.exports.removeFromQueue = async (loggedIn, time, username, userid) => {
 
 
 
-module.exports.addPlayerInQueue = async (loggedIn, time, userid, username) => {
+module.exports.addPlayerInQueue = async (loggedIn, time, user) => {
     return new Promise((resolve, reject) => {
         const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
-            redisClient.lpush(key, `${username}:${userid}`, (err, result) => {
+            redisClient.lpush(key, `${user.username}:${user.userid}`, (err, result) => {
                 if (err) {
                     console.error('Fehler beim Hinzufügen in waitingPlayers', err);
                     reject(err);
@@ -133,10 +133,9 @@ const getFriends = async (username) => {
             0,
             -1
         );
-        const parsed = friendList.map(friend => {
+        return friendList.map(friend => {
             return {username: friend.split('.')[0], userid: friend.split('.')[1]};
         });
-        return parsed;
     }
     return [];
 }

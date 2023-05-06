@@ -19,107 +19,94 @@ const waitingGuests = new Map();
 for (const [key, value] of waitingPlayers) {
     waitingGuests.set(key, [...value]);
 }
-const currentGames = {};
+const currentChessClocks = {};
 console.log('initialized Current Games');
 
 
 module.exports.initializeChessListeners = (client, io) => {
-        client.on('newMove', newMove(client, io));
-        client.on('leave_queue', leaveQueue(client));
-        client.on('resign', resign(io));
-        client.on('get_game_data', (roomId, cb) => {
-            if (!currentGames.hasOwnProperty(roomId)) {
-                cb({done: false, errMsg: "This Game does not exist"});
-                console.log('kein Objekt in currentGames')
-                return;
-            }
-            if (!client.rooms.has(roomId)) {
-                client.join(roomId);
-            }
-            const chessClock = currentGames[roomId].chessClock;
-            getGame(roomId)
-                .catch(() => {
-                    console.log('kein Eintrag in redis');
-                    cb({done: false, errMsg: "This Game does not exist"})
-                })
-                .then(game => {
-                        if (!game) {
-                            cb({done: false, errMsg: "This Game does not exist"});
-                            return;
-                        }
-                        game.currentState = chessClock.getCurrentMode();
-                        if (game.currentState.includes('s')) {
-                            game.currentStartingTimer = chessClock.getCurrentStartingTimer();
-                        } else {
-                            game.currentTimes = chessClock.getCurrentTimes();
-                        }
-                        cb({done: true, data: game});
+    client.on('newMove', newMove(client, io));
+    client.on('leave_queue', leaveQueue(client));
+    client.on('resign', resign(io));
+    client.on('get_game_data', (roomId, cb) => {
+        if (!currentChessClocks.hasOwnProperty(roomId)) {
+            cb({done: false, errMsg: "This Game does not exist"});
+            console.log('kein Objekt in currentChessClocks')
+            return;
+        }
+        if (!client.rooms.has(roomId)) {
+            client.join(roomId);
+        }
+        const chessClock = currentChessClocks[roomId].chessClock;
+        getGame(roomId)
+            .catch(() => {
+                console.log('kein Eintrag in redis');
+                cb({done: false, errMsg: "This Game does not exist"})
+            })
+            .then(game => {
+                    if (!game) {
+                        cb({done: false, errMsg: "This Game does not exist"});
+                        return;
                     }
-                )
-        });
-        client.on('find_game', async (user, time) => {
-            const queuePlayer = await getPlayerInQueue(user.loggedIn, time.string);
-            if (!user.loggedIn) {
-                client.user = {username:`guest-${UUIDv4().slice(0, 8)}`, userid: client.id};
-            }
-            if(queuePlayer && Object.keys(queuePlayer).length !== 0) {
-                const roomId = await createChessGame(io, queuePlayer.username, client.user.username, time);
-                io.to(queuePlayer.id).emit('joined_game',queuePlayer.username, client.user.username, roomId);
-                client.emit('joined_game', client.user.username, queuePlayer.username, roomId);
-            } else {
-                await addPlayerInQueue(user.loggedIn, time.string, client.user.userid, client.user.username);
-            }
-        });
-        client.on('sendMessage', async ({message, username, roomId}) => {
-            await addChatMessage(roomId, username, message);
-            io.to(roomId).emit("message", {message, username, roomId});
-        });
+                    game.currentState = chessClock.getCurrentMode();
+                    if (game.currentState.includes('s')) {
+                        game.currentStartingTimer = chessClock.getCurrentStartingTimer();
+                    } else {
+                        game.currentTimes = chessClock.getCurrentTimes();
+                    }
+                    cb({done: true, data: game});
+                }
+            )
+    });
+    client.on('find_game', async (user, time) => {
+        const queuePlayer = await getPlayerInQueue(user.loggedIn, time.string);
+        if (!user.loggedIn) {
+            client.user = {username: `guest-${UUIDv4().slice(0, 8)}`, userid: client.id};
+        }
+        if (queuePlayer && Object.keys(queuePlayer).length !== 0) {
+            const roomId = await createChessGame(io, queuePlayer.username, client.user.username, time);
+            io.to(queuePlayer.userid).emit('joined_game', queuePlayer.username, roomId);
+            client.emit('joined_game', client.user.username, roomId);
+        } else {
+            await addPlayerInQueue(user.loggedIn, time.string, client.user);
+        }
+    });
+    client.on('sendMessage', async ({message, username, roomId}) => {
+        await addChatMessage(roomId, username, message);
+        io.to(roomId).emit("message", {message, username, roomId});
+    });
 }
 
-
+/**
+ * Creates a new chess game with two players and initializes the game state and chess clock.
+ *
+ * @param  io - The Socket.IO server instance.
+ * @param  username1 - The username of the first player.
+ * @param  username2 - The username of the second player.
+ * @param  time - The time mode for the chess clock.
+ * @returns {Promise<string>} - Returns a promise that resolves to the new game's room ID.
+ */
 const createChessGame = async (io, username1, username2, time) => {
+    var roomId = UUIDv4();
+    const [whitePlayer, blackPlayer] = Math.random() < 0.5 ? [username1, username2] : [username2, username1];
+
     const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
-
-    let whitePlayer;
-    let blackPlayer;
-    var roomId = UUIDv4();
-
-    const playerIsWhite = Math.random() < 0.5;
-    if (playerIsWhite) {
-        whitePlayer = username1;
-        blackPlayer = username2;
-    } else {
-        blackPlayer = username1;
-        whitePlayer = username2;
-    }
-
     const d = new Date();
     chessInstance.header('White', whitePlayer, 'Black', blackPlayer, 'Date', d.toDateString());
     await initializeGame(roomId, whitePlayer, blackPlayer, time, chessInstance.pgn());
     const chessClock = new ServerChessClock(time);
-    currentGames[roomId] = {chessClock};
-
+    currentChessClocks[roomId] = {chessClock};
 
     chessClock.startStartingTimer('white');
-
-    chessClock.ChessClockAPI.on('Cancel Game', () => {
-        io.to(roomId).emit('Cancel_Game');
-        io.to(roomId).emit('Stop_Clocks');
+    chessClock.ChessClockEvents.on('cancel_game', () => {
+        io.to(roomId).emit('cancel_game');
+        io.to(roomId).emit('stop_clocks');
         endGame(roomId)
     });
-
-
-    chessClock.ChessClockAPI.on('Time_Over_White', () => {
-        io.to(roomId).emit('Time_Over', 'white');
-        io.to(roomId).emit('Stop_Clocks');
-        endGame(roomId);
-    });
-
-    chessClock.ChessClockAPI.on('Time_Over_Black', () => {
-        io.to(roomId).emit('Time_Over', 'black');
-        io.to(roomId).emit('Stop_Clocks');
+    chessClock.ChessClockEvents.on('time_over', (color) => {
+        io.to(roomId).emit('time_over', color);
+        io.to(roomId).emit('stop_clocks');
         endGame(roomId);
     });
     return roomId;
@@ -129,11 +116,11 @@ module.exports.createChessGame = createChessGame;
 
 
 const resign = (io) => (color, roomId) => {
-    if (!currentGames[roomId]) {
-        console.log("ERROR! CurrentGame[roomId] doesn't exist");
+    if (!currentChessClocks[roomId]) {
+        console.log("ERROR! CurrentChessClock[roomId] doesn't exist");
         return;
     }
-    const {chessClock} = currentGames[roomId];
+    const {chessClock} = currentChessClocks[roomId];
     io.to(roomId).emit('resigned', color);
     io.to(roomId).emit('Stop_Clocks');
     chessClock.ChessClockAPI.emit('stop');
@@ -143,7 +130,7 @@ const resign = (io) => (color, roomId) => {
 
 function endGame(roomId) {
 
-    if(currentGames[roomId]) delete currentGames[roomId]
+    if(currentChessClocks[roomId]) delete currentChessClocks[roomId]
     deleteGame(roomId);
 }
 
@@ -153,11 +140,11 @@ function isGuest(username) {
 }
 
 const newMove = (socket, io) => async (roomId, player, move, cb) => {
-    if(!currentGames[roomId]) {
+    if(!currentChessClocks[roomId]) {
         cb({done: false, errMsg: "Game does not exist"});
         return;
     }
-    const {chessClock} = currentGames[roomId];
+    const {chessClock} = currentChessClocks[roomId];
     const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
         return ChessFile.Chess();
     });
@@ -206,10 +193,7 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
 }
 
 const leaveQueue = (client) => async (time) => {
-    if(!client.user?.username) {
-        return;
-    } else {
+    if(client.user?.username) {
         await removeFromQueue(!isGuest(client.user.username), time.string, client.user.username, client.id);
     }
-
 }

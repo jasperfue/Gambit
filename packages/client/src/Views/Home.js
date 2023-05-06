@@ -40,12 +40,11 @@ const Home = () => {
     }, [location.pathname]);
 
     useEffect(() => {
-        socket.on('joined_game', (client, opponent, roomId) => {
+        socket.on('joined_game', (username, roomId) => {
             console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
             navigate(`game/${roomId}`, {
                 state: {
-                    client: client,
-                    opponent: opponent
+                    username: username
                 }
             });
         });

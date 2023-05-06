@@ -2,6 +2,7 @@
 \chapter{Implementierung}
     \section{Frontend-Entwicklung}
     \subsection{Authentifizierung}
+    \label{sec:Auth-Impl-Front}
 Die verschiedenen Art und Weisen und Abläufe der Authentifizierung wurde im Kapitel \ref{sec:Autehtifizierung Frontend} behandelt.
 In diesem Kapitel werde ich näher auf die genaue Implementierung dieser Abläufe eingehen, erklären wie die Formik Formulare funktionieren und konkrete Code Ausschnitte vorstellen.
     \subsubsection{Erster Versuch der Authetifizierung mittels Cookie}
@@ -47,7 +48,7 @@ export default UserContext;
 \end{lstlisting}
 
 
-In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird in Abschnitt //REF erläutert. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur dieses eine mal ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann. Der restliche Pfad ist als Umgebungsvariable gesetzt um den Pfad flexibel ändern zu können.
+In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird durch den Code Ausschnitt \ref{lst:Views-user-socket} und dessen Erklärung in Abschnitt \ref{sec:socket-Verbindung} ersichtlich. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur dieses eine Mal beim starten der Anwendung ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann. Der restliche Pfad ist als Umgebungsvariable gesetzt um den Pfad flexibel ändern zu können.
 
 Gibt es einen Fehler oder eine ungültige Antwort wird der Vorgang abgebrochen, ansonsten wird der \verb|user| mit den erhaltenen Daten gesetzt.
 
@@ -199,6 +200,7 @@ Ich verwende übliche Restriktionen an Benutzernamen und Passwörter, sodass das
 
 
 \subsubsection{Socket.io Verbindungsaufbau}
+\label{sec:socket-Verbindung}
 Immer sobald sich der Benutzerzustand ändert wird eine Socket.io Verbindung hergestellt und den anderen Komponenten zur Verfügung gestellt. Dies hat den Nutzen, dass beim Verbindungsaufbau immer auch die socket auf dem Server authentifiziert werden muss.
 
 Dafür wird die \textit{SocketContext}-Komponente verwendet:
@@ -392,7 +394,7 @@ module.exports.attemptLogin = async (req, res) => {
 };
 \end{lstlisting}
 
-Die Middleware \verb|attemptLogin| überprüft zunächst, ob ein Benutzer mit diesem Benutzernamen existiert und mittels bcrypt ob die Passwörter übereinstimmen. Ist eines davon nicht der Fall wird das Frontend darüber benachrichtigt. Ansonsten wird ein 24 Stunden haltbarer JWT-Token mit dem Benutzernamen und der \verb|userid| generiert und in einen Cookie mit dem Key \glqq jwt\grqq{ }gesetzt, welcher ebenfalls 24 Stunden gültig ist. Wichtig dabei ist, dass das Attribut \verb|httpOnly| auf \verb|true| gesetzt wird, um zu verhindern, dass Client seitiger Code auf den Cookie zugreifen könnte. Anschließend wird dem Frontend noch mit dem JSON Objekt geantwortet (siehe Zeile 39).
+Die Middleware \verb|attemptLogin| überprüft zunächst, ob ein Benutzer mit diesem Benutzernamen existiert und mittels bcrypt ob die Passwörter übereinstimmen. Ist eines davon nicht der Fall wird das Frontend darüber benachrichtigt. Ansonsten wird ein 24 Stunden haltbarer JWT-Token mit dem Benutzernamen und der \verb|userid| generiert und in einen Cookie mit dem Key \glqq jwt\grqq{ }gesetzt, welcher ebenfalls 24 Stunden gültig ist. Der JWT-Token beinhaltet die \verb|userid|, da die Socket Verbindung diese Information beim authentifizieren benötigt (siehe Abschnitt \ref{sec:Backend-Socket}).  Wichtig dabei ist, dass das Attribut \verb|httpOnly| auf \verb|true| gesetzt wird, um zu verhindern, dass Client seitiger Code auf den Cookie zugreifen könnte. Anschließend wird dem Frontend noch mit dem JSON Objekt geantwortet (siehe Zeile 39).
 
 Beim Registrieren wird ebenfalls bei Erfolg der Cookie mit dem JWT-Token gesetzt, jedoch sind die Anforderungen natürlich andere. Es wird überprüft, ob bereits ein Account mit dem Benutzernamen oder der E-Mail existiert und falls ja wird dem Frontend entsprechend geantwortet. Anschließend wird die \verb|userid| erstellt, das Passwort mit bcrypt verschlüsselt, der Tupel in der Datenbank gespeichert und der Cookie mit dem JWT-Token erstellt.
 
@@ -422,4 +424,181 @@ module.exports.handleLogout = (req, res) => {
 
 Eine Anfrage zum Abmelden wird auf den Pfad \verb|auth/logout| gestellt unter der die Middleware aus Code Ausschnitt \ref{lst:handleLogout} durchlaufen wird. In dieser wird ein abgelaufener \glqq jwt\grqq  -Cookie gesetzt, der bewirkt, dass der bisherige \glqq jwt\grqq -Cookie gelöscht wird. Dann wird dem Frontend mit dem Code 204 geantwortet, welcher aussagt, dass die Anfrage erfolgreich bearbeitet wurde, jedoch keine Daten mit der Antwort gesendet werden\footnote{Quelle \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204} am 05. Mai 2023}.
 
-\subsubsection{Socket.io Authentifizierung}
+\subsubsection{Socket.io Authentifizierung und Middleware}
+\label{sec:Backend-Socket}
+Im Code Ausschnitt \ref{lst:index.js-socket} ist ein Ausschnitt der index.js Datei zu sehen, in der der Socket.io Server initialisiert wird und die Middlewares für socket Verbindungen zugewiesen werden.
+
+\begin{lstlisting}[style=codeStyle, caption={Ausschnitt der index.js Datei mit Socket.io Server Erstellung und Middleware Zuweisung}, label={lst:index.js-socket}]
+...
+const corsConfig = {
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+}
+const server = require('http').createServer(app);
+const io = new Server(server, {
+    cors: corsConfig
+});
+io.use(authorizeUser);
+io.use(initializeUser);
+io.use((socket, next) => {
+    initializeChessListeners(socket, io);
+    initializeListeners(socket, io);
+    next();
+});
+...
+\end{lstlisting}
+
+Die Initilaisierung des Socket.io Servers benötigt die \verb|corsConfig| Konfiguration, um Verbindungen vom Frontend zuzulassen und Header Informationen wie Cookies mitzusenden.
+
+Es werden drei Middlewares bei einem Verbindungsaufbau durchlaufen,  die ich in diesem Kapitel mit Code ausschnitten erläutern werde.
+
+
+\begin{lstlisting}[style=codeStyle, caption={authorizeUser Middleware für Socket.io Verbinudngen}, label={lst:authorizeUser}]
+/**
+ * Middleware that authorizes the socket connection user based on the JWT in the cookie.
+ * If the user is successfully authorized, their profile is added to the socket object.
+ *
+ * @param socket - The socket object representing the connection to the client.
+ * @param next - The next middleware function to be called if authorization is successful.
+ */
+module.exports.authorizeUser = (socket, next) => {
+    let token = null;
+    if (socket.request.headers.cookie) {
+        token = cookie.parse(socket.request.headers.cookie).jwt;
+        if (token) {
+            jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+                if (err) {
+                    next(new Error('Unable to Read Token'));
+                    return;
+                }
+                socket.user = {...decodedPayload};
+            });
+        }
+    }
+    next();
+}
+\end{lstlisting}
+
+Die Middleware \verb|authorizeUser| (siehe Code Ausschnitt \ref{lst:authorizeUser} autorisiert den Benutzer. Dabei  wird auf den Cookie zugegriffen, der gegebenenfalls beim Authentifizieren gesetzt wurde, um den Benutzernamen und die \verb|userid| als Attribute der socket zu setzen. Diese Middleware ist der Grund, warum immer eine neue Socket.io Verbindung hergestellt werden muss, sobald der Benutzerzustand und damit der Cookie sich verändert. Ansonsten könnte es sein, dass veraltete Informationen in \verb|socket.user| definiert sind.
+
+\begin{lstlisting}[style=codeStyle, caption={initializeUser Middleware für Socket.io Verbinudngen}, label={lst:initializeUser}]
+/**
+ * Middleware that initializes the user data when they connect to the socket server.
+ * The function retrieves the user's friends, friend requests, and active games data,
+ * and sends them to the client. It also emits a 'connected' event to the user's friends.
+ *
+ * @param socket - The socket object representing the connection to the client.
+ * @param next - The next middleware function to be called.
+ * @returns {Promise<void>}
+ */
+module.exports.initializeUser = async (socket, next) => {
+    if (socket.user) {
+        socket.join(socket.user.userid);
+        await setUser(socket.user.username, socket.user.userid, true);
+        getFriends(socket.user.username).then(async friends => {
+            const parsedFriends = await parseFriendList(friends);
+            const friendRooms = parsedFriends.map(friend => friend.userid);
+            if (friendRooms.length > 0) {
+                socket.to(friendRooms).emit("connected", "true", socket.user.username);
+            }
+            socket.emit('friends', parsedFriends);
+        });
+        getFriendRequests(socket.user.username).then(friendRequests => socket.emit('friend_requests', friendRequests));
+        getActiveGamesData(socket.user.username).then(gameData => socket.emit('active_games', gameData));
+    }
+    next();
+};
+\end{lstlisting}
+
+In der Middleware \verb|initializeUser| werden Daten an den Benutzer gesendet, er wird als online vermerkt und seine Freunde werden darüber informiert, dass er nun online ist. Dies passiert natürlich nur, wenn in der vorherigen Middleware der Benutzer autorisiert werden konnte. Die Funktionen um Daten aus der Redis Datenbank zu lesen oder zu schreiben werden von der Datei \verb|redisController| bereitgestellt.
+
+Zunächst tritt er dem Raum seiner eigenen \verb|userid| bei um Events wie Freundschaftsanfragen, die an ihn gerichtet sind empfangen zu können (siehe Zeile 12). Anschließend wird der Benutzer in Redis gesetzt und als online vermerkt (Zeile 13). Freunde, Freundschaftsanfragen und aktive Spieler werden an den Benutzer mit entsprechenden Events gesendet und alle Freunde werden darüber benachrichtigt, dass der Benutzer online ist.
+
+Die dritte Middleware setzt alle nötigen Listener für Events, die mit dem Schachspiel zusammenhängen, als auch sonstige Funktionen (siehe Code Ausschnitt \ref{lst:index.js-socket}).
+
+\begin{lstlisting}[style=codeStyle, caption={Die onDisconnect Methode für Sockets}, label={lst:onDisconnect}]
+/**
+ * Function that handles user disconnection from the socket server.
+ * The function updates the user's online status and informs all friends,
+ * that the user ist offline
+ *
+ * @param socket - The socket object representing the connection to the client.
+ * @returns {Promise<void>}
+ */
+module.exports.onDisconnect = async (socket) => {
+    if (!socket.user) {
+        return;
+    }
+    await setUser(socket.user.username, socket.user.userid, false);
+    getFriends(socket.user.username).then(friends => {
+        const friendRooms = friends.map(friend => friend.userid);
+        if (friendRooms.length > 0) {
+            socket.to(friendRooms).emit("connected", "false", socket.user.username);
+        }
+    });
+}
+\end{lstlisting}
+
+Die \verb|onDisconnect| Methode aus Code Ausschnitt \ref{lst:onDisconnect} wird aufgerufen, sobald eine socket Verbindung getrennt wird. Ähnlich wie bei der \verb|initializeUser| Middleware (siehe Code Ausschnitt \ref{lst:initializeUser}) wird dabei in Redis der Spieler als offline vermerkt und seine Freunde werden darüber in Kenntnis gesetzt.
+
+
+\section{Das Schachspiel}
+Das Schachspiel verwaltet die Datei \verb|socketChessController.js|, welche eine der Funktionen zur Listener Initialisierung bereitstellt (siehe \verb|initilializeChessListeners| aus Code ausschnitt \ref{lst:index.js-socket}), wobei \verb|ServerChessClock.js| die Schachuhren bereitstellt.
+
+\subsection{Das Spiel}
+\subsubsection{Initialisierung eines Spiels}
+Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird.
+
+\begin{lstlisting}[style=codeStyle, caption={Die createChessGame Methode zum Initialisieren einer Schachpartie}, label={lst:createChessGame}]
+/**
+ * Creates a new chess game with two players and initializes the game state and chess clock.
+ *
+ * @param  io - The Socket.IO server instance.
+ * @param  username1 - The username of the first player.
+ * @param  username2 - The username of the second player.
+ * @param  time - The time mode for the chess clock.
+ * @returns {Promise<string>} - Returns a promise that resolves to the new game's room ID.
+ */
+const createChessGame = async (io, username1, username2, time) => {
+    var roomId = UUIDv4();
+    const [whitePlayer, blackPlayer] = Math.random() < 0.5 ? [username1, username2] : [username2, username1];
+
+    const chessInstance = await import('../chess/Chess.mjs').then(ChessFile => {
+        return ChessFile.Chess();
+    });
+    const d = new Date();
+    chessInstance.header('White', whitePlayer, 'Black', blackPlayer, 'Date', d.toDateString());
+    //Store Game in Redis
+    await initializeGame(roomId, whitePlayer, blackPlayer, time, chessInstance.pgn());
+    const chessClock = new ServerChessClock(time);
+    currentChessClocks[roomId] = {chessClock};
+
+    chessClock.startStartingTimer('white');
+    chessClock.ChessClockEvents.on('cancel_game', () => {
+        io.to(roomId).emit('cancel_game');
+        io.to(roomId).emit('stop_clocks');
+        endGame(roomId)
+    });
+    chessClock.ChessClockEvents.on('time_over', (color) => {
+        io.to(roomId).emit('time_over', color);
+        io.to(roomId).emit('stop_clocks');
+        endGame(roomId);
+    });
+    return roomId;
+}
+\end{lstlisting}
+
+Die \verb|createChessGame| Methode legt zunächst per Zufall fest, welcher Spieler welche Farbe spielen soll und generiert eine zufällige ID als roomId in der das Spiel stattfindet. Anschließend wird ein chess.js Objekt erstellt. Da es sich bei der Bibliothek chess.js um ein ECMAScript-Module handelt und node.js ein CommonJS-Modulsystem verwendet muss man einen Umweg mittels einer \verb|.mjs|-Datei zum Importieren der Bibliothek verwenden\footnote{Quelle: \url{https://stackoverflow.com/questions/70396400/how-to-use-es6-modules-in-commonjs} am 06. Mai 2023} (siehe Code Ausschnitt \ref{lst:Chess.mjs}).
+
+\begin{lstlisting}[style=codeStyle, caption={Die Chess.mjs Datei}, label={lst:Chess.mjs}]
+import {Chess as ChessGame} from 'chess.js';
+export const Chess = () => new ChessGame();
+\end{lstlisting}
+
+Mit diesem chess.js Objekt generieren wir eine PGN-Notation, in die die Benutzernamen der Spieler und das Datum eingetragen sind. Diese Informationen werden nun in Redis unter \verb|game:roomId| gespeichert, falls die Spieler angemeldet sind auch in deren \verb|activeGames:username| Listen. 
+
+Des weiteren wird ein ServerChessClock Objekt erstellt und in \verb|currentChessClock| mit der roomId als Key gespeichert. Die Kommunikation und der Aufbau von ServerChessClock wird in Abschnitt //REF erläutert.
+Eventlistener für die Events der ServerChessClock werden definiert.
+Da die Schachuhren und das Schachspiel möglichst Modular gehalten werden, wird an das Frontend in diesen Listenern immer zwei Events gesendet: \verb|time_over| und \verb|cancel_game| für das Schachspiel und \verb|stop_clocks| für die Schachuhren im Frontend. Bei jeder Möglichkeit wie eine Schachpartie endet wird definiert, dass die Funktion \verb|endGame| ausgeführt werden soll, so auch bei diesen zwei Listenern.
+
+\subsection{Die Uhr}
