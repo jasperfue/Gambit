@@ -255,9 +255,177 @@ Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Ver
                     ...
 \end{lstlisting}
 
+\subsection{Das Schachspiel}
+In diesem Abschnitt werde ich darauf eingehen, was passiert nachdem die Daten erfolgreich vom Backend empfangen wurden, wie ein neuer Zug gehandhabt wird und wie die Bauernumwandlung implementiert ist.
+Der Ablauf wie ein Gegner gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}
+
+
+\begin{lstlisting}[style=codeStyle, caption={Initialisierung des Schachspiels nach Empfangen der Daten}, label={lst:chessGround}]
+    useEffect(() => {
+        if(initialized) {
+                setGround(new Chessground(document.getElementById(roomId), {
+                    fen: chess.fen(),
+                    orientation: orientation,
+                    viewOnly: spectator,
+                    movable: {
+                        free: false,
+                        color: orientation,
+                        showdests: true
+                    },
+                    premovable: {
+                        enabled: false
+                    },
+                    animation: {
+                        enabled: true,
+                        duration: 400
+                    }
+                }));
+        }
+
+    }, [initialized]);
+    
+    useEffect(() => {
+        if(ground) {
+            ground.set({
+                movable: {
+                    events: {
+                        after: onMove(ground, chess)
+                    }
+                }
+            });
+            refreshBoard(ground, chess);
+            
+            socket.on('opponent_move', (move) => {
+                if(move.flags.includes('p')) {
+                    onOpponentPromotion(move);
+                    return;
+                }
+                ground.move(move.from, move.to);
+                chess.move(move);
+                if(move.flags.includes('e')) {
+                    onEnPassent(ground, move);
+                }
+                refreshBoard(ground, chess);
+            });
+            socket.on('cancel_game', () => {...});
+            socket.on('time_over', (color) => {...});
+            socket.on('checkmate', (winner) => {...});
+            socket.on('draw', () => {...});
+            socket.on('resigned', (color) => {...});
+        }
+        return () => {
+            socket.off('opponent_move');
+            socket.off('Checkmate');
+            socket.off('draw');
+            socket.off('time_over');
+            socket.off('cancel_game');
+            socket.off('resigned');
+        }
+    }, [socket, ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
+\end{lstlisting}
+
+Sobald erfolgreich die Daten mit dem \verb|get_game_data| Event empfangen und gesetzt wurden, wird ebenfalls \verb|initialized| auf true gesetzt, um die nächsten Schritte in Gang zu leiten.
+
+Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird festgehalten, wie die Figuren gerade stehen (mittels FEN-Notation), die Orientierung welche Farbe nach unten zeigen soll, ob man Figuren bewegen darf und wenn ja welche und so weiter. Dieses chessground Interface wird dann in dem div Block \verb|document.getElementById(roomId)| angezeigt.
+
+Wurde dann chessground initialisiert, wird noch die Methode hinzugefügt, die ausgeführt werden soll, falls man selbst einen Zug gemacht hat und Listener für verschiedene Events des Schachspiels werden initialisiert.
+
+Nach jedem Zug, egal ob eigener oder eines Gegners, wird die \verb|refreshBoard| Methode aufgerufen.
+
+\begin{lstlisting}[style=codeStyle, caption={Die refreshBoard Methode}, label={lst:refreshBoard}]
+export function refreshBoard(ground, chess) {
+    ground.set({
+        turnColor: toColor(chess),
+        movable: {
+            dests: getValidMoves(chess)
+        }
+    });
+}
+\end{lstlisting}
+
+Diese Methode sorgt dafür, dass eine Figur nur auf legale Züge ziehen darf und korrekt aktualisiert wird, welcher Spieler an der Reihe ist.
+
+Ein \verb|move| Objekt, das zurückgegeben wird nach dem zeiehn eines Zuges auf einem chess.js Objekt ist folgendermaßen aufgebaut\footnote{Quelle: \url{https://github.com/jhlywa/chess.js/} am 08. Mai 2023}:
+\begin{verbatim}
+{ color: 'w', from: 'e2', to: 'e4', flags: 'b', piece: 'p', san: 'e4' }
+\end{verbatim}
+Vor allem relevant sind die flags dieses Objekts, da sie ausdrücken um was für eine Art von Zug es sich handelt. Wird als flag beispielsweise \glqq e\grqq{ }angegeben, handelt es sich um ein En passent. Bei einem \glqq p\grqq{ }liegt eine Bauernumwandlung vor.
+Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders behandelt (siehe Zeile 36 ff. in Code Ausschnitt \ref{lst:chessground}).
+
+\begin{lstlisting}[style=codeStyle, caption={Die onMove Methode}, label={lst:onMove}]
+const onMove = useCallback(() => {
+    return (orig, dest) => {
+    		//Promotion
+        if((dest.includes('8') || dest.includes('1')) && chess.get(orig).type === 'p') { 
+            setSelectVisible(true);
+            setPromotionMove([orig, dest]);
+            return;
+        }
+        const player = (orientation === 'white') ? whitePlayer : blackPlayer;
+        const move = chess.move({from: orig, to: dest});
+        socket.emit('new_move',roomId, player, move, ({done, errMsg}) => {
+            if(!done) {
+                chess.undo();
+                ground.set({fen: chess.fen()});
+                toast({
+                    title: "Invalid Move",
+                    description: errMsg,
+                    status: "error",
+                    position: "top",
+                    isClosable: true
+                });
+                refreshBoard(ground, chess);
+                return;
+            }
+        });
+        if(move.flags.includes('e')) {
+            onEnPassent(ground, move);
+        }
+        refreshBoard(ground, chess);
+    };
+}, [socket, chess, roomId, ground, orientation, setSelectVisible, setPromotionMove, whitePlayer, blackPlayer]);
+\end{lstlisting}
+
+Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert En Passent- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen soll, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert.
+
+\begin{lstlisting}[style=codeStyle, caption={Die onMove Methode}, label={lst:onMove}]
+const promotion = useCallback(
+    (toPiece) => {
+        const move = chess.move({from: promotionMove[0], to: promotionMove[1], promotion: toPiece});
+        ground.state.pieces.set(promotionMove[1], {
+            role: charPieceToString(toPiece),
+            color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
+            promoted: true
+        });
+        const player = (orientation === 'white') ? whitePlayer : blackPlayer;
+        socket.emit('new_move', roomId, player,  move, ({done, errMsg}) => {
+            if(!done) {
+                chess.undo();
+                ground.set({fen: chess.fen()});
+                toast({
+                    title: "Invalid Move",
+                    description: errMsg,
+                    status: "error",
+                    position: "top",
+                    isClosable: true
+                });
+                refreshBoard(ground, chess);
+                return;
+            }
+        });
+        setPromotionMove([]);
+        setSelectVisible(false);
+        refreshBoard(ground, chess);
+    },
+    [socket, roomId, chess, ground, promotionMove]
+);
+\end{lstlisting}
+
+Wurde auf ein Figur des Modals geklickt wird von dort die Methode \verb|promotion| mit der entsprechenden Figur ausgeführt. Dann wird sowohl auf der chess.js, als auch auf der chessGround Instanz diese Bauernumwandlung vermerkt und an das Backend gesendet und die States \verb|promotionMove| und \verb|selectVisible| werden zurückgesetzt. 
 
     \section{Backend-Entwicklung}
     \subsection{Authentifizierung}
+    \label{sec:Backend-auth-impl}
 Die Vorgehensweise im Backend bei der Authentifizierung des Benutzers ist im Kapitel \ref{sec:Authentifizierung Backend} geschildert. In diesem Kapitel werde ich Code Beispiele vorstellen und erläutern.
 
 \subsubsection{Routing-Middlewares}
@@ -542,10 +710,9 @@ module.exports.onDisconnect = async (socket) => {
 Die \verb|onDisconnect| Methode aus Code Ausschnitt \ref{lst:onDisconnect} wird aufgerufen, sobald eine socket Verbindung getrennt wird. Ähnlich wie bei der \verb|initializeUser| Middleware (siehe Code Ausschnitt \ref{lst:initializeUser}) wird dabei in Redis der Spieler als offline vermerkt und seine Freunde werden darüber in Kenntnis gesetzt.
 
 
-\section{Das Schachspiel}
+\subsection{Das Schachspiel}
 Das Schachspiel verwaltet die Datei \verb|socketChessController.js|, welche eine der Funktionen zur Listener Initialisierung bereitstellt (siehe \verb|initilializeChessListeners| aus Code ausschnitt \ref{lst:index.js-socket}), wobei \verb|ServerChessClock.js| die Schachuhren bereitstellt.
 
-\subsection{Das Spiel}
 In diesem Abschnitt werde ich einige Aspekte der Implementierung des Schachspiels mit Code Beispielen erläutern. Funktionen wie Aufgeben, das Ende der Partie oder Chat Nachrichten werden im Abschnitt \ref{sec:Schach-Backend} erläutert und zeichnen sich durch geringere Komplexität aus, weshalb sie in diesem Abschnitt nicht nochmals behandelt werden. Auch das Finden eines Gegners wird in dem Abschnitt der Backend-Architektur detailliert beschrieben, weshalb dies hier nicht noch einmal erläutert wird.
 
 \subsubsection{Initialisierung eines Spiels}
@@ -735,7 +902,7 @@ Alle aktuelle Daten, wie welcher Spieler welche farbe spielt und der aktuelle PG
 Je nachdem welche Uhren gerade laufen werden entweder die Startzeiten oder die reguären Zeiten der Spieler den Redis Daten hinzugefügt und anschließend dem Frontend per Callback Funktion übermittelt.
 
 
-\subsection{Die Uhr}
+\subsubsection{Die Uhr}
 Die Server seitige Schachuhr wird von Objekten der Klasse \verb|ServerChessClock| verwaltet. Diese Objekte besitzen die folgenden Attribute:
 
 \begin{lstlisting}[style=codeStyle, caption={Konstruktor der ServerChessClock Klasse}, label={lst:const-ServerChessClock}]
@@ -839,7 +1006,7 @@ ServerChessClock.prototype.startTimer = function (color) {
 };
 
 /**
- * Called if a time is run out
+ * Called if a time ran out
  */
 ServerChessClock.prototype.stopCurrentGame = function () {
     if (this.getCurrentMode().includes('s')) {
@@ -861,3 +1028,74 @@ Die Zeit läuft korrekt ab, durch den \verb|timer|, welcher \verb|setInterval| n
 Es wird ein Listener definiert, welcher bei einem neuen Zug das Inkrement auf die entsprechende Zeit rechnet und mittels Callback Funktion die aktuellen Zeiten durchgibt, um diese in der \verb|newMove| Methode an das Frontend zu senden (siehe \ref{sec:new_move_backend}). Dieser Listener wird mit \verb|ones(...)| definiert, wodurch er nur ein mal auf das Event hört. Dies ist wichtig, da anschließend die \verb|startTimer| Methode reukursiv aufgerufen wird und der Listnerer neu initialisiert wird.
 
 Die \verb|stopCurrentGame| Methode wird aufgerufen, falls eine Zeit (Startzeit oder reguläre Zeit) abgelaufen ist und sendet entsprechende Events an SocketChessController.
+
+
+\section{Datenbank Integration}
+Die Herstellung einer Verbindung zu der PostgreSQL und zu der Redis Datenbank wird jeweils in einer Datei hergestellt:
+
+\begin{lstlisting}[style=codeStyle, caption={Initialisierung der PostgreSQL Datenbank und einer Methode für die Anfragen}, label={lst:pg-pool}]
+require('dotenv').config()
+const Pool = require('pg').Pool
+
+const pool = new Pool({
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
+})
+
+const query = (text, params) => pool.query(text, params)
+module.exports = { query }  
+\end{lstlisting}
+
+\begin{lstlisting}[style=codeStyle, caption={Initialisierung einer Redis-Datebank Verbindung}, label={lst:redisClient}]
+const Redis = require('ioredis');
+
+const redisClient = new Redis();
+
+module.exports = redisClient;
+\end{lstlisting}
+
+Die Daten zum Herstellen einer Verbindung sind in einer \verb|.env| Datei gespeichert, um die Sicherheit und Wartbarkeit zu erhöhen, da .env Dateien standardmäßig zu Dateien zählen, welche nicht in Git aufgenommen werden.
+
+Wie die PostgreSQL Datenbank genutzt wird ist in Kapitel \ref{sec:Backend-auth-impl} erläutert. 
+
+\subsection{Zugriff auf Redis mit dem redisController}
+Alle Operationen auf der Redis Datenbank werden von der Datei \verb|redisController| zur Verfügung gestellt (mit Ausnahme der \verb|rateLimiter| Middleware). Welche Datentypen unter welchen Keys in Redis gespeichert werden, wird in Abschnitt \ref{sec:redis-data} erläutert.
+Die Datei enthält 19 Methoden, die fast alle auf die Datenbank zugreifen. In diesem Abschnitt werden exemplarisch zwei Methoden dargestellt.
+
+\begin{lstlisting}[style=codeStyle, caption={Methode um einen Spieler in eine Warteschlange hinzuzufügen}, label={lst:addPlayerInQueue}]
+module.exports.addPlayerInQueue = async (loggedIn, time, user) => {
+    return new Promise((resolve, reject) => {
+        const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
+            redisClient.lpush(key, `${user:username}:${user:userid}`, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+    });
+};
+\end{lstlisting}
+
+Die \verb|addPlayerInQueue| Methode hat die Funktion einen Spieler in eine Warteschlange für einen zufälligen Gegner hinzuzufügen. Je nachdem ob er angemeldet ist oder nicht wird die Warteschlange \verb|waitingPlayers| oder \verb|waitingGuests| mit der entsprechenden Zeit als Key genutzt, um \verb|username:userid| in die Warteschlange zu schreiben.
+
+Die Funktion \verb|lpush| fügt den Spieler am Anfang der Liste ein. Herausgenommen werden Spieler mittels der Funktion \verb|rpop|, die Spieler am Ende der Liste entnehmen. So wird gewährleistet, dass der Spieler der am längsten wartet zu erst entnommen wird.
+
+
+\begin{lstlisting}[style=codeStyle, caption={Methode um Freunde eines Spielers zu erhalten}, label={lst:getFriends}]
+const getFriends = async (username) => {
+    const friendList = await redisClient.lrange(
+        `friends:${username}`,
+        0,
+        -1
+    );
+    return friendList.map(friend => {
+        return {username: friend.split(':')[0], userid: friend.split(':')[1]};
+    });
+}
+\end{lstlisting}
+
+Die Methode \verb|getFriends| holt alle Freunde eines Spielers aus dem key \verb|friend:username|. Mittels der Funktion \verb|lrange| können Elemente aus einer Liste geholt werden. Der Parameter \verb|0| repräsentiert den Start, ab welchem Index die Freunde geholt werden sollen und der Parameter \verb|-1| das Ende. In diesem Fall heißt \verb|-1|, dass alle aus der Liste geholt werden sollen. Die Daten werden im letzten Schritt mittels der Array \verb|map()| Funktion noch vernünftig aufbereitet um die Nutzung der Daten zu vereinfachen.

@@ -1,7 +1,7 @@
 import { SQUARES } from 'chess.js';
 
 
-export function getValidMoves(chess) {
+function getValidMoves(chess) {
     const moves = new Map;
     for (var square of SQUARES) {
         const ms = chess.moves({square: square, verbose: true});

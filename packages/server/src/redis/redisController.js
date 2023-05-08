@@ -42,7 +42,6 @@ module.exports.addPlayerInQueue = async (loggedIn, time, user) => {
         const key = loggedIn === true ? `waitingPlayers${time}` : `waitingGuests${time}`;
             redisClient.lpush(key, `${user.username}:${user.userid}`, (err, result) => {
                 if (err) {
-                    console.error('Fehler beim Hinzufügen in waitingPlayers', err);
                     reject(err);
                 } else {
                     resolve(result);

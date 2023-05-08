@@ -3,7 +3,7 @@ import { Chessground } from 'chessground';
 import 'chessground/assets/chessground.base.css'
 import 'chessground/assets/chessground.brown.css'
 import 'chessground/assets/chessground.cburnett.css'
-import {onEnPassent, refreshBoard, getValidMoves, charPieceToString} from "../Utils/ChessLogic.js";
+import {onEnPassent, refreshBoard, charPieceToString} from "../Utils/ChessLogic.js";
 import {Chess} from 'chess.js';
 import ChessClock from "../Components/ChessClock.js";
 import {AccountContext} from "../Context/AccountContext.js";
@@ -99,8 +99,10 @@ const ChessGame = () => {
                     movable: {
                         free: false,
                         color: orientation,
-                        dests: getValidMoves(chess),
                         showdests: true
+                    },
+                    premovable: {
+                        enabled: false
                     },
                     animation: {
                         enabled: true,
@@ -133,7 +135,6 @@ const ChessGame = () => {
                     onEnPassent(ground, move);
                 }
                 refreshBoard(ground, chess);
-                ground.playPremove();
             });
             socket.on('cancel_game', () => {
                 ground.set({viewOnly: true});
@@ -258,16 +259,21 @@ const ChessGame = () => {
                 setPromotionMove([orig, dest]);
                 return;
             }
-            let player;
-            if(orientation === 'white') {
-                player = whitePlayer;
-            } else {
-                player = blackPlayer;
-            }
+            const player = (orientation === 'white') ? whitePlayer : blackPlayer;
             var move = chess.move({from: orig, to: dest});
             socket.emit('new_move',roomId, player, move, ({done, errMsg}) => {
                 if(!done) {
-                    console.log(errMsg);
+                    chess.undo();
+                    ground.set({fen: chess.fen()});
+                    toast({
+                        title: "Invalid Move",
+                        description: errMsg,
+                        status: "error",
+                        position: "top",
+                        isClosable: true
+                    });
+                    refreshBoard(ground, chess);
+                    return;
                 }
             });
             if(move.flags.includes('e')) {
@@ -275,7 +281,7 @@ const ChessGame = () => {
             }
             refreshBoard(ground, chess);
         };
-    }, [socket, chess, socket, roomId, ground, orientation]);
+    }, [socket, chess, roomId, ground, orientation, setSelectVisible, setPromotionMove, whitePlayer, blackPlayer]);
 
 
     const promotion = useCallback(
@@ -286,13 +292,21 @@ const ChessGame = () => {
                 color: parseInt(promotionMove[1].split('')[1]) === 8 ? 'white' : 'black',
                 promoted: true
             });
-            socket.emit('new_move', move, ({done, errMsg}) => {
-                if(done) {
-                    console.log('promotion successful');
-                } else {
-                    console.log(errMsg);
+            const player = (orientation === 'white') ? whitePlayer : blackPlayer;
+            socket.emit('new_move', roomId, player,  move, ({done, errMsg}) => {
+                if(!done) {
+                    chess.undo();
+                    ground.set({fen: chess.fen()});
+                    toast({
+                        title: "Invalid Move",
+                        description: errMsg,
+                        status: "error",
+                        position: "top",
+                        isClosable: true
+                    });
+                    refreshBoard(ground, chess);
+                    return;
                 }
-
             });
             setPromotionMove([]);
             setSelectVisible(false);

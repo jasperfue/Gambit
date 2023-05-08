@@ -178,6 +178,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \begin{itemize}
 \item \textbf{ChessClock:} ChessClock ist eine Komponente, die die Verwaltung und Darstellung der Schachuhren übernimmt.
 \item \textbf{Chat:} Die Chat Komponente repräsentiert einen simplen gehaltenen Chat in dem die beiden Spieler kommunizieren können. Zuschauer können ihn lesen, allerdings nichts selber schreiben, da sie Tipps geben könnten.
+\item \textbf{PromotionModal:} Über dieses Modal lässt sich bei einer Bauernumwandlung eine Figur auswählen, welche den Bauern ersetzen soll (siehe Abbildung \ref{fig:PromotionModal}).
 \end{itemize}
 \end{itemize}
  
@@ -206,7 +207,8 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
     						child {node {SignUp} edge from parent [dashed]}  				
     						child {node {ChessGame} edge from parent [dashed]
 						child {node {ChessClock} edge from parent [solid]}
-						child {node {Chat} edge from parent [solid]}    						
+						child {node {Chat} edge from parent [solid]}    			
+						child {node {PromotionModal} edge from parent [solid]}			
     						}
 						child {node {GameRequests}}
 						child {node {Navbar}}  
@@ -255,6 +257,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
   \label{fig:game-request}
 \end{figure}
 
+
       \begin{figure}[htbp]
       \centering
   \includegraphics[width=\textwidth]{SignUp.png}
@@ -276,6 +279,12 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
   \label{fig:chess-game}
 \end{figure}
         
+      \begin{figure}[htbp]
+      \centering
+  \includegraphics[width=0.7\textwidth]{PromotionModal.png}
+  \caption{Das Modal der Komponente PromotionModal}
+  \label{fig:PromotionModal}
+\end{figure}
 
     
    
@@ -323,6 +332,7 @@ Das Event \verb|cancel_game_request| wird empfangen, sobald der Freund seine Anf
 
 Gesendet werden kann das Event \verb|game_request_response| mit den Informationen um welche Anfrage es sich handelt und ob man die Anfrage akzeptiert oder ablehnt.
         \subsubsection{Das Spiel}
+        \label{sec:Das-Schachspiel-Front}
 Das Schachspiel findet in der Komponente \textit{ChessGame} statt.
 Nach dem rendern der Komponente wird das \verb|get_game_data| Event mit der roomId des Spiels und einer Callback Methode gesendet, die die Daten des Spiels beinhaltet, falls dieses existiert. Falls diese Partie nicht im Backend existiert, also keine Daten gesendet werden, wird der Benutzer darauf hingewiesen (siehe Abbildung \ref{fig:game-does-not-exist}).
 

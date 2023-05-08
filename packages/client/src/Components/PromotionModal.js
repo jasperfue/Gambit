@@ -1,6 +1,12 @@
-import {useEffect} from "react";
-
-const {useState} = require("react");
+import React, {useCallback, useEffect, useState} from "react";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    Flex,
+    Image,
+} from "@chakra-ui/react";
 
 
 const PromotionModal = (props) => {
@@ -25,35 +31,26 @@ const PromotionModal = (props) => {
         setIsVisible(props.isVisible);
     }, [props.isVisible]);
 
-    return ( <>
-        {isVisible && (
-        <div style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: "white",
-        padding: "20px",
-        border: "1px solid black"
-    }}>
-        <div style={{ textAlign: "center", cursor: "pointer" }}>
-                <span role="presentation" onClick={() => props.promotion("q")}>
-                <img src={queen} style={{ width: 50 }} />
-                </span>
-            <span role="presentation" onClick={() => props.promotion("r")}>
-                <img src={rook}  style={{ width: 50 }} />
-                </span>
-            <span role="presentation" onClick={() => props.promotion("b")}>
-                <img  src={bishop} style={{ width: 50 }} />
-                </span>
-            <span role="presentation" onClick={() => props.promotion("n")}>
-                <img src={knight} style={{ width: 50 }} />
-                </span>
-        </div>
-        </div>
-        )} </>
-    );
+    const onFigureClick = useCallback((figure) => {
+        props.promotion(figure)
+    }, [props.promotion]);
 
-}
+    return (
+        <Modal isOpen={isVisible} onClose={() => {}} closeOnOverlayClick={false}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalBody>
+                    <Flex justifyContent="space-around">
+                        <Image cursor="pointer" src={queen} onClick={() => onFigureClick("q")} marginRight={1} />
+                        <Image cursor="pointer" src={bishop} onClick={() => onFigureClick("b")} marginRight={1} />
+                        <Image cursor="pointer" src={knight} onClick={() => onFigureClick("k")} marginRight={1} />
+                        <Image cursor="pointer" src={rook} onClick={() => onFigureClick("r")} />
+                    </Flex>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
+
+    );
+};
 
 export default PromotionModal;
