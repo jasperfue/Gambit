@@ -1,5 +1,5 @@
        
-\chapter{Systemarchitektur}
+\chapter{Systemarchitektur und Konzeption}
 \section{Einführung}
 In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren.
 Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
@@ -613,7 +613,7 @@ Es gibt 3 verschiedene Arten ein Schachspiel zu starten: Ein angemeldeter Benutz
 
 Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|find_game| mit den Benutzerdaten und der gewählten Zeitkonfiguration vom Frontend gesendet. Ein Sequenzdiagramm des starten eines Spiels mit zufälligem Gegner befindet sich in Abbildung \ref{fig:sequence_chess_start}. Dies beinhaltet folgende Schritte:
      
-\begin{figure}[h!]
+\begin{figure}[!h]
   \centering
   
  
@@ -686,7 +686,7 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
 \item Die \textit{ChessGame}-Komponente sendet das \verb|get_game_data| Event. Daraufhin wird der aktuelle Zustands der Partie aus Redis geholt und an das Frontend zurück gesendet. Ein Ablauf was im Frontend bei einer Schachpartie passiert befindet sich im Abschnitt \ref{sec:Schachspiel}.
 \end{itemize}
 
-Falls es sich um eine Partie handelt, die aus einer Herausforderung eines Freundes resultiert, wird natürlich in keine Warteschlange nach einem Gegner gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitt \ref{sec:friend-komponente}, \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spieler das Event \verb|game_request_accepted| mit der roomId gesendet.
+Falls es sich um eine Partie handelt, die aus einer Herausforderung eines Freundes resultiert, wird natürlich in keine Warteschlange nach einem Gegner gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitte \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spieler das Event \verb|game_request_accepted| mit der roomId gesendet.
 
 \subsubsection{Initialisieren eines Spiels nach gefundenem Gegner}
 Zunächst wird per Zufall entschieden welcher Spieler weiß und welcher Spieler schwarz spielt. Anschließend wird ein neues Schachspiel der Klasse chess.js (siehe Abschnitt \ref{sec:chess.js}) erstellt und in ihr festgehalten welcher Spieler weiß, beziehungsweise schwarz, spielt und das Datum an dem dieses Spiel stattfindet. Des weiteren wird eine zufällige roomId generiert, unter der das Schachspiel stattfindet.
@@ -738,26 +738,24 @@ Dies sind alles Ausgänge von Schachpartien, die an alle sockets im Raum weiterg
 \subsubsection{ServerChessClock}
 Die Klasse ServerChessClock definiert einzelne Schachuhr Objekte, welche die Startzeiten und die regulären Schachuhren verwalten.
 
-socketChessController und ServerChessClock kommunizieren mittels Funktionen und Events miteinander, wobei Events genutzt werden um laufende Uhren anzuhalten und zu kommunizieren, dass eine Startzeit oder eine reguläre Schachuhr abgelaufen ist, während die Funktionsaufrufe von ServerChessClock dazu dienen eine bestimmte Zeit zu starten.
+socketChessController und ServerChessClock kommunizieren mittels Funktionen und Events miteinander, wobei Events genutzt werden um laufende Uhren anzuhalten und zu kommunizieren, dass eine Startzeit oder eine reguläre Schachuhr abgelaufen ist, während die Funktionsaufrufe von ServerChessClock dazu dienen eine bestimmte Zeit zu starten. 
 
 \subsubsection{Neuer Zug einer Schachpartie}
+\label{sec:Zug-Backend}
 Ein Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend ist in Abbildung \ref{fig:Zug-Backend} zu finden. 
 
 
-Sobald ein neuer Zug eines Spielers mit dem Event \verb|new_move| ankommt wird die ServerChessClock aus dem Array und das aktuelle PGN aus der Redis Datenbank mittels der roomId geholt. Es wird ein neues chess.js Objekt kreiert, welches das aktuelle PGN importiert und anschließend den neuen Zug macht. Daraufhin wird der Zug in die roomId gebroadcastet. Das bedeutet, es wird an alle sockets im Raum gesendet, außer von dem Sender, da dieser ja bereits den Zug gemacht hat.
+Sobald ein neuer Zug eines Spielers ankommt wird die ServerChessClock aus dem Array und das aktuelle PGN aus der Redis Datenbank mittels der roomId geholt. Es wird ein neues chess.js Objekt kreiert, welches das aktuelle PGN importiert und anschließend den neuen Zug macht. Daraufhin wird der Zug in die roomId gebroadcastet. Das bedeutet, es wird an alle sockets im Raum gesendet, außer von dem Sender, da dieser ja bereits den Zug gemacht hat. Die alte PGN-Notation des Spiels wird nun mit der neuen Notation in Redis überschieben.
 
-Nachdem der Zug gesendet wurde, wird überprüft ob es sich um ein Schachmatt oder ein Patt handelt, falls ja werden die Uhren der ServerChessClock angehalten, das Frontend wird über den Ausgang informiert und das Spiel wird beendet (siehe Abschnitt \ref{sec:Schach-Ende}). 
+Anschließend überprüft ob es sich um ein Schachmatt oder ein Patt handelt, falls ja werden die Uhren der ServerChessClock angehalten, das Frontend wird über den Ausgang informiert und das Spiel wird beendet (siehe Abschnitt \ref{sec:Schach-Ende}). 
 
 Falls dies nicht der Fall ist wird die Zeit des jetzigen Spielers gestoppt und falls es eine reguläre Zeit ist, wird das Inkrement auf die Zeit gerechnet, die Zeit des anderen Spielers fängt an zu laufen und die aktualisierten Zeiten werden an das Frontend gesendet.
 
 Handelt es sich um die ersten zwei Züge, in denen die Startzeit und nicht die reguläre Zeit der Spieler läuft werden diese gesondert betrachtet und entweder die Startzeit von Schwarz beginnt zu laufen oder die reguläre Zeit von Weiß fängt an zu laufen. Dies wird auch mit entsprechenden Events dem Frontend mitgeteilt.
 
-Als letztes wird noch die PGN-Notation mit dem neuen Zug in Redis gespeichert.
-
-
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{Neuer Zug Backend.pdf}
+\includegraphics[width=\textwidth]{Neuer Zug Backend.pdf}
 \caption{Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend}
 \label{fig:Zug-Backend}
 \end{figure}

@@ -42,7 +42,8 @@ const Home = () => {
     useEffect(() => {
         socket.on('joined_game', (username, roomId) => {
             console.log("Partie gefunden: " + roomId + " gegner: " + opponent);
-            navigate(`game/${roomId}`, {
+            if(user.loggedIn) navigate(`game/${roomId}`);
+            else navigate(`game/${roomId}`, {
                 state: {
                     username: username
                 }

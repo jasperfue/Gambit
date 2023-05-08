@@ -30,7 +30,6 @@ module.exports.initializeChessListeners = (client, io) => {
     client.on('get_game_data', (roomId, guestName, cb) => {
         if (!currentChessClocks.hasOwnProperty(roomId)) {
             cb({done: false, errMsg: "This Game does not exist"});
-            console.log('kein Objekt in currentChessClocks')
             return;
         }
         if (!client.rooms.has(roomId)) {

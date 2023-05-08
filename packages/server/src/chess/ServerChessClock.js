@@ -17,9 +17,9 @@ function ServerChessClock(time) {
     }
 }
 
-    ServerChessClock.prototype.startStartingTimer = function(colour) {
+ServerChessClock.prototype.startStartingTimer = function (colour) {
     let startingTime;
-    if(colour === 'white') {
+    if (colour === 'white') {
         this.currentMode = "sw";
         startingTime = this.startingTimeWhite;
     } else {
@@ -27,78 +27,83 @@ function ServerChessClock(time) {
         startingTime = this.startingTimeBlack;
     }
     const decrease = () => {
-        if(startingTime.seconds > 1) {
+        if (startingTime.seconds > 1) {
             startingTime.seconds -= 1;
         } else {
             startingTime.seconds -= 1;
             clearInterval(timer);
             this.stopCurrentGame();
-            return;
+
         }
     }
     const timer = setInterval(decrease, 1000);
     this.ChessClockEvents.once('toggle', () => {
         clearInterval(timer);
     });
-        this.ChessClockEvents.once("stop", () => {
-            clearInterval(timer);
-            console.log('STOP CLOCK');
-        });
-    }
+    this.ChessClockEvents.once("stop", () => {
+        clearInterval(timer);
+    });
+}
 
-ServerChessClock.prototype.stopCurrentGame = function() {
-
-    if(this.getCurrentMode().includes('s')) {
+/**
+ * Called if a time is run out
+ */
+ServerChessClock.prototype.stopCurrentGame = function () {
+    if (this.getCurrentMode().includes('s')) {
         this.ChessClockEvents.emit('cancel_game');
-    } else if(this.getCurrentMode().includes('w')) {
+    } else if (this.getCurrentMode().includes('w')) {
         this.ChessClockEvents.emit('time_over', 'white');
     } else {
         this.ChessClockEvents.emit('time_over', 'black');
     }
-    }
+}
 
-    ServerChessClock.prototype.getCurrentMode = function() {
-        return this.currentMode;
-    }
+ServerChessClock.prototype.getCurrentMode = function () {
+    return this.currentMode;
+}
 
-    ServerChessClock.prototype.getCurrentTimes = function() {
-        return {remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack};
-    }
+ServerChessClock.prototype.getCurrentTimes = function () {
+    return {remainingTimeWhite: this.remainingTimeWhite, remainingTimeBlack: this.remainingTimeBlack};
+}
 
-    ServerChessClock.prototype.getCurrentStartingTimer = function() {
-        return {startingTimeWhite: this.startingTimeWhite.seconds, startingTimeBlack: this.startingTimeBlack.seconds};
-    }
+ServerChessClock.prototype.getCurrentStartingTimer = function () {
+    return {startingTimeWhite: this.startingTimeWhite.seconds, startingTimeBlack: this.startingTimeBlack.seconds};
+}
 
-ServerChessClock.prototype.startTimer = function (colour) {
-    let remainingTimeCopy;
-    if (colour === "white") {
-        remainingTimeCopy = this.remainingTimeWhite;
+/**
+ * Starts the timer for the given player color and manages time increments and game over events.
+ *
+ * @param {string} color - The color of the player for whom the timer should start ("white" or "black").
+ */
+ServerChessClock.prototype.startTimer = function (color) {
+    let currentPlayerTime;
+    if (color === "white") {
+        currentPlayerTime = this.remainingTimeWhite;
         this.currentMode = "tw";
     } else {
-        remainingTimeCopy = this.remainingTimeBlack;
+        currentPlayerTime = this.remainingTimeBlack;
         this.currentMode = "tb";
     }
 
     const isTimeOver = () => {
-        return remainingTimeCopy.minutes === 0 && remainingTimeCopy.seconds === 0;
+        return currentPlayerTime.minutes === 0 && currentPlayerTime.seconds === 0;
     };
 
     const decreaseTime = () => {
-        if (remainingTimeCopy.seconds === 0) {
-            remainingTimeCopy.minutes -= 1;
-            remainingTimeCopy.seconds = 59;
+        if (currentPlayerTime.seconds === 0) {
+            currentPlayerTime.minutes -= 1;
+            currentPlayerTime.seconds = 59;
         } else {
-            remainingTimeCopy.seconds -= 1;
+            currentPlayerTime.seconds -= 1;
         }
     };
 
     const timer = setInterval(() => {
         decreaseTime();
-        console.log(remainingTimeCopy);
         if (isTimeOver()) {
             clearInterval(timer);
             this.stopCurrentGame();
-            return;
+
         }
     }, 1000);
 
@@ -108,9 +113,9 @@ ServerChessClock.prototype.startTimer = function (colour) {
     });
     this.ChessClockEvents.once("toggle", (cb) => {
         clearInterval(timer);
-        if (colour === "white") {
+        if (color === "white") {
             this.remainingTimeWhite = increment(
-                remainingTimeCopy,
+                currentPlayerTime,
                 this.timeMode.increment
             );
             cb({
@@ -121,7 +126,7 @@ ServerChessClock.prototype.startTimer = function (colour) {
             this.startTimer("black");
         } else {
             this.remainingTimeBlack = increment(
-                remainingTimeCopy,
+                currentPlayerTime,
                 this.timeMode.increment
             );
             cb({
@@ -136,22 +141,21 @@ ServerChessClock.prototype.startTimer = function (colour) {
 
 
 function increment(remainingTime, increment) {
-        if(remainingTime.seconds + increment > 59) {
-            for (var i = increment; i > 0; i--) {
-                if(remainingTime.seconds + 1 < 60) {
-                    remainingTime.seconds += 1;
-                } else {
-                    remainingTime.minutes += 1;
-                    remainingTime.seconds = 0;
-                }
+    if (remainingTime.seconds + increment > 59) {
+        for (var i = increment; i > 0; i--) {
+            if (remainingTime.seconds + 1 < 60) {
+                remainingTime.seconds += 1;
+            } else {
+                remainingTime.minutes += 1;
+                remainingTime.seconds = 0;
             }
-            return remainingTime;
-        } else {
-            remainingTime.seconds += increment;
-            return remainingTime;
         }
+        return remainingTime;
+    } else {
+        remainingTime.seconds += increment;
+        return remainingTime;
     }
+}
 
 
-
-    module.exports = [ServerChessClock];
+module.exports = [ServerChessClock];
