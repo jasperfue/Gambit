@@ -17,9 +17,6 @@ export const AccountContext = createContext();
 const UserContext = ({children}) => {
     const [user, setUser] = useState({loggedIn: null});
 
-     /**
-     * Set User with Cookie, if possible
-     */
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             credentials: "include",
@@ -65,10 +62,6 @@ Um sich mit Hilfe von den \textit{SignUp}- oder \textit{Login}-Komponenten anzum
 Die Funktion zum Senden der Login-Daten an den Server befindet sich in Code Ausschnitt \ref{lst:submitLogin}.
 
 \begin{lstlisting}[style=codeStyle, caption={Die Funktion zum Senden der Benutzerdaten an das Backend}, label={lst:submitLogin}]
-    /**
-     * Submit the form and send it to the server. Set either the user data or an error message based on the response.
-     * @type {function({username, password}, function(boolean): void): void}
-     */
     const submitLogin = useCallback((values, setSubmitting) => {
         fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
             method: "POST",
@@ -216,9 +209,6 @@ function SocketConnectionContext({children}) {
     const [socket, setSocket] = useState(null);
     const {user} = useContext(AccountContext);
 
-    /**
-     * New socket connection every time the user changes.
-     */
     useEffect(() => {
         if(user.loggedIn !== null) {
             setSocket(new io(process.env.REACT_APP_SOCKET_URL, {
@@ -257,78 +247,94 @@ Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Ver
 
 \subsection{Das Schachspiel}
 In diesem Abschnitt werde ich darauf eingehen, was passiert nachdem die Daten erfolgreich vom Backend empfangen wurden, wie ein neuer Zug gehandhabt wird und wie die Bauernumwandlung implementiert ist.
-Der Ablauf wie ein Gegner gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}
+Der Ablauf wie ein Gegner gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}.
 
+\subsubsection{leave\_room}
+Eine kleine, aber sehr wichtige \verb|useEffect|-Hook der \textit{ChessGame}-Komponente ist der folgende:
 
-\begin{lstlisting}[style=codeStyle, caption={Initialisierung des Schachspiels nach Empfangen der Daten}, label={lst:chessGround}]
-    useEffect(() => {
-        if(initialized) {
-                setGround(new Chessground(document.getElementById(roomId), {
-                    fen: chess.fen(),
-                    orientation: orientation,
-                    viewOnly: spectator,
-                    movable: {
-                        free: false,
-                        color: orientation,
-                        showdests: true
-                    },
-                    premovable: {
-                        enabled: false
-                    },
-                    animation: {
-                        enabled: true,
-                        duration: 400
-                    }
-                }));
-        }
-
-    }, [initialized]);
-    
-    useEffect(() => {
-        if(ground) {
-            ground.set({
-                movable: {
-                    events: {
-                        after: onMove(ground, chess)
-                    }
-                }
-            });
-            refreshBoard(ground, chess);
-            
-            socket.on('opponent_move', (move) => {
-                if(move.flags.includes('p')) {
-                    onOpponentPromotion(move);
-                    return;
-                }
-                ground.move(move.from, move.to);
-                chess.move(move);
-                if(move.flags.includes('e')) {
-                    onEnPassent(ground, move);
-                }
-                refreshBoard(ground, chess);
-            });
-            socket.on('cancel_game', () => {...});
-            socket.on('time_over', (color) => {...});
-            socket.on('checkmate', (winner) => {...});
-            socket.on('draw', () => {...});
-            socket.on('resigned', (color) => {...});
-        }
-        return () => {
-            socket.off('opponent_move');
-            socket.off('Checkmate');
-            socket.off('draw');
-            socket.off('time_over');
-            socket.off('cancel_game');
-            socket.off('resigned');
-        }
-    }, [socket, ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
+\begin{lstlisting}[style=codeStyle, caption={useEffect-Hook für das holen der Daten und das verlassen des Raumes}, label={lst:Views-user-socket}]
+useEffect(() => {
+    getGameData();
+    return () => {
+        socket.emit('leaveRoom', roomId);
+    };
+}, [socket, roomId]);
 \end{lstlisting}
 
-Sobald erfolgreich die Daten mit dem \verb|get_game_data| Event empfangen und gesetzt wurden, wird ebenfalls \verb|initialized| auf true gesetzt, um die nächsten Schritte in Gang zu leiten.
+Diese Hook ruft die \verb|getGameData()| Methode auf, welche das Event \verb|get_game_data| sendet und mit der Antwort des Backend alle wichtigen Informationen setzt. Der Fokus dieses Abschnitts liegt allerdings auf dem Event \verb|leave_room|. Dieses Event wird ausgelöst, falls auf eine andere Seite navigiert werden würde und sorgt dafür, dass die socket aus dem Raum austritt und somit keine neuen Events mehr für dieses Spiel empfängt.
 
-Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird festgehalten, wie die Figuren gerade stehen (mittels FEN-Notation), die Orientierung welche Farbe nach unten zeigen soll, ob man Figuren bewegen darf und wenn ja welche und so weiter. Dieses chessground Interface wird dann in dem div Block \verb|document.getElementById(roomId)| angezeigt.
+Dies ist wichtig für die Funktionalität, dass man mehrere Spiele gleichzeitig spielen kann. Denn wenn man ein anderes Spiel gleichzeitig am laufen hat, würde man die Events beider Spiele empfangen. Dies könnte dazu führen, dass der Listener versucht einen Zug für das falsche Spiel zu machen und es käme zu Problemen. Mittels des \verb|leave_room| Events kann sichergestellt werden, dass immer nur das Event empfangen wird, welches zu dem Spiel gehört, auf welchem man sich gerade befindet.
 
-Wurde dann chessground initialisiert, wird noch die Methode hinzugefügt, die ausgeführt werden soll, falls man selbst einen Zug gemacht hat und Listener für verschiedene Events des Schachspiels werden initialisiert.
+\subsubsection{Initialisierung nach dem Empfangen der Daten}
+
+
+\begin{lstlisting}[style=codeStyle, caption={Initialisierung des Schachspiels nach Empfangen der Daten}, label={lst:chessground}]
+useEffect(() => {
+    if(initialized) {
+            setGround(new Chessground(document.getElementById(roomId), {
+                fen: chess.fen(),
+                orientation: orientation,
+                viewOnly: isSpectator,
+                movable: {
+                    free: false,
+                    color: orientation,
+                    showdests: true
+                },
+                premovable: {
+                    enabled: false
+                },
+                animation: {
+                    enabled: true,
+                    duration: 400
+                }
+            }));
+    }
+}, [initialized]);
+    
+useEffect(() => {
+    if(ground) {
+        ground.set({
+            movable: {
+                events: {
+                    after: onMove(ground, chess)
+                }
+            }
+        });
+        refreshBoard(ground, chess);        
+        socket.on('opponent_move', (move) => {
+            if(move.flags.includes('p')) {
+                onOpponentPromotion(move);
+                return;
+            }
+            ground.move(move.from, move.to);
+            chess.move(move);
+            if(move.flags.includes('e')) {
+                onEnPassent(ground, move);
+            }
+            refreshBoard(ground, chess);
+        });
+        socket.on('cancel_game', () => {...});
+        socket.on('time_over', (color) => {...});
+        socket.on('checkmate', (winner) => {...});
+        socket.on('draw', () => {...});
+        socket.on('resigned', (color) => {...});
+    }
+    return () => {
+        socket.off('opponent_move');
+        socket.off('Checkmate');
+        socket.off('draw');
+        socket.off('time_over');
+        socket.off('cancel_game');
+        socket.off('resigned');
+    }
+}, [socket, ground, initialized, ground, chess, orientation, whitePlayer, blackPlayer]);
+\end{lstlisting}
+
+Sobald erfolgreich die Daten mit dem \verb|get_game_data| Event empfangen und gesetzt wurden, wird \verb|initialized| auf true gesetzt, um die nächsten Schritte in Gang zu leiten.
+
+Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird übermittelt, wie die Figuren gerade stehen (mittels FEN-Notation), die Orientierung welche Farbe nach unten zeigen soll, ob man Figuren bewegen darf und wenn ja welche und weitere Optionen. Dieses chessground Interface wird dann in dem definierten div Bock angezeigt.
+
+Wurde dann chessground initialisiert, wird noch die Methode hinzugefügt, die ausgeführt werden soll, falls man selbst einen Zug gemacht hat (siehe Zeile 28 Code Ausschnitt \ref{lst:chessground}) und Listener für verschiedene Events des Schachspiels werden initialisiert.
 
 Nach jedem Zug, egal ob eigener oder eines Gegners, wird die \verb|refreshBoard| Methode aufgerufen.
 
@@ -345,12 +351,14 @@ export function refreshBoard(ground, chess) {
 
 Diese Methode sorgt dafür, dass eine Figur nur auf legale Züge ziehen darf und korrekt aktualisiert wird, welcher Spieler an der Reihe ist.
 
-Ein \verb|move| Objekt, das zurückgegeben wird nach dem zeiehn eines Zuges auf einem chess.js Objekt ist folgendermaßen aufgebaut\footnote{Quelle: \url{https://github.com/jhlywa/chess.js/} am 08. Mai 2023}:
+Ein \verb|move| Objekt, das zurückgegeben wird nach dem ziehen eines Zuges auf einem chess.js Objekt (siehe \verb|move| Parameter Zeile 35 in Code ausschnitt \ref{lst:chessground} oder Zeile 10 Code Ausschnitt \ref{lst:onMove})) ist folgendermaßen aufgebaut\footnote{Quelle: \url{https://github.com/jhlywa/chess.js/} am 08. Mai 2023}:
 \begin{verbatim}
 { color: 'w', from: 'e2', to: 'e4', flags: 'b', piece: 'p', san: 'e4' }
 \end{verbatim}
 Vor allem relevant sind die flags dieses Objekts, da sie ausdrücken um was für eine Art von Zug es sich handelt. Wird als flag beispielsweise \glqq e\grqq{ }angegeben, handelt es sich um ein En passent. Bei einem \glqq p\grqq{ }liegt eine Bauernumwandlung vor.
 Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders behandelt (siehe Zeile 36 ff. in Code Ausschnitt \ref{lst:chessground}).
+
+\subsubsection{Neuer Zug}
 
 \begin{lstlisting}[style=codeStyle, caption={Die onMove Methode}, label={lst:onMove}]
 const onMove = useCallback(() => {
@@ -386,9 +394,9 @@ const onMove = useCallback(() => {
 }, [socket, chess, roomId, ground, orientation, setSelectVisible, setPromotionMove, whitePlayer, blackPlayer]);
 \end{lstlisting}
 
-Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert En Passent- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen soll, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert.
+Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert En Passent- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen kann, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert.
 
-\begin{lstlisting}[style=codeStyle, caption={Die onMove Methode}, label={lst:onMove}]
+\begin{lstlisting}[style=codeStyle, caption={Die promotion Methode}, label={lst:promotion}]
 const promotion = useCallback(
     (toPiece) => {
         const move = chess.move({from: promotionMove[0], to: promotionMove[1], promotion: toPiece});
@@ -421,7 +429,103 @@ const promotion = useCallback(
 );
 \end{lstlisting}
 
-Wurde auf ein Figur des Modals geklickt wird von dort die Methode \verb|promotion| mit der entsprechenden Figur ausgeführt. Dann wird sowohl auf der chess.js, als auch auf der chessGround Instanz diese Bauernumwandlung vermerkt und an das Backend gesendet und die States \verb|promotionMove| und \verb|selectVisible| werden zurückgesetzt. 
+Wurde auf eine Figur des Modals geklickt wird von dort die Methode \verb|promotion| mit der entsprechenden Figur ausgeführt. Dann wird sowohl auf der chess.js, als auch auf der chessGround Instanz diese Bauernumwandlung durchgeführt, an das Backend gesendet und die States \verb|promotionMove| und \verb|selectVisible| werden zurückgesetzt. 
+
+\subsubsection{Schachuhr}
+\label{sec:impl-schachuhr}
+Die Komponente \textit{ChessClock} übernimmt die Verwaltung und die Darstellung der Schachuhren. Die Listener dieser Komponente wurden in Kapitel \ref{sec:Frontend-Uhr} erläutert.
+
+\begin{lstlisting}[style=codeStyle, caption={Ausschnitt der \textit{ChessClock}-Komponente}, label={lst:ChessClock}]
+...
+const currentTimer = useRef(0);
+...
+socket.on('updated_time', (timeWhite, timeBlack, turn) => {
+            stopClocks();
+            updateTime(timeWhite, timeBlack);
+            setCurrentTurn(turn);
+        });
+...
+useEffect(() => {
+    if(currentTurn === 'off') {
+        return;
+    }
+    const functionMap = {
+        tw: setTimeWhite,
+        tb: setTimeBlack,
+        sw: setStartingTimeWhite,
+        sb: setStartingTimeBlack,
+    };
+    const setFunction = functionMap[currentTurn];
+    const id = setInterval(() => {
+        decrease(setFunction);
+    }, 1000);
+    currentTimer.current = id;
+    return () => {
+        clearInterval(id);
+    }
+}, [currentTurn]);
+\end{lstlisting}
+
+Mit diesem Beispiel kann man gut demonstrieren, wie vielfältig die \verb|useEffect|-Hook genutzt werden kann. Man nutzt in diesem Fall keine selbst definiert Funktion um eine Zeit zu starten, sondern nutzt die Eigenschaft der Hook, das sie ausgeführt wird sobald sich ein Wert des Dependecy Arrays (in diesem Fall \verb|currentTurn|) ändert, um eine Zeit starten zu lassen. Den State der Zeit die ablaufen soll wird mittels \verb|currentTurn| definiert. Diese kann die folgenden Werte annehmen:
+
+\begin{itemize}
+\item \glqq sw\grqq : Gerade läuft die Startzeit von Weiß.
+\item \glqq sb\grqq : Die Startzeit von Schwarz läuft
+\item \glqq tw\grqq : Die reguläre Zeit von Weiß läuft.
+\item \glqq tb\grqq : Die reguläre Zeit von Schwarz läuft.
+\item \glqq off\grqq : Keine Zeit läuft.
+\end{itemize}
+
+Diese Werte werden auch in der Server seitigen Schachuhr verwendet (siehe Kapitel \ref{sec:Uhr-Backend-impl}).
+
+Die \verb|setInterval|-Methode akzeptiert als ersten Parameter eine Funktion und als zweiten Parameter eine Zahl, die das Zeitintervall in Millisekunden angibt, in dem die Funktion ausgeführt werden soll. In unserem Fall soll die verbleibende Zeit jede Sekunde um eine Sekunde reduziert werden. Die \verb|setInterval|-Methode gibt eine ID zurück, die in der \verb|useRef|-Variable \verb|currentTimer| gespeichert wird. Im Vergleich zur \verb|useState|-Hook hat die \verb|useRef|-Hook den Vorteil, dass sie keine Neurenderung der Komponente auslöst, wenn sich der Wert ändert, und besser geeignet ist, um Werte über mehrere Rendervorgänge hinweg persistent zu speichern\footnote{Quelle: \url{https://react.dev/reference/react/useRef} abgerufen am 09. Mai 2023}.
+
+Über \verb|currentTimer| kann in anderen Funktionen, beispielsweise beim Anhalten einer Uhr, auf die ID zugegriffen werden, und die \verb|setInterval|-Funktion kann mit \\ \verb|clearInterval(currentTimer.current)| gestoppt werden.
+
+
+\subsection{Verwaltung von Freunden}
+Die Verwalutung von Freunden und Freundschaftsanfragen im Frontend wurde in Kapitel \ref{sec:Friends} behandelt. In diesem Kapitel möchte ich konkrete Code Beispiele der Komponenten erläutern.
+
+\begin{lstlisting}[style=codeStyle, caption={Darstellung der Freundesliste in \textit{FriendList}}, label={lst:FriendList}]
+{friends.length === 0 ? (
+    <Text>No Friends</Text>
+  ) : (
+    <>
+      {friends
+        .slice()
+        .sort((a, b) => (a.connected === "true") - (b.connected === "true"))
+        .map((friend) => (
+          <Friend key={friend.username} friend={friend} times={props.times} />
+        ))}
+    </>
+  )
+}
+\end{lstlisting}
+
+Die Darstellung von Daten in Arrays kann in React mittels der Array \verb|map()| Funktion unkompliziert gehandhabt werden. Doch vor der Darstellung wird die Freundesliste noch nach dem \verb|connected| Status sortiert, sodass Freunde die online sind zuerst angezeigt werden.
+
+Dafür wird die Methode \verb|sort()| verwendet. Diese nimmt eine Funktion mit zwei Parametern (hier \verb|a| und \verb|b|) entgegen, die jeweils ein Element des Arrays sind. Gibt uns die Funktion 1 zurück, muss Element \verb|a| vor Element \verb|b| sortiert sein. Bei -1 anders herum und bei 0 ist es gleichgültig. Indem die Booleschen Werte von einander subtrahiert werden, werden ihnen Zahlen zugeordnet: 1 für \verb|true| und 0 für \verb|false|. Nun haben wir die folgenden Szenarien: Wenn beide den gleichen Status haben ist der Wert 0. Ist \verb|a.connected| true und \verb|b.connected| ist false: 1-0=1 $\Rightarrow$ \verb|a| wird vor \verb|b| sortiert. Anders herum dem entsprechend 0-1=-1.
+
+Die Darstellung und Funktionen eines einzelnen Freundes übernimmt die \textit{Friend}-Komponente, die ihre Daten als props übergeben bekommt.
+
+Auch die Liste der Freundschaftsanfragen, die Liste der aktiven Spiele der \textit{ActiveGames}- oder \textit{Friend}-Komponente wird mittels der \verb|map()| Funktion durch einzelne Komponenten dargestellt.
+
+Eine andere Interessante Methode der \textit{FriendList}-Komponente ist der Listener auf das \verb|connected| Event:
+
+\begin{lstlisting}[style=codeStyle, caption={Ausschnitt aus index.js und die Datei authRouter.js}, label={lst:routing-Middlewares}]
+socket.on('connected', (status, username) => {
+    setFriends(prevFriends => {
+        return [...prevFriends].map(friend => {
+            if (friend.username === username) {
+                friend.connected = status;
+            }
+            return friend;
+        });
+    });
+});
+\end{lstlisting}
+
+Dieses Event wird ausgelöst, wenn ein Freund die Anwendung öffnet oder schließt beziehungsweise sich anmeldet oder abmeldet. Dabei wird die Freundesliste mit der Funktion \verb|map()| durchlaufen und der Status des entsprechenden Freundes wird aktualisiert.
 
     \section{Backend-Entwicklung}
     \subsection{Authentifizierung}
@@ -456,11 +560,7 @@ Für jede Anfrage auf den Pfad \verb|/auth| wird die Middleware \verb|rateLimite
 
 \begin{lstlisting}[style=codeStyle, caption={Die rateLimiter Middleware}, label={lst:rateLimiter}]
 const redisClient = require("../redis/redis.js");
-/**
- * Rate limiter middleware that limits the number of requests from a given IP address within a specified time window.
- * @param limitAmount - The maximum number of requests allowed within the time window.
- * @returns {function(*, *, *): Promise<void>} - Middleware function that either sends an error response if the limit is exceeded or calls the next middleware or route handler.
- */
+
 module.exports.rateLimiter = (secondsLimit, limitAmount) => async (req, res, next) => {
     const ip = req.connection.remoteAddress;
     [response] = await redisClient
@@ -511,13 +611,6 @@ Diese Middleware ließt gegebenenfalls den Cookie mit dem JWT-Token und antworte
 Bei den POST Anfragen des Frontends, über die das ausgefüllte Anmelde-, beziehungsweise Registrierungsformular gesendet wird, wird vor der Auswertung mit den Middlewares \verb|validateLogin| oder \verb|validateSignUp| überprüft, ob das Formular auch dem entsprechenden Yup Schema übereinstimmt. Anschließend wird mit \verb|attemptLogin| oder \verb|attemptSignUp| versucht den Benutzern anzumelden oder zu registrieren.
 
 \begin{lstlisting}[style=codeStyle, caption={Die attemptLogin Middleware zum Anmelden}, label={lst:attemptLogin}]
-/**
- * Attempts to log in the user by checking the provided credentials against the database.
- * If the credentials match, creates a JWT token and sets it as a cookie in the response.
- * @param req - The incoming request object containing the user's login information.
- * @param res - The outgoing response object.
- * @returns {Promise<void>} - The Middleware
- */
 module.exports.attemptLogin = async (req, res) => {
     const potentialLogin = await query(
         "SELECT id, username, password, userid FROM users u WHERE u.username=$1",
@@ -570,11 +663,6 @@ Beim Registrieren wird ebenfalls bei Erfolg der Cookie mit dem JWT-Token gesetzt
 Da das Abmelden auch gewissermaßen zum Authentifizierungsprozess gehört, wird hier kurz beschrieben, was im Backend dabei passiert.
 
 \begin{lstlisting}[style=codeStyle, caption={Middleware zum Abmelden}, label={lst:handleLogout}]
-/**
- * Handles user logout by clearing the JWT cookie.
- * @param req - The request object.
- * @param res- The response object.
- */
 module.exports.handleLogout = (req, res) => {
     res.setHeader(
         "Set-Cookie",
@@ -622,13 +710,6 @@ Es werden drei Middlewares bei einem Verbindungsaufbau durchlaufen,  die ich in 
 
 
 \begin{lstlisting}[style=codeStyle, caption={authorizeUser Middleware für Socket.io Verbinudngen}, label={lst:authorizeUser}]
-/**
- * Middleware that authorizes the socket connection user based on the JWT in the cookie.
- * If the user is successfully authorized, their profile is added to the socket object.
- *
- * @param socket - The socket object representing the connection to the client.
- * @param next - The next middleware function to be called if authorization is successful.
- */
 module.exports.authorizeUser = (socket, next) => {
     let token = null;
     if (socket.request.headers.cookie) {
@@ -650,15 +731,6 @@ module.exports.authorizeUser = (socket, next) => {
 Die Middleware \verb|authorizeUser| (siehe Code Ausschnitt \ref{lst:authorizeUser} autorisiert den Benutzer. Dabei  wird auf den Cookie zugegriffen, der gegebenenfalls beim Authentifizieren gesetzt wurde, um den Benutzernamen und die \verb|userid| als Attribute der socket zu setzen. Diese Middleware ist der Grund, warum immer eine neue Socket.io Verbindung hergestellt werden muss, sobald der Benutzerzustand und damit der Cookie sich verändert. Ansonsten könnte es sein, dass veraltete Informationen in \verb|socket.user| definiert sind.
 
 \begin{lstlisting}[style=codeStyle, caption={initializeUser Middleware für Socket.io Verbinudngen}, label={lst:initializeUser}]
-/**
- * Middleware that initializes the user data when they connect to the socket server.
- * The function retrieves the user's friends, friend requests, and active games data,
- * and sends them to the client. It also emits a 'connected' event to the user's friends.
- *
- * @param socket - The socket object representing the connection to the client.
- * @param next - The next middleware function to be called.
- * @returns {Promise<void>}
- */
 module.exports.initializeUser = async (socket, next) => {
     if (socket.user) {
         socket.join(socket.user.userid);
@@ -685,14 +757,6 @@ Zunächst tritt er dem Raum seiner eigenen \verb|userid| bei um Events wie Freun
 Die dritte Middleware setzt alle nötigen Listener für Events, die mit dem Schachspiel zusammenhängen, als auch sonstige Funktionen (siehe Code Ausschnitt \ref{lst:index.js-socket}).
 
 \begin{lstlisting}[style=codeStyle, caption={Die onDisconnect Methode für Sockets}, label={lst:onDisconnect}]
-/**
- * Function that handles user disconnection from the socket server.
- * The function updates the user's online status and informs all friends,
- * that the user ist offline
- *
- * @param socket - The socket object representing the connection to the client.
- * @returns {Promise<void>}
- */
 module.exports.onDisconnect = async (socket) => {
     if (!socket.user) {
         return;
@@ -719,15 +783,6 @@ In diesem Abschnitt werde ich einige Aspekte der Implementierung des Schachspiel
 Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird.
 
 \begin{lstlisting}[style=codeStyle, caption={Die createChessGame Methode zum Initialisieren einer Schachpartie}, label={lst:createChessGame}]
-/**
- * Creates a new chess game with two players and initializes the game state and chess clock.
- *
- * @param  io - The Socket.IO server instance.
- * @param  username1 - The username of the first player.
- * @param  username2 - The username of the second player.
- * @param  time - The time mode for the chess clock.
- * @returns {Promise<string>} - Returns a promise that resolves to the new game's room ID.
- */
 const createChessGame = async (io, username1, username2, time) => {
     var roomId = UUIDv4();
     const [whitePlayer, blackPlayer] = Math.random() < 0.5 ? [username1, username2] : [username2, username1];
@@ -778,15 +833,6 @@ Ein Aktivitätsdiagramm und eine ausführliche Erklärung des Ablaufs wird in Ab
 \begin{lstlisting}[style=codeStyle, caption={newMove Methode die beim Eingang eines neuen Zugs aufgerufen wird}, label={lst:newMove}]
 //Listener:
 client.on('new_move', newMove(client, io));
-/**
- * Handles a new move in a chess game, updates the game state, and communicates
- * the move to the opponent. Also handles game-over scenarios such as checkmate
- * and stalemate.
- *
- * @param socket - The socket of the player making the move.
- * @param io - The socket.io instance.
- * @returns {function(string, Object, Object, function): Promise<void>} - An async function that takes the roomId, player, move, and a callback as arguments.
- */
 const newMove = (socket, io) => async (roomId, player, move, cb) => {
     if(!currentChessClocks[roomId]) {
         cb({done: false, errMsg: "Game does not exist"});
@@ -890,19 +936,12 @@ Es gibt zwei Szenarien, in denen kein Zustand des Schachspiels gesendet werden k
 
 Essenziell bei diesem Listener ist, dass die socket gegebenenfalls der roomId beitritt, um zukünftige Events, wie neue Züge, erhalten zu können. Außerdem ist es wichtig den Benutzernamen zu setzen, falls es sich um einen Gast handelt. Denn wenn dieser die Seite neu lädt wird eine neue socket Verbindung hergestellt und der Gast-Benutzername wäre nicht mehr in der socket gespeichert. Allerdings wird auf den Benutzernamen der socket z.B. bei einem Schachmatt zugegriffen.
 
-Alle aktuelle Daten, wie welcher Spieler welche farbe spielt und der aktuelle PGN-Notation des Spiels werden aus Redis geholt. Fehlen nur noch die aktuellen Zeiten. Dafür verwenden wie \verb|getCurrentMode()|, um den aktuellen Zustand der Schachuhren zu bekommen (siehe Zeile 23). Diese kann aus folgenden Strings bestehen:
-
-\begin{itemize}
-\item \glqq sw\grqq : Gerade läuft die Startzeit von Weiß.
-\item \glqq sb\grqq : Die Startzeit von Schwarz läuft
-\item \glqq tw\grqq : Die reguläre Zeit von Weiß läuft.
-\item \glqq tb\grqq : Die reguläre Zeit von Schwarz läuft.
-\end{itemize}
+Alle aktuelle Daten, wie welcher Spieler welche farbe spielt und der aktuelle PGN-Notation des Spiels werden aus Redis geholt. Fehlen nur noch die aktuellen Zeiten. Dafür verwenden wir \verb|getCurrentMode()|, um den aktuellen Zustand der Schachuhren zu bekommen (siehe Zeile 23). Dieser besteht wie im Frontend aus \glqq tw\grqq , \glqq tb\grqq , \glqq sw\grqq{ }und \glqq sb\grqq{ }(siehe \ref{sec:impl-schachuhr}).
 
 Je nachdem welche Uhren gerade laufen werden entweder die Startzeiten oder die reguären Zeiten der Spieler den Redis Daten hinzugefügt und anschließend dem Frontend per Callback Funktion übermittelt.
 
-
 \subsubsection{Die Uhr}
+\label{sec:Uhr-Backend-impl}
 Die Server seitige Schachuhr wird von Objekten der Klasse \verb|ServerChessClock| verwaltet. Diese Objekte besitzen die folgenden Attribute:
 
 \begin{lstlisting}[style=codeStyle, caption={Konstruktor der ServerChessClock Klasse}, label={lst:const-ServerChessClock}]
@@ -932,13 +971,7 @@ Vorab stelle ich vor, wie ein \verb|time| Objekt aufgebaut ist:
 
 \verb|string| dient der Darstellung und der einfachen Identifizierung dieser Objekte.
 
-
 \begin{lstlisting}[style=codeStyle, caption={Die startTimer und stopCurrentGame Methoden der ServerChessClock Klasse}, label={lst:startTimer}]
-/**
- * Starts the timer for the given player color and manages time increments and game over events.
- *
- * @param {string} color - The color of the player for whom the timer should start ("white" or "black").
- */
 ServerChessClock.prototype.startTimer = function (color) {
     let currentPlayerTime;
     if (color === "white") {
@@ -1028,6 +1061,32 @@ Die Zeit läuft korrekt ab, durch den \verb|timer|, welcher \verb|setInterval| n
 Es wird ein Listener definiert, welcher bei einem neuen Zug das Inkrement auf die entsprechende Zeit rechnet und mittels Callback Funktion die aktuellen Zeiten durchgibt, um diese in der \verb|newMove| Methode an das Frontend zu senden (siehe \ref{sec:new_move_backend}). Dieser Listener wird mit \verb|ones(...)| definiert, wodurch er nur ein mal auf das Event hört. Dies ist wichtig, da anschließend die \verb|startTimer| Methode reukursiv aufgerufen wird und der Listnerer neu initialisiert wird.
 
 Die \verb|stopCurrentGame| Methode wird aufgerufen, falls eine Zeit (Startzeit oder reguläre Zeit) abgelaufen ist und sendet entsprechende Events an SocketChessController.
+
+
+\subsection{Sonstige Funktionen}
+In diesem Kapitel zeige ich die Implementierung sonstiger Funktionen, wie Freundschaftsanfragen, ... Diese werden durch die Listener in der Datei \verb|socketController.js| zur Verfügung gestellt und verwenden den \verb|redisController| für Operationen an der Redis Datenbank.
+
+\subsubsection{Freundschaftsanfrage}
+Wie eine Freundschaftsanfrage im Backen abläuft wird in Kapitel \ref{sec:hinzufügen-von-Freunden} erläutert. Hier erläutere ich einige Code Beispiele dazu.
+\begin{lstlisting}[style=codeStyle, caption={Der Listener des send\_friend\_request Events}, label={lst:sendFriendRequest}]
+client.on('send_friend_request', (requestName, cb) => {
+    if(client.user?.username) {
+        requestFriend(client.user.username, client.user.userid, requestName).then(result => {
+                if (result?.errorMsg) {
+                    cb({done: false, errorMsg: result.errorMsg});
+                    return;
+                }
+                cb({done: true});
+                client.to(result.userid).emit('friend_request', client.user.username);
+            }
+        );
+    } else {
+        cb({done: false, errorMsg: "Please try again later"});
+    }
+});
+\end{lstlisting}
+
+Die Funktion \verb|requestFried| der \verb|redisController| Datei überprüft, ob eine Freundschaft der beiden Spieler erlaubt wäre und gibt uns unter anderem die \verb|userid| des angefragten Spielers zurück. Ist die Freundschaft nicht erlaubt wird die entsprechende Fehlermeldung, warum sie nicht erlaubt ist (z.B. der Spieler existiert nicht, sie sind bereits befreundet, ...) an den Sender mittels Callback Funktion weitergeleitet. Ansonsten wird die Freundschaftsanfrage mittels des Events \verb|friend_request| an den Benutzer gesendet und der Sender wird über die Callback Funktion über den erfolgreichen Versand benachrichtigt.
 
 
 \section{Datenbank Integration}

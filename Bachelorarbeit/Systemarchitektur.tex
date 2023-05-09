@@ -290,21 +290,17 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
    
    \subsection{Authentifizierung}
    \label{sec:Autehtifizierung Frontend}
-Die Authentifizierung findet in drei Komponenten statt: Dem \textit{UserContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Gewissermaßen hat \textit{SocketContext} auch etwas mit der Authentifizierung zu tun, da sobald sich der Anmeldezustand sich verändert eine neue socket Verbindung hergestellt wird. Was im Backend bei einer Authentifizierung stattfindet, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert.
+Die Authentifizierung findet in drei Komponenten statt: Dem \textit{UserContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Die Authentifizierung im Backend, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert. Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} vorgestellt.
 
-Der \textit{UserContext} beinhaltet den State \verb|user| und der \textit{SocketContext} beinhaltet den State \verb|socket|, die den Komponenten zur Verfügung gestellt wird.
-Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob der Benutzer nun angemeldet ist oder nicht und wenn ja, dann seinen Benutzernamen.
+Der \textit{UserContext} beinhaltet den State \verb|user|, der den Komponenten zur Verfügung gestellt wird.
+Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob der Benutzer angemeldet werden konnte oder nicht und wenn ja, dann seinen Benutzernamen.
 Dies wird in den \verb|user|-State gesetzt.
 
-Wurde der \verb|user| gesetzt, wird im \textit{SocketContext} eine socket Verbindung hergestellt. Solange eine der beiden States der Kontexte nicht initialisiert wurde, wird ein Lade-Bildschirm gezeigt, um fehlerhafte Darstellungen oder Funktionen zu vermeiden.
-
-Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}). Auch hier wird nach dem Ändern des \verb|user| States in der \textit{UserContext}-Komponente eine neue socket Verbindung in \textit{SocketContext} hergestellt.
-
-Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} erläutert.
+Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}).
         
         \subsection{Das Schachspiel}
         \label{sec:Schachspiel}
-        In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. Die Vorgehensweise im Backend und im Zusammenspiel befindet sich in Abschnitt \ref{sec:Schach-Backend}.
+        In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. Die Vorgehensweise im Backend und das Zusammenspiel bei der Gegner Suche befindet sich in Abschnitt \ref{sec:Schach-Backend}.
         
 Das Schachspiel und die zugehörigen Schachuhren sind getrennt gehalten um die Modularität zu erhöhen. Die Schachuhren und das Spiel haben jeweils eigene Events und Listener auf die sie hören.
 		\subsubsection{Das Starten eines Schachspiels}
@@ -379,7 +375,7 @@ Die Events \verb|checkmate|, \verb|time_over|, \verb|draw|, \verb|resigned| und 
 \label{fig:resign-toast}
 \end{figure}
 
-Der Ablauf beim Empfangen eines neuen Zugs ist im Aktivitätsdiagramm in Abbildung \ref{fig:chess-opponent-move} dargestellt. Die Bauernumwandlung und das En Passant müssen separat behandelt werden, da chessground nur das Schach Interface zur Verfügung stellt und bei diesen beiden Zusatzregeln andere Figuren ersetzt oder entfernt werden, als bei regulären Zügen. Das aktualisieren möglicher Züge beinhaltet, dass chessground alle möglichen Züge von chess.js übertragen bekommt, welches zur Folge hat, dass bei einem Klick auf eine Figur korrekt angezeigt wird wohin diese Figur ziehen könnte und auch nur auf diese Felder kann eine Figur bewegt werden (siehe Abbildung \ref{fig:chess-game}).
+Der Ablauf beim Empfangen eines neuen Zugs ist im Aktivitätsdiagramm in Abbildung \ref{fig:chess-opponent-move} dargestellt. Die Bauernumwandlung und das En Passant müssen separat behandelt werden, da chessground nur das Schach Interface zur Verfügung stellt und bei diesen beiden Zusatzregeln andere Figuren ersetzt oder entfernt werden, als bei regulären Zügen. Das Aktualisieren möglicher Züge beinhaltet, dass chessground alle möglichen Züge von chess.js übertragen bekommt, welches zur Folge hat, dass bei einem Klick auf eine Figur korrekt angezeigt wird wohin diese Figur ziehen könnte und auch nur auf diese Felder kann eine Figur bewegt werden (siehe Abbildung \ref{fig:chess-game}).
 
 Gesendet werden können die Events: \verb|new_move| zum senden eines Zugs, \verb|resign| zum Aufgaben der Partie und \verb|leave_room|, wenn der Spieler die \textit{ChessGame} Komponente verlässt.
 Ein Aktivitätsdiagramm des Senden eines Zugs befindet sich in Abbildung \ref{fig:chess-move}. Genau wie bei dem Empfangen eines Zugs wird auch beim Senden zwischen Bauernumwandlung und En Passant unterschieden. Der einzige Unterschied ist, dass bei der Bauernumwandlung nach dem setzen des Zugs noch mittels der  \textit{PromotionModal}-Komponente ausgewählt werden muss, in welche Figur sich der Bauer umwandeln soll, bevor der Zug gesendet wird.
@@ -402,6 +398,7 @@ Das Event zum Aufgeben wird nach dem klicken des \glqq resign\grqq{ }Buttons ges
 \end{figure}
 
         \subsubsection{Die Uhr}
+        \label{sec:Frontend-Uhr}
 Die \textit{ChessClock} Komponente bekommt von \textit{ChessGame} als Props die aktuelle Phase der Partie, die jeweiligen aktuellen Zeiten und die Ausrichtung, welche Zeit oben bzw. unten gezeigt werden soll. Neben der regulären Schach Zeit gibt es noch eine Startzeit, welche während des ersten Zugs jeden Spielers abläuft, um zu gewährleisten, dass das Spiel auch erst wirklich startet sobald beide Spieler bereit sind. Läuft die Startzeit ab wird das Spiel abgebrochen (siehe Abschnitt \ref{sec:schach-theorie}). Diese Startzeit ist die lila eingefärbte Zeit in Abbildung \ref{fig:chess-game}.
 
 Die Komponente sendet keine Events, sondern hört nur auf die folgenden:
@@ -475,7 +472,7 @@ Die \textit{FriendRequest}-Komponente stellt eine Freundschaftsanfrage dar und e
 Es hört auf keine Events, sendet allerdings zwei Events: \verb|accept_friend_request| und \verb|decline_friend_request|. Die Behandlung dieser Events im Backend wird in Abschnitt \ref{sec:accept-friend-request} erläutert. War das Akzeptieren, beziehungsweise das Ablehnen der Anfrage erfolgreich wird die Freundschaftsanfrage aus der Liste gelöscht und zusätzlich wird gegebenenfalls der neue Freund der Freundesliste hinzugefügt.
 
 \subsubsection{\textit{AddFriendModal}-Komponente}
-Diese Komponente besteht aus einem Button und einem Modal, falls man den Button anklickt. In diesem Modal kann man einen Benutzernamen angeben, an den die Freundschaftsanfrage verschickt werden soll. Das Versenden einer Freundschaftsanfrage wird mittels des \verb|send_friend_request| Events behandelt. Es beinhaltet eine Callback-Funktion, welche entgegennimmt, ob die Versendung erfolgreich war und wenn nicht, dann eine Fehlermeldung, warum es nicht möglich war die Freundschaftsanfrage zu versenden (siehe Abbildung \ref{fig:AddFriendModal}). Wie das Backend eine neue Freundschaftsanfrage behandelt wird in Abschnitt \ref{sec:hinzufügen-von-Freunden} erläutert.
+Diese Komponente besteht aus einem Button und einem Modal, das sich öffnet, falls man den Button anklickt. In diesem Modal kann man einen Benutzernamen angeben, an den die Freundschaftsanfrage verschickt werden soll. Das Versenden einer Freundschaftsanfrage wird mittels des \verb|send_friend_request| Events behandelt. Es beinhaltet eine Callback-Funktion, welche entgegennimmt, ob die Versendung erfolgreich war und wenn nicht, dann eine Fehlermeldung, warum es nicht möglich war die Freundschaftsanfrage zu versenden (siehe Abbildung \ref{fig:AddFriendModal}). Wie das Backend eine neue Freundschaftsanfrage behandelt wird in Abschnitt \ref{sec:hinzufügen-von-Freunden} erläutert.
 
 \begin{figure}[h]
 \centering
@@ -593,7 +590,7 @@ Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals 
 
 Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelöscht.
 
-      \begin{figure}[h!]
+      \begin{figure}[!htbp]
       \centering
       \begin{subfigure}[b]{0.35\textwidth}
       \centering
@@ -623,12 +620,12 @@ Es gibt 3 verschiedene Arten ein Schachspiel zu starten: Ein angemeldeter Benutz
 
 Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|find_game| mit den Benutzerdaten und der gewählten Zeitkonfiguration vom Frontend gesendet. Ein Sequenzdiagramm des starten eines Spiels mit zufälligem Gegner befindet sich in Abbildung \ref{fig:sequence_chess_start}. Dies beinhaltet folgende Schritte:
      
-\begin{figure}[!h]
+\begin{figure}[!htbp]
   \centering
   
  
-\begin{adjustbox}{width=\textwidth}
-  \begin{sequencediagram}[scale=0.2]
+\begin{adjustbox}{height=\textheight}
+  \begin{sequencediagram}
     \newinst{clientA}{Client A}
     \newinst[2]{clientB}{Client B}
     \newthread{server}{Server}
@@ -844,6 +841,6 @@ Dies ist eine Liste die genauso aufgebaut ist wie die \verb|friends:username| Li
 \label{sec:Warteschlange}
 Die letzten Elemente sind die Warteschlangen für Spiele. Diese bestehen aus \verb|waitingPlayers:timeMode| und \verb|waitingGuests:timeMode|, je nachdem, ob es sich um einen angemeldeten Benutzer handelt oder nicht. \verb|timeMode| repräsentiert hier alle möglichen Schachuhren, also beispielsweise \glqq 10 + 5\grqq , \glqq 15 + 10\grqq , ...
 
-Diese Warteschlagen sind Listen, welche aus \verb|username:userid| Einträgen bestehen, um die Anzahl an Abfragen zu verringern. 
+Diese Warteschlagen sind Listen, welche aus \verb|username:userid| Einträgen bestehen, um zu verhindern, dass ein weiterer Zugriff auf \verb|user:username| nötig ist, um die \verb|userid| zu bekommen. 
 
 Durch die Redis Operationen \verb|RPOP| und \verb|LPUSH| lassen sich atomar Einträge hinzufügen oder herausnehmen, welches die Konsistenz der Liste gewährleistet.

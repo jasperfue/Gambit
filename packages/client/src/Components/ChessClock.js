@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState, useContext, useCallback} from "react";
-import {useColorModeValue, Flex, Box} from "@chakra-ui/react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {Box, Flex, useColorModeValue} from "@chakra-ui/react";
 import {SocketContext} from "../Context/SocketContext.js";
 
 const ChessClock = (props) => {
@@ -29,32 +29,17 @@ const ChessClock = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log('toggle');
-        let setFunction = () => {
-        };
-        switch (currentTurn) {
-            case 'tw':
-                setFunction = setTimeWhite;
-                console.log('tw');
-                break;
-            case 'tb':
-                setFunction = setTimeBlack;
-                break;
-            case 'sw':
-                setFunction = setStartingTimeWhite;
-                break;
-            case 'sb':
-                setFunction = setStartingTimeBlack;
-                break;
-            default:
-                console.log(currentTurn);
-                return;
+        if(currentTurn === 'off') {
+            return;
         }
+        const functionMap = {
+            tw: setTimeWhite,
+            tb: setTimeBlack,
+            sw: setStartingTimeWhite,
+            sb: setStartingTimeBlack,
+        };
+        const setFunction = functionMap[currentTurn];
         const id = setInterval(() => {
-            if (currentTurn === 'off') {
-                clearInterval(id);
-                return;
-            }
             decrease(setFunction);
         }, 1000);
         currentTimer.current = id;
@@ -87,7 +72,6 @@ const ChessClock = (props) => {
             socket.off('start_starting_Time_White');
             socket.off('start_starting_Time_Black');
             socket.off('stop_clocks');
-
         }
     }, [socket]);
 
@@ -111,15 +95,18 @@ const ChessClock = (props) => {
             {orientation === 'white' ? (
                 <>
                     {currentTurn.includes('s') ? <>
-                        <Box backgroundColor={bgStartingTimer} textAlign="center" p={1} borderTopRadius="md" height="30px" width="90px">{startingTimeBlack}</Box>
-                            <Flex backgroundColor={bg}  borderBottomRadius="md" alignItems="center" justifyContent="center" height="60px" width="90px">
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" p={1} borderTopRadius="md"
+                                 height="30px" width="90px">{startingTimeBlack}</Box>
+                            <Flex backgroundColor={bg} borderBottomRadius="md" alignItems="center" justifyContent="center"
+                                  height="60px" width="90px">
                                 <Box id="Black">
                                     {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
                                 </Box>
                             </Flex>
                         </>
                         :
-                        <Flex backgroundColor={bg}  borderRadius="md" alignItems="center" justifyContent="center" height="60px" width="90px" marginTop="30px">
+                        <Flex backgroundColor={bg} borderRadius="md" alignItems="center" justifyContent="center"
+                              height="60px" width="90px" marginTop="30px">
                             <Box id="Black">
                                 {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
                             </Box>
@@ -127,15 +114,18 @@ const ChessClock = (props) => {
                     }
                     {currentTurn === "sw" ?
                         <>
-                            <Flex backgroundColor={bg} borderTopRadius="md" marginTop="1vh" alignItems="center" justifyContent="center" height="60px" width="90px">
+                            <Flex backgroundColor={bg} borderTopRadius="md" marginTop="1vh" alignItems="center"
+                                  justifyContent="center" height="60px" width="90px">
                                 <Box id="White">
                                     {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
                                 </Box>
                             </Flex>
-                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderBottomRadius="md" width="90px">{startingTimeWhite}</Box>
-                            </>
-                            :
-                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px" alignItems="center" justifyContent="center" height="60px" width="90px">
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px"
+                                 borderBottomRadius="md" width="90px">{startingTimeWhite}</Box>
+                        </>
+                        :
+                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px"
+                              alignItems="center" justifyContent="center" height="60px" width="90px">
                             <Box id="White">
                                 {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
                             </Box>
@@ -147,15 +137,18 @@ const ChessClock = (props) => {
             ) : (
                 <>
                     {currentTurn === "sw" ? <>
-                        <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderTopRadius="md" width="90px">{startingTimeWhite}</Box>
-                            <Flex backgroundColor={bg}  borderBottomRadius="md" alignItems="center" justifyContent="center" height="60px" width="90px">
-                            <Box id="White">
-                                {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
-                            </Box>
-                        </Flex>
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderTopRadius="md"
+                                 width="90px">{startingTimeWhite}</Box>
+                            <Flex backgroundColor={bg} borderBottomRadius="md" alignItems="center" justifyContent="center"
+                                  height="60px" width="90px">
+                                <Box id="White">
+                                    {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
+                                </Box>
+                            </Flex>
                         </>
                         :
-                        <Flex backgroundColor={bg} borderRadius="md" alignItems="center" justifyContent="center" marginBottom="1vh" marginTop="30px" height="60px" width="90px">
+                        <Flex backgroundColor={bg} borderRadius="md" alignItems="center" justifyContent="center"
+                              marginBottom="1vh" marginTop="30px" height="60px" width="90px">
                             <Box id="White">
                                 {`${(timeWhite / 60 > 9 ? Math.trunc(timeWhite / 60) : '0' + Math.trunc(timeWhite / 60))}:${(timeWhite % 60 > 9 ? timeWhite % 60 : '0' + timeWhite % 60)}`}
                             </Box>
@@ -164,20 +157,23 @@ const ChessClock = (props) => {
 
                     {currentTurn.includes("s") ?
                         <>
-                            <Flex backgroundColor={bg} borderTopRadius="md" alignItems="center" justifyContent="center" marginTop="1vh" height="60px" width="90px">
+                            <Flex backgroundColor={bg} borderTopRadius="md" alignItems="center" justifyContent="center"
+                                  marginTop="1vh" height="60px" width="90px">
                                 <Box id="Black">
                                     {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
                                 </Box>
                             </Flex>
-                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px" borderBottomRadius="md" width="90px">{startingTimeBlack}</Box>
-                            </>
+                            <Box backgroundColor={bgStartingTimer} textAlign="center" height="30px"
+                                 borderBottomRadius="md" width="90px">{startingTimeBlack}</Box>
+                        </>
                         :
-                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px" alignItems="center" justifyContent="center" height="60px" width="90px">
+                        <Flex backgroundColor={bg} borderRadius="md" marginTop="1vh" marginBottom="30px"
+                              alignItems="center" justifyContent="center" height="60px" width="90px">
                             <Box id="Black">
                                 {`${(timeBlack / 60 > 9 ? Math.trunc(timeBlack / 60) : '0' + Math.trunc(timeBlack / 60))}:${(timeBlack % 60 > 9 ? timeBlack % 60 : '0' + timeBlack % 60)}`}
                             </Box>
                         </Flex>
-                            }
+                    }
                 </>
             )}
         </Flex>

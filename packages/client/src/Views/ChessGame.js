@@ -9,7 +9,7 @@ import ChessClock from "../Components/ChessClock.js";
 import {AccountContext} from "../Context/AccountContext.js";
 import {useLocation} from "react-router-dom";
 import PromotionModal from "../Components/PromotionModal.js";
-import {Alert, AlertIcon, AlertTitle, AlertDescription, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button, Icon} from "@chakra-ui/react";
+import {Alert, AlertIcon, AlertTitle, Box, VStack, Flex, useColorModeValue, Heading, useToast, Button, Icon} from "@chakra-ui/react";
 import Chat from "../Components/Chat.js";
 import {SocketContext} from "../Context/SocketContext.js";
 import { BsClock } from "react-icons/bs";
@@ -273,7 +273,7 @@ const ChessGame = () => {
                         isClosable: true
                     });
                     refreshBoard(ground, chess);
-                    return;
+
                 }
             });
             if(move.flags.includes('e')) {
