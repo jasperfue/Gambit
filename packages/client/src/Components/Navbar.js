@@ -43,7 +43,7 @@ const Navbar = () => {
     }, [navigate]);
 
     const logOut = useCallback(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+        fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
             credentials: "include",
         })
             .then((response) => {

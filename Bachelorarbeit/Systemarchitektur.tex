@@ -8,7 +8,9 @@ Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerf
 
 Auf der Backend-Seite wird Node.js\footcite{nodejs} mit dem Express-Framework verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL\footcite{postgresql}-Datenbank verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Freundeslisten und Daten aktiver Spiele werden in einer Redis\footcite{redis}-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
 \section{Architekturübersicht}
-Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert die Hauptkomponenten und deren Schnittstellen der Kommunikation.
+Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert die Hauptkomponenten für die Kommunikation und deren Schnittstellen.
+
+Wie zu erkennen ist, sind die Datenbanken und deren Funktionen getrennt gehalten. Die Web-API und die PostgreSQL Datenbank werden zum Authentifizieren genutzt, währen die Kommunikation mittels Socket.io und die Redis Datenbank für die restlichen Funktionen der Anwendung verwendet werden. Dies erhöht die Modularität und Flexibilität, wodurch die verschiedenen Datenbanken und Funktionen unabhängig voneinander entwickelt, gewartet und skaliert werden können.
 
 Im Frontend gibt es drei Komponenten, welche die Web-API verwenden: Der \textit{UserContext}, \textit{Login} und \textit{SignUp}. Unsere Web-API verwendet dabei nur die Methoden GET und POST. Der \textit{UserContext} ist verantwortlich für die Verwaltung des Benutzerzustands, während die Komponenten \textit{Login} und \textit{SignUp} das setzen des Benutzerzustands über das Anmelden und Registrieren unterstützen. Der \textit{SocketContext} baut die Socket.io Verbindung für die Echtzeitkommunikation auf und stellt sie den restlichen React Komponenten zur Verfügung, um Events zu senden und zu empfangen.
 
@@ -378,6 +380,8 @@ Die Events \verb|checkmate|, \verb|time_over|, \verb|draw|, \verb|resigned| und 
 Der Ablauf beim Empfangen eines neuen Zugs ist im Aktivitätsdiagramm in Abbildung \ref{fig:chess-opponent-move} dargestellt. Die Bauernumwandlung und das En Passant müssen separat behandelt werden, da chessground nur das Schach Interface zur Verfügung stellt und bei diesen beiden Zusatzregeln andere Figuren ersetzt oder entfernt werden, als bei regulären Zügen. Das Aktualisieren möglicher Züge beinhaltet, dass chessground alle möglichen Züge von chess.js übertragen bekommt, welches zur Folge hat, dass bei einem Klick auf eine Figur korrekt angezeigt wird wohin diese Figur ziehen könnte und auch nur auf diese Felder kann eine Figur bewegt werden (siehe Abbildung \ref{fig:chess-game}).
 
 Gesendet werden können die Events: \verb|new_move| zum senden eines Zugs, \verb|resign| zum Aufgaben der Partie und \verb|leave_room|, wenn der Spieler die \textit{ChessGame} Komponente verlässt.
+Das \verb|leave_room|-Event ist in so fern wichtig, als das es ermöglicht mehrere Spiele gleichzeitig zu spielen. Wenn der Spieler eine Partie verlässt und eine zweite Partie startet und weiterhin die Events des ersten Spiels empfängt kann es zu Problemen kommen, da die Listener der neuen Partie die Events der alten Partie empfangen. Durch das Verlassen des Raums wird gewährleistet, dass ein Spieler immer nur die Events zu dem Spiel empfängt, auf dem er sich gerade befindet.
+
 Ein Aktivitätsdiagramm des Senden eines Zugs befindet sich in Abbildung \ref{fig:chess-move}. Genau wie bei dem Empfangen eines Zugs wird auch beim Senden zwischen Bauernumwandlung und En Passant unterschieden. Der einzige Unterschied ist, dass bei der Bauernumwandlung nach dem setzen des Zugs noch mittels der  \textit{PromotionModal}-Komponente ausgewählt werden muss, in welche Figur sich der Bauer umwandeln soll, bevor der Zug gesendet wird.
 
 Das Event zum Aufgeben wird nach dem klicken des \glqq resign\grqq{ }Buttons gesendet.
@@ -420,14 +424,12 @@ Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von Fr
 
 \textit{FriendList} verwendet zwei States in Form von Arrays: \verb|friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}-, beziehungsweise \textit{FriendRequest}-Komponente dargestellt und verwaltet. Dabei werden die Freunde je nachdem ob sie online sind oder nicht sortiert. \textit{FriendList} hört dabei auf die folgenden Events: 
 \begin{itemize}
-\item \textbf{friends:} Ein Event welches nach der Anmeldung des Nutzers empfangen wird, um die Liste der Freunde zu bekommen.
-\item \textbf{friend\_requests:} Das gleiche Event, nur zum setzen der Freundschaftsanfragen.
 \item \textbf{friend\_request\_accepted:} Enthält Daten eines neuen Freundes, welcher deine Freundschaftsanfrage angenommen hat. Dieser wird der Freundesliste hinzugefügt.
 \item \textbf{friend\_request:} Eingang einer neuen Freundschaftsanfrage. Wird der Liste der Freundschaftsanfragen hinzugefügt.
 \item \textbf{connected:} Dieses Event wird empfangen, falls ein Freund von dir offline, beziehungsweise online geht. Der betreffende Freundes-Eintrag in der Freundesliste wird aktualisiert.
 \end{itemize}
 
-Des weiteren werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, falls auf die \verb|Home|-Komponente navigiert wird. Diese beiden Events empfangen mittels Callback-Funktionen alle Daten über die Freunde und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der Freunde aktualisiert werden.
+Zum Holen der Listen werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, wenn auf die \verb|Home|-Komponente navigiert wird. Diese beiden Events empfangen mittels Callback-Funktionen alle Daten über die Freunde und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der Freunde aktualisiert werden.
 
 \subsubsection{\textit{Friend}-Komponente}
 \label{sec:friend-komponente}
@@ -483,7 +485,8 @@ Diese Komponente besteht aus einem Button und einem Modal, das sich öffnet, fal
 
 \subsection{Anzeigen und navigieren zu aktiven Partien}
 Falls man eine aktive Schachpartie spielt und aus Versehen den Browser schließt, auf die Startseite navigiert oder ähnliches gäbe es keine Möglichkeit auf das Spiel zurück zu kehren, es sei denn man hat den Link oder die roomId des Spiels gespeichert. Um es möglich zu machen auf aktive Spiele schnell wieder zurück zu kehren, ohne die roomId der Partie zu kennen, gibt es die Unterkomponente \textit{ActiveGames} in der \textit{Home}-Komponente (siehe Abbildung \ref{fig:home-logged-in}). Diese Komponente macht es möglich zu verfolgen welche offenen Spiele man gegen wen in welcher Farbe hat und man kann leicht wieder zu diesen Spielen navigieren, indem man auf den Button klickt.
-Es besitzt den Listener auf das Event \verb|active_games|, welches nach einer erfolgreichen socket Authentifizierung (siehe Abschnitt \ref{sec:socketauth}) mit einer Liste aller aktiven Spiele gesendet wird. Des weiteren sendet es das Event \verb|get_active_games|, welches mit einer Callback Funktion ebenfalls so eine Liste empfängt. Dieses Event wird, wie bei dem Event \verb|get_friends| von der \textit{FriendList}-Komponente, gesendet, falls wieder auf die \textit{Home}-Komponente navigiert wird, um die Liste der aktiven Spiele zu aktualisieren.
+
+Es sendet das Event \verb|get_active_games|, welches mit einer Callback Funktion  eine Liste aller aktiven Spiele empfängt. Dieses Event wird, wie bei dem Event \verb|get_friends| von der \textit{FriendList}-Komponente, jedes mal gesendet, wenn auf die \textit{Home}-Komponente navigiert wird, um die Liste der aktiven Spiele zu aktualisieren.
 Ist die Liste leer, wird nur \glqq No acitve Games\grqq{ } angezeigt. Ansonsten wird jedes aktive Spiel der Liste mit einem Button dargestellt, auf deren klick man zu dem Spiel navigiert wird.
 
         \section{Backend-Architektur}
@@ -565,12 +568,10 @@ Die erste Middleware Authentifiziert die Socket des Benutzers. Sie liest aus dem
 
 Wenn der Benutzer keinen gültigen JWT-Token hat, werden trotzdem alle Middlewares ohne Fehler durchlaufen. Dies liegt daran, dass bei einem fehlgeschlagenen Middleware-Prozess die Socket.io-Verbindung abgelehnt werden würde. Es soll allerdings auch das Spielen einer Schachpartie als Gast möglich sein.
 
-Als zweite Middleware wird der Benutzer mit Daten versorgt, er tritt dem Raum seiner userid bei und wird als online vermerkt.
-Der beitritt in den Raum seiner userid dient dazu, dass man anschließend nur diese ID braucht um ein Event an den Benutzer zu senden. Dabei wird in Redis \verb|user:username| mit seinen Informationen und \verb|connected| auf \verb|true| gesetzt. Anschließend werden alle Freunde des Benutzers aus der Redis Datenbank geholt und an alle das Event \verb|connected| gesendet, das signalisiert, dass der Benutzer online ist.
+In der zweiten Middleware tritt die Socket der \verb|userid| des Benutzers bei und wird sowohl in der Redis Datenbank unter \verb|user:username| (siehe Kapitel \ref{sec:redis-data}) , als auch bei Freunden mittels des Events \verb|connected|, als online vermerkt.
+Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So können Sockets anderer Benutzer immer an diese \verb|userid| senden um ein Event an diesen Benutzer zu senden.
 
 Beim Schließen der Anwendung oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
-
-Beim Authentifizieren werden auch Informationen bezüglich aktiver Spiele und Freundschaftsanfragen aus Redis abgerufen und mittels den Events \verb|friends|, \verb|friend_requests| und \verb|active_games| werden die Informationen über Freunde, Freundschaftsanfragen und aktive Partien an den Benutzer gesendet.
 
 Als letzte Middleware werden alle nötigen Listener sowohl für das Schachspiel, als auch für sonstige Funktionen initialisiert.
 
@@ -648,10 +649,10 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
     \end{call}
     	
     	\begin{sdblock}{Spieler in Warteschlange}{}
-    \begin{callself}{server}{Erstelle Spiel}{roomId}
+    \begin{callself}{server}{createChessGame}{roomId}
     \end{callself}
     \postlevel
-    	\begin{messcall}{server}{Speichere Spiel}{redis}
+    	\begin{messcall}{server}{initializeGame}{redis}
     	\end{messcall}
     	\prelevel
     	\begin{messcall}{server}{joined\_game, roomId}{clientA}{}
@@ -695,52 +696,7 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
 
 Falls es sich um eine Partie handelt, die aus einer Herausforderung eines Freundes resultiert, wird natürlich in keine Warteschlange nach einem Gegner gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitte \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spieler das Event \verb|game_request_accepted| mit der roomId gesendet.
 
-\subsubsection{Initialisieren eines Spiels nach gefundenem Gegner}
-Zunächst wird per Zufall entschieden welcher Spieler weiß und welcher Spieler schwarz spielt. Anschließend wird ein neues Schachspiel der Klasse chess.js (siehe Abschnitt \ref{sec:chess.js}) erstellt und in ihr festgehalten welcher Spieler weiß, beziehungsweise schwarz, spielt und das Datum an dem dieses Spiel stattfindet. Des weiteren wird eine zufällige roomId generiert, unter der das Schachspiel stattfindet.
-
-Der weitere Ablauf der Initialisierung wird im Sequenzdiagramm in Abbildung \ref{fig:sequenz-initialize-Game} dargestellt. 
-
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}
-\begin{umlseqdiag}
-
-\umlobject[no ddots]{socketChessController}
-\umlobject[no ddots]{redisController}
-\umldatabase[no ddots]{Redis DB}
-
-\begin{umlcall}[op=initializeGame]{socketChessController}{redisController}
-\begin{umlcall}[op=game:roomId]{redisController}{Redis DB}
-\end{umlcall}
-\begin{umlfragment}[type=Angemeldet]
-\begin{umlcall}[op=activeGames:username]{redisController}{Redis DB}
-\end{umlcall}
-\begin{umlcall}[op=activeGames:username]{redisController}{Redis DB}
-\end{umlcall}
-\end{umlfragment}
-\end{umlcall}
-
-\umlcreatecall[no ddots]{socketChessController}{ServerChessClock}
-
-\begin{umlcall}[op=starStartingTimer('white')]{socketChessController}{ServerChessClock}
-\end{umlcall}
-
-\end{umlseqdiag}
-\end{tikzpicture}
-\caption{Sequenzdiagramm des Initialisieren eines Schachspiels}
-\label{fig:sequenz-initialize-Game}
-\end{figure}
-
-Dem \textit{redisController} wird aufgetragen das Spiel in Redis zu initialisieren. Dafür bekommt er die Informationen darüber welcher Spieler welche Farbe spielt, unter welcher roomId das Spiel stattfindet und die bisherige PGN-Notation aus dem chess.js Objekt. Diese Informationen speichert er in Redis unter \verb|game:roomId| (siehe Abschnitt \ref{sec:game:roomId}) und falls die spieler angemeldet sind wird die roomId auch der Liste \verb|activeGames:username| bei beiden Spielern hinzugefügt.
-
-Anschließend wird ein Objekt der Klasse ServerChessClock erstellt und die Startzeit des weißen Spielers gestartet. Das ServerChessClock Objekt wird in einem Array in der socketChessController Datei gespeichert, sodass mit der roomId darauf zugegriffen werden kann. Das Objekt ServerChessClock kommuniziert mittels Events mit socketChessListener und es werden folgende Eventlistener in socketChessListener definiert:
-\begin{itemize}
-\item \verb|cancel_game|: Das Spiel wird aufgrund einer abgelaufenen Startzeit abgebrochen.
-\item \verb|time_over_white|:  Die Zeit des weißen Spielers ist abgelaufen.
-\item \verb|time_over_black|:  Die Zeit des schwarzen Spielers ist abgelaufen.
-\end{itemize}
-
-Dies sind alles Ausgänge von Schachpartien, die an alle sockets im Raum weitergeleitet werden. Daraufhin wird das Schachspiel beendet (siehe Abschnitt \ref{sec:Schach-Ende}).
+Implementierungsdetails, wie ein Schachspiel auf dem Server initialisiert wird werden in Kapitel \ref{sec:Schach-Backend-impl} erläutert.
 
 \subsubsection{ServerChessClock}
 Die Klasse ServerChessClock definiert einzelne Schachuhr Objekte, welche die Startzeiten und die regulären Schachuhren verwalten.

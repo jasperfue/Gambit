@@ -11,12 +11,6 @@ const FriendList = (props) => {
     const [friendRequests, setFriendRequests] = useState([]);
 
     useEffect(() => {
-        socket.on('friends', (friendList) => {
-            setFriends(friendList);
-        });
-        socket.on('friend_requests', (requests) => {
-            setFriendRequests(requests);
-        });
         socket.on('friend_request', (username) => {
             setFriendRequests(prevState => [username, ...prevState]);
         });
@@ -39,8 +33,6 @@ const FriendList = (props) => {
             socket.off('friend_request');
             socket.off('connected');
             socket.off('friend_request_accepted');
-            socket.off('friend_requests');
-            socket.off('friends');
         }
     }, [socket]);
 

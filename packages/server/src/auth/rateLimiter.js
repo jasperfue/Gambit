@@ -16,7 +16,6 @@ module.exports.rateLimiter = (secondsLimit, limitAmount) => async (req, res, nex
             loggedIn: false,
             message: "Slow down!! Try again in a minute.",
         });
-        res.sendStatus(429);
     }
     else next();
 };

@@ -211,6 +211,9 @@ function SocketConnectionContext({children}) {
 
     useEffect(() => {
         if(user.loggedIn !== null) {
+            if(socket) {
+                socket.disconnect();
+            }
             setSocket(new io(process.env.REACT_APP_SOCKET_URL, {
                 withCredentials: true
             }));
@@ -227,7 +230,8 @@ function SocketConnectionContext({children}) {
 export default SocketConnectionContext;
 \end{lstlisting}
 
-Bei der Verbindung wird darauf geachtet, dass die Credentials mitgesendet werden, also beispielsweise auch Cookies. Des weiteren wird erst eine Verbindung aufgebaut, sobald die Antwort des Servers auf die Authentifizierungs-Anfrage mittels Cookie (siehe Abschnitt \ref{sec:Cookie-auth}) empfangen wurde und dadurch das \verb|user.loggedIn| Attribut nicht mehr \verb|null| ist. Dies dient dazu einen unnötigen Verbindungsaufbau zu unterlassen, da nach der Antwort des Servers ohnehin eine neue Verbindung aufgebaut werden würde.
+Bei der Verbindung wird darauf geachtet, dass die Credentials mitgesendet werden, also beispielsweise auch Cookies. Des weiteren wird erst eine Verbindung aufgebaut, sobald die Antwort des Servers auf die Authentifizierungs-Anfrage mittels Cookie (siehe Abschnitt \ref{sec:Cookie-auth}) empfangen wurde und dadurch das \verb|user.loggedIn| Attribut nicht mehr \verb|null| ist. Dies dient dazu einen unnötigen Verbindungsaufbau zu unterlassen, da nach der Antwort des Servers in der \textit{UserContext}-Komponente ohnehin eine neue Verbindung aufgebaut werden würde.
+Die Verbindung der Socket zu trennen vor der neuen Verbindung hat den Sinn, im Backend ein \verb|diconnect| Event zu triggern //REF.
 
 Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Verbindung hergestellt wurde, werden die verschiedenen Elemente und Routen in der \verb|Views|-Komponente definiert. So lange wird ein Lade-Bildschirm gezeigt (siehe Code Ausschnitt \ref{lst:Views-user-socket}).
 
@@ -248,22 +252,6 @@ Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Ver
 \subsection{Das Schachspiel}
 In diesem Abschnitt werde ich darauf eingehen, was passiert nachdem die Daten erfolgreich vom Backend empfangen wurden, wie ein neuer Zug gehandhabt wird und wie die Bauernumwandlung implementiert ist.
 Der Ablauf wie ein Gegner gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}.
-
-\subsubsection{leave\_room}
-Eine kleine, aber sehr wichtige \verb|useEffect|-Hook der \textit{ChessGame}-Komponente ist der folgende:
-
-\begin{lstlisting}[style=codeStyle, caption={useEffect-Hook für das holen der Daten und das verlassen des Raumes}, label={lst:Views-user-socket}]
-useEffect(() => {
-    getGameData();
-    return () => {
-        socket.emit('leaveRoom', roomId);
-    };
-}, [socket, roomId]);
-\end{lstlisting}
-
-Diese Hook ruft die \verb|getGameData()| Methode auf, welche das Event \verb|get_game_data| sendet und mit der Antwort des Backend alle wichtigen Informationen setzt. Der Fokus dieses Abschnitts liegt allerdings auf dem Event \verb|leave_room|. Dieses Event wird ausgelöst, falls auf eine andere Seite navigiert werden würde und sorgt dafür, dass die socket aus dem Raum austritt und somit keine neuen Events mehr für dieses Spiel empfängt.
-
-Dies ist wichtig für die Funktionalität, dass man mehrere Spiele gleichzeitig spielen kann. Denn wenn man ein anderes Spiel gleichzeitig am laufen hat, würde man die Events beider Spiele empfangen. Dies könnte dazu führen, dass der Listener versucht einen Zug für das falsche Spiel zu machen und es käme zu Problemen. Mittels des \verb|leave_room| Events kann sichergestellt werden, dass immer nur das Event empfangen wird, welches zu dem Spiel gehört, auf welchem man sich gerade befindet.
 
 \subsubsection{Initialisierung nach dem Empfangen der Daten}
 
@@ -486,6 +474,7 @@ Die \verb|setInterval|-Methode akzeptiert als ersten Parameter eine Funktion und
 \subsection{Verwaltung von Freunden}
 Die Verwalutung von Freunden und Freundschaftsanfragen im Frontend wurde in Kapitel \ref{sec:Friends} behandelt. In diesem Kapitel möchte ich konkrete Code Beispiele der Komponenten erläutern.
 
+\subsubsection{Darstellung der Freundesliste}
 \begin{lstlisting}[style=codeStyle, caption={Darstellung der Freundesliste in \textit{FriendList}}, label={lst:FriendList}]
 {friends.length === 0 ? (
     <Text>No Friends</Text>
@@ -510,6 +499,8 @@ Die Darstellung und Funktionen eines einzelnen Freundes übernimmt die \textit{F
 
 Auch die Liste der Freundschaftsanfragen, die Liste der aktiven Spiele der \textit{ActiveGames}- oder \textit{Friend}-Komponente wird mittels der \verb|map()| Funktion durch einzelne Komponenten dargestellt.
 
+\subsubsection{connected-Event}
+\label{sec:connected}
 Eine andere Interessante Methode der \textit{FriendList}-Komponente ist der Listener auf das \verb|connected| Event:
 
 \begin{lstlisting}[style=codeStyle, caption={Ausschnitt aus index.js und die Datei authRouter.js}, label={lst:routing-Middlewares}]
@@ -525,7 +516,35 @@ socket.on('connected', (status, username) => {
 });
 \end{lstlisting}
 
-Dieses Event wird ausgelöst, wenn ein Freund die Anwendung öffnet oder schließt beziehungsweise sich anmeldet oder abmeldet. Dabei wird die Freundesliste mit der Funktion \verb|map()| durchlaufen und der Status des entsprechenden Freundes wird aktualisiert.
+Dieses Event wird ausgelöst, wenn ein Freund die Anwendung öffnet oder schließt beziehungsweise sich anmeldet oder abmeldet. Dabei wird die Freundesliste mit der Funktion \verb|map()| durchlaufen und der Status des entsprechenden Freundes wird aktualisiert. Der Code zum Senden dieses Events vom Backend wird in Kapitel \ref{sec:Backend-Socket} dargestellt.
+
+
+\subsubsection{Nutzung von refreshKey}
+\begin{lstlisting}[style=codeStyle, caption={Darstellung der Freundesliste in \textit{FriendList}}, label={lst:FriendList}]
+//Home.js
+...
+const [refreshKey, setRefreshKey] = useState(0);
+const refreshData = useCallback(() => {
+    setRefreshKey((prevKey) => prevKey + 1);
+}, [setRefreshKey, refreshKey]);
+
+useEffect(() => {
+    refreshData();
+}, [location.pathname]);
+...
+//FriendList
+useEffect(() => {
+    socket.emit('get_friends', ({friendList}) => {
+        setFriends(friendList);
+    });
+    socket.emit('get_friend_requests', ({requests}) => {
+        setFriendRequests(requests);
+    });
+}, [socket, props.refreshKey]);
+\end{lstlisting}
+
+\verb|refreshKey| ist ein State, welcher den Komponenten \textit{FriendList} und \textit{ActiveGames} übergeben wird. Dieser State ist dazu da die Freundesliste, Freundschaftsanfragen und aktive Partien zu aktualisieren. Wird beispielsweise von der \textit{ChessGame}-Komponente auf die \textit{Home}-Komponente navigiert, werden die Komponenten neu gerendert. Da die Listen leer initialisiert werden und keine Events mit Freundschaftsanfragen gesendet werden, wie es sonst bei neuen Anmeldungen der Fall wäre, bleiben die Listen leer und es wird angezeigt, dass man keine Freunde oder aktive Spiele hat. Um dies zu verhindern, werden diese Events gesendet, die die aktuellen Daten mittels Callback Funktionen empfangen.
+
 
     \section{Backend-Entwicklung}
     \subsection{Authentifizierung}
@@ -573,13 +592,12 @@ module.exports.rateLimiter = (secondsLimit, limitAmount) => async (req, res, nex
             loggedIn: false,
             message: "Slow down!! Try again in a minute.",
         });
-        res.sendStatus(429);
     }
     else next();
 };
 \end{lstlisting}
 
-Der \verb|rateLimiter| nimmt die Argumente secondsLimit als Zeitfenster und limitAmount als Anfragelimit an und definiert mit Hilfe von ihnen die Middleware. Dafür nutzt er Redis und setzt mit der IP-Adresse als Key die Zahl der Anfragen als Value. Dieser Eintrag wird nach Ablauf des Zeitfensters gelöscht und falls das Anfragelimit innerhalb dieses Zeitfensters überschritten wurde, wird eine Fehlermeldung mit dem Statuscode 429 gesendet, der für \glqq Too Many Requests\grqq{ }steht\footnote{Quelle: \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429} am 05. April 2023}. Andernfalls wird die nächste Middleware aufgerufen.
+Der \verb|rateLimiter| nimmt die Argumente secondsLimit als Zeitfenster und limitAmount als Anfragelimit an und definiert mit Hilfe von ihnen die Middleware. Dafür nutzt er Redis und setzt mit der IP-Adresse als Key die Zahl der Anfragen als Value. Dieser Eintrag wird nach Ablauf des Zeitfensters gelöscht und falls das Anfragelimit innerhalb dieses Zeitfensters überschritten wurde, wird eine Fehlermeldung gesendet. Andernfalls wird die nächste Middleware aufgerufen.
 
 In unserer Anwendung legen wir fest, dass 10 Anfragen innerhalb von 60 Sekunden gesendet werden dürfen.
 
@@ -728,7 +746,7 @@ module.exports.authorizeUser = (socket, next) => {
 }
 \end{lstlisting}
 
-Die Middleware \verb|authorizeUser| (siehe Code Ausschnitt \ref{lst:authorizeUser} autorisiert den Benutzer. Dabei  wird auf den Cookie zugegriffen, der gegebenenfalls beim Authentifizieren gesetzt wurde, um den Benutzernamen und die \verb|userid| als Attribute der socket zu setzen. Diese Middleware ist der Grund, warum immer eine neue Socket.io Verbindung hergestellt werden muss, sobald der Benutzerzustand und damit der Cookie sich verändert. Ansonsten könnte es sein, dass veraltete Informationen in \verb|socket.user| definiert sind.
+Die Middleware \verb|authorizeUser| (siehe Code Ausschnitt \ref{lst:authorizeUser}) authentifiziert den Benutzer. Dabei  wird auf den Cookie zugegriffen, der gegebenenfalls gesetzt wurde, um den Benutzernamen und die \verb|userid| als Attribute der socket zu setzen. Diese Middleware ist der Grund, warum immer eine neue Socket.io Verbindung hergestellt werden muss, sobald der Benutzerzustand und damit der Cookie sich verändert. Ansonsten könnte es sein, dass veraltete Informationen in \verb|socket.user| definiert sind.
 
 \begin{lstlisting}[style=codeStyle, caption={initializeUser Middleware für Socket.io Verbinudngen}, label={lst:initializeUser}]
 module.exports.initializeUser = async (socket, next) => {
@@ -736,23 +754,17 @@ module.exports.initializeUser = async (socket, next) => {
         socket.join(socket.user.userid);
         await setUser(socket.user.username, socket.user.userid, true);
         getFriends(socket.user.username).then(async friends => {
-            const parsedFriends = await parseFriendList(friends);
-            const friendRooms = parsedFriends.map(friend => friend.userid);
+            const friendRooms = friends.map(friend => friend.userid);
             if (friendRooms.length > 0) {
                 socket.to(friendRooms).emit("connected", "true", socket.user.username);
             }
-            socket.emit('friends', parsedFriends);
         });
-        getFriendRequests(socket.user.username).then(friendRequests => socket.emit('friend_requests', friendRequests));
-        getActiveGamesData(socket.user.username).then(gameData => socket.emit('active_games', gameData));
     }
     next();
 };
 \end{lstlisting}
 
-In der Middleware \verb|initializeUser| werden Daten an den Benutzer gesendet, er wird als online vermerkt und seine Freunde werden darüber informiert, dass er nun online ist. Dies passiert natürlich nur, wenn in der vorherigen Middleware der Benutzer autorisiert werden konnte. Die Funktionen um Daten aus der Redis Datenbank zu lesen oder zu schreiben werden von der Datei \verb|redisController| bereitgestellt.
-
-Zunächst tritt er dem Raum seiner eigenen \verb|userid| bei um Events wie Freundschaftsanfragen, die an ihn gerichtet sind empfangen zu können (siehe Zeile 12). Anschließend wird der Benutzer in Redis gesetzt und als online vermerkt (Zeile 13). Freunde, Freundschaftsanfragen und aktive Spieler werden an den Benutzer mit entsprechenden Events gesendet und alle Freunde werden darüber benachrichtigt, dass der Benutzer online ist.
+In der Middleware \verb|initializeUser| wird der Nutzer als online vermerkt, seine Freunde werden darüber informiert, dass er nun online ist und er tritt dem Raum seiner \verb|userid| bei. Dies passiert natürlich nur, wenn in der vorherigen Middleware der Benutzer authentifiziert werden konnte. Die Funktion \verb|setUser| setzt den Eintrag \verb|user:username| mit der \verb|userid| und \verb|connected| auf true. Die Methode \verb|getFriends| (siehe Code Ausschnitt \ref{lst:getFriends}) holt die Benutzernamen und die \verb|userid| aller Freunde des Benutzers und mittels der map Funktion wird an alle \verb|userid|s der Freunde das Event \verb|connected| gesendet. Dadurch wird im Frontend der Spieler als online angezeigt (siehe Abschnitt \ref{sec:connected}). 
 
 Die dritte Middleware setzt alle nötigen Listener für Events, die mit dem Schachspiel zusammenhängen, als auch sonstige Funktionen (siehe Code Ausschnitt \ref{lst:index.js-socket}).
 
@@ -771,16 +783,17 @@ module.exports.onDisconnect = async (socket) => {
 }
 \end{lstlisting}
 
-Die \verb|onDisconnect| Methode aus Code Ausschnitt \ref{lst:onDisconnect} wird aufgerufen, sobald eine socket Verbindung getrennt wird. Ähnlich wie bei der \verb|initializeUser| Middleware (siehe Code Ausschnitt \ref{lst:initializeUser}) wird dabei in Redis der Spieler als offline vermerkt und seine Freunde werden darüber in Kenntnis gesetzt.
+Die \verb|onDisconnect| Methode aus Code Ausschnitt \ref{lst:onDisconnect} wird aufgerufen, sobald eine socket Verbindung getrennt wird. Hierfür dient der \verb|socket.disconnect()| Aufruf des Frontends (siehe Abschnitt \ref{sec:socket-Verbindung}). Ähnlich wie bei der \verb|initializeUser| Middleware (siehe Code Ausschnitt \ref{lst:initializeUser}) wird dabei in Redis der Spieler als offline vermerkt und seine Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt.
 
 
 \subsection{Das Schachspiel}
+\label{sec:Schach-Backend-impl}
 Das Schachspiel verwaltet die Datei \verb|socketChessController.js|, welche eine der Funktionen zur Listener Initialisierung bereitstellt (siehe \verb|initilializeChessListeners| aus Code ausschnitt \ref{lst:index.js-socket}), wobei \verb|ServerChessClock.js| die Schachuhren bereitstellt.
 
 In diesem Abschnitt werde ich einige Aspekte der Implementierung des Schachspiels mit Code Beispielen erläutern. Funktionen wie Aufgeben, das Ende der Partie oder Chat Nachrichten werden im Abschnitt \ref{sec:Schach-Backend} erläutert und zeichnen sich durch geringere Komplexität aus, weshalb sie in diesem Abschnitt nicht nochmals behandelt werden. Auch das Finden eines Gegners wird in dem Abschnitt der Backend-Architektur detailliert beschrieben, weshalb dies hier nicht noch einmal erläutert wird.
 
 \subsubsection{Initialisierung eines Spiels}
-Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird.
+Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird. Dabei handelt es sich um die \verb|createChessGame| Methode (für Kontext siehe Sequenzdiagramm in Abbildung \ref{fig:sequence_chess_start}).
 
 \begin{lstlisting}[style=codeStyle, caption={Die createChessGame Methode zum Initialisieren einer Schachpartie}, label={lst:createChessGame}]
 const createChessGame = async (io, username1, username2, time) => {
@@ -819,7 +832,7 @@ import {Chess as ChessGame} from 'chess.js';
 export const Chess = () => new ChessGame();
 \end{lstlisting}
 
-Mit diesem chess.js Objekt generieren wir eine PGN-Notation, in die die Benutzernamen der Spieler und das Datum eingetragen sind. Diese Informationen werden nun in Redis unter \verb|game:roomId| gespeichert, falls die Spieler angemeldet sind auch in deren \verb|activeGames:username| Listen. 
+Mit diesem chess.js Objekt generieren wir eine PGN-Notation, in die die Benutzernamen der Spieler und das Datum eingetragen sind. Diese Informationen werden mittels der \verb|initializizeGame| Methode in Redis unter \verb|game:roomId| gespeichert, falls die Spieler angemeldet sind auch in deren \verb|activeGames:username| Listen. 
 
 Des weiteren wird ein ServerChessClock Objekt erstellt und in \verb|currentChessClock| mit der roomId als Key gespeichert. Die Kommunikation und der Aufbau von ServerChessClock wird in Abschnitt //REF erläutert.
 Eventlistener für die Events der ServerChessClock werden definiert.
@@ -891,7 +904,7 @@ Die Methode holt erst das ServerChessClock Objekt aus dem \verb|currentChessCloc
 
 Die Kommunikation mit dem Frontend erfolgt über verschiedene Events wie \verb|opponent_move|, \verb|chackmate|, \verb|draw|, \verb|stop_clocks|, \verb|updated_time|, \verb|stop_starting_time_white| und \verb|stop_starting_time_black|. Diese Events behandeln entweder ein Ereignis der Schachpartie oder verwalten die Schachuhren. Über die Callback Funktion wird mitgeteilt, ob der Zug erfolgreich behandelt werden konnte oder nicht.
 
-Des weiteren wird die aktualisierte PGN-Notation des Spiels in Redis gespeichert.
+Des weiteren wird die aktualisierte PGN-Notation des Spiels mit der Funktion \verb|newChessMove| (siehe Zeile 28 im Code Ausschnitt \ref{lst:onMove}) in Redis gespeichert.
 
 \subsubsection{Senden des aktuellen Zustands einer Partie}
 Beim Laden der \textit{ChessGame}-Komponente im Frontend wird das Event \verb|get_game_data| gesendet, um den aktuellen Zustand des Spiels zu erhalten und spielen zu können beziehungsweise zugucken zu können. 
@@ -1038,9 +1051,6 @@ ServerChessClock.prototype.startTimer = function (color) {
     });
 };
 
-/**
- * Called if a time ran out
- */
 ServerChessClock.prototype.stopCurrentGame = function () {
     if (this.getCurrentMode().includes('s')) {
         this.ChessClockEvents.emit('cancel_game');
@@ -1058,7 +1068,7 @@ Je nachdem welche Zeit läuft, wird \verb|currentMode| aktualisiert und die ents
 
 Die Zeit läuft korrekt ab, durch den \verb|timer|, welcher \verb|setInterval| nutzt, um jede Sekunde mittels \verb|decreaseTime| die Zeit ablaufen zu lassen und \verb|isTimeOver| um zu überprüfen ob die Zeit abgelaufen ist.
 
-Es wird ein Listener definiert, welcher bei einem neuen Zug das Inkrement auf die entsprechende Zeit rechnet und mittels Callback Funktion die aktuellen Zeiten durchgibt, um diese in der \verb|newMove| Methode an das Frontend zu senden (siehe \ref{sec:new_move_backend}). Dieser Listener wird mit \verb|ones(...)| definiert, wodurch er nur ein mal auf das Event hört. Dies ist wichtig, da anschließend die \verb|startTimer| Methode reukursiv aufgerufen wird und der Listnerer neu initialisiert wird.
+Es wird ein Listener definiert, welcher bei einem neuen Zug das Inkrement auf die entsprechende Zeit rechnet und mittels Callback Funktion die aktuellen Zeiten durchgibt, um diese in der \verb|newMove| Methode an das Frontend zu senden (siehe \ref{sec:new_move_backend}). Dieser Listener wird mit \verb|ones(...)| definiert, wodurch er nur ein mal auf das Event hört. Dies ist wichtig, da anschließend die \verb|startTimer| Methode reukursiv aufgerufen wird und der Listener neu initialisiert wird.
 
 Die \verb|stopCurrentGame| Methode wird aufgerufen, falls eine Zeit (Startzeit oder reguläre Zeit) abgelaufen ist und sendet entsprechende Events an SocketChessController.
 
@@ -1146,11 +1156,7 @@ Die Funktion \verb|lpush| fügt den Spieler am Anfang der Liste ein. Herausgenom
 
 \begin{lstlisting}[style=codeStyle, caption={Methode um Freunde eines Spielers zu erhalten}, label={lst:getFriends}]
 const getFriends = async (username) => {
-    const friendList = await redisClient.lrange(
-        `friends:${username}`,
-        0,
-        -1
-    );
+    const friendList = await redisClient.lrange(`friends:${username}`, 0, -1);
     return friendList.map(friend => {
         return {username: friend.split(':')[0], userid: friend.split(':')[1]};
     });

@@ -43,15 +43,11 @@ module.exports.initializeUser = async (socket, next) => {
         socket.join(socket.user.userid);
         await setUser(socket.user.username, socket.user.userid, true);
         getFriends(socket.user.username).then(async friends => {
-            const parsedFriends = await parseFriendList(friends);
-            const friendRooms = parsedFriends.map(friend => friend.userid);
+            const friendRooms = friends.map(friend => friend.userid);
             if (friendRooms.length > 0) {
                 socket.to(friendRooms).emit("connected", "true", socket.user.username);
             }
-            socket.emit('friends', parsedFriends);
         });
-        getFriendRequests(socket.user.username).then(friendRequests => socket.emit('friend_requests', friendRequests));
-        getActiveGamesData(socket.user.username).then(gameData => socket.emit('active_games', gameData));
     }
     next();
 };

@@ -14,6 +14,9 @@ function SocketConnectionContext({children}) {
      */
     useEffect(() => {
         if(user.loggedIn !== null) {
+            if(socket) {
+                socket.disconnect();
+            }
             setSocket(new io(process.env.REACT_APP_SOCKET_URL, {
                 withCredentials: true
             }));

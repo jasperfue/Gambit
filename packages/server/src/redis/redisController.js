@@ -89,7 +89,7 @@ module.exports.setUser = async (username, userid, connected) => {
         "userid",
         userid,
         "connected",
-        connected,
+        connected.toString(),
     );
 }
 

@@ -5,7 +5,7 @@ const {validateSignUp, validateLogin} = require('../auth/validateForm.js')
 const {rateLimiter} = require('../auth/rateLimiter.js')
 
 
-router.use(rateLimiter(60, 10));
+//router.use(rateLimiter(60, 10));
 
 router.route('/login').get(handleLogin).post(validateLogin, attemptLogin);
 

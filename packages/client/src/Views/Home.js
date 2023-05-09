@@ -33,8 +33,6 @@ const Home = () => {
         setRefreshKey((prevKey) => prevKey + 1);
     }, [setRefreshKey, refreshKey]);
 
-
-
     useEffect(() => {
         refreshData();
     }, [location.pathname]);

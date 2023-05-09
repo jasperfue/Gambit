@@ -12,15 +12,6 @@ const ActiveGames = (props) => {
     const {socket} = useContext(SocketContext);
 
     useEffect(() => {
-        socket.on('active_games', (activeGames) => {
-            setActiveGames(activeGames);
-        });
-        return () => {
-            socket.off('active_games');
-        }
-    }, [socket]);
-
-    useEffect(() => {
         socket.emit('get_active_Games', ({activeGames}) => {
             setActiveGames(activeGames);
         });
