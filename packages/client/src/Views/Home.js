@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {AccountContext} from "../Context/AccountContext.js";
-import { useNavigate, useLocation } from "react-router-dom";
-import {Flex, Heading, Grid, GridItem, Button, Spinner, Box, Text,  useColorModeValue} from "@chakra-ui/react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {Box, Button, Flex, Grid, Heading, Spinner, Text, useColorModeValue} from "@chakra-ui/react";
 import FriendList from "../Components/FriendList.js";
 import ActiveGames from "../Components/ActiveGames.js";
 import {SocketContext} from "../Context/SocketContext.js";
@@ -39,7 +39,7 @@ const Home = () => {
 
     useEffect(() => {
         socket.on('joined_game', (username, roomId) => {
-            if(user.loggedIn) navigate(`game/${roomId}`);
+            if (user.loggedIn) navigate(`game/${roomId}`);
             else navigate(`game/${roomId}`, {
                 state: {
                     username: username
@@ -52,11 +52,10 @@ const Home = () => {
     }, [socket]);
 
     useEffect(() => {
-        if(time !== null) {
+        if (time !== null) {
             socket.emit('find_game', user, time);
         }
     }, [socket, time]);
-
 
 
     const cancelGame = useCallback(() => {
@@ -67,50 +66,50 @@ const Home = () => {
     return (
         <>
             <Flex align="flex-start" justify="center" direction="row" height="80 vh" paddingTop="10">
-                <Box backgroundColor={equity} borderRadius="md" p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
-            {time === null ?
-                <>
-                    {user.loggedIn === true ?
-                    <> </>
-                    :
-                    <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
+                <Box backgroundColor={equity} borderRadius="md" p={6}
+                     boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
+                    {time === null ?
+                        <>
+                            {user.loggedIn === true ?
+                                <> </>
+                                :
+                                <Heading as="h2" size='lg' marginBottom="4"> Play as a guest </Heading>
+                            }
+                            <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                                {times.map((time, index) => (
+                                    <Button
+                                        key={index}
+                                        variant={button}
+                                        minW="8rem"
+                                        minH="4rem"
+                                        onClick={() => setTime(time)}
+                                    >
+                                        {time.string}
+                                    </Button>
+                                ))}
+                            </Grid>
+                        </>
+                        :
+                        <Flex align="center" justify="center" direction="column">
+                            <Text marginBottom="5">Searching for an opponent...</Text>
+                            <Spinner size="lg" marginBottom="5"/>
+                            <Button variant={button} onClick={cancelGame}>Cancel</Button>
+                        </Flex>
                     }
-                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                        {times.map((time, index) => (
-                            <Button
-                                key={index}
-                                variant={button}
-                                minW="8rem"
-                                minH="4rem"
-                                onClick={() => setTime(time)}
-                            >
-                                {time.string}
-                            </Button>
-                        ))}
-                    </Grid>
-                </>
-                :
-                <Flex align="center" justify="center" direction="column">
-                    <Text marginBottom="5">Searching for an opponent...</Text>
-                    <Spinner size="lg" marginBottom="5" />
-                    <Button variant={button} onClick={cancelGame}>Cancel</Button>
-                </Flex>
-            }
-                    </Box>
+                </Box>
 
-            {user.loggedIn === true ?
-                <>
-                    <Box backgroundColor={equity} borderRadius="md" marginLeft={3} p={6} boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
+                {user.loggedIn === true ?
+                    <Box backgroundColor={equity} borderRadius="md" marginLeft={3} p={6}
+                         boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)">
                         <Text marginBottom={1} fontSize="1.2rem"> Active Games: </Text>
                         <ActiveGames refreshKey={refreshKey}/>
                         <Text marginTop={5} fontSize="1.2rem"> Friends: </Text>
                         <FriendList refreshKey={refreshKey} times={times}/>
                     </Box>
-                </>
-                :
-                <>
+                    :
+                    <>
                     </>
-                    }
+                }
 
             </Flex>
         </>

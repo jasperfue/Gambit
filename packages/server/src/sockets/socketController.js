@@ -20,12 +20,10 @@ const initializeListeners = (client, io) => {
         }
     });
     client.on('get_friends', async (cb) => {
-        const friends = await getFriends(client.user?.username);
-        if(friends) {
+        if(client.user) {
+            const friends = await getFriends(client.user.username);
             const parsedFriends = await parseFriendList(friends);
             cb({friendList: parsedFriends});
-        } else {
-            cb({friendList: []});
         }
     });
 
@@ -47,8 +45,10 @@ const initializeListeners = (client, io) => {
     });
 
     client.on('get_friend_requests', async (cb) => {
-        const friendRequests = await getFriendRequests(client.user?.username);
-        cb({requests: friendRequests});
+        if(client.user) {
+            const friendRequests = await getFriendRequests(client.user?.username);
+            cb({requests: friendRequests});
+        }
     });
 
     client.on('get_active_Games', async (cb) => {
@@ -73,7 +73,7 @@ const initializeListeners = (client, io) => {
         }
     });
     client.on('accept_friend_request', async (friend, cb) => {
-        if(client.user?.username) {
+        if(client.user) {
             const result = await addFriend(client.user.username, client.user.userid, friend, cb);
             if (result?.errMsg) {
                 cb({done: false, errMsg: result.errMsg});

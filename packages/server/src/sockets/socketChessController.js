@@ -28,17 +28,17 @@ module.exports.initializeChessListeners = (client, io) => {
     client.on('leave_queue', leaveQueue(client));
     client.on('resign', resign(io));
     client.on('get_game_data', (roomId, guestName, cb) => {
-        if (!currentChessClocks.hasOwnProperty(roomId)) {
+        if (!currentChessClocks[roomId]) {
             cb({done: false, errMsg: "This Game does not exist"});
             return;
         }
+        const {chessClock} = currentChessClocks[roomId];
         if (!client.rooms.has(roomId)) {
             client.join(roomId);
         }
         if(guestName) {
             client.user = {username: guestName}
         }
-        const chessClock = currentChessClocks[roomId].chessClock;
         getGame(roomId)
             .catch(() => {
                 console.log('kein Eintrag in redis');

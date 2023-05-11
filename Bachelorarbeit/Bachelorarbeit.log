@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  9 MAY 2023 18:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  11 MAY 2023 19:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1400,7 +1400,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 5.
-<./images//Schachentwicklung.jpg, id=179, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=181, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
 Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 10
@@ -1445,12 +1445,12 @@ l.119 ...\thispagestyle{empty}\hspace{1em}\newpage
                                                    [4]
 (Theoretische Grundlagen.tex
 chapter 2.
-<./images//en-passant.jpeg, id=217, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=219, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
 Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 14.
 (pdftex.def)             Requested size: 418.25368pt x 136.44353pt.
-<./images//promotion.jpeg, id=219, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=221, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
 Package pdftex.def Info: ./images//promotion.jpeg  used on input line 22.
@@ -1493,7 +1493,7 @@ LaTeX Warning: Citation `nodejsbook' on page 7 undefined on input line 46.
 
 LaTeX Warning: Citation `expressbook' on page 7 undefined on input line 52.
 
-<./images//node-request.jpg, id=238, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=240, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
 Package pdftex.def Info: ./images//node-request.jpg  used on input line 58.
@@ -1511,7 +1511,7 @@ been already used, duplicate ignored
                    \relax 
 l.71 
       [7 <./images//node-request.jpg>]
-<./images//express-request.jpg, id=251, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=253, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
 Package pdftex.def Info: ./images//express-request.jpg  used on input line 74.
@@ -1520,13 +1520,13 @@ Package pdftex.def Info: ./images//express-request.jpg  used on input line 74.
 
 LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 76.
 
-<./images//Middleware-Beispiel.jpg, id=252, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=254, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
 85.
 (pdftex.def)             Requested size: 292.77629pt x 130.51045pt.
-<./images//Middleware-Beispiel-2.jpg, id=253, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=255, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
@@ -1538,7 +1538,7 @@ LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 92.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//express-routing-example.jpg, id=256, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=258, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
@@ -1548,13 +1548,13 @@ ine 101.
 LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 103.
 
 [8 <./images//express-request.jpg>]
-<./images//socket.io-server-beispiel.png, id=266, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=268, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
  line 122.
 (pdftex.def)             Requested size: 188.21288pt x 151.61066pt.
-<./images//socket.io-client-beispiel.png, id=268, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=270, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
@@ -1572,7 +1572,7 @@ cket.to(...).emit(...)[]\OT1/cmr/m/n/10.95 )
  []
 
 [9 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>]
-<./images//socket.io-rooms.png, id=278, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=280, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
 Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 134.
@@ -1654,12 +1654,12 @@ Overfull \hbox (34.02632pt too wide) in paragraph at lines 317--318
 LaTeX Warning: Citation `redis-book' on page 16 undefined on input line 324.
 
 [16]
-<./images//jwt-beispiel.png, id=450, 962.59625pt x 1083.04625pt>
+<./images//jwt-beispiel.png, id=452, 962.59625pt x 1083.04625pt>
 File: ./images//jwt-beispiel.png Graphic file (type png)
 <use ./images//jwt-beispiel.png>
 Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 338.
 (pdftex.def)             Requested size: 250.95476pt x 282.34558pt.
-<./images//Chakra-UI Beispiel.png, id=456, 254.1495pt x 301.125pt>
+<./images//Chakra-UI Beispiel.png, id=458, 254.1495pt x 301.125pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
 Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 3
@@ -1673,25 +1673,32 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 /images//Chakra-UI Beispiel.png>]
 chapter 3.
 
-Overfull \hbox (0.9798pt too wide) in paragraph at lines 4--6
+Overfull \hbox (0.9798pt too wide) in paragraph at lines 3--4
 \OT1/cmr/m/n/10.95 In die-sem Ka-pi-tel wird die Sys-te-mar-chi-tek-tur der An-
 wen-dung vor-ge-stellt, in-dem erl[]autert
  []
 
 
-LaTeX Warning: Citation `react' on page 22 undefined on input line 7.
+LaTeX Warning: Reference `sec:Postgresql' on page 22 undefined on input line 9.
 
 
-LaTeX Warning: Citation `chakraui' on page 22 undefined on input line 7.
+
+Overfull \hbox (4.93388pt too wide) in paragraph at lines 9--10
+\OT1/cmr/m/n/10.95 die Spei-che-rung und Ver-wal-tung der Be-nut-zer-da-ten zum
+ An-mel-den wird ei-ne PostgreSQL-
+ []
 
 
-LaTeX Warning: Citation `nodejs' on page 22 undefined on input line 9.
+Overfull \hbox (0.31058pt too wide) in paragraph at lines 9--10
+\OT1/cmr/m/n/10.95 net, ins-be-son-de-re bei Lese- und Schreib-vorg[]angen. Re-
+dis, ei-ne In-Memory-Datenstruktur,
+ []
 
 
-LaTeX Warning: Citation `postgresql' on page 22 undefined on input line 9.
-
-
-LaTeX Warning: Citation `redis' on page 22 undefined on input line 9.
+Overfull \hbox (2.5919pt too wide) in paragraph at lines 11--12
+\OT1/cmr/m/n/10.95 Das Kom-po-nen-ten-dia-gramm in Ab-bil-dung []3.1[] vi-sua-l
+i-siert den Zu-sam-men-hang der Haupt-
+ []
 
 [22
 
@@ -1753,83 +1760,83 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//Home_not_logged_in.png, id=627, 1156.32pt x 537.207pt>
+<./images//Home_not_logged_in.png, id=623, 1156.32pt x 537.207pt>
 File: ./images//Home_not_logged_in.png Graphic file (type png)
 <use ./images//Home_not_logged_in.png>
 Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 2
-42.
+43.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//Home_logged_in.png, id=628, 1156.32pt x 537.207pt>
+<./images//Home_logged_in.png, id=624, 1156.32pt x 537.207pt>
 File: ./images//Home_logged_in.png Graphic file (type png)
 <use ./images//Home_logged_in.png>
-Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 250.
+Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 251.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//game_request.png, id=629, 530.58224pt x 286.671pt>
+<./images//game_request.png, id=625, 530.58224pt x 286.671pt>
 File: ./images//game_request.png Graphic file (type png)
 <use ./images//game_request.png>
-Package pdftex.def Info: ./images//game_request.png  used on input line 257.
+Package pdftex.def Info: ./images//game_request.png  used on input line 258.
 (pdftex.def)             Requested size: 292.77629pt x 158.19006pt.
-<./images//SignUp.png, id=630, 1156.32pt x 536.60475pt>
+<./images//SignUp.png, id=626, 1156.32pt x 536.60475pt>
 File: ./images//SignUp.png Graphic file (type png)
 <use ./images//SignUp.png>
-Package pdftex.def Info: ./images//SignUp.png  used on input line 265.
+Package pdftex.def Info: ./images//SignUp.png  used on input line 266.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//Login.png, id=631, 1156.32pt x 536.60475pt>
+<./images//Login.png, id=627, 1156.32pt x 536.60475pt>
 File: ./images//Login.png Graphic file (type png)
 <use ./images//Login.png>
-Package pdftex.def Info: ./images//Login.png  used on input line 272.
+Package pdftex.def Info: ./images//Login.png  used on input line 273.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//ChessGame.png, id=632, 1155.1155pt x 537.207pt>
+<./images//ChessGame.png, id=628, 1155.1155pt x 537.207pt>
 File: ./images//ChessGame.png Graphic file (type png)
 <use ./images//ChessGame.png>
-Package pdftex.def Info: ./images//ChessGame.png  used on input line 279.
+Package pdftex.def Info: ./images//ChessGame.png  used on input line 280.
 (pdftex.def)             Requested size: 418.25368pt x 194.51736pt.
-<./images//PromotionModal.png, id=633, 427.5975pt x 162.6075pt>
+<./images//PromotionModal.png, id=629, 427.5975pt x 162.6075pt>
 File: ./images//PromotionModal.png Graphic file (type png)
 <use ./images//PromotionModal.png>
-Package pdftex.def Info: ./images//PromotionModal.png  used on input line 286.
+Package pdftex.def Info: ./images//PromotionModal.png  used on input line 287.
 (pdftex.def)             Requested size: 292.77629pt x 111.33583pt.
 [28] [29] [30 <./images//Home_not_logged_in.png> <./images//Home_logged_in.png>
 ] [31 <./images//game_request.png> <./images//SignUp.png>] [32 <./images//Login
 .png> <./images//ChessGame.png> <./images//PromotionModal.png>]
-<./images//searching-for-opponent.png, id=674, 1156.32pt x 302.93175pt>
+<./images//searching-for-opponent.png, id=670, 1156.32pt x 302.93175pt>
 File: ./images//searching-for-opponent.png Graphic file (type png)
 <use ./images//searching-for-opponent.png>
 Package pdftex.def Info: ./images//searching-for-opponent.png  used on input li
-ne 316.
+ne 317.
 (pdftex.def)             Requested size: 418.25368pt x 109.57304pt.
  [33 <./images//searching-for-opponent.png>]
-<./images//game-does-not-exist.png, id=687, 1156.32pt x 199.34476pt>
+<./images//game-does-not-exist.png, id=683, 1156.32pt x 199.34476pt>
 File: ./images//game-does-not-exist.png Graphic file (type png)
 <use ./images//game-does-not-exist.png>
 Package pdftex.def Info: ./images//game-does-not-exist.png  used on input line 
-339.
+340.
 (pdftex.def)             Requested size: 418.25368pt x 72.10472pt.
 
-Overfull \hbox (3.44336pt too wide) in paragraph at lines 360--361
+Overfull \hbox (3.44336pt too wide) in paragraph at lines 361--362
 []\OT1/cmr/m/n/10.95 Dem ent-spre-chend wird auch be-stimmt wie das Schach-bret
 t, die Na-men und die Schachuh-
  []
 
 [34 <./images//game-does-not-exist.png>]
-<./images//Toast-resign.png, id=702, 413.1435pt x 218.0145pt>
+<./images//Toast-resign.png, id=698, 413.1435pt x 218.0145pt>
 File: ./images//Toast-resign.png Graphic file (type png)
 <use ./images//Toast-resign.png>
-Package pdftex.def Info: ./images//Toast-resign.png  used on input line 375.
+Package pdftex.def Info: ./images//Toast-resign.png  used on input line 376.
 (pdftex.def)             Requested size: 209.12683pt x 110.35425pt.
  [35 <./images//Toast-resign.png>]
-<./images//Interaktion Schach Zug.png, id=713, 594.22pt x 683.55376pt>
+<./images//Interaktion Schach Zug.png, id=709, 594.22pt x 683.55376pt>
 File: ./images//Interaktion Schach Zug.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug.png  used on input li
-ne 392.
+ne 393.
 (pdftex.def)             Requested size: 334.60422pt x 384.92569pt.
-<./images//Interaktion Schach Zug empfangen.png, id=714, 593.21625pt x 603.2537
+<./images//Interaktion Schach Zug empfangen.png, id=710, 593.21625pt x 603.2537
 5pt>
 File: ./images//Interaktion Schach Zug empfangen.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug empfangen.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug empfangen.png  used o
-n input line 399.
+n input line 400.
 (pdftex.def)             Requested size: 334.60422pt x 340.2775pt.
 
 
@@ -1837,73 +1844,73 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [36 <./images//Interaktion Schach Zug.png>] [37 <./images//Interaktion Schach Z
 ug empfangen.png>] [38]
-Overfull \hbox (28.96033pt too wide) in paragraph at lines 440--441
+Overfull \hbox (28.96033pt too wide) in paragraph at lines 441--442
 []\OT1/cmr/m/n/10.95 Die Kom-po-nen-te hat zwei Event-lis-te-ner: [][]\OT1/cmtt
 /m/n/10.95 game_request_accepted []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/10.
 95 game_request_denied[]\OT1/cmr/m/n/10.95 ,
  []
 
 
-Overfull \hbox (8.52058pt too wide) in paragraph at lines 442--443
+Overfull \hbox (8.52058pt too wide) in paragraph at lines 443--444
 []\OT1/cmr/m/n/10.95 Senden tut die Kom-po-nen-te zwei Events: [][]\OT1/cmtt/m/
 n/10.95 send_game_request []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/10.95 canc
 el_game_request[]\OT1/cmr/m/n/10.95 .
  []
 
-<./images//activeGames-friends.png, id=743, 313.17pt x 148.1535pt>
+<./images//activeGames-friends.png, id=739, 313.17pt x 148.1535pt>
 File: ./images//activeGames-friends.png Graphic file (type png)
 <use ./images//activeGames-friends.png>
 Package pdftex.def Info: ./images//activeGames-friends.png  used on input line 
-448.
+449.
 (pdftex.def)             Requested size: 146.39133pt x 69.25688pt.
-<./images//Spiel-herausfordern.png, id=744, 320.99925pt x 198.7425pt>
+<./images//Spiel-herausfordern.png, id=740, 320.99925pt x 198.7425pt>
 File: ./images//Spiel-herausfordern.png Graphic file (type png)
 <use ./images//Spiel-herausfordern.png>
 Package pdftex.def Info: ./images//Spiel-herausfordern.png  used on input line 
-455.
+456.
 (pdftex.def)             Requested size: 125.47737pt x 77.68817pt.
-<./images//waiting-for-friend.png, id=745, 548.64975pt x 226.446pt>
+<./images//waiting-for-friend.png, id=741, 548.64975pt x 226.446pt>
 File: ./images//waiting-for-friend.png Graphic file (type png)
 <use ./images//waiting-for-friend.png>
 Package pdftex.def Info: ./images//waiting-for-friend.png  used on input line 4
-62.
+63.
 (pdftex.def)             Requested size: 125.47737pt x 51.78778pt.
 [39 <./images//activeGames-friends.png> <./images//Spiel-herausfordern.png> <./
 images//waiting-for-friend.png>]
-<./images//AddFriendModal.png, id=761, 569.12625pt x 277.63725pt>
+<./images//AddFriendModal.png, id=757, 569.12625pt x 277.63725pt>
 File: ./images//AddFriendModal.png Graphic file (type png)
 <use ./images//AddFriendModal.png>
-Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 481.
+Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 482.
 (pdftex.def)             Requested size: 292.77629pt x 142.83014pt.
  [40 <./images//AddFriendModal.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [41] [42]
-Overfull \hbox (38.7559pt too wide) in paragraph at lines 584--587
+Overfull \hbox (38.7559pt too wide) in paragraph at lines 585--588
 \OT1/cmr/m/n/10.95 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fr
 on-tend das Event [][]\OT1/cmtt/m/n/10.95 send_friend_request
  []
 
 [43]
-<./images//Freunde-adden.pdf, id=801, 217.77359pt x 724.62718pt>
+<./images//Freunde-adden.pdf, id=797, 217.77359pt x 724.62718pt>
 File: ./images//Freunde-adden.pdf Graphic file (type pdf)
 <use ./images//Freunde-adden.pdf>
-Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 598.
+Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 599.
 (pdftex.def)             Requested size: 146.39133pt x 487.12306pt.
 
-Underfull \hbox (badness 1253) in paragraph at lines 599--599
+Underfull \hbox (badness 1253) in paragraph at lines 600--600
 [][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
  []
 
-<./images//Freund akzeptieren.pdf, id=802, 195.6108pt x 775.93887pt>
+<./images//Freund akzeptieren.pdf, id=798, 195.6108pt x 775.93887pt>
 File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
 <use ./images//Freund akzeptieren.pdf>
 Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 6
-05.
+06.
 (pdftex.def)             Requested size: 125.47737pt x 497.73581pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 606--606
+Underfull \hbox (badness 10000) in paragraph at lines 607--607
 [][][]|\OT1/cmr/m/n/10 Ak-zep-tie-ren ei-ner
  []
 
@@ -1914,38 +1921,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 606--606
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess to''? on input li
-ne 660.
+ne 661.
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess from''? on input 
-line 660.
+line 661.
 
 
-Overfull \hbox (1.12933pt too wide) in paragraph at lines 628--681
+Overfull \hbox (1.12933pt too wide) in paragraph at lines 629--682
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 37.20796pt on input line 684.
+LaTeX Warning: Float too large for page by 37.20796pt on input line 685.
 
 [44] [45 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>]
 [46] [47]
-<./images//Neuer Zug Backend.pdf, id=867, 515.04419pt x 567.07857pt>
+<./images//Neuer Zug Backend.pdf, id=863, 515.04419pt x 567.07857pt>
 File: ./images//Neuer Zug Backend.pdf Graphic file (type pdf)
 <use ./images//Neuer Zug Backend.pdf>
 Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 72
-1.
+2.
 (pdftex.def)             Requested size: 418.25368pt x 460.51657pt.
  [48 <./images//Neuer Zug Backend.pdf>] [49]
-Overfull \hbox (3.44101pt too wide) in paragraph at lines 766--767
+Overfull \hbox (3.44101pt too wide) in paragraph at lines 767--768
 \OT1/cmr/m/n/10.95 Bemerkung: Bei bei-spiels-wei-se [][]\OT1/cmtt/m/n/10.95 use
 r:username []\OT1/cmr/m/n/10.95 oder [][]\OT1/cmtt/m/n/10.95 username:userid []
 \OT1/cmr/m/n/10.95 wird der [][]\OT1/cmtt/m/n/10.95 username
  []
 
 [50]
-Overfull \hbox (70.05443pt too wide) in paragraph at lines 798--799
+Overfull \hbox (70.05443pt too wide) in paragraph at lines 799--800
 \OT1/cmr/m/n/10.95 Die letz-ten Ele-men-te sind die War-te-schlan-gen f[]ur Spi
 e-le. Die-se be-ste-hen aus [][]\OT1/cmtt/m/n/10.95 waitingPlayers:timeMode
  []
@@ -1954,41 +1961,45 @@ e-le. Die-se be-ste-hen aus [][]\OT1/cmtt/m/n/10.95 waitingPlayers:timeMode
 chapter 4.
 [53
 
-] [54] [55]
-Overfull \hbox (4.35622pt too wide) in paragraph at lines 156--157
-[]\OT1/cmr/m/n/10.95 In die-sem Co-de Aus-schnitt ist das von For-mik ver-wal-t
-e-te For-mu-lar der \OT1/cmr/m/it/10.95 Lo-gin\OT1/cmr/m/n/10.95 -Komponente
- []
-
-[56] [57] [58] [59] [60] [61] [62]
-Overfull \hbox (10.09663pt too wide) in paragraph at lines 424--425
+] [54] [55] [56] [57] [58] [59] [60] [61] [62]
+Overfull \hbox (10.09663pt too wide) in paragraph at lines 425--426
 \OT1/cmr/m/n/10.95 Die Kom-po-nen-te \OT1/cmr/m/it/10.95 ChessClock []\OT1/cmr/
 m/n/10.95 ubernimmt die Ver-wal-tung und die Dar-stel-lung der Schachuh-
  []
 
 [63] [64]
-Overfull \hbox (23.93802pt too wide) in paragraph at lines 498--499
+Overfull \hbox (23.93802pt too wide) in paragraph at lines 499--500
 []\OT1/cmr/m/n/10.95 Die Dar-stel-lung und Funk-tio-nen ei-nes ein-zel-nen Freu
 n-des []ubernimmt die \OT1/cmr/m/it/10.95 Fri-end\OT1/cmr/m/n/10.95 -Komponente
 ,
  []
 
 [65]
-Overfull \hbox (17.55519pt too wide) in paragraph at lines 546--547
+Overfull \hbox (17.55519pt too wide) in paragraph at lines 547--548
 [][][]\OT1/cmtt/m/n/10.95 refreshKey []\OT1/cmr/m/n/10.95 ist ein State, wel-ch
 er den Kom-po-nen-ten \OT1/cmr/m/it/10.95 Fri-end-List \OT1/cmr/m/n/10.95 und \
 OT1/cmr/m/it/10.95 Ac-tive-Ga-mes []\OT1/cmr/m/n/10.95 ubergeben
  []
 
-[66] [67] [68] [69] [70] [71] [72] [73] [74]
-Overfull \hbox (16.09593pt too wide) in paragraph at lines 905--906
+[66]
+
+LaTeX Warning: Reference `lst:implHome' on page 67 undefined on input line 576.
+
+
+[67] [68] [69] [70] [71] [72] [73]
+
+LaTeX Warning: Reference `ref:getFriends' on page 74 undefined on input line 84
+4.
+
+[74] [75] [76] [77]
+Overfull \hbox (16.09593pt too wide) in paragraph at lines 983--984
 []\OT1/cmr/m/n/10.95 Die Kom-mu-ni-ka-ti-on mit dem Fron-tend er-folgt []uber v
 er-schie-de-ne Events wie [][]\OT1/cmtt/m/n/10.95 opponent_move[]\OT1/cmr/m/n/1
 0.95 ,
  []
 
 
-Overfull \hbox (112.69449pt too wide) in paragraph at lines 905--906
+Overfull \hbox (112.69449pt too wide) in paragraph at lines 983--984
 [][]\OT1/cmtt/m/n/10.95 chackmate[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95
  draw[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 stop_clocks[]\OT1/cmr/m/n/1
 0.95 , [][]\OT1/cmtt/m/n/10.95 updated_time[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt
@@ -1997,22 +2008,42 @@ Overfull \hbox (112.69449pt too wide) in paragraph at lines 905--906
  []
 
 
-Overfull \hbox (15.39708pt too wide) in paragraph at lines 905--906
+Overfull \hbox (15.39708pt too wide) in paragraph at lines 983--984
 \OT1/cmr/m/n/10.95 Die-se Events be-han-deln ent-we-der ein Er-eig-nis der Scha
 ch-par-tie oder ver-wal-ten die Schachuh-
  []
 
 
-Overfull \hbox (16.62834pt too wide) in paragraph at lines 907--908
+Overfull \hbox (16.62834pt too wide) in paragraph at lines 987--988
 []\OT1/cmr/m/n/10.95 Des wei-te-ren wird die ak-tua-li-sier-te PGN-Notation des
  Spiels mit der Funk-ti-on [][]\OT1/cmtt/m/n/10.95 newChessMove
  []
 
-[75] [76] [77] [78] [79] [80] [81]) [82] [83]
-chapter 5.
-[84
+[78] [79] [80] [81] [82] [83] [84] [85]
+Overfull \hbox (2.31645pt too wide) in paragraph at lines 1297--1298
+[]\OT1/cmr/m/n/10.95 online-Status: aus dem Re-dis Ein-trag [][]\OT1/cmtt/m/n/1
+0.95 user:username []\OT1/cmr/m/n/10.95 wird mit-tels der [][]\OT1/cmtt/m/n/10.
+95 getUserData
+ []
 
-] (Bachelorarbeit.lof [85
+[86]
+Overfull \hbox (100.1363pt too wide) in paragraph at lines 1332--1333
+[]\OT1/cmr/m/n/10.95 Ist dies nicht der Fall, kann die Freund-schafts-an-fra-ge
+ der Lis-te un-ter dem Key [][]\OT1/cmtt/m/n/10.95 friend_requests:requestName
+ []
+
+[87])
+Overfull \hbox (26.95325pt too wide) in paragraph at lines 1353--127
+[][]\OT1/cmtt/m/n/10.95 friend []\OT1/cmr/m/n/10.95 aus ei-nem lee-ren Ob-jekt 
+[][]\OT1/cmtt/m/n/10.95 {} []\OT1/cmr/m/n/10.95 be-steht, was be-deu-tet, dass 
+[][]\OT1/cmtt/m/n/10.95 Object.keys(friend).length
+ []
+
+[88] [89]
+chapter 5.
+[90
+
+] (Bachelorarbeit.lof [91
 
 ])
 \tf@lof=\write6
@@ -2020,7 +2051,7 @@ chapter 5.
 
 
 No file Bachelorarbeit.bbl.
-[86] (Bachelorarbeit.aux)
+[92] (Bachelorarbeit.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2031,10 +2062,10 @@ Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 41341 strings out of 478338
- 881240 string characters out of 2836700
- 1546084 words of memory out of 3000000
- 57851 multiletter control sequences out of 15000+600000
+ 41533 strings out of 478338
+ 884440 string characters out of 2836700
+ 1548677 words of memory out of 3000000
+ 57915 multiletter control sequences out of 15000+600000
  478589 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,24n,106p,10638b,2298s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -2058,9 +2089,9 @@ TeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/Pro
 grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppData/
 Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe
 /AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Bachelorarbeit.pdf (97 pages, 2066616 bytes).
+Output written on Bachelorarbeit.pdf (103 pages, 2119665 bytes).
 PDF statistics:
- 2485 PDF objects out of 2487 (max. 8388607)
- 1277 named destinations out of 1440 (max. 500000)
- 626 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2722 PDF objects out of 2984 (max. 8388607)
+ 1405 named destinations out of 1440 (max. 500000)
+ 634 words of extra memory for PDF output out of 10000 (max. 10000000)
 

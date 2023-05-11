@@ -78,7 +78,7 @@ module.exports.onServerShutdown = async () => {
         }
     } catch (error) {
         console.error('Fehler beim Löschen von activeGames aus userid:*');
-    }
+    }d
 
 }
 
@@ -141,7 +141,7 @@ const getFriends = async (username) => {
 
 module.exports.getFriends = getFriends;
 
-const friendRequestIsValid = async (username, requestName) => {
+const friendIsValid = async (username, requestName) => {
     if (!username) {
         return {errorMsg: "Please try again later"};
     }
@@ -154,7 +154,7 @@ const friendRequestIsValid = async (username, requestName) => {
     }
     friend.activeGames = JSON.parse(friend.activeGames);
     const currentFriendList = await redisClient.lrange(`friends:${username}`, 0, -1);
-    if (!!Object.keys(currentFriendList).length && currentFriendList.indexOf([requestName, friend.userid].join('.')) !== -1) {
+    if (currentFriendList.includes([requestName, friend.userid].join('.'))) {
         return {errorMsg: "You are already friends with that user"};
     }
     return friend;
@@ -316,22 +316,20 @@ module.exports.newChessMove = async (pgn, roomId) => {
 }
 
 module.exports.requestFriend = async (username, userid, requestName) => {
-    const requestedFriend = await friendRequestIsValid(username, requestName);
-    if(requestedFriend.errorMsg) {
+    const requestedFriend = await friendIsValid(username, requestName);
+    if (requestedFriend.errorMsg) {
         return {errorMsg: requestedFriend.errorMsg};
     }
     const currentFriendRequests = await redisClient.lrange(`friend_requests:${requestName}`, 0, -1);
-    if (!!Object.keys(currentFriendRequests).length && currentFriendRequests.indexOf([username, userid].join('.')) !== -1) {
+    if (currentFriendRequests.includes([requestName, requestedFriend.userid].join('.'))) {
         return {errorMsg: "You've already sent a friend request to this user"};
     }
-    if (requestedFriend) {
-        await redisClient.lpush(`friend_requests:${requestName}`, [username, userid].join("."));
-        return {userid: requestedFriend.userid};
-    }
+    await redisClient.lpush(`friend_requests:${requestName}`, [username, userid].join("."));
+    return {userid: requestedFriend.userid};
 }
 
 module.exports.addFriend = async (username,userid, friendName) => {
-    const friend = await friendRequestIsValid(username, friendName);
+    const friend = await friendIsValid(username, friendName);
     if(friend.errMsg) {
         return {errMsg: friend.errMsg};
     }
