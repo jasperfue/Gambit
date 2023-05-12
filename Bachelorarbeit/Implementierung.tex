@@ -176,6 +176,9 @@ const LoginSchema = Yup.object().shape({
         .test('not_guest', 'Username cannot start with "guest"', (value) => {
             return !value.startsWith('guest');
         })
+        .test('no colon', 'Username cannot include ":"', (value) => {
+            return !value.includes(':');
+        })
         .required('Username is a required field'),
     password: Yup.string()
         .min(8, 'Password has to be at least 8 characters long')
@@ -190,7 +193,7 @@ const LoginSchema = Yup.object().shape({
 
 In diesem Beispiel ist das \verb|LoginSchema| zu sehen, welches für die Validierung der Eingabefelder im Anmeldeformular aus Codeausschnitt \ref{lst:Login_Formik} verwendet wird. Yup ermöglicht es bestimmte Restriktionen an Eingabefelder zu stellen und dabei direkt die Fehlernachrichten zu definieren, falls eine Restriktion nicht erfüllt ist. Selbstverständlich sind die Restriktionen für das Registrieren die gleichen, wobei das Registrierungsformular noch ein paar weitere Felder hat.
 
-Verwendet werden übliche Restriktionen an Benutzernamen und Passwörter, sodass das Passwort mindestens eine Nummer, ein Symbol, einen Großbuchstaben, ... beinhalten muss. Eine Sonderheit ist, dass der Benutzername nicht mit \glqq guest\grqq{ }beginnen darf, da ich unangemeldete Benutzer bei Schachpartien einen solchen Benutzernamen gebe (siehe Kapitel \ref{sec:Schach-Backend-impl}). 
+Verwendet werden übliche Restriktionen an Benutzernamen und Passwörter, sodass das Passwort mindestens eine Nummer, ein Symbol, einen Großbuchstaben, ... beinhalten muss. Eine Sonderheit ist, dass der Benutzername nicht mit \glqq guest\grqq{ }beginnen darf (siehe Zeile 5 f. des Codeausschnitts \ref{lst:Yup-Login}), da unangemeldete Benutzer bei Schachpartien einen solchen Benutzernamen zugewiesen bekommen (siehe Kapitel \ref{sec:Schach-Backend-impl}). Eine zweite Sonderheit ist, dass der Benutzername keinen Doppelpunkt beinhalten darf. Dies liegt daran, dass wir in der Redis Datenbank öfters die \verb|userid| mit dem Benutzernamen mit einem Doppelpunkt in einem String verbinden (siehe Kapitel \ref{sec:friends:username}).
 
 
 \subsubsection{Socket.io Verbindungsaufbau}
@@ -1150,6 +1153,7 @@ Die \verb|stopCurrentGame| Methode wird aufgerufen, falls eine Zeit (Startzeit o
 
 
 \subsection{Freunde}
+\label{sec:Freunde-impl}
 In diesem Kapitel zeige ich die Implementierung von dem Versenden von Freundschaftsanfragen und dem senden der Freunde an das Frontend. Die zugehörigen Redis Funktionen werden in Kapitel \ref{sec:Datenbank-Integration} eräutert.
 
 Alle anderen Funktionen welche nicht mit dem Schachspiel und der Authentifizierung zusammenhängen werden durch die Listener in der Datei \verb|socketController.js| zur Verfügung gestellt und verwenden den \verb|redisController| für Operationen an der Redis Datenbank. Der Ablauf von Funktionen im Backend bezüglich Freunden wurde ausführlich in dem Kapitel \ref{sec:hinzufügen-von-Freunden} behandelt.
