@@ -575,43 +575,6 @@ Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So
 Beim Schließen der Anwendung oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
 
 Als letzte Middleware werden alle nötigen Listener sowohl für das Schachspiel, als auch für sonstige Funktionen initialisiert.
-
-\subsection{Hinzufügen von Freunden}
-\label{sec:hinzufügen-von-Freunden}
-In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Ablauf des Versenden und Akzeptieren einer Freundschaftsanfrage abgebildet.
-Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
-
-\subsubsection{Versenden einer Freundschaftsanfrage}
-Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer nicht existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
-Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall wird, wird der Benutzer ebenfalls darauf hingewiesen.
-Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
-
-\subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
-\label{sec:accept-friend-request}
-Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzer werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spieler werden eingeholt und an den jeweils anderen Benutzer werden alle Informationen, wie ob er/sie online ist oder ob er/sie aktive Spiele hat, gesendet. Dies stellt sicher, dass die Freunde im Frontend direkt richtig angezeigt werden können.
-
-Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelöscht.
-
-      \begin{figure}[!htbp]
-      \centering
-      \begin{subfigure}[b]{0.35\textwidth}
-      \centering
-  \includegraphics[width=\linewidth]{Freunde-adden.pdf}
-  \caption{Senden einer Freundschaftsanfrage}
-  \label{fig:friend_request}
-  \end{subfigure}
-  \hspace{10mm}
-  \begin{subfigure}[b]{0.3\textwidth}
-  \centering
-    \includegraphics[width=\linewidth]{Freund akzeptieren.pdf}
-  \caption{Akzeptieren einer Freundschaftsanfrage}
-  \label{fig:friend_request}
-  \end{subfigure}
-  \caption{Aktivitätsdiagramme des Versenden und Akzeptieren von Freundschaftsanfragen}
-  \label{fig:Freunde-backend}
- 
-\end{figure}
-
 \subsection{Das Schachspiel}
 \label{sec:Schach-Backend}
 In diesem Abschnitt erkläre ich, was genau beim Finden eines Gegners, Initialisieren, bei neuen Zügen und neuen Nachrichten im Chat eines Schachspiels passiert.
@@ -746,9 +709,46 @@ Bei jedem dieser Ausgänge einer Partie geschieht noch folgendes:
 
 Das ServerChessClock Objekt wird aus dem Array in socketChessController gelöscht.
 
-Die Benutzernamen werden aus dem Redis Eintrag \verb|game:roomId| geholt und falls es sich um angemeldete Benutzer handelt wird das entsprechende \verb|activeGames:username| Element aus der Liste gelöscht. Anschließend wird der Eintrag \verb|game:roomId| gelöscht.
+Die Benutzernamen werden aus dem Redis Eintrag \verb|game:roomId| geholt und falls es sich um angemeldete Benutzer handelt wird das entsprechende Element aus der \verb|activeGames| Liste von \verb|user:username| gelöscht. Anschließend wird der Eintrag \verb|game:roomId| gelöscht.
 
 Somit wird kein Speicher mehr von alten Spielen belegt.
+
+\subsection{Hinzufügen von Freunden}
+\label{sec:hinzufügen-von-Freunden}
+In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Ablauf des Versenden und Akzeptieren einer Freundschaftsanfrage abgebildet.
+Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
+
+\subsubsection{Versenden einer Freundschaftsanfrage}
+Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer nicht existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
+Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall wird, wird der Benutzer ebenfalls darauf hingewiesen.
+Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
+
+\subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
+\label{sec:accept-friend-request}
+Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzer werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spieler werden eingeholt und an den jeweils anderen Benutzer werden alle Informationen, wie ob er/sie online ist oder ob er/sie aktive Spiele hat, gesendet. Dies stellt sicher, dass die Freunde im Frontend direkt richtig angezeigt werden können.
+
+Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelöscht.
+
+      \begin{figure}[!htbp]
+      \centering
+      \begin{subfigure}[b]{0.35\textwidth}
+      \centering
+  \includegraphics[width=\linewidth]{Freunde-adden.pdf}
+  \caption{Senden einer Freundschaftsanfrage}
+  \label{fig:friend_request}
+  \end{subfigure}
+  \hspace{10mm}
+  \begin{subfigure}[b]{0.3\textwidth}
+  \centering
+    \includegraphics[width=\linewidth]{Freund akzeptieren.pdf}
+  \caption{Akzeptieren einer Freundschaftsanfrage}
+  \label{fig:friend_request}
+  \end{subfigure}
+  \caption{Aktivitätsdiagramme des Versenden und Akzeptieren von Freundschaftsanfragen}
+  \label{fig:Freunde-backend}
+ 
+\end{figure}
+
 		\section{Datenbankstruktur}
 \subsection{PostgreSQL Datenbank}
 Die PostgreSQL Datenbank wird ausschließlich für die Anmeldung und Registrierung genutzt. Sie enthält eine Tabelle mit folgendem Schema:
@@ -772,6 +772,7 @@ In unserem Fall werden folgende Values zu den Keys dort gespeichert:
 \begin{itemize}
 \item \textbf{userid:} Auch hier wird die userid gespeichert, da Redis vor allem für socket.io Funktionen verwendet wird und daher eine kurze Abfragezeit benötigt.
 \item \textbf{connected:} Ist \glqq true\grqq{ }oder \glqq false\grqq , je nachdem ob der Benutzer gerade online ist oder nicht.
+\item \textit{activeGames:} Eine Liste in der alle roomIds der aktuellen Spiele gespeichert sind
 \end{itemize}
 
 \subsubsection{game:roomId}
@@ -783,10 +784,6 @@ Der Redis Hash \verb|game:roomId| verwaltet die Daten einer Schachpartie. Dazu g
 \item \textbf{pgn:} Die Historie aller bisherigen Züge im PGN Format.
 \item \textbf{chat:} Alle bisher geschriebenen Nachrichten im Chat.
 \end{itemize}
-
-\subsubsection{activeGames:username}
-\label{activeGames:username}
-\verb|activeGames:username| beinhaltet eine Liste der aktiven Spiele dieses Benutzers. In der Liste stehen alle roomIds der aktiven Spiele.
 
 \subsubsection{friends:username}
 Der Key \verb|friends:username| verweist auf eine Liste von Freunden. Diese Freunde bestehen aus einem String, der sich zusammensetzt aus \verb|username:userid|. Dies verhindert, dass wenn man ein Event an einen Freund senden will, man einen extra Zugriff auf \verb|user:username| machen muss um die userid zu bekommen.

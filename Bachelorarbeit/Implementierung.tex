@@ -909,7 +909,7 @@ import {Chess as ChessGame} from 'chess.js';
 export const Chess = () => new ChessGame();
 \end{lstlisting}
 
-Mit diesem chess.js Objekt generieren wir eine PGN-Notation, in die die Benutzernamen der Spieler und das Datum eingetragen sind. Diese Informationen werden mittels der \verb|initializizeGame| Methode in Redis unter \verb|game:roomId| gespeichert. Falls die Spieler angemeldet sind wird die roomId auch in die Listen \verb|activeGames:username| der beiden Spieler hinzugefügt. 
+Mit diesem chess.js Objekt generieren wir eine PGN-Notation, in die die Benutzernamen der Spieler und das Datum eingetragen sind. Diese Informationen werden mittels der \verb|initializizeGame| Methode in Redis unter \verb|game:roomId| gespeichert. Falls die Spieler angemeldet sind wird die roomId auch in die Listen \verb|activeGames| der \verb|user:username| Einträge der beiden Spieler hinzugefügt. 
 
 Des weiteren wird ein ServerChessClock Objekt erstellt und in \verb|currentChessClock| mit der roomId als Key gespeichert. Die Kommunikation und der Aufbau von ServerChessClock wird in Abschnitt \ref{sec:Uhr-Backend-impl} erläutert.
 Eventlistener für die Events \verb|time_over| und \verb|cancel_game| der ServerChessClock werden definiert. \verb|cancel_game| ist ein Event, welches ausgelöst wird, falls eine Startzeit abgelaufen ist und \verb|time_over|, falls eine reguläre Zeit abgelaufen ist.
@@ -1298,7 +1298,7 @@ Mit einer for-Schleife wird das Array der Freunde aus \verb|getFriends| durchlau
 \item Aktive Partien: Die Funktion \verb|getActiveGamesData| (siehe Zeile 5) hat zwei Aufgaben:
 
 \begin{itemize}
-\item Aus \verb|activeGames:username| wird eine Liste der roomIds der aktiven Spiele dieses Benutzers abgefragt.
+\item Aus \verb|user:username| wird die Liste \verb|activeGames| der roomIds der aktiven Spiele dieses Benutzers abgefragt.
 \item Anschließend wird für jede dieser roomIds der Eintrag \verb|game:roomId| geholt, da Informationen darüber benötigt werden gegen wen und welche Farbe der Benutzer spielt.
 \end{itemize}
 \end{itemize}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  11 MAY 2023 19:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  12 MAY 2023 13:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1887,64 +1887,68 @@ Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 482.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [41] [42]
-Overfull \hbox (38.7559pt too wide) in paragraph at lines 585--588
-\OT1/cmr/m/n/10.95 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fr
-on-tend das Event [][]\OT1/cmtt/m/n/10.95 send_friend_request
- []
-
-[43]
-<./images//Freunde-adden.pdf, id=797, 217.77359pt x 724.62718pt>
-File: ./images//Freunde-adden.pdf Graphic file (type pdf)
-<use ./images//Freunde-adden.pdf>
-Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 599.
-(pdftex.def)             Requested size: 146.39133pt x 487.12306pt.
-
-Underfull \hbox (badness 1253) in paragraph at lines 600--600
-[][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
- []
-
-<./images//Freund akzeptieren.pdf, id=798, 195.6108pt x 775.93887pt>
-File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
-<use ./images//Freund akzeptieren.pdf>
-Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 6
-06.
-(pdftex.def)             Requested size: 125.47737pt x 497.73581pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 607--607
-[][][]|\OT1/cmr/m/n/10 Ak-zep-tie-ren ei-ner
- []
-
 \pgf@layerbox@umlsd@background=\box134
 \pgf@layerboxsaved@umlsd@background=\box135
 \pgf@layerbox@umlsd@threadlayer=\box136
 \pgf@layerboxsaved@umlsd@threadlayer=\box137
 
+
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess to''? on input li
-ne 661.
+ne 624.
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess from''? on input 
-line 661.
+line 624.
 
 
-Overfull \hbox (1.12933pt too wide) in paragraph at lines 629--682
+Overfull \hbox (1.12933pt too wide) in paragraph at lines 592--645
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 37.20796pt on input line 685.
+LaTeX Warning: Float too large for page by 37.20796pt on input line 648.
 
-[44] [45 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>]
-[46] [47]
-<./images//Neuer Zug Backend.pdf, id=863, 515.04419pt x 567.07857pt>
+[43] [44] [45]
+<./images//Neuer Zug Backend.pdf, id=815, 515.04419pt x 567.07857pt>
 File: ./images//Neuer Zug Backend.pdf Graphic file (type pdf)
 <use ./images//Neuer Zug Backend.pdf>
-Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 72
-2.
+Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 68
+5.
 (pdftex.def)             Requested size: 418.25368pt x 460.51657pt.
- [48 <./images//Neuer Zug Backend.pdf>] [49]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[46] [47 <./images//Neuer Zug Backend.pdf>]
+Overfull \hbox (38.7559pt too wide) in paragraph at lines 722--725
+\OT1/cmr/m/n/10.95 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fr
+on-tend das Event [][]\OT1/cmtt/m/n/10.95 send_friend_request
+ []
+
+<./images//Freunde-adden.pdf, id=842, 217.77359pt x 724.62718pt>
+File: ./images//Freunde-adden.pdf Graphic file (type pdf)
+<use ./images//Freunde-adden.pdf>
+Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 736.
+(pdftex.def)             Requested size: 146.39133pt x 487.12306pt.
+
+Underfull \hbox (badness 1253) in paragraph at lines 737--737
+[][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
+ []
+
+<./images//Freund akzeptieren.pdf, id=843, 195.6108pt x 775.93887pt>
+File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
+<use ./images//Freund akzeptieren.pdf>
+Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 7
+43.
+(pdftex.def)             Requested size: 125.47737pt x 497.73581pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 744--744
+[][][]|\OT1/cmr/m/n/10 Ak-zep-tie-ren ei-ner
+ []
+
+[48] [49 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>]
 Overfull \hbox (3.44101pt too wide) in paragraph at lines 767--768
 \OT1/cmr/m/n/10.95 Bemerkung: Bei bei-spiels-wei-se [][]\OT1/cmtt/m/n/10.95 use
 r:username []\OT1/cmr/m/n/10.95 oder [][]\OT1/cmtt/m/n/10.95 username:userid []
@@ -1952,7 +1956,7 @@ r:username []\OT1/cmr/m/n/10.95 oder [][]\OT1/cmtt/m/n/10.95 username:userid []
  []
 
 [50]
-Overfull \hbox (70.05443pt too wide) in paragraph at lines 799--800
+Overfull \hbox (70.05443pt too wide) in paragraph at lines 796--797
 \OT1/cmr/m/n/10.95 Die letz-ten Ele-men-te sind die War-te-schlan-gen f[]ur Spi
 e-le. Die-se be-ste-hen aus [][]\OT1/cmtt/m/n/10.95 waitingPlayers:timeMode
  []
@@ -2062,36 +2066,40 @@ Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 41533 strings out of 478338
- 884440 string characters out of 2836700
+ 41532 strings out of 478338
+ 884428 string characters out of 2836700
  1548677 words of memory out of 3000000
  57915 multiletter control sequences out of 15000+600000
  478589 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,24n,106p,10638b,2298s stack positions out of 10000i,1000n,20000p,200000b,80000s
- <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
-1095.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\tctt0900.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/jaspe/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/jaspe/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/ja
-spe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/U
-sers/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pf
-b><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmr9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmsl10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmss9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Bachelorarbeit.pdf (103 pages, 2119665 bytes).
+
+pdfTeX warning (dest): name{subsubsection*.149} has been referenced but does no
+t exist, replaced by a fixed one
+
+ <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm10
+95.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
+tctt0900.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/jaspe/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/jaspe/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jasp
+e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Use
+rs/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+<C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmsl10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmss9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on Bachelorarbeit.pdf (103 pages, 2119443 bytes).
 PDF statistics:
- 2722 PDF objects out of 2984 (max. 8388607)
- 1405 named destinations out of 1440 (max. 500000)
+ 2719 PDF objects out of 2984 (max. 8388607)
+ 1404 named destinations out of 1440 (max. 500000)
  634 words of extra memory for PDF output out of 10000 (max. 10000000)
 

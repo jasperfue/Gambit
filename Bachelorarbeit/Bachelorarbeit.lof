@@ -33,9 +33,9 @@
 \contentsline {figure}{\numberline {3.16}{\ignorespaces Das Herausfordern und Zuschauen bei Freunden\relax }}{39}{figure.caption.66}%
 \contentsline {figure}{\numberline {3.17}{\ignorespaces Das Modal der \textit {AddFriendModal}-Komponente mit Fehlermeldung\relax }}{40}{figure.caption.71}%
 \contentsline {figure}{\numberline {3.18}{\ignorespaces Ordnerstruktur des Backends\relax }}{42}{figure.caption.72}%
-\contentsline {figure}{\numberline {3.19}{\ignorespaces Aktivitätsdiagramme des Versenden und Akzeptieren von Freundschaftsanfragen\relax }}{45}{figure.caption.81}%
-\contentsline {figure}{\numberline {3.20}{\ignorespaces Sequenzdiagramm des Schachspielstartprozesses mit unbekanntem Gegner\relax }}{46}{figure.caption.84}%
-\contentsline {figure}{\numberline {3.21}{\ignorespaces Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend\relax }}{48}{figure.caption.89}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Sequenzdiagramm des Schachspielstartprozesses mit unbekanntem Gegner\relax }}{44}{figure.caption.79}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend\relax }}{47}{figure.caption.84}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Aktivitätsdiagramme des Versenden und Akzeptieren von Freundschaftsanfragen\relax }}{49}{figure.caption.93}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
