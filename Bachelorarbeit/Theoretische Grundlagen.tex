@@ -167,7 +167,7 @@ socket.on("message", text => console.log(text)); //Empfangen
 React ist eine der beliebtesten (nach einer Umfrage von 2022 von Stack Overflow sogar die beliebteste \cite{stack-overflow-survey}) Frontend Javascript Bibliotheken. Es basiert auf Komponenten, welche wiederverwendbar und kombinierbar sind und vereinfacht die Verwaltung von Interaktionen mit User Interfaces. Dabei benutzt React eine Syntax Erweiterung namens \textit{JSX}. Mit dieser Erweiterung ist es erlaubt HTML Elemente in JavaScript Dateien zu verwenden, welches es ermöglicht die Logik hinter getrennten HTML und JavaScript Dateien in eine Datei zu kombinieren. Die Idee hinter React ist, dass wenn sich nur ein bestimmter Teil des User Interfaces im Vergleich zum aktuell sichtbaren User Interface ändert, auch nur dieser Teil neu gerendert wird und nicht das ganze User Interface. Diese reaktiven Änderungen veranlasst React mittels seiner \textit{Hooks} \cite{react-key-concepts}.
 
 Ich werde die Art und Weise wie React und seine Hooks funktionieren an dem Beispiel \ref{lst:react-example} erklären.
-In diesem Beispiel implementieren wir die Komponente \textit{ExampleComponent}, welche zum Beispiel mittels dem Tag \verb|<ExampleComponent initialCount={10} loadingDelay={3000} />| verwendet werden kann. 
+In diesem Beispiel implementieren wir die Komponente \textit{ExampleComponent}, welche zum Beispiel mittels dem Tag \\ \verb|<ExampleComponent initialCount={10} loadingDelay={3000} />| verwendet werden kann. 
 
 Die zwei übergebenen Variablen \textit{initialCount} und \textit{loadingDelay} werden auch \textbf{props} genannt, welche in der Komponente verwendet werden können. Eine Komponente ist eine Funktion, welche als Rückgabe den HTML-Code hat, welcher angezeigt werden soll.
 
@@ -237,7 +237,7 @@ export default ExampleComponent;
 \label{sec:react-router}
 React Router ermöglicht die Erstellung von Anwendung mit mehreren Seiten unter verschiedenen Pfaden \cite{react-key-concepts}. Das ist sinnvoll um als Benutzer direkt einen Pfad angeben zu können um auf die gewünschte Seite zu kommen oder sie zu teilen. Ein Beispiel der Funktion von verschiedenen Komponenten auf verschiedenen Pfaden finden Sie in Abbildung \ref{lst:react-router-example}. 
 
-In diesem Beispiel wird unter dem Pfad \glqq /\grqq{ }die Komponente \verb|Dashboard| angezeigt, während unter dem Pfad \glqq /orders\grqq{ } die React Komponente \verb|Orders| gerendert wird. Dafür werden die Komponenten \verb|BrowserRouter|, \verb|Routes| und \verb|Route| des Pakets \verb|react-router-dom| benötigt.
+In diesem Beispiel wird unter dem Pfad \glqq /\grqq{ }die Komponente \verb|Dashboard| angezeigt, während unter dem Pfad \glqq /orders\grqq{ } die React Komponente \verb|Orders| gerendert wird. Dafür werden die Komponenten \verb|BrowserRouter|, \verb|Routes| und \verb|Route| des Pakets \linebreak \verb|react-router-dom| benötigt.
 \begin{itemize}
 \item \textbf{BrowserRouter} ermöglicht alle Routing Funktionen und Komponenten zu verwenden.
 \item \textbf{Routes} enthält alle Definition der Pfade. Es kann auch mehrmals verwendet werden um verschiedene Gruppen von Routen zu definieren.

@@ -496,7 +496,7 @@ Die Darstellung von Daten in Arrays kann in React mittels der Array \verb|map()|
 
 Dafür wird die Methode \verb|sort()| verwendet. Diese nimmt eine Funktion mit zwei Parametern (hier \verb|a| und \verb|b|) entgegen, die jeweils ein Element des Arrays sind. Gibt uns die Funktion 1 zurück, muss Element \verb|a| vor Element \verb|b| sortiert sein. Bei -1 anders herum und bei 0 ist es gleichgültig. Indem die Booleschen Werte von einander subtrahiert werden, werden ihnen Zahlen zugeordnet: 1 für \verb|true| und 0 für \verb|false|. Nun haben wir die folgenden Szenarien: Wenn beide den gleichen Status haben ist der Wert 0. Ist \verb|a.connected| true und \verb|b.connected| ist false: 1-0=1 $\Rightarrow$ \verb|a| wird vor \verb|b| sortiert. Anders herum dem entsprechend 0-1=-1.
 
-Die Darstellung und Funktionen eines einzelnen Freundes übernimmt die \textit{Friend}-Komponente, die ihre Daten als props übergeben bekommt.
+Die Darstellung und Funktionen eines einzelnen Freundes übernimmt die \textit{Friend}- Komponente, die ihre Daten als props übergeben bekommt.
 
 Auch die Liste der Freundschaftsanfragen, die Liste der aktiven Spiele der \textit{ActiveGames}- oder \textit{Friend}-Komponente wird mittels der \verb|map()| Funktion durch einzelne Komponenten dargestellt.
 
@@ -980,11 +980,11 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
 
 Die Methode holt erst das ServerChessClock Objekt aus dem \verb|currentChessClocks| Array und importiert die aktuelle PGN-Notation des Schachspiels aus der Redis Datenbank in ein chess.js Objekt und macht den Zug darauf (siehe Zeilen 5 - 25 des Codeausschnitts \ref{lst:newMove}).
 
-Die Kommunikation mit dem Frontend erfolgt über verschiedene Events wie \verb|opponent_move|, \verb|chackmate|, \verb|draw|, \verb|stop_clocks|, \verb|updated_time|, \verb|stop_starting_time_white| und \verb|stop_starting_time_black|. Diese Events behandeln entweder ein Ereignis der Schachpartie oder verwalten die Schachuhren. Über die Callback Funktion wird mitgeteilt, ob der Zug erfolgreich behandelt werden konnte oder nicht.
+Die Kommunikation mit dem Frontend erfolgt über verschiedene Events wie \linebreak \verb|opponent_move|, \verb|chackmate|, \verb|draw|, \verb|stop_clocks|, \verb|updated_time|,  \linebreak \verb|stop_starting_time_white| und \verb|stop_starting_time_black|. Diese Events behandeln entweder ein Ereignis der Schachpartie oder verwalten die Schachuhren. Über die Callback Funktion wird mitgeteilt, ob der Zug erfolgreich behandelt werden konnte oder nicht.
 
 Mit dem ServerChessClock Objekt wird mittels der Events \verb|stop| und \verb|toggle| (siehe Abschnitt \ref{sec:Uhr-Backend-impl}) und den Funktionsaufrufen \verb|startStartingTimer| und \verb|startTimer| kommuniziert. \verb|stop| wird bei einem Ende der Partie gesendet, \verb|toggle| bei jedem neuen Zug, es sei denn das Spiel ist vorbei und die Funktionsaufrufe dienen zum initialen starten der Startuhren oder der regulären Uhr.
 
-Des weiteren wird die aktualisierte PGN-Notation des Spiels mit der Funktion \verb|newChessMove| (siehe Zeile 28 im Codeausschnitt \ref{lst:onMove}) in Redis gespeichert.
+Des weiteren wird die aktualisierte PGN-Notation des Spiels mit der Funktion \linebreak \verb|newChessMove| (siehe Zeile 28 im Codeausschnitt \ref{lst:onMove}) in Redis gespeichert.
 
 \subsubsection{Senden des aktuellen Zustands einer Partie}
 Beim Laden der \textit{ChessGame}-Komponente im Frontend wird das Event \verb|get_game_data| gesendet, um den aktuellen Zustand des Spiels zu erhalten und spielen zu können beziehungsweise zugucken zu können. 
@@ -1329,7 +1329,7 @@ Die \verb|requestFriend| Methode wird beim Versenden einer Freundschaftsanfrage 
 
 Die Methode \verb|friendIsValid| überprüft, ob eine Freundschaft zulässig ist (siehe Codeausschnitt \ref{lst:friendIsValid}). Ist sie es nicht wird die entsprechende Fehlernachricht zurückgegeben. Um sicherzustellen, dass auch die Freundschaftsanfrage wirklich gültig ist, muss zusätzlich gewährleistet werden, dass zwischen den beiden Spielern keine ausstehenden Freundschaftsanfragen existieren (siehe Zeile 7 des Codeausschnitts \ref{lst:requestFriend}).
 
-Ist dies nicht der Fall, kann die Freundschaftsanfrage der Liste unter dem Key \verb|friend_requests:requestName| in der Form \verb|username:userid| hinzugefügt werden und die \verb|userid| des angefragten Freundes wird zurückgegeben, um an ihn die Freundschaftsanfrage zu senden (siehe Kapitel \ref{sec:Freundschaftsanfrage-backend}).
+Ist dies nicht der Fall, kann die Freundschaftsanfrage der Liste unter dem Key \linebreak \verb|friend_requests:requestName| in der Form \verb|username:userid| hinzugefügt werden und die \verb|userid| des angefragten Freundes wird zurückgegeben, um an ihn die Freundschaftsanfrage zu senden (siehe Kapitel \ref{sec:Freundschaftsanfrage-backend}).
 
 \begin{lstlisting}[style=codeStyle, caption={friendIsValid Methode um zu überprüfen, ob eine Freundschaft legal wäre}, label={lst:friendIsValid}]
 const friendIsValid = async (username, requestName) => {
@@ -1350,4 +1350,4 @@ const friendIsValid = async (username, requestName) => {
 
 Bei einer legalen Freundschaft muss gewährleistet sein, dass man nicht mit sich selbst befreundet sein kann (siehe Zeile 2 des Codeausschnitts \ref{lst:friendIsValid}), dass der angefragte Benutzer existiert (siehe Ziele 5 \& 6) und, dass die beiden Benutzer nicht bereits befreundet sind.
 
-Die Überprüfung ob der Nutzer existiert, basiert darauf, dass falls er nicht existiert \verb|friend| aus einem leeren Objekt \verb|{}| besteht, was bedeutet, dass \verb|Object.keys(friend).length| gleich 0 ist (siehe Zeile 6). Der \verb|!|-Ausdruck konvertiert diesen Wert zunächst in den booleschen Wert \verb|false| und negiert ihn anschließend, sodass der Ausdruck \verb|true| zurückgibt.
+Die Überprüfung ob der Nutzer existiert, basiert darauf, dass falls er nicht existiert \verb|friend| aus einem leeren Objekt \verb|{}| besteht, was bedeutet, dass \linebreak \verb|Object.keys(friend).length| gleich 0 ist (siehe Zeile 6). Der \verb|!|-Ausdruck konvertiert diesen Wert zunächst in den booleschen Wert \verb|false| und negiert ihn anschließend, sodass der Ausdruck \verb|true| zurückgibt.

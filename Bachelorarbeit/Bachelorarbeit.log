@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  12 MAY 2023 13:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  12 MAY 2023 14:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1207,7 +1207,13 @@ Package: pgf-umlsd 2011/07/27 v0.6 Some LaTeX macros for UML Sequence Diagrams.
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-) (Bachelorarbeit.aux
+)
+(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/cite\cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(Bachelorarbeit.aux
 
 LaTeX Warning: Label `fig:friend_request' multiply defined.
 
@@ -1235,24 +1241,24 @@ LaTeX Warning: Label `lst:routing-Middlewares@cref' multiply defined.
 )
 \openout1 = `Bachelorarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -1313,7 +1319,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 105.
+Package hyperref Info: Link coloring OFF on input line 108.
 (Bachelorarbeit.out) (Bachelorarbeit.out)
 \@outlinefile=\write4
 \openout4 = `Bachelorarbeit.out'.
@@ -1325,7 +1331,7 @@ Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           `bookmarkpackage=false' before \begin{document} and
 (scrreprt)           you can avoid this message adding:
 (scrreprt)             \usepackage{bookmark}
-(scrreprt)           before \begin{document} on input line 105.
+(scrreprt)           before \begin{document} on input line 108.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
@@ -1392,15 +1398,11 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface.
 
-
-LaTeX Warning: Citation `schachgeschichte' on page 1 undefined on input line 4.
-
-
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 5.
-<./images//Schachentwicklung.jpg, id=181, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=184, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
 Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 10
@@ -1415,10 +1417,6 @@ l.19     \section
                  {Zielsetzung} [1
 
  <./images//Schachentwicklung.jpg>]
-
-LaTeX Warning: Citation `webdesign' on page 2 undefined on input line 25.
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
 been already used, duplicate ignored
 <to be read again> 
@@ -1435,22 +1433,22 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.118 \newpage
+l.121 \newpage
                [3]
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.119 ...\thispagestyle{empty}\hspace{1em}\newpage
+l.122 ...\thispagestyle{empty}\hspace{1em}\newpage
                                                    [4]
 (Theoretische Grundlagen.tex
 chapter 2.
-<./images//en-passant.jpeg, id=219, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=225, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
 Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 14.
 (pdftex.def)             Requested size: 418.25368pt x 136.44353pt.
-<./images//promotion.jpeg, id=221, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=227, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
 Package pdftex.def Info: ./images//promotion.jpeg  used on input line 22.
@@ -1464,15 +1462,6 @@ l.34
       [5
 
  <./images//en-passant.jpeg>]
-
-LaTeX Warning: Citation `nodejs' on page 6 undefined on input line 39.
-
-
-LaTeX Warning: Citation `nodejsbook' on page 6 undefined on input line 39.
-
-
-LaTeX Warning: Citation `nodejsbook' on page 6 undefined on input line 40.
-
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 42.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
@@ -1484,26 +1473,11 @@ been already used, duplicate ignored
                    \relax 
 l.45 })
        ; [6 <./images//promotion.jpeg>]
-
-LaTeX Warning: Citation `nodejsbook' on page 7 undefined on input line 46.
-
-
-LaTeX Warning: Citation `nodejsbook' on page 7 undefined on input line 46.
-
-
-LaTeX Warning: Citation `expressbook' on page 7 undefined on input line 52.
-
-<./images//node-request.jpg, id=240, 592.2125pt x 194.7275pt>
+<./images//node-request.jpg, id=254, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
 Package pdftex.def Info: ./images//node-request.jpg  used on input line 58.
 (pdftex.def)             Requested size: 418.25368pt x 137.53247pt.
-
-LaTeX Warning: Citation `expressbook' on page 7 undefined on input line 60.
-
-
-LaTeX Warning: Citation `expressbook' on page 7 undefined on input line 68.
-
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.7}) has 
 been already used, duplicate ignored
@@ -1511,59 +1485,46 @@ been already used, duplicate ignored
                    \relax 
 l.71 
       [7 <./images//node-request.jpg>]
-<./images//express-request.jpg, id=253, 592.2125pt x 178.6675pt>
+<./images//express-request.jpg, id=269, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
 Package pdftex.def Info: ./images//express-request.jpg  used on input line 74.
 (pdftex.def)             Requested size: 418.25368pt x 126.18959pt.
-
-
-LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 76.
-
-<./images//Middleware-Beispiel.jpg, id=254, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=271, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
 85.
 (pdftex.def)             Requested size: 292.77629pt x 130.51045pt.
-<./images//Middleware-Beispiel-2.jpg, id=255, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=272, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
 e 89.
 (pdftex.def)             Requested size: 292.77629pt x 145.39757pt.
 
-LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 92.
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//express-routing-example.jpg, id=258, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=276, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
 ine 101.
 (pdftex.def)             Requested size: 418.25368pt x 167.30756pt.
-
-LaTeX Warning: Citation `expressbook' on page 8 undefined on input line 103.
-
 [8 <./images//express-request.jpg>]
-<./images//socket.io-server-beispiel.png, id=268, 1084.05pt x 873.2625pt>
+<./images//socket.io-server-beispiel.png, id=287, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
  line 122.
 (pdftex.def)             Requested size: 188.21288pt x 151.61066pt.
-<./images//socket.io-client-beispiel.png, id=270, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=289, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
  line 123.
 (pdftex.def)             Requested size: 188.21288pt x 138.3665pt.
-
-
-LaTeX Warning: Citation `socketio' on page 9 undefined on input line 124.
-
 
 Overfull \hbox (29.26427pt too wide) in paragraph at lines 129--130
 \OT1/cmr/m/n/10.95 sen-den ([][]\OT1/cmtt/m/n/10.95 io.to(...).emit(...)[]\OT1/
@@ -1572,7 +1533,7 @@ cket.to(...).emit(...)[]\OT1/cmr/m/n/10.95 )
  []
 
 [9 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>]
-<./images//socket.io-rooms.png, id=280, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=300, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
 Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 134.
@@ -1585,18 +1546,9 @@ Overfull \hbox (4.53632pt too wide) in paragraph at lines 141--142
  []
 
 [10 <./images//express-routing-example.jpg>]
-
-LaTeX Warning: Citation `stack-overflow-survey' on page 11 undefined on input l
-ine 167.
-
-
-LaTeX Warning: Citation `react-key-concepts' on page 11 undefined on input line
- 167.
-
-
-Overfull \hbox (88.81912pt too wide) in paragraph at lines 169--171
-\OT1/cmr/m/n/10.95 wel-che zum Bei-spiel mit-tels dem Tag [][]\OT1/cmtt/m/n/10.
-95 <ExampleComponent initialCount={10} loadingDelay={3000} />
+Overfull \hbox (2.22278pt too wide) in paragraph at lines 169--171
+[][]\OT1/cmtt/m/n/10.95 <ExampleComponent initialCount={10} loadingDelay={3000}
+ /> []\OT1/cmr/m/n/10.95 ver-wen-det wer-den
  []
 
 [11 <./images//socket.io-server-beispiel.png> <./images//socket.io-client-beisp
@@ -1608,58 +1560,25 @@ LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 [13]
-
-LaTeX Warning: Citation `react-key-concepts' on page 14 undefined on input line
- 238.
-
-
-Overfull \hbox (16.39821pt too wide) in paragraph at lines 240--241
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
 \OT1/cmr/m/n/10.95 wer-den die Kom-po-nen-ten [][]\OT1/cmtt/m/n/10.95 BrowserRo
 uter[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 Routes []\OT1/cmr/m/n/10.95 
-und [][]\OT1/cmtt/m/n/10.95 Route []\OT1/cmr/m/n/10.95 des Pa-kets [][]\OT1/cmt
-t/m/n/10.95 react-router-dom
+und [][]\OT1/cmtt/m/n/10.95 Route []\OT1/cmr/m/n/10.95 des Pa-kets
  []
 
-
-LaTeX Warning: Citation `react-key-concepts' on page 14 undefined on input line
- 247.
-
-[14]
-
-LaTeX Warning: Citation `react-key-concepts' on page 15 undefined on input line
- 298.
-
-
-LaTeX Warning: Citation `react-key-concepts' on page 15 undefined on input line
- 298.
-
-
-LaTeX Warning: Citation `postgresql-book' on page 15 undefined on input line 30
-2.
-
-
-LaTeX Warning: Citation `sql-book' on page 15 undefined on input line 302.
-
-[15]
-
-LaTeX Warning: Citation `sql-book' on page 16 undefined on input line 312.
-
-
+[14] [15]
 Overfull \hbox (34.02632pt too wide) in paragraph at lines 317--318
 []\OT1/cmr/m/it/10.95 Durability (Dau-er-haf-tig-keit)\OT1/cmr/m/n/10.95 : Nach
  ei-ner ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
  []
 
-
-LaTeX Warning: Citation `redis-book' on page 16 undefined on input line 324.
-
 [16]
-<./images//jwt-beispiel.png, id=452, 962.59625pt x 1083.04625pt>
+<./images//jwt-beispiel.png, id=487, 962.59625pt x 1083.04625pt>
 File: ./images//jwt-beispiel.png Graphic file (type png)
 <use ./images//jwt-beispiel.png>
 Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 338.
 (pdftex.def)             Requested size: 250.95476pt x 282.34558pt.
-<./images//Chakra-UI Beispiel.png, id=458, 254.1495pt x 301.125pt>
+<./images//Chakra-UI Beispiel.png, id=493, 254.1495pt x 301.125pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
 Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 3
@@ -1760,38 +1679,38 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//Home_not_logged_in.png, id=623, 1156.32pt x 537.207pt>
+<./images//Home_not_logged_in.png, id=659, 1156.32pt x 537.207pt>
 File: ./images//Home_not_logged_in.png Graphic file (type png)
 <use ./images//Home_not_logged_in.png>
 Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 2
 43.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//Home_logged_in.png, id=624, 1156.32pt x 537.207pt>
+<./images//Home_logged_in.png, id=660, 1156.32pt x 537.207pt>
 File: ./images//Home_logged_in.png Graphic file (type png)
 <use ./images//Home_logged_in.png>
 Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 251.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//game_request.png, id=625, 530.58224pt x 286.671pt>
+<./images//game_request.png, id=661, 530.58224pt x 286.671pt>
 File: ./images//game_request.png Graphic file (type png)
 <use ./images//game_request.png>
 Package pdftex.def Info: ./images//game_request.png  used on input line 258.
 (pdftex.def)             Requested size: 292.77629pt x 158.19006pt.
-<./images//SignUp.png, id=626, 1156.32pt x 536.60475pt>
+<./images//SignUp.png, id=662, 1156.32pt x 536.60475pt>
 File: ./images//SignUp.png Graphic file (type png)
 <use ./images//SignUp.png>
 Package pdftex.def Info: ./images//SignUp.png  used on input line 266.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//Login.png, id=627, 1156.32pt x 536.60475pt>
+<./images//Login.png, id=663, 1156.32pt x 536.60475pt>
 File: ./images//Login.png Graphic file (type png)
 <use ./images//Login.png>
 Package pdftex.def Info: ./images//Login.png  used on input line 273.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//ChessGame.png, id=628, 1155.1155pt x 537.207pt>
+<./images//ChessGame.png, id=664, 1155.1155pt x 537.207pt>
 File: ./images//ChessGame.png Graphic file (type png)
 <use ./images//ChessGame.png>
 Package pdftex.def Info: ./images//ChessGame.png  used on input line 280.
 (pdftex.def)             Requested size: 418.25368pt x 194.51736pt.
-<./images//PromotionModal.png, id=629, 427.5975pt x 162.6075pt>
+<./images//PromotionModal.png, id=665, 427.5975pt x 162.6075pt>
 File: ./images//PromotionModal.png Graphic file (type png)
 <use ./images//PromotionModal.png>
 Package pdftex.def Info: ./images//PromotionModal.png  used on input line 287.
@@ -1799,14 +1718,14 @@ Package pdftex.def Info: ./images//PromotionModal.png  used on input line 287.
 [28] [29] [30 <./images//Home_not_logged_in.png> <./images//Home_logged_in.png>
 ] [31 <./images//game_request.png> <./images//SignUp.png>] [32 <./images//Login
 .png> <./images//ChessGame.png> <./images//PromotionModal.png>]
-<./images//searching-for-opponent.png, id=670, 1156.32pt x 302.93175pt>
+<./images//searching-for-opponent.png, id=706, 1156.32pt x 302.93175pt>
 File: ./images//searching-for-opponent.png Graphic file (type png)
 <use ./images//searching-for-opponent.png>
 Package pdftex.def Info: ./images//searching-for-opponent.png  used on input li
 ne 317.
 (pdftex.def)             Requested size: 418.25368pt x 109.57304pt.
  [33 <./images//searching-for-opponent.png>]
-<./images//game-does-not-exist.png, id=683, 1156.32pt x 199.34476pt>
+<./images//game-does-not-exist.png, id=719, 1156.32pt x 199.34476pt>
 File: ./images//game-does-not-exist.png Graphic file (type png)
 <use ./images//game-does-not-exist.png>
 Package pdftex.def Info: ./images//game-does-not-exist.png  used on input line 
@@ -1819,19 +1738,19 @@ t, die Na-men und die Schachuh-
  []
 
 [34 <./images//game-does-not-exist.png>]
-<./images//Toast-resign.png, id=698, 413.1435pt x 218.0145pt>
+<./images//Toast-resign.png, id=734, 413.1435pt x 218.0145pt>
 File: ./images//Toast-resign.png Graphic file (type png)
 <use ./images//Toast-resign.png>
 Package pdftex.def Info: ./images//Toast-resign.png  used on input line 376.
 (pdftex.def)             Requested size: 209.12683pt x 110.35425pt.
  [35 <./images//Toast-resign.png>]
-<./images//Interaktion Schach Zug.png, id=709, 594.22pt x 683.55376pt>
+<./images//Interaktion Schach Zug.png, id=745, 594.22pt x 683.55376pt>
 File: ./images//Interaktion Schach Zug.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug.png  used on input li
 ne 393.
 (pdftex.def)             Requested size: 334.60422pt x 384.92569pt.
-<./images//Interaktion Schach Zug empfangen.png, id=710, 593.21625pt x 603.2537
+<./images//Interaktion Schach Zug empfangen.png, id=746, 593.21625pt x 603.2537
 5pt>
 File: ./images//Interaktion Schach Zug empfangen.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug empfangen.png>
@@ -1844,10 +1763,9 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [36 <./images//Interaktion Schach Zug.png>] [37 <./images//Interaktion Schach Z
 ug empfangen.png>] [38]
-Overfull \hbox (28.96033pt too wide) in paragraph at lines 441--442
+Underfull \hbox (badness 10000) in paragraph at lines 441--442
 []\OT1/cmr/m/n/10.95 Die Kom-po-nen-te hat zwei Event-lis-te-ner: [][]\OT1/cmtt
-/m/n/10.95 game_request_accepted []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/10.
-95 game_request_denied[]\OT1/cmr/m/n/10.95 ,
+/m/n/10.95 game_request_accepted []\OT1/cmr/m/n/10.95 und
  []
 
 
@@ -1857,19 +1775,19 @@ n/10.95 send_game_request []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/10.95 canc
 el_game_request[]\OT1/cmr/m/n/10.95 .
  []
 
-<./images//activeGames-friends.png, id=739, 313.17pt x 148.1535pt>
+<./images//activeGames-friends.png, id=775, 313.17pt x 148.1535pt>
 File: ./images//activeGames-friends.png Graphic file (type png)
 <use ./images//activeGames-friends.png>
 Package pdftex.def Info: ./images//activeGames-friends.png  used on input line 
 449.
 (pdftex.def)             Requested size: 146.39133pt x 69.25688pt.
-<./images//Spiel-herausfordern.png, id=740, 320.99925pt x 198.7425pt>
+<./images//Spiel-herausfordern.png, id=776, 320.99925pt x 198.7425pt>
 File: ./images//Spiel-herausfordern.png Graphic file (type png)
 <use ./images//Spiel-herausfordern.png>
 Package pdftex.def Info: ./images//Spiel-herausfordern.png  used on input line 
 456.
 (pdftex.def)             Requested size: 125.47737pt x 77.68817pt.
-<./images//waiting-for-friend.png, id=741, 548.64975pt x 226.446pt>
+<./images//waiting-for-friend.png, id=777, 548.64975pt x 226.446pt>
 File: ./images//waiting-for-friend.png Graphic file (type png)
 <use ./images//waiting-for-friend.png>
 Package pdftex.def Info: ./images//waiting-for-friend.png  used on input line 4
@@ -1877,7 +1795,7 @@ Package pdftex.def Info: ./images//waiting-for-friend.png  used on input line 4
 (pdftex.def)             Requested size: 125.47737pt x 51.78778pt.
 [39 <./images//activeGames-friends.png> <./images//Spiel-herausfordern.png> <./
 images//waiting-for-friend.png>]
-<./images//AddFriendModal.png, id=757, 569.12625pt x 277.63725pt>
+<./images//AddFriendModal.png, id=793, 569.12625pt x 277.63725pt>
 File: ./images//AddFriendModal.png Graphic file (type png)
 <use ./images//AddFriendModal.png>
 Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 482.
@@ -1911,7 +1829,7 @@ Overfull \hbox (1.12933pt too wide) in paragraph at lines 592--645
 LaTeX Warning: Float too large for page by 37.20796pt on input line 648.
 
 [43] [44] [45]
-<./images//Neuer Zug Backend.pdf, id=815, 515.04419pt x 567.07857pt>
+<./images//Neuer Zug Backend.pdf, id=851, 515.04419pt x 567.07857pt>
 File: ./images//Neuer Zug Backend.pdf Graphic file (type pdf)
 <use ./images//Neuer Zug Backend.pdf>
 Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 68
@@ -1922,12 +1840,18 @@ Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 68
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [46] [47 <./images//Neuer Zug Backend.pdf>]
-Overfull \hbox (38.7559pt too wide) in paragraph at lines 722--725
+Underfull \hbox (badness 8094) in paragraph at lines 722--725
 \OT1/cmr/m/n/10.95 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fr
-on-tend das Event [][]\OT1/cmtt/m/n/10.95 send_friend_request
+on-tend das Event
  []
 
-<./images//Freunde-adden.pdf, id=842, 217.77359pt x 724.62718pt>
+
+Overfull \hbox (13.72305pt too wide) in paragraph at lines 722--725
+[][]\OT1/cmtt/m/n/10.95 send_friend_request []\OT1/cmr/m/n/10.95 mit dem an-ge-
+ge-be-nen Be-nut-zer-na-men ver-sen-det. Um zu []uberpr[]ufen,
+ []
+
+<./images//Freunde-adden.pdf, id=878, 217.77359pt x 724.62718pt>
 File: ./images//Freunde-adden.pdf Graphic file (type pdf)
 <use ./images//Freunde-adden.pdf>
 Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 736.
@@ -1937,7 +1861,7 @@ Underfull \hbox (badness 1253) in paragraph at lines 737--737
 [][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
  []
 
-<./images//Freund akzeptieren.pdf, id=843, 195.6108pt x 775.93887pt>
+<./images//Freund akzeptieren.pdf, id=879, 195.6108pt x 775.93887pt>
 File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
 <use ./images//Freund akzeptieren.pdf>
 Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 7
@@ -1956,9 +1880,16 @@ r:username []\OT1/cmr/m/n/10.95 oder [][]\OT1/cmtt/m/n/10.95 username:userid []
  []
 
 [50]
-Overfull \hbox (70.05443pt too wide) in paragraph at lines 796--797
+Underfull \hbox (badness 2368) in paragraph at lines 796--797
 \OT1/cmr/m/n/10.95 Die letz-ten Ele-men-te sind die War-te-schlan-gen f[]ur Spi
-e-le. Die-se be-ste-hen aus [][]\OT1/cmtt/m/n/10.95 waitingPlayers:timeMode
+e-le. Die-se be-ste-hen aus
+ []
+
+
+Overfull \hbox (11.68584pt too wide) in paragraph at lines 796--797
+\OT1/cmr/m/n/10.95 einen an-ge-mel-de-ten Be-nut-zer han-delt oder nicht. [][]\
+OT1/cmtt/m/n/10.95 timeMode []\OT1/cmr/m/n/10.95 re-pr[]asentiert hier al-le m[
+]oglichen
  []
 
 ) [51] [52] (Implementierung.tex
@@ -1971,14 +1902,7 @@ Overfull \hbox (10.09663pt too wide) in paragraph at lines 425--426
 m/n/10.95 ubernimmt die Ver-wal-tung und die Dar-stel-lung der Schachuh-
  []
 
-[63] [64]
-Overfull \hbox (23.93802pt too wide) in paragraph at lines 499--500
-[]\OT1/cmr/m/n/10.95 Die Dar-stel-lung und Funk-tio-nen ei-nes ein-zel-nen Freu
-n-des []ubernimmt die \OT1/cmr/m/it/10.95 Fri-end\OT1/cmr/m/n/10.95 -Komponente
-,
- []
-
-[65]
+[63] [64] [65]
 Overfull \hbox (17.55519pt too wide) in paragraph at lines 547--548
 [][][]\OT1/cmtt/m/n/10.95 refreshKey []\OT1/cmr/m/n/10.95 ist ein State, wel-ch
 er den Kom-po-nen-ten \OT1/cmr/m/it/10.95 Fri-end-List \OT1/cmr/m/n/10.95 und \
@@ -1996,31 +1920,23 @@ LaTeX Warning: Reference `ref:getFriends' on page 74 undefined on input line 84
 4.
 
 [74] [75] [76] [77]
-Overfull \hbox (16.09593pt too wide) in paragraph at lines 983--984
+Underfull \hbox (badness 3386) in paragraph at lines 983--984
 []\OT1/cmr/m/n/10.95 Die Kom-mu-ni-ka-ti-on mit dem Fron-tend er-folgt []uber v
-er-schie-de-ne Events wie [][]\OT1/cmtt/m/n/10.95 opponent_move[]\OT1/cmr/m/n/1
-0.95 ,
+er-schie-de-ne Events wie
  []
 
 
-Overfull \hbox (112.69449pt too wide) in paragraph at lines 983--984
-[][]\OT1/cmtt/m/n/10.95 chackmate[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95
- draw[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 stop_clocks[]\OT1/cmr/m/n/1
-0.95 , [][]\OT1/cmtt/m/n/10.95 updated_time[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt
-/m/n/10.95 stop_starting_time_white []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/
-10.95 stop_starting_time_black[]\OT1/cmr/m/n/10.95 .
+Underfull \hbox (badness 10000) in paragraph at lines 983--984
+[][]\OT1/cmtt/m/n/10.95 opponent_move[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/1
+0.95 chackmate[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 draw[]\OT1/cmr/m/n
+/10.95 , [][]\OT1/cmtt/m/n/10.95 stop_clocks[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmt
+t/m/n/10.95 updated_time[]\OT1/cmr/m/n/10.95 ,
  []
 
 
-Overfull \hbox (15.39708pt too wide) in paragraph at lines 983--984
-\OT1/cmr/m/n/10.95 Die-se Events be-han-deln ent-we-der ein Er-eig-nis der Scha
-ch-par-tie oder ver-wal-ten die Schachuh-
- []
-
-
-Overfull \hbox (16.62834pt too wide) in paragraph at lines 987--988
+Underfull \hbox (badness 1270) in paragraph at lines 987--988
 []\OT1/cmr/m/n/10.95 Des wei-te-ren wird die ak-tua-li-sier-te PGN-Notation des
- Spiels mit der Funk-ti-on [][]\OT1/cmtt/m/n/10.95 newChessMove
+ Spiels mit der Funk-ti-on
  []
 
 [78] [79] [80] [81] [82] [83] [84] [85]
@@ -2030,17 +1946,10 @@ Overfull \hbox (2.31645pt too wide) in paragraph at lines 1297--1298
 95 getUserData
  []
 
-[86]
-Overfull \hbox (100.1363pt too wide) in paragraph at lines 1332--1333
-[]\OT1/cmr/m/n/10.95 Ist dies nicht der Fall, kann die Freund-schafts-an-fra-ge
- der Lis-te un-ter dem Key [][]\OT1/cmtt/m/n/10.95 friend_requests:requestName
- []
-
-[87])
-Overfull \hbox (26.95325pt too wide) in paragraph at lines 1353--127
+[86] [87])
+Underfull \hbox (badness 10000) in paragraph at lines 1353--130
 [][]\OT1/cmtt/m/n/10.95 friend []\OT1/cmr/m/n/10.95 aus ei-nem lee-ren Ob-jekt 
-[][]\OT1/cmtt/m/n/10.95 {} []\OT1/cmr/m/n/10.95 be-steht, was be-deu-tet, dass 
-[][]\OT1/cmtt/m/n/10.95 Object.keys(friend).length
+[][]\OT1/cmtt/m/n/10.95 {} []\OT1/cmr/m/n/10.95 be-steht, was be-deu-tet, dass
  []
 
 [88] [89]
@@ -2053,9 +1962,11 @@ chapter 5.
 \tf@lof=\write6
 \openout6 = `Bachelorarbeit.lof'.
 
+ (Bachelorarbeit.bbl [92]
+chapter without number
+) [93
 
-No file Bachelorarbeit.bbl.
-[92] (Bachelorarbeit.aux)
+] (Bachelorarbeit.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2066,40 +1977,36 @@ Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 41532 strings out of 478338
- 884428 string characters out of 2836700
- 1548677 words of memory out of 3000000
- 57915 multiletter control sequences out of 15000+600000
- 478589 words of font info for 59 fonts, out of 8000000 for 9000
+ 41651 strings out of 478338
+ 886356 string characters out of 2836700
+ 1548861 words of memory out of 3000000
+ 58017 multiletter control sequences out of 15000+600000
+ 478582 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,24n,106p,10638b,2298s stack positions out of 10000i,1000n,20000p,200000b,80000s
-
-pdfTeX warning (dest): name{subsubsection*.149} has been referenced but does no
-t exist, replaced by a fixed one
-
- <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm10
-95.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-tctt0900.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
-sfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/jaspe/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/jaspe/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jasp
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Use
-rs/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-<C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmsl10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmss9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jaspe/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Bachelorarbeit.pdf (103 pages, 2119443 bytes).
+ <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1095.pk> <C:\Users\jaspe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\tctt0900.pk><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/jaspe/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/jaspe/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jaspe/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/
+jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:
+/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.
+pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmr9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmsl10.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmss9.pfb><C:/Users/jaspe/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/jaspe/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jas
+pe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on Bachelorarbeit.pdf (104 pages, 2136452 bytes).
 PDF statistics:
- 2719 PDF objects out of 2984 (max. 8388607)
- 1404 named destinations out of 1440 (max. 500000)
- 634 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2765 PDF objects out of 2984 (max. 8388607)
+ 1416 named destinations out of 1440 (max. 500000)
+ 642 words of extra memory for PDF output out of 10000 (max. 10000000)
 

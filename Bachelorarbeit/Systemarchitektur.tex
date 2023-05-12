@@ -438,7 +438,7 @@ Diese Komponente stellt einen Freund dar. Es kriegt als props alle wichtigen Dat
 
 Diese beiden Funktionen sind nur verfügbar, falls der Freund gerade online ist, welches über einen grünen Punkt ersichtlich ist und zum Zuschauen benötigt der Freund trivialerweise ein aktives Spiel.
 
-Die Komponente hat zwei Eventlistener: \verb|game_request_accepted| und \verb|game_request_denied|, welche einen Toast darstellen und den Spieler gegebenenfalls zu dem Spiel navigieren. 
+Die Komponente hat zwei Eventlistener: \verb|game_request_accepted| und \linebreak \verb|game_request_denied|, welche einen Toast darstellen und den Spieler gegebenenfalls zu dem Spiel navigieren. 
 
 Senden tut die Komponente zwei Events: \verb|send_game_request| und \verb|cancel_game_request|. Wurde eine Herausforderung zu einer Partie versendet erscheint ein Lade-Bildschirm, bis der Spieler die Anfrage angenommen, beziehungsweise abgelehnt hat. Entscheidet sich der Spieler davor doch nicht mehr gegen den Freund zu spielen, kann er auf den \glqq Cancel\grqq{ }Button klicken und die Spielanfrage wird zurückgenommen.
 
@@ -660,7 +660,7 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
 
 Falls es sich um eine Partie handelt, die aus einer Herausforderung eines Freundes resultiert, wird natürlich in keine Warteschlange nach einem Gegner gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitte \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spieler das Event \verb|game_request_accepted| mit der roomId gesendet.
 
-Implementierungsdetails, wie ein Schachspiel auf dem Server initialisiert wird werden in Kapitel \ref{sec:Schach-Backend-impl} erläutert.
+Implementierungsdetails, wie ein Schachspiel auf dem Server mittels der Methoden \linebreak \verb|createChessGame| und \verb|initializeGame| initialisiert wird und wie die Informationen des Schachspiels an das Frontend gesendet werden wird in Kapitel \ref{sec:Schach-Backend-impl} erläutert.
 
 \subsubsection{ServerChessClock}
 Die Klasse ServerChessClock definiert einzelne Schachuhr Objekte, welche die Startzeiten und die regulären Schachuhren verwalten.
@@ -719,7 +719,7 @@ In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Abla
 Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
 
 \subsubsection{Versenden einer Freundschaftsanfrage}
-Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer nicht existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
+Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \linebreak \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer nicht existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
 Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall wird, wird der Benutzer ebenfalls darauf hingewiesen.
 Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
 
@@ -793,7 +793,7 @@ Dies ist eine Liste die genauso aufgebaut ist wie die \verb|friends:username| Li
 
 \subsubsection{Warteschlangen}
 \label{sec:Warteschlange}
-Die letzten Elemente sind die Warteschlangen für Spiele. Diese bestehen aus \verb|waitingPlayers:timeMode| und \verb|waitingGuests:timeMode|, je nachdem, ob es sich um einen angemeldeten Benutzer handelt oder nicht. \verb|timeMode| repräsentiert hier alle möglichen Schachuhren, also beispielsweise \glqq 10 + 5\grqq , \glqq 15 + 10\grqq , ...
+Die letzten Elemente sind die Warteschlangen für Spiele. Diese bestehen aus \linebreak \verb|waitingPlayers:timeMode| und \verb|waitingGuests:timeMode|, je nachdem, ob es sich um einen angemeldeten Benutzer handelt oder nicht. \verb|timeMode| repräsentiert hier alle möglichen Schachuhren, also beispielsweise \glqq 10 + 5\grqq , \glqq 15 + 10\grqq , ...
 
 Diese Warteschlagen sind Listen, welche aus \verb|username:userid| Einträgen bestehen, um zu verhindern, dass ein weiterer Zugriff auf \verb|user:username| nötig ist, um die \verb|userid| zu bekommen. 
 
