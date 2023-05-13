@@ -73,6 +73,7 @@ Alle Dateien im \verb|sockets| Package verwenden den \textit{redisController}, u
 \end{figure}
 
 \section{Konzeption der Schachuhren}
+\label{sec:Konzept-Schachuhr}
 Bei der Konzeption der Schachuhren war ein Aspekt besonders entscheidend: Was passiert, falls ein Spieler vorübergehend keine Internetverbindung beim senden oder beim empfangen von Events hat?
 
 Um den Server zu entlasten wäre natürlich eine Client basierte Lösung ideal, bei der mit einem Zug auch die jeweilige aktuelle Zeit gesendet wird. Wenn ein Spieler allerdings eine schlechte Internetverbindung hat und deshalb der Zug im Backend und bei dem anderen Spieler erst verspätet ankommt können sich die Zeiten der beiden Spieler erheblich unterscheiden. Es stellt sich die Frage, welche dieser Zeiten jetzt gültig ist. Trivialerweise entsteht das gleiche Problem bei einer verzögerten Zustellung. Wenn die Zeit auf einem Client bereits abgelaufen wäre, könnte sie auf dem anderen noch weiterlaufen. Hat der Spieler dann gewonnen oder nicht?
@@ -714,7 +715,7 @@ Dabei passieren zwei Prozesse:
 \item Die Nachricht wird an alle im Raum mittels des Events \verb|message| gesendet.
 \end{itemize}
 
-\subsection{Hinzufügen von Freunden}
+\subsection{Verwaltung von Freunden}
 \label{sec:hinzufügen-von-Freunden}
 In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Ablauf des Versendens und des Akzeptierens einer Freundschaftsanfrage abgebildet.
 Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.

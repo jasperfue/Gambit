@@ -129,23 +129,23 @@
 \input{Implementierung}
     \newpage
 \newpage\thispagestyle{empty}\hspace{1em}\newpage
-
-\chapter{Fazit und Ausblick}
-    \section{Zusammenfassung der Ergebnisse}
-    \section{Limitationen}
-    //ServerchessClock
-    //Andere Struktur in Redis um Zugriffe zu minimieren
-    \section{Potenzielle Erweiterungen und Weiterentwicklung}
-	// Time Modi, unterschiedliche Wertungen
-	//Züge zurücknehmen
-	//Spiele langfristig speichern
-	// Resposive Design
+\input{Fazit}
+\newpage
 
 \appendix
 
+\nocite{*}%Auch nicht-zitierte BibTeX-Einträge werden angezeigt.
+\bibliography{Bibliography}
+
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 \listoffigures
 
-\bibliography{Bibliography}
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
+\markboth{Codeausschnitte}{Codeausschnitte}
+\phantomsection
+\addcontentsline{toc}{chapter}{Codeausschnitte}
+\lstlistoflistings
+
 
 \end{document}
 

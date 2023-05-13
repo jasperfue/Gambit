@@ -873,6 +873,7 @@ Das Schachspiel verwaltet die Datei \verb|socketChessController.js|, welche eine
 In diesem Abschnitt werde ich einige Aspekte der Implementierung des Schachspiels mit Code Beispielen erläutern. Funktionen wie Aufgeben, das Ende der Partie oder Chat Nachrichten werden im Abschnitt \ref{sec:Schach-Backend} erläutert und zeichnen sich durch geringere Komplexität aus, weshalb sie in diesem Abschnitt nicht nochmals behandelt werden. Auch das Finden eines Gegners wird in dem Abschnitt der Backend-Architektur detailliert beschrieben, weshalb dies hier nicht noch einmal erläutert wird.
 
 \subsubsection{Initialisierung eines Spiels}
+\label{sec:init-backend}
 Die Suche und das Finden eines Gegners wurde in Abschnitt \ref{sec:find_game} erläutert. In diesem Abschnitt möchte ich genauer darauf eingehen, wie ein Spiel nach gefundenem Gegner initialisiert wird. Dabei handelt es sich um die \verb|createChessGame| Methode (für Kontext siehe Sequenzdiagramm in Abbildung \ref{fig:sequence_chess_start}).
 
 \begin{lstlisting}[style=codeStyle, caption={Die createChessGame Methode zum Initialisieren einer Schachpartie}, label={lst:createChessGame}]
@@ -1152,7 +1153,7 @@ Es wird ein Listener auf das Event \verb|toggle| definiert, welcher bei einem ne
 Die \verb|stopCurrentGame| Methode wird aufgerufen, falls eine Zeit (Startzeit oder reguläre Zeit) abgelaufen ist und sendet entsprechende Events an SocketChessController. Wie diese Events empfangen werden ist in Codeausschnitt \ref{lst:createChessGame} enthalten.
 
 
-\subsection{Freunde}
+\subsection{Verwaltung von Freunden}
 \label{sec:Freunde-impl}
 In diesem Kapitel zeige ich die Implementierung von dem Versenden von Freundschaftsanfragen und dem senden der Freunde an das Frontend. Die zugehörigen Redis Funktionen werden in Kapitel \ref{sec:Datenbank-Integration} eräutert.
 

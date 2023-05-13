@@ -1,0 +1,68 @@
+
+\chapter{Fazit und Ausblick}
+    \section{Zusammenfassung der Ergebnisse}
+Diese Bachelorarbeit hatte das Ziel eine Schachanwendung als Basis für Erweiterungen zu entwerfen und zu implementieren. Das Ergebnis ist eine App mit folgenden Funktionen:
+\begin{itemize}
+\item Schachpartien mit unterschiedlichen Zeitkonfigurationen können sowohl gegen zufällige als auch befreundete Gegner gespielt werden.
+\item Das gleichzeitige Spielen mehrerer Partien ist möglich.
+\item Während einer Schachpartie ermöglicht ein integrierter Chat die Kommunikation zwischen den Gegnern.
+\item Zuschauer können Partien über die URL verfolgen.
+\item Die Erstellung eines Accounts und die Anmeldung sind benutzerfreundlich und sicher gestaltet.
+\item Das Hinzufügen von Freunden und die Anzeige ihres Online-Status sind implementiert.
+\item Eine Funktion zum einfachen Wiedereinstieg in aktive Partien erleichtert das gleichzeitige Spielen mehrerer Spiele.
+\end{itemize}
+
+All diese Funktionen bilden die Grundlage für eine Schachanwendung, die besonderen Wert auf soziale Interaktionen legt. Bei der Implementierung lag der Schwerpunkt auf Modularität, Wartbarkeit, Skalierbarkeit, Erweiterbarkeit und Echtzeitkommunikation. Dafür wurden moderne Web-Technologien für eine schnelle und benutzerfreundliche Anwendung verwendet.
+
+    \section{Herausforderungen}
+In diesem Kapitel bespreche ich Herausforderungen auf die ich gestoßen bin während der Konzeption oder Implementierung der Schachanwendung. 
+
+\subsection{Schachuhren}
+\label{sec:herausforderung-Schachuhr}
+Die Konzeption der Schachuhren war eine Herausforderung, die vielen verschiedene Ansätze beinhaltete. Im Endeffekt wurde sich für eine getrennte serverseitige und clientseitige Lösung entschieden (siehe Kapitel \ref{sec:Konzept-Schachuhr}). Doch auch bei dieser Lösung gab es Gestaltungsspielraum, beispielsweise wie die Zeiten konsistent gehalten werden sollten, wie das Inkrement addiert wird oder wie die verschiedenen Zeiten (Startzeit, reguläre Zeit, von weiß, von schwarz) und Events realisiert werden sollten.
+
+Ein Problem, welches bei der Konzeption und Realisierung nur bedingt gelöst werden konnte ist die Abfrage der Zeit im Backend, wenn die Daten des Schachspiels geholt werden.
+
+Die Frage ist, wie kann man die Zeiten konsistent im Backend speichern kann, um zu jedem Möglichen Zeitpunkt dem Frontend mitteilen zu können welche genauen Zeiten die Spieler noch haben.
+
+Aktuell ist so realisiert, dass das ServerChessClock Objekt bei der Intitialisierung eines Schachspiels im Backend in einem Array der socketChessController Datei gespeichert wird (siehe Kapitel \ref{sec:init-backend}) und bei einer Abfrage des Frontends, das Objekt herausgenommen wird und die Zeiten übermittelt werden.
+
+Das Problem dieser Implementierung besteht darin, dass bei vielen aktiven Partien zahlreiche ServerChessClock-Objekte den Arbeitsspeicher des Backends belegen und bei einem Neustart oder Problem des Backends das Array neu initialisiert werden könnte, wodurch alle diese Objekte verloren gehen würden. 
+
+Somit verringert diese Implementierung sowohl die Skalierbarkeit, als auch die Wartbarkeit des Backends.
+
+Der Grund, warum dennoch vorerst diese Implementierung gewählt wurde, liegt in den zu diesem Zeitpunkt fehlenden Alternativen. Es wäre denkbar, die aktuellen Zeiten wie die anderen Daten des Schachspiels in Redis zu speichern. Jedoch hätte eine Speicherung der aktuellen Zeit jede Sekunde viel zu viele I/O Operationen zur folge und beispielsweise nur alle 10 Sekunden die aktuellen Zeiten zu speichern würde zu einer zu großen Diskrepanz führen, wenn das Frontend in einer ungünstigen Zeit die Daten abfragen würde und es sich um ein schnelles Spiel wie \glqq 1+0\grqq{ }handeln würde. Die Speicherung der Zeit nach jedem Zug könnte auch zu sehr großen Diskrepanzen führen, wenn lange kein Zug gemacht wurde.
+
+Eine mögliche Alternative um die Skalierbarkeit und Wartbarkeit hinsichtlich dieser Implementierung zu erhöhen und dennoch keine großen Zeitdiskrepanzen zu haben, wäre eine Lösung, bei der man bei jedem Zug die aktuellen Zeiten der Spieler und den Zeitpunkt des Zugs in Redis speichert. Sobald eine Abfrage der Daten von dem Frontend kommt, können die aktuellen Zeiten der Spieler berechnet werden, indem die Differenz zwischen dem jetzigen Zeitpunkt und dem Zeitpunkt des alten Zugs berechnet wird und diese von der Zeit des Spielers abgezogen wird, der gerade am Zug ist. Eine serverseitige Überprüfung, ob eine Zeit abgelaufen ist, müsste in einem Intervall von jeder Sekunde ausgeführt werden. Allerdings könnte man vermeiden, dass die ServerChessClock-Objekte im Arbeitsspeicher des Backends gespeichert werden müssen.
+
+Diese Alternative scheint eine vielversprechende Möglichkeit zur Verbesserung zu sein.
+
+\subsection{Züge des Schachspiels}
+Bei der Implementierung der Behandlung eines neues Zugs im Front- und Backend sind kleinere Herausforderungen aufgekommen.
+
+Während des Testens der Anwendung wurde festgestellt, dass chessground die Szenarien von Bauernumwandlungen und En-passant-Schlägen nicht ausreichend unterstützt und die betreffenden Figuren manuell entfernt oder ersetzt werden müssen (siehe Kapitel \ref{sec:Das-Schachspiel-Front}). Nach etwas Feinarbeit konnten diese Szenarien problemlos behandelt werden.
+
+Im Backend trat das Problem auf, dass die Bibliothek chess.js ein ECMAScript-Module ist und Node.js das CommonJS Modulsystem verwendet. Mithilfe eines Umwegs konnte dieses Problem allerdings gelöst werden (siehe Kapitel \ref{sec:init-backend}).
+
+\section{Zukünftige Erweiterungen und Verbesserungen}
+Neben der in \ref{sec:herausforderung-Schachuhr} beschriebenen Verbesserung der Backend Schachuhr ist die Anzahl der möglichen Erweiterungen dieser Schachanwendung nahezu unbegrenzt. Einige der wichtigsten Erweiterungen, welche als nächstes angegnagen werden könnten wären:
+\begin{itemize}
+\item \textbf{Responsive Design}: Die Anwendung für verschiedene Geräte zu optimieren wäre ein wichtiger Schritt Richtung Veröffentlichung.
+\item \textbf{Hosting}: Durch das Bereitstellen der Anwendung auf einer Hostingplattform könnte man die Anwendung der Öffentlichkeit zugänglich machen.
+\item \textbf{Analysen}: Schachpartien analysieren zu können ist wichtig um aus den Fehlern der Partie zu lernen. Es gibt einige Analyseprogramme, wobei die beste derzeit Stockfish ist\footnote{Quelle: \url{https://stockfishchess.org/} am 13. Mai 2023}.
+\item \textbf{Wertungen}: In Schach gibt es eine sogenannte Elo-Wertung, welche die relative Stärke eines Spielers misst\footnote{Quelle: \url{https://www.chess.com/de/terms/elo} am 13. Mai 2023}. Typischerweise besitzt jeder Spieler jeweils eine Elo für einen Zeitmodi (Bullet, Blitz, Rapid, ...). Diese Zeitmodi sind schon implementiert, sie werden nur bisher kaum genutzt (siehe Kapitel \ref{sec:Uhr-Backend-impl}).
+\item \textbf{Historie vergangener Partien}: Eine Schachpartie wird bereits mit der Historie aller Züge in PGN-Notation gespeichert, wird allerdings nach dem Ende des Spiels gelöscht. Man könnte diese Datensätze wiederverwenden, um sich vergangene Spiele nochmal anschauen zu können oder teilen zu können.
+\item \textbf{Zurücknehmen von Zügen}: Das Zurücknehmen eines bereits gemachten Zugs ist eine wichtige Funktion, falls man sich verklickt haben sollte. Meist schickt der Spieler eine Anfrage der Zugzurücknahme, welcher der Gegner annehmen oder ablehnen kann.
+\end{itemize}
+
+Dies sind nur einige Beispiele der von Erweiterungen welche als nächstes Angegangen werden könnten.
+
+Da vor allem die sozialen Interaktionen dieser Schach-App ausgeprägt sein sollen, sind weitere mögliche Erweiterungen die Gründung von Clubs, welche gegeneinander in Ligen oder Turnieren antreten können, einen Clubchat haben, in dem unter anderem Partien geteilt werden können und Rollen wie Präsident, Vize-Präsident,... verteilt werden können.
+ 
+Um das Spielen zu Belohnen könnte man Figuren-, Bretter- oder Emotedesigns als Belohnungen einführen, welche nicht nur der Spieler selber, sondern auch der Gegner sieht. Zusätzliche Belohnungen könnte man einführen durch täglich-wechselnde und statische Herausforderungen.
+
+Dies bietet auch eine Möglichkeit der Kommerzialisierung: Nicht durch Werbung oder freischaltbare Funktionen Einnahmen generieren, sondern durch freischaltbare Designs. Die Benutzer können sich somit keinen Vorteil durch Funktionen wie Analysen oder Tutorials erkaufen, sondern ausschließlich andere Optiken.
+
+Die Vision dieser Anwendung ist eine Schach-App, die stärker auf soziale Interaktionen und Anreize zum Spielen setzt als \url{lichess.org} und weniger kommerzialisiert ist, indem wichtige freischaltbare Funktionen nicht ausschließlich gegen Geld angeboten werden, wie es bei \url{chess.com} der Fall ist (siehe Kapitel \ref{sec:Verwandte Arbeiten}).
+
+Insgesamt bietet diese Bachelorarbeit eine solide Grundlage für eine Schach-App, die durch soziale Interaktionen und eine Vielzahl von Funktionen den Schachspielern ein umfassendes und ansprechendes Erlebnis bietet.
