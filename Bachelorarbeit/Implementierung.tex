@@ -474,7 +474,6 @@ Die \verb|setInterval|-Methode akzeptiert als ersten Parameter eine Funktion und
 
 Über \verb|currentTimer| kann in anderen Funktionen, beispielsweise beim Anhalten einer Uhr, auf die ID zugegriffen werden, und die \verb|setInterval|-Funktion kann mit \\ \verb|clearInterval(currentTimer.current)| gestoppt werden.
 
-
 \subsection{Verwaltung von Freunden}
 Die Verwalutung von Freunden und Freundschaftsanfragen im Frontend wurde in Kapitel \ref{sec:Friends} behandelt. In diesem Kapitel möchte ich konkrete Code Beispiele der Komponenten erläutern.
 
@@ -1356,3 +1355,4 @@ const friendIsValid = async (username, requestName) => {
 Bei einer legalen Freundschaft muss gewährleistet sein, dass man nicht mit sich selbst befreundet sein kann (siehe Zeile 2 des Codeausschnitts \ref{lst:friendIsValid}), dass der angefragte Benutzer existiert (siehe Ziele 5 \& 6) und, dass die beiden Benutzer nicht bereits befreundet sind.
 
 Die Überprüfung ob der Nutzer existiert, basiert darauf, dass falls er nicht existiert \verb|friend| aus einem leeren Objekt \verb|{}| besteht, was bedeutet, dass \linebreak \verb|Object.keys(friend).length| gleich 0 ist (siehe Zeile 6). Der \verb|!|-Ausdruck konvertiert diesen Wert zunächst in den booleschen Wert \verb|false| und negiert ihn anschließend, sodass der Ausdruck \verb|true| zurückgibt.
+

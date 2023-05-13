@@ -1,6 +1,6 @@
        
 \chapter{Systemarchitektur und Konzeption}
-In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Des weiteren werden verschiedene Abläufe durch Aktivitäts- und Sequenzdiagramme verdeutlicht.
+In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Die vorhandenen Funktionen der Schach-App werden mit Bildschirmfotos und Erklärungen veranschaulicht. Des weiteren werden verschiedene Abläufe durch Aktivitäts- und Sequenzdiagramme verdeutlicht.
 \section{Einführung}
 Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
 
@@ -803,3 +803,10 @@ Die Warteschlangen für Partien mit zufälligem Gegner bestehen aus \linebreak \
 Diese Warteschlagen sind Listen, welche aus \verb|username:userid| Einträgen bestehen, um zu verhindern, dass ein weiterer Zugriff auf \verb|user:username| nötig ist, um die \verb|userid| zu bekommen. 
 
 Durch die Redis Operationen \verb|RPOP| und \verb|LPUSH| lassen sich atomar Einträge hinzufügen oder herausnehmen, welches die Konsistenz der Liste gewährleistet.
+
+\section{Testen der Anwendung}
+Während der Entwicklung der Schach-App, wurden die Funktionen ausgiebig getestet, um die Richtigkeit der Implementierung zu gewährleisten. Aufgrund der begrenzten Zeit wurde der Schwerpunkt auf das Testen des Zusammenspiels zwischen Frontend und Backend gelegt, statt auf ausgiebige Tests der einzelnen Codeausschnitte des Front- und Backends.
+
+Um die Funktionsweise der verschiedenen Komponenten zu überwachen wurden viele Konsolenausgaben genutzt, um zu überprüfen, dass die Anwendung das gewünschte Verhalten aufzeigt und um Fehlerquellen zu identifizieren.
+
+Es ist zu beachten, dass dieser Ansatz zwar eine schnelle und effektive Methode zum Testen der Hauptfunktionalitäten darstellt, jedoch möglicherweise nicht alle möglichen Fehlerfälle oder Randbedingungen abdeckt. Für die zukünftige Entwicklung wäre es sinnvoll, den Testprozess zu strukturieren und ausgiebige Tests für das Front- und Backend durchzuführen, um die Stabilität der Anwendung zu verbessern.
