@@ -326,7 +326,7 @@ Sobald erfolgreich die Daten mit dem \verb|get_game_data| Event empfangen und ge
 
 Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird übermittelt, wie die Figuren gerade stehen (mittels FEN-Notation), die Orientierung welche Farbe nach unten zeigen soll, ob man Figuren bewegen darf und wenn ja welche und weitere Optionen. Dieses chessground Interface wird dann in dem definierten div Bock angezeigt (siehe Zeile 3 des Codeausschnitts \ref{lst:chessground}).
 
-Wurde dann chessground initialisiert, wird noch die Methode \verb|onMove| hinzugefügt, die ausgeführt werden soll, falls man selbst einen Zug macht (siehe Zeile 28 Codeausschnitt \ref{lst:chessground}) und Listener für verschiedene Events des Schachspiels werden initialisiert. Diese Listener werden wieder entfernt (siehe Zeile 52 ff. in Codeausschnitt \ref{lst:chessground}), falls die \textit{ChessGame}-Komponente verlassen wird, da sie nur für diese Komponente verwendet werden.
+Wurde dann chessground initialisiert, wird noch die Methode \verb|onMove| zu chessground hinzugefügt, die ausgeführt werden soll, wenn man selbst einen Zug macht (siehe Zeile 28 Codeausschnitt \ref{lst:chessground}) und Listener für verschiedene Events des Schachspiels werden initialisiert. Diese Listener werden wieder entfernt (siehe Zeile 52 ff. in Codeausschnitt \ref{lst:chessground}), falls die \textit{ChessGame}-Komponente verlassen wird, da sie nur für dieses Spiel auf die Events hören sollen und bei einem neuen Spiel neue Listener initialisiert werden.
 
 Nach jedem Zug, egal ob eigener oder eines Gegners, wird die \verb|refreshBoard| Methode aufgerufen.
 
@@ -348,7 +348,7 @@ Ein \verb|move| Objekt, das zurückgegeben wird nach dem ziehen eines Zuges auf 
 { color: 'w', from: 'e2', to: 'e4', flags: 'b', piece: 'p', san: 'e4' }
 \end{verbatim}
 Vor allem relevant sind die flags dieses Objekts, da sie ausdrücken um was für eine Art von Zug es sich handelt. Wird als flag beispielsweise \glqq e\grqq{ }angegeben, handelt es sich um ein En passent. Bei einem \glqq p\grqq{ }liegt eine Bauernumwandlung vor.
-Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders behandelt (siehe Zeile 34 ff. in Codeausschnitt \ref{lst:chessground}).
+Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders verarbeitet. Wie ein gegnerischer Zug behandelt wird (siehe Zeile 33 ff. in Codeausschnitt \ref{lst:chessground}), ist in Kapitel \ref{sec:Das-Schachspiel-Front} erläutert.
 
 \subsubsection{Neuer Zug}
 
@@ -386,7 +386,7 @@ const onMove = useCallback(() => {
 }, [socket, chess, roomId, ground, orientation, setSelectVisible, setPromotionMove, whitePlayer, blackPlayer]);
 \end{lstlisting}
 
-Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde, behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert, En Passent- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen kann, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert (siehe Zeile 6 des Codeausschnitts \ref{lst:onMove}).
+Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde, behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert, en passant- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen kann, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert (siehe Zeile 6 des Codeausschnitts \ref{lst:onMove}).
 
 \begin{lstlisting}[style=codeStyle, caption={Die promotion Methode}, label={lst:promotion}]
 const promotion = useCallback(
@@ -421,7 +421,7 @@ const promotion = useCallback(
 );
 \end{lstlisting}
 
-Wurde auf eine Figur des Modals geklickt, wird von dort die Methode \verb|promotion| mit der entsprechenden Figur ausgeführt. Dann wird sowohl auf der chess.js, als auch auf der chessGround Instanz diese Bauernumwandlung durchgeführt, an das Backend gesendet und die States \verb|promotionMove| und \verb|selectVisible| werden zurückgesetzt. Da chess.js und chessground verschiedene Notationen der Figuren verwenden transformiert die Funktion \verb|charPieceToString| beispielsweise \glqq q\grqq{ } in \glqq queen\grqq . Die Farbe der Figur wird durch die Reihe ermittelt in der die Bauernumwandlung stattfindet (siehe Zeile 6 des Codeausschnitts \ref{lst:promotion}).
+Wurde auf eine Figur des Modals geklickt, wird von dort die Methode \verb|promotion| mit der entsprechenden Figur ausgeführt. Dann wird sowohl auf der chess.js, als auch auf der chessGround Instanz diese Bauernumwandlung durchgeführt, an das Backend gesendet und die States \verb|promotionMove| und \verb|selectVisible| werden zurückgesetzt. Da chess.js und chessground verschiedene Notationen der Figuren verwenden transformiert die Funktion \verb|charPieceToString| die Notation der Figuren beispielsweise von \glqq q\grqq{ } in \glqq queen\grqq . Die Farbe der Figur wird durch die Reihe ermittelt in der die Bauernumwandlung stattfindet (siehe Zeile 6 des Codeausschnitts \ref{lst:promotion}).
 
 \subsubsection{Schachuhr}
 \label{sec:impl-schachuhr}
@@ -458,7 +458,7 @@ useEffect(() => {
 }, [currentTurn]);
 \end{lstlisting}
 
-Mit diesem Beispiel kann man gut demonstrieren, wie vielfältig die \verb|useEffect|-Hook genutzt werden kann. Man nutzt in diesem Fall keine selbst definierte Funktion um eine Zeit zu starten, sondern nutzt die Eigenschaft der Hook, das sie ausgeführt wird sobald sich ein Wert des Dependecy Arrays (in diesem Fall \verb|currentTurn|) ändert, um eine Zeit starten zu lassen. Den State der Zeit die ablaufen soll wird mittels \verb|currentTurn| definiert. Diese kann die folgenden Werte annehmen:
+Mit diesem Beispiel kann man gut demonstrieren, wie vielfältig die \verb|useEffect|-Hook genutzt werden kann. Man nutzt in diesem Fall keine selbst definierte Funktion um eine Zeit zu starten, sondern nutzt die Eigenschaft der Hook, dass sie ausgeführt wird sobald sich ein Wert des Dependecy Arrays (in diesem Fall \verb|currentTurn|) ändert, um eine Zeit starten zu lassen. Den State der Zeit die ablaufen soll wird mittels \verb|currentTurn| definiert. Diese kann die folgenden Werte annehmen:
 
 \begin{itemize}
 \item \glqq sw\grqq : Die Startzeit von Weiß läuft.
@@ -470,7 +470,7 @@ Mit diesem Beispiel kann man gut demonstrieren, wie vielfältig die \verb|useEff
 
 Diese Werte werden auch in der serverseitigen Schachuhr verwendet (siehe Kapitel \ref{sec:Uhr-Backend-impl}).
 
-Die \verb|setInterval|-Methode akzeptiert als ersten Parameter eine Funktion und als zweiten Parameter eine Zahl, die das Zeitintervall in Millisekunden angibt, in dem die Funktion ausgeführt werden soll. In unserem Fall soll die verbleibende Zeit jede Sekunde um eine Sekunde reduziert werden. Die \verb|setInterval|-Methode gibt eine ID zurück, die in der \verb|useRef|-Variable \verb|currentTimer| gespeichert wird. Im Vergleich zur \verb|useState|-Hook hat die \verb|useRef|-Hook den Vorteil, dass sie keine Neurenderung der Komponente auslöst, wenn sich der Wert ändert, und besser geeignet ist, um Werte über mehrere Rendervorgänge hinweg persistent zu speichern\footnote{Quelle: \url{https://react.dev/reference/react/useRef} am 09. Mai 2023}.
+Die \verb|setInterval|-Methode (siehe Zeile 21 ff. des Codeausschnitte \ref{lst:ChessClock}) akzeptiert als ersten Parameter eine Funktion und als zweiten Parameter eine Zahl, die das Zeitintervall in Millisekunden angibt, in dem die Funktion ausgeführt werden soll. In unserem Fall soll die verbleibende Zeit jede Sekunde um eine Sekunde reduziert werden. Die \verb|setInterval|-Methode gibt eine ID zurück, die in der \verb|useRef|-Variable \verb|currentTimer| gespeichert wird. Im Vergleich zur \verb|useState|-Hook hat die \verb|useRef|-Hook den Vorteil, dass sie keine Neurenderung der Komponente auslöst, wenn sich der Wert ändert, und besser geeignet ist, um Werte über mehrere Rendervorgänge hinweg persistent zu speichern\footnote{Quelle: \url{https://react.dev/reference/react/useRef} am 09. Mai 2023}.
 
 Über \verb|currentTimer| kann in anderen Funktionen, beispielsweise beim Anhalten einer Uhr, auf die ID zugegriffen werden, und die \verb|setInterval|-Funktion kann mit \\ \verb|clearInterval(currentTimer.current)| gestoppt werden.
 
@@ -496,7 +496,7 @@ Die Verwalutung von Freunden und Freundschaftsanfragen im Frontend wurde in Kapi
 
 Die Darstellung von Daten in Arrays kann in React mittels der Array \verb|map()| Funktion unkompliziert gehandhabt werden. Doch vor der Darstellung wird die Freundesliste noch nach dem \verb|connected| Status sortiert, sodass Freunde die online sind zuerst angezeigt werden.
 
-Dafür wird die Methode \verb|sort()| verwendet. Diese nimmt eine Funktion mit zwei Parametern (hier \verb|a| und \verb|b|) entgegen, die jeweils ein Element des Arrays sind. Gibt uns die Funktion 1 zurück, muss Element \verb|a| vor Element \verb|b| sortiert sein. Bei -1 anders herum und bei 0 ist es gleichgültig. Indem die Booleschen Werte von einander subtrahiert werden, werden ihnen Zahlen zugeordnet: 1 für \verb|true| und 0 für \verb|false|. Nun haben wir die folgenden Szenarien: Wenn beide den gleichen Status haben ist der Wert 0. Ist \verb|a.connected| true und \verb|b.connected| ist false: 1-0=1 $\Rightarrow$ \verb|a| wird vor \verb|b| sortiert. Anders herum dem entsprechend 0-1=-1.
+Dafür wird die Methode \verb|sort()| verwendet. Diese nimmt eine Funktion mit zwei Parametern (hier \verb|a| und \verb|b|) entgegen, die jeweils ein Element des Arrays sind. Gibt uns die Funktion eine positive Zahl zurück, muss Element \verb|a| vor Element \verb|b| sortiert sein. Bei negativen anders herum und bei 0 ist es gleichgültig. Indem die Booleschen Werte von einander subtrahiert werden, werden ihnen Zahlen zugeordnet: 1 für \verb|true| und 0 für \verb|false|. Nun haben wir die folgenden Szenarien: Wenn beide den gleichen Status haben ist der Wert 0. Ist \verb|a.connected| true und \verb|b.connected| ist false: 1-0=1 $\Rightarrow$ \verb|a| wird vor \verb|b| sortiert. Anders herum dem entsprechend 0-1=-1.
 
 Die Darstellung und Funktionen eines einzelnen Freundes übernimmt die \textit{Friend}- Komponente, die ihre Daten als props übergeben bekommt.
 
@@ -551,7 +551,7 @@ useEffect(() => {
 
 \subsection{Design}
 \label{sec:Design}
-In diesem Abschnitt geht es um Code-Beispiele des Frontend Designs mittels Chakra UI.  Wie schon in //REF besprochen ist das Design nicht responsiv.
+In diesem Abschnitt geht es um Code-Beispiele des Frontend Designs mittels Chakra UI.  Wie schon in der Zielsetzung \ref{sec:Zielsetzung} besprochen ist das Design bisher nicht responsiv.
 
 Chakra UI stellt Komponenten zum Gestalten zur Verfügung, so ist zum Beispiel die Komponente \verb|<Box>| vergleichbar mit einer \verb|<div>| Komponente und \verb|<Text>| mit \verb|<p>|. Diesen Komponenten lassen sich Attribute geben, um die Anpassbarkeit der Elemente zu erhöhen.
 
@@ -775,7 +775,7 @@ module.exports.handleLogout = (req, res) => {
 }
 \end{lstlisting}
 
-Eine Anfrage zum Abmelden wird auf den Pfad \verb|auth/logout| gestellt unter der die Middleware aus Codeausschnitt \ref{lst:handleLogout} durchlaufen wird. In dieser wird ein leerer, abgelaufener \glqq jwt\grqq  -Cookie gesetzt, der bewirkt, dass der bisherige \glqq jwt\grqq -Cookie gelöscht wird. Dann wird dem Frontend mit dem Code 204 geantwortet, welcher aussagt, dass die Anfrage erfolgreich bearbeitet wurde, jedoch keine Daten mit der Antwort gesendet werden\footnote{Quelle \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204} am 05. Mai 2023}.
+Eine Anfrage zum Abmelden wird auf den Pfad \verb|auth/logout| gestellt unter der die Middleware aus Codeausschnitt \ref{lst:handleLogout} durchlaufen wird. In dieser wird ein leerer (siehe Zeile 4), abgelaufener(siehe Zeile 7) \glqq jwt\grqq -Cookie gesetzt, der bewirkt, dass der bisherige \glqq jwt\grqq -Cookie gelöscht wird. Dann wird dem Frontend mit dem Code 204 geantwortet (siehe Zeile 12), welcher aussagt, dass die Anfrage erfolgreich bearbeitet wurde, jedoch keine Daten mit der Antwort gesendet werden\footnote{Quelle \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204} am 05. Mai 2023}.
 
 \subsubsection{Socket.io Authentifizierung und Middleware}
 \label{sec:Backend-Socket}
@@ -983,7 +983,7 @@ const newMove = (socket, io) => async (roomId, player, move, cb) => {
 
 Die Methode holt erst das ServerChessClock Objekt aus dem \verb|currentChessClocks| Array und importiert die aktuelle PGN-Notation des Schachspiels aus der Redis Datenbank in ein chess.js Objekt und macht den Zug darauf (siehe Zeilen 5 - 25 des Codeausschnitts \ref{lst:newMove}).
 
-Die Kommunikation mit dem Frontend erfolgt über verschiedene Events wie \linebreak \verb|opponent_move|, \verb|chackmate|, \verb|draw|, \verb|stop_clocks|, \verb|updated_time|,  \linebreak \verb|stop_starting_time_white| und \verb|stop_starting_time_black|. Diese Events behandeln entweder ein Ereignis der Schachpartie oder verwalten die Schachuhren. Über die Callback Funktion wird mitgeteilt, ob der Zug erfolgreich behandelt werden konnte oder nicht.
+Die Kommunikation mit dem Frontend erfolgt über verschiedene Events wie \linebreak \verb|opponent_move|, \verb|checkmate|, \verb|draw|, \verb|stop_clocks|, \verb|updated_time|,  \linebreak \verb|stop_starting_time_white| und \verb|stop_starting_time_black|. Diese Events behandeln entweder ein Ereignis der Schachpartie oder verwalten die Schachuhren. Über die Callback Funktion wird mitgeteilt, ob der Zug erfolgreich behandelt werden konnte oder nicht.
 
 Mit dem ServerChessClock Objekt wird mittels der Events \verb|stop| und \verb|toggle| (siehe Abschnitt \ref{sec:Uhr-Backend-impl}) und den Funktionsaufrufen \verb|startStartingTimer| und \verb|startTimer| kommuniziert. \verb|stop| wird bei einem Ende der Partie gesendet, \verb|toggle| bei jedem neuen Zug, es sei denn das Spiel ist vorbei und die Funktionsaufrufe dienen zum initialen starten der Startuhren oder der regulären Uhr.
 
@@ -1035,7 +1035,7 @@ Die aktuellen Daten, wie welcher Spieler welche Farbe spielt und die aktuelle PG
 
 Je nachdem welche Uhren gerade laufen werden entweder die Startzeiten oder die reguären Zeiten der Spieler den Redis Daten hinzugefügt und anschließend dem Frontend per Callback Funktion übermittelt.
 
-Hier wird der Sinn hinter der Speicherung des ServerChessClock Objekts in einem Array ersichtlich. Um die aktuelle Zeit abzurufen muss auf das ServerChessClock Objekt zugegriffen werden. Alternative Speicherungsmöglichkeiten der aktuellen Zeiten werden in Abschnitt //REF erläutert.
+Hier wird der Sinn hinter der Speicherung des ServerChessClock Objekts in einem Array ersichtlich. Um die aktuelle Zeit abzurufen muss auf das ServerChessClock Objekt zugegriffen werden. Eine Kritik dieser Speicherungder aktuellen Zeiten und Alternativen werden in Abschnitt \ref{sec:herausforderung-Schachuhr} erläutert.
 
 \subsubsection{Die Uhr}
 \label{sec:Uhr-Backend-impl}
@@ -1158,7 +1158,7 @@ In diesem Kapitel zeige ich die Implementierung von dem Versenden von Freundscha
 
 Alle anderen Funktionen welche nicht mit dem Schachspiel und der Authentifizierung zusammenhängen werden durch die Listener in der Datei \verb|socketController.js| zur Verfügung gestellt und verwenden den \verb|redisController| für Operationen an der Redis Datenbank. Der Ablauf von Funktionen im Backend bezüglich Freunden wurde ausführlich in dem Kapitel \ref{sec:hinzufügen-von-Freunden} behandelt.
 
-\subsubsection{Freundschaftsanfrage}
+\subsubsection{Versenden einer Freundschaftsanfrage}
 \label{sec:Freundschaftsanfrage-backend}
 \begin{lstlisting}[style=codeStyle, caption={Der Listener des send\_friend\_request Events}, label={lst:sendFriendRequest}]
 client.on('send_friend_request', (requestName, cb) => {
@@ -1236,7 +1236,7 @@ Wie die PostgreSQL Datenbank genutzt wird ist in Kapitel \ref{sec:Backend-auth-i
 
 \subsection{Zugriff auf Redis mit dem redisController}
 Alle Operationen auf der Redis Datenbank werden von der Datei \verb|redisController| zur Verfügung gestellt (mit Ausnahme der \verb|rateLimiter| Middleware). Welche Datentypen unter welchen Keys in Redis gespeichert werden, wird in Abschnitt \ref{sec:redis-data} erläutert.
-Die Datei enthält 19 Methoden, die fast alle auf die Datenbank zugreifen. In diesem Abschnitt werden exemplarisch zwei Methoden dargestellt.
+Die Datei enthält 19 Methoden, die fast alle auf die Datenbank zugreifen. In diesem Abschnitt werden exemplarisch einige wichtige Methoden vorgestellt.
 
 \subsubsection{addPlayerInQueue}
 
@@ -1259,6 +1259,8 @@ Die \verb|addPlayerInQueue| Methode hat die Funktion einen Spieler in eine Warte
 
 Die Funktion \verb|lpush| fügt den Spieler am Anfang der Liste ein. Herausgenommen werden Spieler mittels der Funktion \verb|rpop|, die Spieler am Ende der Liste entnehmen. So wird gewährleistet, dass der Spieler der am längsten wartet zu erst entnommen wird.
 
+Implementiert ist die Funktion durch eine \verb|Promise|, welche es ermöglicht eine Fehlerbehandlung oder ein Ergebnis einer asynchronen Methode getrennt zu behandeln\footnote{Quelle: \url{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises?retiredLocale=de} am 14. Mai 2023}, beziehungsweise in diesem Fall weiter zu geben. 
+
 
 \subsubsection{getFriends}
 \label{sec:getFriends}
@@ -1271,45 +1273,42 @@ const getFriends = async (username) => {
 }
 \end{lstlisting}
 
-Die Methode \verb|getFriends| holt alle Freunde eines Spielers aus dem key \verb|friend:username|. Mittels der Funktion \verb|lrange| können Elemente aus einer Liste geholt werden. Der Parameter \verb|0| repräsentiert den Start, ab welchem Index die Freunde geholt werden sollen und der Parameter \verb|-1| das Ende. In diesem Fall heißt \verb|-1|, dass alle aus der Liste geholt werden sollen. Die Daten werden im letzten Schritt mittels der Array \verb|map()| Funktion noch vernünftig aufbereitet um die Nutzung der Daten zu vereinfachen.
+Die Methode \verb|getFriends| holt alle Freunde eines Spielers aus dem key \verb|friend:username|. Mittels der Funktion \verb|lrange| können Elemente aus einer Liste geholt werden. Der Parameter \verb|0| repräsentiert den Start, ab welchem Index die Freunde geholt werden sollen und der Parameter \verb|-1| das Ende. In diesem Fall heißt \verb|-1|, dass alle Elemente aus der Liste geholt werden sollen. Die Daten werden im letzten Schritt mittels der Array \verb|map()| Funktion noch vernünftig aufbereitet um die Nutzung der Daten zu vereinfachen.
 
 \subsubsection{parseFriendList}
 \label{sec:parseFriendList}
 
 \begin{lstlisting}[style=codeStyle, caption={Methode um alle Informationen eines Arrays von Freunden zu bekommen}, label={lst:parseFriendList}]
 const parseFriendList = async (friendList) => {
-    const newFriendList = [];
+    const parsedFriendList = [];
     for (let friend of friendList) {
-        const friendConnected = await getUserData(friend.username, "connected");
-        const activeGames = await getActiveGamesData(friend.username);
-        newFriendList.push({
+        const parsedFriend = await getUserData(friend.username);
+        const activeGames = {};
+        for (let activeGame of JSON.parse(parsedFriend.activeGames)) {
+            activeGames[activeGame] = await getGame(activeGame);
+        }
+        parsedFriendList.push({
             username: friend.username,
             userid: friend.userid,
-            connected: friendConnected,
+            connected: parsedFriend.connected,
             activeGames: activeGames
         });
     }
-    return newFriendList;
+    return parsedFriendList;
 }
 \end{lstlisting}
 
 Die Methode \verb|parseFriendList| hat die Funktion alle Daten aller Freunde einer Freundesliste zu holen. Sie dient als Erweiterung der \verb|getFriends| Methode, falls mehr Daten nötig sind, als lediglich der Benutzername und die \verb|userid|. Dies ist beispielsweise für die Anzeige im Frontend der Fall (siehe Kapitel \ref{sec:Senden-der-Freunde}).
 
-Mit einer for-Schleife wird das Array der Freunde aus \verb|getFriends| durchlaufen und für jeden Spieler werden folgende Daten geholt:
+Mit einer for-Schleife wird das Array der Freunde durchlaufen und für jeden Spieler werden folgende Daten gesammelt:
 
 \begin{itemize}
-\item online-Status: aus dem Redis Eintrag \verb|user:username| wird mittels der \verb|getUserData| Methode abgefragt, ob der Spieler gerade online ist (siehe Zeile 4).
-\item Aktive Partien: Die Funktion \verb|getActiveGamesData| (siehe Zeile 5) hat zwei Aufgaben:
+\item Online-Status \& aktive Partien: Aus dem Redis Eintrag \verb|user:username| wird mittels der \verb|getUserData| Methode alle Werte des \verb|user:username| Eintrags des Freundes geholt. Dazu zählen der online-Status und die roomIds der aktiven Partien
+\item Daten der Aktiven Partien: Anschließend wird für jede aktive Partie dieses Freundes die Daten aus \verb|game:roomId| mittels der Funktion \verb|getGameData| abgerufen. Dies ist wichtig um im Frontend anzeigen lassen zu können, welche Farbe und gegen wen der Freund spielt.
 
-\begin{itemize}
-\item Aus \verb|user:username| wird die Liste \verb|activeGames| der roomIds der aktiven Spiele dieses Benutzers abgefragt.
-\item Anschließend wird für jede dieser roomIds der Eintrag \verb|game:roomId| geholt, da Informationen darüber benötigt werden gegen wen und welche Farbe der Benutzer spielt.
-\end{itemize}
 \end{itemize}
 
 Anschließend werden diese Daten in einem Objekt gesammelt und der neuen Freundesliste hinzugefügt, welche am Ende zurückgegeben wird.
-
-In dem Abschnitt //Ref kritisiere ich die Struktur meiner Redis Datenbank, da sehr viele Zugriffe nötig sind, um dem Frontend alle Informationen über die Freunde eines Benutzers zukommen zu lassen.
 
 \subsubsection{requestFriend und friendIsValid}
 \label{sec:requestFriend}

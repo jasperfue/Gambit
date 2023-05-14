@@ -29,7 +29,7 @@
 \contentsline {lstlisting}{\numberline {4.20}{\ignorespaces Die attemptLogin Middleware zum Anmelden}}{74}{lstlisting.4.20}%
 \contentsline {lstlisting}{\numberline {4.21}{\ignorespaces Middleware zum Abmelden}}{75}{lstlisting.4.21}%
 \contentsline {lstlisting}{\numberline {4.22}{\ignorespaces Ausschnitt der index.js Datei mit Socket.io Server Erstellung und Middleware Zuweisung}}{76}{lstlisting.4.22}%
-\contentsline {lstlisting}{\numberline {4.23}{\ignorespaces authorizeUser Middleware für Socket.io Verbinudngen}}{76}{lstlisting.4.23}%
+\contentsline {lstlisting}{\numberline {4.23}{\ignorespaces authorizeUser Middleware für Socket.io Verbinudngen}}{77}{lstlisting.4.23}%
 \contentsline {lstlisting}{\numberline {4.24}{\ignorespaces initializeUser Middleware für Socket.io Verbinudngen}}{77}{lstlisting.4.24}%
 \contentsline {lstlisting}{\numberline {4.25}{\ignorespaces Die onDisconnect Methode für Sockets}}{78}{lstlisting.4.25}%
 \contentsline {lstlisting}{\numberline {4.26}{\ignorespaces Die createChessGame Methode zum Initialisieren einer Schachpartie}}{78}{lstlisting.4.26}%
@@ -43,7 +43,7 @@
 \contentsline {lstlisting}{\numberline {4.34}{\ignorespaces Initialisierung der PostgreSQL Datenbank und einer Methode für die Anfragen}}{87}{lstlisting.4.34}%
 \contentsline {lstlisting}{\numberline {4.35}{\ignorespaces Initialisierung einer Redis-Datebank Verbindung}}{87}{lstlisting.4.35}%
 \contentsline {lstlisting}{\numberline {4.36}{\ignorespaces Methode um einen Spieler in eine Warteschlange hinzuzufügen}}{88}{lstlisting.4.36}%
-\contentsline {lstlisting}{\numberline {4.37}{\ignorespaces Methode um Freunde eines Spielers zu erhalten}}{88}{lstlisting.4.37}%
+\contentsline {lstlisting}{\numberline {4.37}{\ignorespaces Methode um Freunde eines Spielers zu erhalten}}{89}{lstlisting.4.37}%
 \contentsline {lstlisting}{\numberline {4.38}{\ignorespaces Methode um alle Informationen eines Arrays von Freunden zu bekommen}}{89}{lstlisting.4.38}%
 \contentsline {lstlisting}{\numberline {4.39}{\ignorespaces requestFriend Methode um eine Freundschaftsanfrage in redis zu speichern}}{90}{lstlisting.4.39}%
 \contentsline {lstlisting}{\numberline {4.40}{\ignorespaces friendIsValid Methode um zu überprüfen, ob eine Freundschaft legal wäre}}{90}{lstlisting.4.40}%

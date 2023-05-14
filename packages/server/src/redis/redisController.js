@@ -78,7 +78,7 @@ module.exports.onServerShutdown = async () => {
         }
     } catch (error) {
         console.error('Fehler beim Löschen von activeGames aus userid:*');
-    }d
+    }
 
 }
 
@@ -377,18 +377,21 @@ module.exports.declineFriend = async (username, name) => {
 
 
 const parseFriendList = async (friendList) => {
-    const newFriendList = [];
+    const parsedFriendList = [];
     for (let friend of friendList) {
-        const friendConnected = await getUserData(friend.username, "connected");
-        const activeGames = await getActiveGamesData(friend.username);
-        newFriendList.push({
+        const parsedFriend = await getUserData(friend.username);
+        const activeGames = {};
+        for (let activeGame of JSON.parse(parsedFriend.activeGames)) {
+            activeGames[activeGame] = await getGame(activeGame);
+        }
+        parsedFriendList.push({
             username: friend.username,
             userid: friend.userid,
-            connected: friendConnected,
+            connected: parsedFriend.connected,
             activeGames: activeGames
         });
     }
-    return newFriendList;
+    return parsedFriendList;
 }
 
 module.exports.parseFriendList = parseFriendList;

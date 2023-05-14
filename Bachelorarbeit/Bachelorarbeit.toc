@@ -7,7 +7,7 @@
 \contentsline {section}{\numberline {1.3}Aufbau der Arbeit}{2}{section.1.3}%
 \contentsline {section}{\numberline {1.4}Verwandte Arbeiten}{3}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}Chess.com}{3}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Lichess}{3}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.2}Lichess}{4}{subsection.1.4.2}%
 \contentsline {chapter}{\numberline {2}Theoretische Grundlagen}{7}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Schach}{7}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Web-Technologien}{8}{section.2.2}%
@@ -49,11 +49,11 @@
 \contentsline {section}{\numberline {3.5}Backend-Architektur}{43}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}Authentifizierung}{43}{subsection.3.5.1}%
 \contentsline {subsubsection}{\nonumberline Authentifizierung mit der Web-API und PostgreSQL}{43}{subsubsection*.77}%
-\contentsline {subsubsection}{\nonumberline Authentifizierung und anschließende Middleware mit Socket.io}{45}{subsubsection*.79}%
+\contentsline {subsubsection}{\nonumberline Socket.io Authentifizierung und Middleware}{45}{subsubsection*.79}%
 \contentsline {subsection}{\numberline {3.5.2}Das Schachspiel}{45}{subsection.3.5.2}%
 \contentsline {subsubsection}{\nonumberline Finden eines Gegners}{45}{subsubsection*.81}%
 \contentsline {subsubsection}{\nonumberline ServerChessClock}{46}{subsubsection*.84}%
-\contentsline {subsubsection}{\nonumberline Neuer Zug einer Schachpartie}{48}{subsubsection*.86}%
+\contentsline {subsubsection}{\nonumberline Neue Züge}{48}{subsubsection*.86}%
 \contentsline {subsubsection}{\nonumberline Ende einer Schachpartie}{48}{subsubsection*.89}%
 \contentsline {subsubsection}{\nonumberline Chat}{49}{subsubsection*.91}%
 \contentsline {subsection}{\numberline {3.5.3}Verwaltung von Freunden}{50}{subsection.3.5.3}%
@@ -94,7 +94,7 @@
 \contentsline {subsubsection}{\nonumberline Senden des aktuellen Zustands einer Partie}{82}{subsubsection*.136}%
 \contentsline {subsubsection}{\nonumberline Die Uhr}{83}{subsubsection*.138}%
 \contentsline {subsection}{\numberline {4.2.3}Verwaltung von Freunden}{86}{subsection.4.2.3}%
-\contentsline {subsubsection}{\nonumberline Freundschaftsanfrage}{86}{subsubsection*.140}%
+\contentsline {subsubsection}{\nonumberline Versenden einer Freundschaftsanfrage}{86}{subsubsection*.140}%
 \contentsline {subsubsection}{\nonumberline Das Senden der Freunde ans Frontend}{87}{subsubsection*.142}%
 \contentsline {section}{\numberline {4.3}Datenbank Integration}{87}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Zugriff auf Redis mit dem redisController}{88}{subsection.4.3.1}%

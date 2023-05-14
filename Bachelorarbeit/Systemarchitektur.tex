@@ -1,12 +1,12 @@
        
 \chapter{Systemarchitektur und Konzeption}
-In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Die vorhandenen Funktionen der Schach-App werden mit Bildschirmfotos und Erklärungen veranschaulicht. Des weiteren werden verschiedene Abläufe durch Aktivitäts- und Sequenzdiagramme verdeutlicht.
+In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Die vorhandenen Funktionen der Schach-App werden mit Bildschirmfotos und Erklärungen veranschaulicht und verschiedene Abläufe werden durch Aktivitäts- und Sequenzdiagramme verdeutlicht.
 \section{Einführung}
 Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
 
-Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerfreundliche Oberfläche zu schaffen. Das Frontend basiert auf dem React-Framework (siehe Kapitel \ref{sec:react}), das es ermöglicht, wiederverwendbare Komponenten zu entwickeln und den Anwendungsstatus effizient zu verwalten. Das User-Interface basiert auf Chakra UI (siehe Kapitel \ref{sec:weiteres}, einem modernen und flexiblen Komponenten-Bibliothekssystem, das die Entwicklung von responsiven und zugänglichen Benutzeroberflächen erleichtert. Die Benutzerführung und die Kommunikation zwischen den React-Komponenten sind so gestaltet, dass sie eine nahtlose und intuitive Benutzererfahrung bieten.
+Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerfreundliche Oberfläche zu schaffen. Das Frontend basiert auf dem React-Framework (siehe Kapitel \ref{sec:react}), das es ermöglicht, wiederverwendbare Komponenten zu entwickeln und den Anwendungsstatus effizient zu verwalten. Das User-Interface basiert auf Chakra UI (siehe Kapitel \ref{sec:weiteres}), einem modernen und flexiblen Komponenten-Bibliothekssystem, das die Entwicklung von responsiven und zugänglichen Benutzeroberflächen erleichtert. Die Benutzerführung und die Kommunikation zwischen den React-Komponenten sind so gestaltet, dass sie eine nahtlose und intuitive Benutzererfahrung bieten.
 
-Auf der Backend-Seite wird Node.js mit dem Express-Framework (siehe Kapitel \ref{sec:express}) verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io (siehe Kapitel \ref{sec:socket.io}) ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL-Datenbank  (siehe Kapitel \ref{sec:Postgresql}) verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Freundeslisten und Daten aktiver Spiele werden in einer Redis-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
+Auf der Backend-Seite wird Node.js mit dem Express-Framework (siehe Kapitel \ref{sec:express}) verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io (siehe Kapitel \ref{sec:socket.io}) ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL-Datenbank  (siehe Kapitel \ref{sec:PostgreSQL}) verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Die Verwaltung von Freunden und Daten aktiver Spiele werden in einer Redis-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
 \section{Architekturübersicht}
 Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert den Zusammenhang der Hauptkomponenten für die Kommunikation.
 
@@ -155,7 +155,7 @@ Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebau
 Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_tikz} zeigt die Struktur und Verschachtelung der Anwendung für angemeldete Benutzer. Nicht angemeldete Benutzer sehen lediglich die Komponenten ActiveGames und FriendList nicht, während der restliche Aufbau gleich bleibt. In diesem Abschnitt werden die wichtigsten Komponenten und ihre Funktionen innerhalb der Anwendung erläutert.
         
 \begin{itemize}
-\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts zur Verfügung. Diese Informationen beinhalten, ob ein Benutzer angemeldet ist und falls er das ist seinen Benutzernamen.
+\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts namens \textit{UserContext} zur Verfügung. Diese Informationen beinhalten, ob ein Benutzer angemeldet ist und falls er das ist seinen Benutzernamen.
 \item \textbf{SocketContext:} In diesem React Context wird eine Socket.io Verbindung mit dem Server hergestellt und allen darauf folgenden Komponenten bereitgestellt.
 \item \textbf{ChakraBaseProvider und ColorModeScript:} Diese importierten Komponenten von ChakraUI stellen die Funktionen zum designen bereit. Dazu gehören Beispielsweise das Verwenden des globalen Zustands des Farbenschemas (dunkel oder hell) oder das Zugreifen auf definierte Stile.
 \item \textbf{Views:} Diese Komponente beinhaltet das User Interface. Mit Hilfe des React-Routers werden hier die Komponenten des \verb|view|-Ordners unter einem bestimmten Pfad definiert. Des weiteren beinhaltet es die Komponenten GameRequest und Navbar, welche durch die Definition in dieser Komponente auf jedem Pfad vorhanden sind.
@@ -306,7 +306,7 @@ Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist si
         \label{sec:Schachspiel}
         In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. Die Vorgehensweise im Backend und das Zusammenspiel bei der Gegner Suche befindet sich in Abschnitt \ref{sec:Schach-Backend}.
         
-Das Schachspiel und die zugehörigen Schachuhren sind getrennt gehalten um die Modularität und Wartbarkeit zu erhöhen. Die Schachuhren und das Spiel haben jeweils eigene Events die sie empfangen und senden und kommunizieren nur bei der Initialisierung miteinander und sonst nur mit dem Server.
+Das Schachspiel und die zugehörigen Schachuhren sind getrennt gehalten um die Modularität und Wartbarkeit zu erhöhen. Die Schachuhren und das Spiel haben jeweils eigene Events die sie empfangen und senden und kommunizieren nur bei der Initialisierung miteinander.
 		\subsubsection{Das Starten eines Schachspiels}
 		\label{sec:Frontend-Schach-Start}
 Um eine Schachpartie zu starten können entweder die Buttons in der Mitte des Bildschirms der \textit{Home}-Komponente (siehe Abbildung \ref{fig:home-logged-in}) oder die Herausforderung zu einer Partie eines Freundes verwendet werden.
@@ -562,7 +562,7 @@ Bei dem ersten Aufruf der Seite vom Client wird eine GET Anfrage an \verb|/auth/
 
 Anschließend stellt der Client eine Socket.io Verbindung her.
 
-\subsubsection{Authentifizierung und anschließende Middleware mit Socket.io}
+\subsubsection{Socket.io Authentifizierung und Middleware}
 \label{sec:socketauth}
 Bei der Verbindungsherstellung des Clients mit dem Socket.io Server durchläuft die Socket verschiedene Middlewares.
 
@@ -571,7 +571,7 @@ Die erste Middleware Authentifiziert die Socket des Benutzers. Sie liest aus dem
 Wenn der Benutzer keinen gültigen JWT-Token hat, werden trotzdem alle Middlewares ohne Fehler durchlaufen. Dies liegt daran, dass bei einem fehlgeschlagenen Middleware-Prozess die Socket.io-Verbindung abgelehnt werden würde. Es soll allerdings auch das Spielen einer Schachpartie als Gast möglich sein.
 
 In der zweiten Middleware tritt die Socket der \verb|userid| des Benutzers als Raum bei und wird sowohl in der Redis Datenbank unter \verb|user:username| (siehe Kapitel \ref{sec:redis-data}) , als auch bei Freunden mittels des Events \verb|connected|, als online vermerkt.
-Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So können Event immer diese \verb|userid| verwenden um ein Event an diesen Benutzer zu senden.
+Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So können Events immer diese \verb|userid| verwenden um ein Event an diesen Benutzer zu senden.
 
 Beim Schließen der Anwendung oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
 
@@ -669,7 +669,7 @@ socketChessController und ServerChessClock kommunizieren mittels Funktionen und 
 
 Die Funktionsweise und Beispielcode der serverseitigen Schachuhr werden in Kapitel \ref{sec:Uhr-Backend-impl} erläutert.
 
-\subsubsection{Neuer Zug einer Schachpartie}
+\subsubsection{Neue Züge}
 \label{sec:Zug-Backend}
 Ein Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend ist in Abbildung \ref{fig:Zug-Backend} zu finden. 
 
@@ -680,7 +680,7 @@ Anschließend wird überprüft ob es sich um ein Schachmatt oder ein Patt handel
 
 Falls dies nicht der Fall ist wird die Zeit des jetzigen Spielers gestoppt und falls es eine reguläre Zeit ist, wird das Inkrement auf die Zeit gerechnet, die Zeit des anderen Spielers fängt an zu laufen und die aktualisierten Zeiten werden an das Frontend gesendet.
 
-Handelt es sich um die ersten zwei Züge, in denen die Startzeit und nicht die reguläre Zeit der Spieler läuft werden diese gesondert betrachtet und entweder die Startzeit von Schwarz beginnt zu laufen oder die reguläre Zeit von Weiß fängt an zu laufen. Dies wird auch mit entsprechenden Events dem Frontend mitgeteilt.
+Handelt es sich um die ersten zwei Züge, in denen die Startzeit und nicht die reguläre Zeit der Spieler läuft, werden diese gesondert betrachtet und entweder die Startzeit von Schwarz beginnt zu laufen oder die reguläre Zeit von Weiß fängt an zu laufen. Dies wird auch mit entsprechenden Events dem Frontend mitgeteilt.
 
 \begin{figure}[h!]
 \centering
