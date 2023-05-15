@@ -1,12 +1,12 @@
        
 \chapter{Systemarchitektur und Konzeption}
-In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Die vorhandenen Funktionen der Schach-App werden mit Bildschirmfotos und Erklärungen veranschaulicht und verschiedene Abläufe werden durch Aktivitäts- und Sequenzdiagramme verdeutlicht.
+In diesem Kapitel wird die Systemarchitektur der Anwendung vorgestellt, indem erläutert wird wie die verschiedenen Komponenten und Technologien zusammenarbeiten und miteinander kommunizieren. Die vorhandenen Funktionen der Schach-App werden mit Bildschirmfotos und Erklärungen veranschaulicht und verschiedene Abläufe werden durch Aktivitäts- und Sequenzdiagramme dargestellt.
 \section{Einführung}
-Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer verantwortlich, während das Backend die Spiellogik, die Verwaltung der Benutzerdaten und die Echtzeit-Kommunikation zwischen den Spielern steuert.
+Die Anwendung ist in zwei Hauptkomponenten unterteilt: das Frontend und das Backend. Das Frontend ist für die Darstellung der Benutzeroberfläche und die Interaktion mit dem Benutzer oder der Benutzerin verantwortlich, während das Backend die suche nach Spielenden, die Verwaltung der Benutzerdaten und Freunde und die Echtzeit-Kommunikation zwischen den Spielenden steuert.
 
-Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerfreundliche Oberfläche zu schaffen. Das Frontend basiert auf dem React-Framework (siehe Kapitel \ref{sec:react}), das es ermöglicht, wiederverwendbare Komponenten zu entwickeln und den Anwendungsstatus effizient zu verwalten. Das User-Interface basiert auf Chakra UI (siehe Kapitel \ref{sec:weiteres}), einem modernen und flexiblen Komponenten-Bibliothekssystem, das die Entwicklung von responsiven und zugänglichen Benutzeroberflächen erleichtert. Die Benutzerführung und die Kommunikation zwischen den React-Komponenten sind so gestaltet, dass sie eine nahtlose und intuitive Benutzererfahrung bieten.
+Die Anwendung verwendet moderne Web-Technologien, um eine reaktive und benutzerfreundliche Oberfläche zu schaffen. Das Frontend basiert auf dem React-Framework (siehe Kapitel \ref{sec:react}), das es ermöglicht, wiederverwendbare Komponenten zu entwickeln und den Anwendungsstatus effizient zu verwalten. Das User-Interface basiert auf Chakra UI (siehe Kapitel \ref{sec:weiteres}), einem modernen und flexiblen Komponenten-Bibliothekssystem, das die Entwicklung von responsiven und zugänglichen Benutzeroberflächen erleichtert.
 
-Auf der Backend-Seite wird Node.js mit dem Express-Framework (siehe Kapitel \ref{sec:express}) verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io (siehe Kapitel \ref{sec:socket.io}) ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL-Datenbank  (siehe Kapitel \ref{sec:PostgreSQL}) verwendet, die aufgrund ihrer Leistungsfähigkeit und Flexibilität ausgewählt wurde. Die Verwaltung von Freunden und Daten aktiver Spiele werden in einer Redis-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis, eine In-Memory-Datenstruktur, eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert eine optimale Benutzererfahrung.
+Auf der Backend-Seite wird Node.js mit dem Express-Framework (siehe Kapitel \ref{sec:express}) verwendet, um einen leistungsstarken und skalierbaren Server bereitzustellen. Die API-Endpunkte und die Echtzeitkommunikation mittels Socket.io (siehe Kapitel \ref{sec:socket.io}) ist so konzipiert, dass sie den Anforderungen der verschiedenen Frontend-Komponenten gerecht werden und die Kommunikation zwischen Frontend und Backend erleichtern. Für die Speicherung und Verwaltung der Benutzerdaten zum Anmelden wird eine PostgreSQL-Datenbank  (siehe Kapitel \ref{sec:PostgreSQL}) verwendet, die aufgrund ihrer Unterstützung für strukturierte Daten und ihrer Robustheit in der Handhabung von Benutzerdaten ausgewählt wurde. Die Verwaltung von befreundeten Person und Daten aktiver Spiele werden in einer Redis-Datenbank gespeichert, die sich durch hohe Leistung und niedrige Latenz auszeichnet, insbesondere bei Lese- und Schreibvorgängen. Redis eignet sich ideal für Anwendungen, bei denen schnelle Zugriffszeiten und Skalierbarkeit wichtig sind. Die Kombination von PostgreSQL und Redis ermöglicht eine effiziente Verwaltung sowohl persistenter als auch flüchtiger Daten und fördert die Modularität und Trennung der verschiedenen Funktionsbereiche.
 \section{Architekturübersicht}
 Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert den Zusammenhang der Hauptkomponenten für die Kommunikation.
 
@@ -14,13 +14,13 @@ Wie zu erkennen ist, sind die Datenbanken und deren Funktionen getrennt gehalten
 
 Im Frontend gibt es drei Komponenten, welche die Web-API verwenden: Der \textit{UserContext}, \textit{Login} und \textit{SignUp}. Die Web-API verwendet dabei nur die Methoden GET und POST. Der \textit{UserContext} ist verantwortlich für die Verwaltung des Benutzerzustands, während die Komponenten \textit{Login} und \textit{SignUp} das setzen des Benutzerzustands über das Anmelden und Registrieren unterstützen. Der \textit{SocketContext} baut die Socket.io Verbindung für die Echtzeitkommunikation auf und stellt sie den restlichen React Komponenten zur Verfügung, um Events zu senden und zu empfangen.
 
-Die Anfragen über die Web-API werden durch den in \textit{authRouter} definierten Express Router entgegengenommen. Zur Behandlung werden in ihm verschieden Middlewares der Datei \textit{authController} für verschiedene Anfragen festgelegt, welche auf die PostgreSQL Datenbank zugreifen. Die Web-API und die PostgreSQL Datenbank werden lediglich für das Registrieren und Anmelden von Benutzern verwendet.
+Die Anfragen über die Web-API werden durch den in \textit{authRouter} definierten Express Router entgegengenommen. Zur Behandlung werden in ihm verschieden Middlewares der Datei \textit{authController} für verschiedene Anfragen festgelegt, welche auf die PostgreSQL Datenbank zugreifen. Die Web-API und die PostgreSQL Datenbank werden lediglich für das Registrieren und Anmelden von Benutzenden verwendet.
 
-Beim Herstellen einer Socket.io Verbindung in \textit{SocketContext} werden im Backend die Middlewares aus \textit{socketMiddleware} ausgeführt, welche unter anderem die Listener aus \textit{socketController} und \textit{socketChessContoller} initialisieren. Der Unterschied zwischen den Listenern der beiden Dateien ist, dass \textit{socketController} sich um allgemeine Funktionen wie das Versenden von Freundschaftsanfragen oder das senden von Informationen an das Frontend kümmert, während \textit{socketChessController} Listener enthält, welche sich um Funktionen des Schachspiels kümmert, wie zum Beispiel das Behandeln eines neuen Zugs. 
+Beim Herstellen einer Socket.io Verbindung in \textit{SocketContext} werden im Backend die Middlewares aus \textit{socketMiddleware} ausgeführt und die Listener aus \textit{socketController} und \textit{socketChessContoller} initialisiert. Der Unterschied zwischen den Listenern der beiden Dateien ist, dass \textit{socketController} sich um allgemeine Funktionen wie das Versenden von Freundschaftsanfragen oder das senden von Informationen an das Frontend kümmert, während \textit{socketChessController} Listener enthält, welche sich um Funktionen des Schachspiels kümmert, wie zum Beispiel das Behandeln eines neuen Zugs. 
 
 Alle Dateien im \verb|sockets| Package verwenden den \textit{redisController}, um Daten aus der Redis Datenbank abzurufen und zu speichern. Beispielsweise werden Freundschaftsanfragen, Freunde und Daten aktiver Spiele in der Redis Datenbank von dem \textit{redisController} verwaltet, abgerufen und gespeichert.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 \centering
 \begin{adjustbox}{width=\textwidth}
 \begin{tikzpicture}
@@ -74,24 +74,22 @@ Alle Dateien im \verb|sockets| Package verwenden den \textit{redisController}, u
 
 \section{Konzeption der Schachuhren}
 \label{sec:Konzept-Schachuhr}
-Bei der Konzeption der Schachuhren war ein Aspekt besonders entscheidend: Was passiert, falls ein Spieler vorübergehend keine Internetverbindung beim senden oder beim empfangen von Events hat?
+Bei der Konzeption der Schachuhren war ein Aspekt besonders entscheidend: Was passiert, falls ein/-e Spieler/-in vorübergehend keine Internetverbindung beim senden oder beim empfangen von Events hat?
 
-Um den Server zu entlasten wäre natürlich eine Client basierte Lösung ideal, bei der mit einem Zug auch die jeweilige aktuelle Zeit gesendet wird. Wenn ein Spieler allerdings eine schlechte Internetverbindung hat und deshalb der Zug im Backend und bei dem anderen Spieler erst verspätet ankommt können sich die Zeiten der beiden Spieler erheblich unterscheiden. Es stellt sich die Frage, welche dieser Zeiten jetzt gültig ist. Trivialerweise entsteht das gleiche Problem bei einer verzögerten Zustellung. Wenn die Zeit auf einem Client bereits abgelaufen wäre, könnte sie auf dem anderen noch weiterlaufen. Hat der Spieler dann gewonnen oder nicht?
+Um den Server zu entlasten wäre natürlich eine clientbasierte Lösung ideal, bei der mit einem Zug auch die jeweilige aktuelle Zeit gesendet wird. Wenn ein/-e Spieler/-in jedoch eine schlechte Internetverbindung hat und daher die Züge im Backend und bei der anderen spielenden Person verzögert ankommen, kann es zu erheblichen Unterschieden in den angezeigten Zeiten kommen. Es stellt sich die Frage, welche dieser Zeiten gültig ist.
 
-Um dieses Problem zu umgehen liegt die einfachste Lösung darin, eine serverseitige Schachuhr einzuführen. Diese Uhr bestimmt die aktuellen Zeiten. Wenn ein Zug im Backend ankommt, wird die auf dem Server gültige Zeit an die Clients gesendet. Dadurch gibt es keine Unklarheiten hinsichtlich der aktuellen Zeit. Wenn eine Zeit auf dem Server abläuft wird dies durch ein Event mitgeteilt.  Es kann zwar vorkommen, dass bei den Clients zu dem Zeitpunkt noch Zeit übrig ist, wenn das letzte Event aufgrund einer schlechten Verbindung verspätet eingetroffen ist, aber dieses Problem ist unvermeidbar.
+Um dieses Problem zu umgehen liegt die einfachste Lösung darin, eine serverseitige Schachuhr einzuführen. Diese Uhr bestimmt die aktuellen Zeiten. Wenn ein Zug im Backend ankommt, wird die auf dem Server gültige Zeit an die Clients gesendet. Dadurch gibt es keine Unklarheiten hinsichtlich der aktuellen Zeit. Wenn eine Zeit auf dem Server abläuft wird dies durch ein Event mitgeteilt. Es kann zwar vorkommen, dass bei den Clients zu dem Zeitpunkt noch Zeit übrig ist, wenn das letzte Event aufgrund einer schlechten Verbindung verspätet eingetroffen ist, aber dieses Problem ist unvermeidbar.
 
-Durch dieses Konzept umgeht man auch das Problem, dass Client seitiger Code im Browser manipulierbar sein kann und dadurch die Schachuhren beeinflussbar wären.
+Durch dieses Konzept umgeht man auch das Problem, dass clientseitiger Code im Browser manipulierbar sein kann und dadurch die Schachuhren beeinflussbar wären.
 
-Wie die Schachuhren konkret funktionieren wird in den nachfolgenden Kapiteln behandelt.
+Wie die Schachuhren konkret funktionieren wird in den nachfolgenden Kapiteln behandelt und eine Kritik und alternative Implementierungen werden in Kapitel \ref{sec:herausforderung-Schachuhr} diskutiert.
 
     \section{Frontend-Architektur}
 Das Frontend der Anwendung wurde unter Verwendung von React (Abschnitt \ref{sec:react}), Socket.io (Abschnitt \ref{sec:socket.io}) und weiteren Bibliotheken aus Abschnitt \ref{sec:weiteres} entwickelt.
 
-
-
 In diesem Kapitel werde ich die unterschiedlichen React-Komponenten vorstellen und erläutern, wie sie zusammenarbeiten, um bestimmte Funktionen zu erfüllen und sowohl untereinander als auch mit dem Backend kommunizieren.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 \centering
 
 \begin{minipage}{0.5\textwidth}
@@ -119,7 +117,6 @@ In diesem Kapitel werde ich die unterschiedlichen React-Komponenten vorstellen u
 .3 contexts/.
 .4 AccountContext.js.
 .4 SocketContext.js.
-.4 tests/.
 .3 themes/.
 .4 Theme.js.
 .3 utils/.
@@ -143,7 +140,7 @@ In diesem Kapitel werde ich die unterschiedlichen React-Komponenten vorstellen u
 Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebaut:
 \begin{itemize}
 \item \textbf{public:} In diesem Ordner befinden sich statische Ressourcen, wie zum Beispiel Bilder des Logos, die von der Anwendung verwendet werden.
-\item \textbf{components:} Dieser Ordner enthält alle React-Komponenten, die für die Anwendung verwendet werden. Sie sind modular und stellen jeweils nur ein Teil eines User Interfaces dar.
+\item \textbf{components:} Dieser Ordner enthält alle React-Komponenten, die für die Anwendung verwendet werden. Sie stellen jeweils nur ein Teil eines User Interfaces dar.
 \item \textbf{contexts:} Hier befinden sich die React Contexts, die zum Verwalten von globalen Zuständen und Kommunikationsschnittstellen verwendet werden.
 \item \textbf{themes:} Dieser Ordner enthält Dateien, die für das Design und die Anpassung des Aussehens der Anwendung mittels Chakra UI verantwortlich sind.
 \item \textbf{utils:} In diesem Ordner befinden sich Hilfsdateien, die ausgelagerte Funktionen zur Verfügung stellen.
@@ -152,41 +149,9 @@ Die Ordnerstruktur (Abbildung \ref{fig:frontend_dirtree}) ist wie folgt aufgebau
     
         \subsection{React-Komponenten}
         \label{sec:React-Komponenten}
-Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_tikz} zeigt die Struktur und Verschachtelung der Anwendung für angemeldete Benutzer. Nicht angemeldete Benutzer sehen lediglich die Komponenten ActiveGames und FriendList nicht, während der restliche Aufbau gleich bleibt. In diesem Abschnitt werden die wichtigsten Komponenten und ihre Funktionen innerhalb der Anwendung erläutert.
-        
-\begin{itemize}
-\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts namens \textit{UserContext} zur Verfügung. Diese Informationen beinhalten, ob ein Benutzer angemeldet ist und falls er das ist seinen Benutzernamen.
-\item \textbf{SocketContext:} In diesem React Context wird eine Socket.io Verbindung mit dem Server hergestellt und allen darauf folgenden Komponenten bereitgestellt.
-\item \textbf{ChakraBaseProvider und ColorModeScript:} Diese importierten Komponenten von ChakraUI stellen die Funktionen zum designen bereit. Dazu gehören Beispielsweise das Verwenden des globalen Zustands des Farbenschemas (dunkel oder hell) oder das Zugreifen auf definierte Stile.
-\item \textbf{Views:} Diese Komponente beinhaltet das User Interface. Mit Hilfe des React-Routers werden hier die Komponenten des \verb|view|-Ordners unter einem bestimmten Pfad definiert. Des weiteren beinhaltet es die Komponenten GameRequest und Navbar, welche durch die Definition in dieser Komponente auf jedem Pfad vorhanden sind.
-\begin{itemize}
-\item \textbf{Navbar:} Die Navigationsleiste besteht aus dem Logo und einem Button zum wechseln des Farbschemas. Je nachdem, ob ein Benutzer angemeldet ist oder nicht beinhaltet es noch Buttons zum Anmelden, Registrieren oder Abmelden (siehe Abbildungen \ref{fig:home-not-logged-in} \& \ref{fig:home-logged-in}).
-\item \textbf{GameRequests:} Diese Komponente ist dafür Verantwortlich beim Eingang einer Spielanfrage eines Freundes, dieses als Modal darzustellen und bietet die Möglichkeit diese Anfrage zu beantworten (siehe Abbildung \ref{fig:game-request}).
-\end{itemize}
-\item \textbf{Home:} Diese Komponente stellt die Startseite dar und enthält die Buttons zum Starten eines Spiels mit verschiedenen Schachuhr Konfigurationen (siehe Abbildung \ref{fig:home-not-logged-in}). Diese Buttons sind in einigen online Schachplattformen (Beispielsweise \url{lichess.org}) bereits gängig und benötigen keine zusätzliche Erklärung. Ist ein Benutzer angemeldet sind auch noch die Komponenten ActiveGames und FriendList auf der rechten Seite vorhanden (siehe Abbildung \ref{fig:home-logged-in}).
-\begin{itemize}
-\item \textbf{ActiveGames:} ActiveGames ist eine Komponente die alle derzeit aktiven Spiele mit den Informationen der Benutzernamen und wer welche Farbe spielt als Buttons darstellt (siehe Abbildung \ref{fig:home-logged-in}). Beim klicken auf einen dieser Buttons wird zu der aktiven Partie navigiert.
-\item \textbf{FriendList:} Diese Komponente verwaltet alle Freunde und Freundschaftsanfragen eines Benutzers, während die Darstellung und Interaktion die Unterkomponenten \textit{Friend} und \textit{FriendRequest} übernehmen. Die Funktionsweise der Komponente mit seinen Unterkomponenten wird in Abschnitt \ref{sec:Friends} erläutert.
-\begin{itemize}
-\item \textbf{Friend:} Übernimmt die Darstellung eines Freundes. Mittels eines farbigen Punktes ist erkennbar, ob dieser Freund gerade online ist (grün) oder nicht (rot) (siehe Abbildung \ref{fig:home-logged-in}). Ist er online erscheint noch mindestens ein weiterer Button. Es beinhaltet ein Icon in Form von gekreuzten Schwertern und einem Schild. Dies hat die Funktion einen Freund zu einem Spiel herauszufordern. Falls dieser Freund gerade ein aktives Spiel hat erscheint noch ein zweiter Button mit einem Auge als Icon, welches den Benutzer zu dem aktiven Spiel des Freundes als Zuschauer navigiert.
-\item \textbf{FriendRequest:} Eine Freundschaftsanfrage wird mittels dieser Komponente dargestellt und beantwortet (siehe Abbildung \ref{fig:home-logged-in}).
-\item \textbf{AddFriendModal:} Mit Hilfe dieser Komponente können Freundschaftsanfragen unter Angabe des Benutzernamens versendet werden (siehe Abbildung \ref{fig:AddFriendModal}.
-\end{itemize}
-\end{itemize}
+Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_tikz} zeigt die Struktur und Verschachtelung der Anwendung für angemeldete Benutzende. Nicht angemeldete Benutzende sehen lediglich die Komponenten \textit{ActiveGames} und \textit{FriendList} nicht, während der restliche Aufbau gleich bleibt. In diesem Abschnitt werden die wichtigsten Komponenten und ihre Funktionen innerhalb der Anwendung erläutert.
 
-\item \textbf{Login \& SignUp:} Komponenten, die das Anmelden und Registrieren mittels Formularen mit Formik und Yup (siehe Abschnitt \ref{sec:formik}) ermöglichen und mit dem Server zur Authentifizierung kommunizieren (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}). Diese Komponenten befinden sich unter dem Pfad \verb|/login|, beziehungsweise \verb|/signup|.
-\item \textbf{ChessGame:} Die Komponente ChessGame ist das Herzstück der Anwendung, da dort das eigentliche Schachspiel stattfindet. Die ChessGame Komponente wird durch den Pfad \verb|/game/:roomId| gerendert und holt sich durch die roomId die Spieldaten vom Backend. In der Abbildung \ref{fig:chess-game} ist eine beispielhafte Komponente zu sehen. Auf der rechten Seite neben dem Brett befindet sich die \textit{ChessClock} Komponente und daneben befindet sich die \textit{Chat} Komponente. Das Spielfeld und die Figuren entstehen durch die Bibliothek chessground, während die Spiellogik hinter dem Schachspiel von chess.js verwaltet wird (siehe Abschnitt \ref{sec:chess.js}). Eine detaillierte Beschreibung, was in der Komponente beim spielen oder empfangen eines Zugs passiert befindet sich im Abschnitt \ref{sec:Schachspiel}.
-
-
-
-\begin{itemize}
-\item \textbf{ChessClock:} ChessClock ist eine Komponente, die die Verwaltung und Darstellung der Schachuhren übernimmt.
-\item \textbf{Chat:} Die Chat Komponente repräsentiert einen simplen gehaltenen Chat in dem die beiden Spieler kommunizieren können. Zuschauer können ihn lesen, allerdings nichts selber schreiben, da sie Tipps geben könnten.
-\item \textbf{PromotionModal:} Über dieses Modal lässt sich bei einer Bauernumwandlung eine Figur auswählen, welche den Bauern ersetzen soll (siehe Abbildung \ref{fig:PromotionModal}).
-\end{itemize}
-\end{itemize}
- 
-\begin{figure}[h!]
+\begin{figure}[!h]
         \centering
         
 \begin{adjustbox}{width=\textwidth}
@@ -234,15 +199,50 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 \end{tikzpicture}
 \end{adjustbox}
     	
-\caption{Aufbau der React-Komponenten für angemeldete Benutzer}
+\caption{Aufbau der React-Komponenten für angemeldete Benutzende}
 \label{fig:frontend_tikz}
         
         \end{figure}
+        
+\begin{itemize}
+\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts namens \textit{UserContext} zur Verfügung. Diese Informationen beinhalten, ob eine benutzende Person angemeldet ist und falls sie das ist ihren Benutzernamen.
+\item \textbf{SocketContext:} In diesem React Context wird eine Socket.io Verbindung mit dem Server hergestellt und allen darauf folgenden Komponenten bereitgestellt.
+\item \textbf{ChakraBaseProvider und ColorModeScript:} Diese importierten Komponenten von ChakraUI stellen die Funktionen zum designen bereit. Dazu gehören beispielsweise das Verwenden des globalen Zustands des Farbenschemas (dunkel oder hell) oder das Zugreifen auf definierte Stile.
+\item \textbf{Views:} Mit Hilfe des React-Routers wird in dieser Komponente die Komponenten des \verb|view|-Ordners unter einem bestimmten Pfad definiert. Des weiteren beinhaltet es die Komponenten \textit{GameRequest} und \textit{Navbar}, welche durch die Definition in dieser Komponente auf jedem Pfad vorhanden sind.
+\begin{itemize}
+\item \textbf{Navbar:} Die Navigationsleiste besteht aus dem Logo und einem Button zum wechseln des Farbschemas. Je nachdem, ob ein/-e Benutzer/-in angemeldet ist oder nicht beinhaltet es noch Buttons zum Anmelden, Registrieren oder Abmelden (siehe Abbildungen \ref{fig:home-not-logged-in} \& \ref{fig:home-logged-in}).
+\item \textbf{GameRequests:} Diese Komponente ist dafür Verantwortlich beim Eingang einer Spielanfrage eines Freundes, dieses als Modal darzustellen und bietet die Möglichkeit diese Anfrage zu beantworten (siehe Abbildung \ref{fig:game-request}).
+\end{itemize}
+\item \textbf{Home:} Diese Komponente stellt die Startseite dar und enthält die Buttons zum Starten eines Spiels mit verschiedenen Schachuhr Konfigurationen (siehe Abbildung \ref{fig:home-not-logged-in}). Diese Buttons sind in einigen online Schachplattformen (beispielsweise \url{lichess.org} (siehe Abbildung \ref{fig:lichess})) bereits gängig und benötigen keine zusätzliche Erklärung. Diese Knöpfe sollen es möglichst schnell und einfach machen ein Spiel starten zu können.
+
+ Ist ein/-e Benutzer/-in angemeldet sind auch noch die Komponenten ActiveGames und FriendList auf der rechten Seite vorhanden (siehe Abbildung \ref{fig:home-logged-in}).
+\begin{itemize}
+\item \textbf{ActiveGames:} ActiveGames ist eine Komponente die alle derzeit aktiven Spiele mit den Informationen der Benutzernamen und wer welche Farbe spielt als Buttons darstellt (siehe Abbildung \ref{fig:home-logged-in}). Beim klicken auf einen dieser Buttons wird zu der aktiven Partie navigiert.
+\item \textbf{FriendList:} Diese Komponente verwaltet alle Freunde und Freundschaftsanfragen eines Benutzenden, während die Darstellung und Interaktion die Unterkomponenten \textit{Friend} und \textit{FriendRequest} übernehmen.
+\begin{itemize}
+\item \textbf{Friend:} Übernimmt die Darstellung einer befreundeten Person. Mittels eines farbigen Punktes ist erkennbar, ob sie gerade online ist (grün) oder nicht (rot) (siehe Abbildung \ref{fig:home-logged-in}) (Mit online ist gemeint, dass die Person derzeit die Anwendung offen hat). Ist sie online erscheint noch mindestens ein weiterer Button. Es beinhaltet ein Icon in Form von gekreuzten Schwertern und einem Schild. Dies hat die Funktion eine befreundete Person zu einem Spiel herauszufordern. Falls sie gerade ein aktives Spiel hat erscheint noch ein zweiter Button mit einem Auge als Icon, welches den Benutzenden zu dem aktiven Spiel der Freundin, beziehungsweise des Freundes als Zuschauer navigiert.
+\item \textbf{FriendRequest:} Eine Freundschaftsanfrage wird mittels dieser Komponente dargestellt und beantwortet (siehe Abbildung \ref{fig:home-logged-in}).
+\item \textbf{AddFriendModal:} Mit Hilfe dieser Komponente können Freundschaftsanfragen unter Angabe des Benutzernamens versendet werden (siehe Abbildung \ref{fig:AddFriendModal}.
+\end{itemize}
+\end{itemize}
+
+
+\item \textbf{Login \& SignUp:} Komponenten, die das Anmelden und Registrieren mittels Formularen mit Formik und Yup (siehe Abschnitt \ref{sec:formik}) ermöglichen und mit dem Server zur Authentifizierung kommunizieren (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}). Diese Komponenten befinden sich unter dem Pfad \verb|/login|, beziehungsweise \verb|/signup|.
+\item \textbf{ChessGame:} Die Komponente ChessGame ist das Herzstück der Anwendung, da dort das eigentliche Schachspiel stattfindet. Die ChessGame Komponente wird durch den Pfad \verb|/game/:roomId| gerendert und holt sich durch die roomId die Spieldaten vom Backend. In der Abbildung \ref{fig:chess-game} ist eine beispielhafte Komponente zu sehen. Auf der rechten Seite neben dem Brett befindet sich die \textit{ChessClock}-Komponente und in einem eigenen Kasten rechts befindet sich die \textit{Chat}-Komponente. Das Spielfeld und die Figuren entstehen durch die Bibliothek chessground, während die Spiellogik hinter dem Schachspiel von chess.js verwaltet wird (siehe Abschnitt \ref{sec:chess.js}).
+
+\begin{itemize}
+\item \textbf{ChessClock:} \textit{ChessClock} ist eine Komponente, die die Verwaltung und Darstellung der Schachuhren übernimmt.
+\item \textbf{Chat:} Die \textit{Chat}-Komponente repräsentiert einen simplen gehaltenen Chat in dem die beiden Spielenden kommunizieren können. Zuschauer/-innen können ihn lesen, allerdings nichts schreiben, da sie Tipps geben könnten.
+\item \textbf{PromotionModal:} Über dieses Modal lässt sich bei einer Bauernumwandlung eine Figur auswählen, welche den Bauern ersetzen soll (siehe Abbildung \ref{fig:PromotionModal}).
+\end{itemize}
+\end{itemize}
+
+
 
   \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{Home_not_logged_in.png}
-  \caption{Home und Navbar Komponente eines nicht angemeldeten Benutzers im dunklen Farbschema}
+  \caption{Home und Navbar Komponente eines nicht angemeldeten Benutzenden im dunklen Farbschema}
   \label{fig:home-not-logged-in}
 \end{figure}
 
@@ -250,7 +250,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
     \begin{figure}[htbp]
     \centering
   \includegraphics[width=\textwidth]{Home_logged_in.png}
-  \caption{Home und Navbar Komponente eines angemeldeten Benutzers im hellen Farbschema}
+  \caption{Home und Navbar Komponente eines angemeldeten Benutzenden im hellen Farbschema}
   \label{fig:home-logged-in}
 \end{figure}
 
@@ -289,6 +289,8 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
   \caption{Das Modal der Komponente PromotionModal}
   \label{fig:PromotionModal}
 \end{figure}
+ 
+
 
     
    
@@ -297,14 +299,14 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
 Die Authentifizierung findet in drei Komponenten statt: Dem \textit{UserContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Die Authentifizierung im Backend, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert. Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} vorgestellt.
 
 Der \textit{UserContext} beinhaltet den State \verb|user|, der den Komponenten zur Verfügung gestellt wird.
-Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob der Benutzer angemeldet werden konnte oder nicht und wenn ja, dann seinen Benutzernamen.
+Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob die benutzende Person angemeldet werden konnte oder nicht und wenn ja, dann ihren Benutzernamen.
 Dies wird in den \verb|user|-State gesetzt.
 
 Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}).
         
         \subsection{Das Schachspiel}
         \label{sec:Schachspiel}
-        In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. Die Vorgehensweise im Backend und das Zusammenspiel bei der Gegner Suche befindet sich in Abschnitt \ref{sec:Schach-Backend}.
+        In diesem Kapitel werde ich näher darauf eingehen wie das Schachspiel im Frontend verwaltet und aktualisiert wird. Die Vorgehensweise im Backend und das Zusammenspiel bei der Gegnersuche befindet sich in Abschnitt \ref{sec:Schach-Backend}.
         
 Das Schachspiel und die zugehörigen Schachuhren sind getrennt gehalten um die Modularität und Wartbarkeit zu erhöhen. Die Schachuhren und das Spiel haben jeweils eigene Events die sie empfangen und senden und kommunizieren nur bei der Initialisierung miteinander.
 		\subsubsection{Das Starten eines Schachspiels}
@@ -328,13 +330,13 @@ Wenn man selbst eine Anfrage erhält wird dies mittels der \textit{GameReqeust}-
 
 Das Event \verb|game_request| empfängt eine Anfrage zu einer Partie mit den Informationen um welche Zeitkonfiguration es sich handelt und wer der Herausforderer ist. Diese wird ganz einfach der Liste hinzugefügt. 
 
-Das Event \verb|cancel_game_request| wird empfangen, sobald der Freund seine Anfrage zurück zieht. Es enthält den Benutzernamen des Spielers, der die Anfrage gesendet hat und diese Anfrage wird aus der Liste der Anfragen entfernt.
+Das Event \verb|cancel_game_request| wird empfangen, sobald der Freund seine Anfrage zurück zieht. Es enthält den Benutzernamen des Spielenden, der die Anfrage gesendet hat und diese Anfrage wird aus der Liste der Anfragen entfernt.
 
 Gesendet werden kann das Event \verb|game_request_response| mit den Informationen um welche Anfrage es sich handelt und ob man die Anfrage akzeptiert oder ablehnt.
         \subsubsection{Das Spiel}
         \label{sec:Das-Schachspiel-Front}
 Das Schachspiel findet in der Komponente \textit{ChessGame} statt.
-Nach dem rendern der Komponente wird das \verb|get_game_data| Event mit der roomId des Spiels und einer Callback Methode gesendet, die die Daten des Spiels beinhaltet, falls dieses existiert. Falls diese Partie nicht im Backend existiert, also keine Daten gesendet werden, wird der Benutzer darauf hingewiesen (siehe Abbildung \ref{fig:game-does-not-exist}).
+Nach dem rendern der Komponente wird das \verb|get_game_data| Event mit der roomId des Spiels und einer Callback Methode gesendet, die die Daten des Spiels beinhaltet, falls dieses existiert. Falls diese Partie nicht im Backend existiert, also keine Daten gesendet werden, wird der/die Benutzer/-in darauf hingewiesen (siehe Abbildung \ref{fig:game-does-not-exist}).
 
 \begin{figure}[h]
 \centering
@@ -345,103 +347,106 @@ Nach dem rendern der Komponente wird das \verb|get_game_data| Event mit der room
 
 Die Daten die gesendet werden umfassen folgendes:
 \begin{itemize}
-\item Der Namen des weißen und des schwarzen Spielers.
+\item Die Namen des weißen und des schwarzen Spielenden.
 \item Welcher Zeitmodus gespielt wird (z.B.: 5 + 3, 10 + 5, ...)
 \item Die aktuelle Stellung der Partie
 \item Die bisherigen Nachrichten im Chat.
-\item Die aktuelle Phase des Spiels: Dabei gibt es die vier Möglichkeiten, dass die Startzeit von Schwarz oder Weiß läuft oder dass die reguläre Zeit von Schwarz oder Weiß läuft.
-\item Die aktuellen Zeiten der Spieler.
+\item Der aktuelle Status der Schachuhr: Hierbei gibt es vier mögliche Zustände – entweder läuft die Startzeit von Schwarz, die Startzeit von Weiß, die reguläre Spielzeit von Schwarz oder die reguläre Spielzeit von Weiß
+\item Die aktuellen Zeiten der Spielenden.
 \end{itemize}
 Dieses Einholen der Informationen wird für den Fall benötigt, dass die Seite geladen wird, nachdem das Spiel bereits in Gang ist. Außerdem kann dadurch jede Person, die den Link der Partie eingibt oder durch einen Freund dort landet der Partie zuschauen.
 
-Aufgrund der gesendeten Namen der Spieler wird entschieden, ob man ein Zuschauer oder ein Spieler ist.  Dafür werden die Benutzernamen mit dem eigenen Benutzernamen im \textit{UserContext} verglichen. Doch was passiert wenn man eine Partie als unangemeldeter Benutzer spielt und deshalb keinen Benutzernamen im \textit{UserContext} hat?
+Aufgrund der gesendeten Namen der Spielenden wird entschieden, ob man eine zuschauende oder eine spielende Person ist. Dafür werden die Benutzernamen mit dem eigenen Benutzernamen im \textit{UserContext} verglichen. Doch was passiert wenn man eine Partie als unangemeldete/r Benutzer/-in spielt und deshalb keinen Benutzernamen im \textit{UserContext} hat?
 
-Bei dem Event \verb|joined_game| (siehe Abschnitt \ref{sec:Frontend-Schach-Start}) wird der Gast-Benutzername des Spielers gesendet und in \verb|location.state| gesetzt\footnote{Quelle: \url{https://github.com/remix-run/history/blob/main/docs/api-reference.md\#locationstate} am 04. Mai 2023}. Dadurch kann in der \textit{ChessGame}-Komponente darauf zugegriffen werden und es kann überprüft werden, ob es sich um einen Spieler oder Zuschauer handelt.
+Bei dem Event \verb|joined_game| (siehe Abschnitt \ref{sec:Frontend-Schach-Start}) wird der Gast-Benutzername des Spielenden gesendet und in \verb|location.state| gesetzt\footnote{Quelle: \url{https://github.com/remix-run/history/blob/main/docs/api-reference.md\#locationstate} am 04. Mai 2023}. Dadurch kann in der \textit{ChessGame}-Komponente darauf zugegriffen werden und es kann überprüft werden, ob es sich um einen spielende oder zuschauende Person handelt.
 
 
-Dem entsprechend wird auch bestimmt wie das Schachbrett, die Namen und die Schachuhren ausgerichtet sind. Ist man Zuschauer wird in chessground definiert, dass man keine Figuren bewegen kann und es gibt kein input Feld für den Chat, sodass man keine Nachrichten abschicken kann. Dies verhindert, dass ein Zuschauer Tipps geben könnte.
+Dem entsprechend wird auch bestimmt wie das Schachbrett, die Namen und die Schachuhren ausgerichtet sind. Ist man Zuschauer/-in wird in chessground definiert, dass man keine Figuren bewegen kann und es gibt kein input Feld für den Chat, sodass man keine Nachrichten abschicken kann. Dies verhindert, dass Zuschauer/-innen Tipps geben könnten.
 
 Zum Spielen der Partie werden folgende Listener definiert:
 \begin{itemize}
-\item \verb|opponent_move|: Dient zu Empfangen eines Zugs eines Spielers.
-\item \verb|checkmate|: Ein Event welches bei Schachmatt mit dem Benutzernamen des Gewinners empfangen wird.
-\item \verb|time_over|: Ist eine Benachrichtigung, dass die Zeit eines Spielers abgelaufen ist.
+\item \verb|opponent_move|: Dient zu Empfangen eines Zugs eines Spielenden.
+\item \verb|checkmate|: Ein Event welches bei Schachmatt mit dem Benutzernamen des Gewinnenden empfangen wird.
+\item \verb|time_over|: Ist eine Benachrichtigung, dass die Zeit eines Spielenden abgelaufen ist.
 \item \verb|draw|: Kommuniziert ein Patt der Partie.
-\item \verb|resigned|: Signalisiert, dass ein Spieler aufgegeben hat.
+\item \verb|resigned|: Signalisiert, dass ein/-e Spieler/-in aufgegeben hat.
 \item \verb|cancel_game|: Das Spiel wird aufgrund der abgelaufenen Startzeit abgebrochen.
 \end{itemize}
 Die Events \verb|checkmate|, \verb|time_over|, \verb|draw|, \verb|resigned| und \verb|cancel_game| beschreiben alle das Ende des Schachspiels. In ihren Listenern wird definiert, dass man keine Figur des Schach Interfaces von chessground mehr bewegen darf und man wird über den Ausgang des Spiels in Form von einem Toast benachrichtigt (siehe Abbildung \ref{fig:resign-toast}).
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width=0.5\textwidth]{Toast-resign.png}
 \caption{Beispiel eines Toasts, falls der Gegner aufgegeben hat}
 \label{fig:resign-toast}
 \end{figure}
 
-Der Ablauf beim Empfangen eines neuen Zugs ist im Aktivitätsdiagramm in Abbildung \ref{fig:chess-opponent-move} dargestellt. Die Bauernumwandlung und das en passant müssen separat behandelt werden, da chessground nur das Schach-Interface zur Verfügung stellt und bei diesen beiden Zusatzregeln andere Figuren ersetzt oder entfernt werden, als bei regulären Zügen. Das Aktualisieren möglicher Züge beinhaltet, dass chessground alle möglichen Züge von chess.js übertragen bekommt, welches zur Folge hat, dass bei einem Klick auf eine Figur korrekt angezeigt wird wohin diese Figur ziehen könnte und auch nur auf diese Felder kann diese Figur bewegt werden (siehe Abbildung \ref{fig:chess-game}).
-
-Gesendet werden können die Events: \verb|new_move| zum senden eines Zugs, \verb|resign| zum Aufgeben der Partie und \verb|leave_room|, wenn der Spieler die \textit{ChessGame} Komponente verlässt.
-Das \verb|leave_room|-Event ist insofern wichtig, als dass es ermöglicht mehrere Spiele gleichzeitig zu spielen. Wenn der Spieler eine Partie verlässt und eine zweite Partie startet und weiterhin die Events des ersten Spiels empfängt kann es zu Problemen kommen, da die Listener der neuen Partie die Events der alten Partie empfangen. Durch das Verlassen des Raums wird gewährleistet, dass ein Spieler immer nur die Events zu dem Spiel empfängt, auf dem er sich gerade befindet.
-
-Ein Aktivitätsdiagramm des Sendens eines Zugs befindet sich in Abbildung \ref{fig:chess-move}. Genau wie bei dem Empfangen eines Zugs wird auch beim Senden zwischen Bauernumwandlung und En Passant unterschieden. Der einzige Unterschied ist, dass bei der Bauernumwandlung nach dem Setzen des Zugs noch mittels der  \textit{PromotionModal}-Komponente ausgewählt werden muss, in welche Figur sich der Bauer umwandeln soll, bevor der Zug gesendet wird.
-
-Das Event zum Aufgeben wird nach dem klicken des \glqq resign\grqq{ }Buttons gesendet.
+Der Ablauf beim Empfangen eines neuen Zugs ist im Aktivitätsdiagramm in Abbildung \ref{fig:chess-opponent-move} dargestellt.
 
 
-      \begin{figure}[h]
-      \centering
-  \includegraphics[width=0.8\textwidth]{Interaktion Schach Zug.png}
-  \caption{Aktivitätsdiagramm eines Schachzugs}
-  \label{fig:chess-move}
-\end{figure}
-
-      \begin{figure}[h]
+      \begin{figure}[!htb]
       \centering
   \includegraphics[width=0.8\textwidth]{Interaktion Schach Zug empfangen.png}
   \caption{Aktivitätsdiagramm eines empfangenen Schachzugs}
   \label{fig:chess-opponent-move}
 \end{figure}
 
+ Die Bauernumwandlung und das en passant (siehe Kapitel \ref{sec:schach-theorie}) müssen separat behandelt werden, da chessground nur das Schach-Interface zur Verfügung stellt und bei diesen beiden Zusatzregeln andere Figuren ersetzt oder entfernt werden, als bei regulären Zügen. Das Aktualisieren möglicher Züge beinhaltet, dass chessground alle möglichen Züge von chess.js übertragen bekommt, welches zur Folge hat, dass bei einem Klick auf eine Figur korrekt angezeigt wird wohin diese Figur ziehen und bewegt werden kann (siehe Abbildung \ref{fig:chess-game}).
+
+Gesendet werden können die Events: \verb|new_move| zum senden eines Zugs, \verb|resign| zum Aufgeben der Partie und \verb|leave_room|, wenn der/die Spieler/-in die \textit{ChessGame} Komponente verlässt.
+Das \verb|leave_room|-Event ist insofern wichtig, als dass es mitverantwortlich ist, dass mehrere Spiele gleichzeitig gespielt werden können. Wenn der/die Spieler/-in eine Partie verlässt und eine zweite Partie startet und weiterhin die Events des ersten Spiels empfangen würde, kann es zu Problemen kommen, da die Listener der neuen Partie die Events der alten Partie empfangen. Durch das Verlassen des Raums wird gewährleistet, dass ein/-e Spieler/-in immer nur die Events zu dem Spiel empfängt, auf dem er/sie sich gerade befindet.
+
+Ein Aktivitätsdiagramm des Sendens eines Zugs befindet sich in Abbildung \ref{fig:chess-move}. Genau wie bei dem Empfangen eines Zugs wird auch beim Senden zwischen Bauernumwandlung und en passant unterschieden. Ein Unterschied ist, dass bei der Bauernumwandlung nach dem Setzen des Zugs noch mittels der  \textit{PromotionModal}-Komponente ausgewählt werden muss, in welche Figur sich der Bauer umwandeln soll, bevor der Zug gesendet wird.
+
+Das Event zum Aufgeben wird nach dem klicken des \glqq resign\grqq -Buttons gesendet.
+
+      \begin{figure}[!htb]
+      \centering
+  \includegraphics[width=0.8\textwidth]{Interaktion Schach Zug.pdf}
+  \caption{Aktivitätsdiagramm nach ziehen Schachzugs}
+  \label{fig:chess-move}
+\end{figure}
+
+
         \subsubsection{Die Uhr}
         \label{sec:Frontend-Uhr}
-Die \textit{ChessClock} Komponente bekommt von \textit{ChessGame} als Props die aktuelle Phase der Partie, die jeweiligen aktuellen Zeiten und die Ausrichtung, welche Zeit oben bzw. unten gezeigt werden soll. Neben der regulären Schach Zeit gibt es noch eine Startzeit, welche während des ersten Zugs jedes Spielers abläuft, um zu gewährleisten, dass das Spiel auch erst wirklich startet sobald beide Spieler bereit sind. Läuft die Startzeit ab wird das Spiel abgebrochen (siehe Abschnitt \ref{sec:schach-theorie}). Diese Startzeit ist die lila eingefärbte Zeit in Abbildung \ref{fig:chess-game}.
+Die \textit{ChessClock}-Komponente bekommt von \textit{ChessGame} als props die aktuelle Phase der Schachuhr, die jeweiligen aktuellen Zeiten und die Ausrichtung, welche Zeit oben beziehungsweise unten gezeigt werden soll. Neben der regulären Zeit gibt es noch eine Startzeit, welche während des ersten Zugs jedes Spielenden abläuft, um zu gewährleisten, dass das Spiel auch erst wirklich startet sobald beide Spielende bereit sind. Ist die Startzeit abgelaufen wird das Spiel abgebrochen (siehe Abschnitt \ref{sec:schach-theorie}). Diese Startzeit ist die lila eingefärbte Zeit in Abbildung \ref{fig:chess-game}.
 
 Die Komponente sendet keine Events, sondern hört nur auf die folgenden:
 \begin{itemize}
-\item \verb|updated_time|: Dieses Event wird vom Backend gesendet, sobald ein Zug gemacht wurde und enthält die aktuellen Zeiten der Spieler nach dem Zug und welcher Spieler jetzt am Zug ist. Dementsprechend werden die Zeiten aktualisiert und die Uhr des Spielers, welcher jetzt dran ist wird gestartet.
-\item \verb|stop_starting_time_white|: Stoppt die Startzeit des weißen Spielers und startet die Startzeit des schwarzen Spielers.
-\item \verb|stop_starting_time_black|: Stoppt die Startzeit des schwarzen Spielers und lässt die reguläre Zeit des weißen Spielers beginnen.
+\item \verb|updated_time|: Dieses Event wird vom Backend gesendet, sobald ein Zug gemacht wurde und enthält die aktuellen Zeiten der Spielenden nach dem Zug und welche/-r Spieler/-in jetzt am Zug ist. Dementsprechend werden die Zeiten aktualisiert und die Uhr des Spielenden, welcher nun dran ist wird gestartet.
+\item \verb|stop_starting_time_white|: Stoppt die Startzeit des weißen Spielenden und startet die Startzeit des schwarzen Spielenden.
+\item \verb|stop_starting_time_black|: Stoppt die Startzeit des schwarzen Spielenden und lässt die reguläre Zeit des weißen Spielenden beginnen.
 \item \verb|stop_clocks|: Wird bei Beendung des Spiels empfangen und stoppt die aktive Uhr.
 \end{itemize}
 
 \subsubsection{Der Chat}
-Die \textit{Chat}-Komponente bekommt als props alle bisher gesendeten Nachrichten, die roomId unter der das Spiel stattfindet, die Information ob es sich um einen Zuschauer handelt und gegebenenfalls den Gastnamen, falls es sich um einen nicht angemeldeten Benutzer handelt. Handelt es sich um einen Zuschauer wird das Input-Feld der Komponente nicht angezeigt, um keine Nachrichten schreiben zu können. Die Komponente ist relativ simpel und sendet das Event \verb|send_message|, um eine Nachricht zu senden und empfängt eine Nachricht mit dem \verb|message| Event. Eine Nachricht beinhaltet immer den Namen des Versenders, die Nachricht als String und die roomId des Spiels. Je nachdem ob der Versender der Nachricht mit dem eigenen Namen übereinstimmt wird die Nachricht unterschiedlich ausgerichtet und eingefärbt (siehe Abbildung \ref{fig:chess-game}).
+Die \textit{Chat}-Komponente bekommt als props alle bisher gesendeten Nachrichten, die roomId unter der das Spiel stattfindet, die Information ob es sich um einen Zuschauer handelt und gegebenenfalls den Gastnamen, falls es sich um einen nicht angemeldeten Benutzer handelt. Handelt es sich um eine/-n Zuschauer/-in wird das Input-Feld der Komponente nicht angezeigt, um keine Nachrichten schreiben zu können. Die Komponente ist relativ simpel und sendet das Event \verb|send_message|, um eine Nachricht zu senden und empfängt eine Nachricht mit dem \verb|message| Event. Eine Nachricht beinhaltet immer den Namen des Versendenden, die Nachricht als String und die roomId des Spiels. Je nachdem ob der/die Versender/-in der Nachricht mit dem eigenen Namen übereinstimmt wird die Nachricht unterschiedlich ausgerichtet und eingefärbt (siehe Abbildung \ref{fig:chess-game}).
 
-\subsection{Verwaltung von Freunden}
+\subsection{Verwaltung von befreundeten Personen}
 \label{sec:Friends}
-Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von Freunden und Freundschaftsanfragen obliegt der \textit{FriendList}-Komponente. Diese beinhaltet die Unterkomponenten \textit{Friend}, \textit{FriendReqeust} und \textit{AddFriendModal}.
+Die Verwaltung und Darstellung (siehe Abbildung \ref{fig:home-logged-in}) von befreundeten Personen und Freundschaftsanfragen obliegt der \textit{FriendList}-Komponente. Diese beinhaltet die Unterkomponenten \textit{Friend}, \textit{FriendReqeust} und \textit{AddFriendModal}.
 
 \subsubsection{\textit{FriendList}-Komponente}
 \label{sec:FriendList}
-\textit{FriendList} verwendet zwei States in Form von Arrays: \verb|friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}-, beziehungsweise \textit{FriendRequest}-Komponente dargestellt und verwaltet. Dabei werden die Freunde je nachdem ob sie online sind oder nicht sortiert. \textit{FriendList} hört dabei auf die folgenden Events: 
+\textit{FriendList} verwendet zwei States in Form von Arrays: \verb|friends| und \verb|friendRequests|. Je ein Element dieser Listen wird durch eine \textit{Friend}-, beziehungsweise \textit{FriendRequest}-Komponente dargestellt und verwaltet. Dabei werden die befreundeten Personen je nachdem ob sie online sind oder nicht sortiert. \textit{FriendList} hört dabei auf die folgenden Events: 
 \begin{itemize}
-\item \textbf{friend\_request\_accepted:} Enthält Daten eines neuen Freundes, welcher deine Freundschaftsanfrage angenommen hat. Dieser wird der Freundesliste hinzugefügt.
+\item \textbf{friend\_request\_accepted:} Enthält Daten einer neuen befreundeten Person, welche deine Freundschaftsanfrage angenommen hat. Diese wird der Freundesliste hinzugefügt.
 \item \textbf{friend\_request:} Eingang einer neuen Freundschaftsanfrage. Wird der Liste der Freundschaftsanfragen hinzugefügt.
-\item \textbf{connected:} Dieses Event wird empfangen, falls ein Freund offline, beziehungsweise online geht. Der betreffende Freundes-Eintrag in der Freundesliste wird aktualisiert.
+\item \textbf{connected:} Dieses Event wird empfangen, falls ein/-e Freund/-in offline, beziehungsweise online geht. Der betreffende Freundes-Eintrag in der Freundesliste wird aktualisiert.
 \end{itemize}
 
-Zum Holen der Listen werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, wenn auf die \verb|Home|-Komponente navigiert wird. Diese beiden Events empfangen mittels Callback-Funktionen alle Daten über die Freunde und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der Freunde aktualisiert werden.
+Zum Holen der Listen werden die zwei Events \verb|get_friends| und \verb|get_friend_requests| jedes Mal gesendet, wenn auf die \verb|Home|-Komponente navigiert wird. Diese beiden Events empfangen mittels Callback-Funktionen alle Daten über die befreundeten Personen und Freundschaftsanfragen. Dies ist nötig, damit, falls beispielsweise nach einer Schachpartie wieder auf die \textit{Home}-Komponente navigiert wird, die Daten der befreundeten Personen aktualisiert werden.
 
 \subsubsection{\textit{Friend}-Komponente}
 \label{sec:friend-komponente}
-Diese Komponente stellt einen Freund dar. Es kriegt als props den Benutzernamen, die aktiven Spiele und seinen online Status übergeben. Sie hat zwei Grundlegende Funktionen: Das Zuschauen einer Partie eines Freundes und das Herausfordern zu einer Partie. Beim Herausfordern eines Freundes sind genau die gleichen Schachuhren möglich, wie bei der Suche eines zufälligen Gegners und das Zuschauen ist aufgebaut wie bei der \textit{ActiveGames}-Komponente. (siehe Abbildung \ref{fig:Freunde-zuschauen-herausfordern})
+Diese Komponente stellt eine befreundete Person dar. Es kriegt als props den Benutzernamen, die aktiven Spiele und ihren online Status übergeben. Die Komponente hat zwei Grundlegende Funktionen: Das Zuschauen einer Partie einer befreundeten Person und das Herausfordern zu einer Partie. Beim Herausfordern sind genau die gleichen Schachuhren möglich, wie bei der Suche einer zufälligen gegnerischen Person und das Zuschauen ist aufgebaut wie bei der \textit{ActiveGames}-Komponente. (siehe Abbildung \ref{fig:Freunde-zuschauen-herausfordern})
 
-Diese beiden Funktionen sind nur verfügbar, falls der Freund gerade online ist, welches über einen grünen Punkt ersichtlich ist und zum Zuschauen benötigt der Freund trivialerweise mindestens ein aktives Spiel.
+Diese beiden Funktionen sind nur verfügbar, falls der/die Freund/-in gerade online ist, welches über einen grünen Punkt ersichtlich ist und zum Zuschauen benötigt der/die Freund/-in trivialerweise mindestens ein aktives Spiel.
 
-Die Komponente hat zwei Eventlistener: \verb|game_request_accepted| und \linebreak \verb|game_request_denied|, welche einen Toast darstellen und den Spieler gegebenenfalls zu dem Spiel navigieren. 
+Die Komponente hat zwei Eventlistener: \verb|game_request_accepted| und \linebreak \verb|game_request_denied|, welche einen Toast darstellen und den Spielenden gegebenenfalls zu dem Spiel navigieren. 
 
-Senden tut die Komponente zwei Events: \verb|send_game_request| und \verb|cancel_game_request|. Wurde eine Herausforderung zu einer Partie versendet, erscheint ein Lade-Bildschirm, bis der Spieler die Anfrage angenommen, beziehungsweise abgelehnt hat. Entscheidet sich der Spieler davor doch nicht mehr gegen den Freund zu spielen, kann er auf den \glqq Cancel\grqq{ }Button klicken und die Spielanfrage wird zurückgenommen.
+Senden tut die Komponente zwei Events: \verb|send_game_request| und \verb|cancel_game_request|. Wurde eine Herausforderung zu einer Partie versendet, erscheint ein Lade-Bildschirm, bis die herausgeforderte Person die Anfrage angenommen, beziehungsweise abgelehnt hat. Entscheidet sich der/die Spieler/-in davor doch nicht mehr gegen die befreundete Person zu spielen, kann er/sie auf den \glqq Cancel\grqq{ }Button klicken und die Spielanfrage wird zurückgenommen.
 
 \begin{figure}[h]
 \centering
@@ -473,10 +478,10 @@ Senden tut die Komponente zwei Events: \verb|send_game_request| und \verb|cancel
 
 \subsubsection{\textit{FriendRequest}-Komponente}
 Die \textit{FriendRequest}-Komponente stellt eine Freundschaftsanfrage dar und erhält ebenfalls seine Daten von der \textit{FriendList}-Komponente, wozu auch die Funktionen \verb|setFriends| und \verb|setFriendRequest| zählen, um die Listen der \textit{FriendList}-Komponente zu ändern.
-Es hört auf keine Events, sendet allerdings zwei Events: \verb|accept_friend_request| und \verb|decline_friend_request|. Die Behandlung dieser Events im Backend wird in Abschnitt \ref{sec:accept-friend-request} erläutert. War das Akzeptieren, beziehungsweise das Ablehnen der Anfrage erfolgreich wird die Freundschaftsanfrage aus der Liste gelöscht und zusätzlich wird gegebenenfalls der neue Freund der Freundesliste hinzugefügt. Dieser wird mittels Callback Funktion empfangen.
+Es hört auf keine Events, sendet allerdings zwei Events: \verb|accept_friend_request| und \verb|decline_friend_request|. Die Behandlung dieser Events im Backend wird in Abschnitt \ref{sec:accept-friend-request} erläutert. War das Akzeptieren, beziehungsweise das Ablehnen der Anfrage erfolgreich wird die Freundschaftsanfrage aus der Liste gelöscht und gegebenenfalls wird die neue befreundete Person der Freundesliste hinzugefügt. Diese wird mittels Callback Funktion empfangen.
 
 \subsubsection{\textit{AddFriendModal}-Komponente}
-Diese Komponente besteht aus einem Button und einem Modal, das sich öffnet, falls man den Button anklickt. In diesem Modal kann man einen Benutzernamen angeben, an den die Freundschaftsanfrage verschickt werden soll. Das Versenden einer Freundschaftsanfrage wird mittels des \verb|send_friend_request|-Events behandelt. Es beinhaltet eine Callback-Funktion, welche entgegennimmt, ob die Versendung erfolgreich war und wenn nicht, dann eine Fehlermeldung, warum es nicht möglich war die Freundschaftsanfrage zu versenden (siehe Abbildung \ref{fig:AddFriendModal}). Wie das Backend eine neue Freundschaftsanfrage behandelt wird in Abschnitt \ref{sec:hinzufügen-von-Freunden} erläutert.
+Diese Komponente besteht aus einem Button und einem Modal, das sich öffnet, falls man den Button anklickt. In diesem Modal kann man einen Benutzernamen angeben, an den die Freundschaftsanfrage verschickt werden soll. Das Versenden einer Freundschaftsanfrage wird mittels des \verb|send_friend_request|-Events behandelt. Es beinhaltet eine Callback-Funktion, welche entgegennimmt, ob die Versendung erfolgreich war und wenn nicht, dann eine Fehlermeldung, warum es nicht möglich (siehe Abbildung \ref{fig:AddFriendModal}). Wie das Backend eine neue Freundschaftsanfrage behandelt wird in Abschnitt \ref{sec:hinzufügen-von-Freunden} erläutert.
 
 \begin{figure}[h]
 \centering
@@ -492,17 +497,9 @@ Es sendet das Event \verb|get_active_games|, welches mit einer Callback Funktion
 Ist die Liste leer, wird nur \glqq No acitve Games\grqq{ } angezeigt. Ansonsten wird jedes aktive Spiel der Liste mit einem Button dargestellt, auf deren klick man zu dem Spiel navigiert wird.
 
         \section{Backend-Architektur}
-Das Backend basiert auf Node.js mit dem Express Framework. Des weiteren werden als Schnittstellen mit dem Frontend eine Web-API für HTTP Anfragen und ein Socket.io Server bereitgestellt. Das Backend kommuniziert mit zwei Datenbanken: einer PostgreSQL Datenbank für die Benutzerverwaltung und eine Redis Datenbank für häufig aktualisierte und angefragte Daten.
+Das Backend basiert auf Node.js mit dem Express Framework. Des weiteren werden als Schnittstellen mit dem Frontend eine Web-API für HTTP Anfragen und ein Socket.io-Server bereitgestellt. Das Backend kommuniziert mit zwei Datenbanken: einer PostgreSQL Datenbank für die Benutzerverwaltung und eine Redis Datenbank für häufig aktualisierte und angefragte Daten.
 
 Die Ordnerstruktur des Backends (Abbildung \ref{fig:backend_dirtree}) ist auf dieser Weise aufgebaut:
-
-\begin{itemize}
-\item \textbf{auth:} Dieser Ordner beschäftigt sich sowohl mit der Schnittstelle der Web-API-Kommunikation mit dem Frontend, als auch deren Behandlung und dem Austausch mit der PostgreSQL Datenbank. Diese Schnittstellen dienen bloß der Anmeldung und Registrierung eines Benutzers.
-\item \textbf{chess:} Stellt ein chess.js Schachspiel und die serverseitige Schachuhr zur Verfügung.
-\item \textbf{redis:} Dient als Schnittstelle und Verwalter von Operationen auf der redis Datenbank.
-\item \textbf{sockets:} Stellt Middleware für die Verbindungsherstellung und Listener für die Kommunikation zwischen Frontend und Backend bereit.
-\item \textbf{index.js:} Initialisiert den Server mit seinen Schnittstellen.
-\end{itemize}
 
 \begin{figure}[h]
 \centering
@@ -538,12 +535,19 @@ Die Ordnerstruktur des Backends (Abbildung \ref{fig:backend_dirtree}) ist auf di
 
 \end{figure}
 
+\begin{itemize}
+\item \textbf{auth:} Dieser Ordner beschäftigt sich sowohl mit der Schnittstelle der Web-API-Kommunikation mit dem Frontend, als auch deren Behandlung und dem Austausch mit der PostgreSQL Datenbank. Diese Schnittstellen dienen bloß der Anmeldung und Registrierung eines Benutzenden.
+\item \textbf{chess:} Stellt ein chess.js Schachspiel und die serverseitige Schachuhr zur Verfügung.
+\item \textbf{redis:} Dient als Schnittstelle und Verwalter von Operationen auf der redis Datenbank.
+\item \textbf{sockets:} Stellt Middleware für die Verbindungsherstellung und Listener für die Kommunikation zwischen Frontend und Backend bereit.
+\item \textbf{index.js:} Initialisiert den Server mit seinen Schnittstellen.
+\end{itemize}
 
 \subsection{Authentifizierung}
 \label{sec:Authentifizierung Backend}
-Die Authentifizierung eines Benutzers läuft über HTTP Anfragen an die Web-API und einer PostgreSQL Datenbank.
+Die Authentifizierung eines Benutzenden läuft über HTTP Anfragen an die Web-API und einer PostgreSQL Datenbank.
 Nachdem die erste Authentifizierung stattgefunden hat wird die Socket.io Verbindung des Clients hergestellt, in der die Socket Verbindung nochmals Authentifiziert wird.
-Es gibt drei verschiedene Möglichkeiten wie ein Benutzer authentifiziert werden kann: Durch das Anmelden, durch das Registrieren oder durch das Lesen des Cookies.
+Es gibt drei verschiedene Möglichkeiten wie ein/e Benutzer/-in authentifiziert werden kann: Durch das Anmelden, durch das Registrieren oder durch das Lesen des Cookies.
 
 Die Authentifizierung im Frontend wird in Abschnitt \ref{sec:Autehtifizierung Frontend} erläutert.
 
@@ -554,26 +558,26 @@ Bei jeder Anfrage an die API stellt eine Middleware sicher, dass die Anzahl der 
 
 Anschließend überprüft eine Middleware, ob die angegebenen Daten mit dem Schema übereinstimmen. 
 
-Treten bei diesen beiden Middlewares keine Fehler auf wird beim Anmelden überprüft, ob dieser Benutzer in der Datenbank existiert und es wird mittels bcrypt kontrolliert, ob die Passwörter übereinstimmen. Ist dies der Fall, wird ein JWT-Token mit den Benutzerinformationen erstellt und als Cookie in den Browser des Clients gesetzt. Des Weiteren wird dem Benutzer geantwortet, dass die Anmeldung erfolgreich war mit der Übermittlung des Benutzernamens.
+Treten bei diesen beiden Middlewares keine Fehler auf wird beim Anmelden überprüft, ob diese/r Benutzer/-in in der Datenbank existiert und es wird mittels bcrypt kontrolliert, ob die Passwörter übereinstimmen. Ist dies der Fall, wird ein JWT-Token mit den Benutzerinformationen erstellt und als Cookie in den Browser des Clients gesetzt. Des Weiteren wird dem Benutzenden geantwortet, dass die Anmeldung erfolgreich war mit der Übermittlung des Benutzernamens.
 
-Beim Registrieren wird überprüft, ob bereits ein Nutzer mit dem Benutzernamen oder E-Mail existiert und anschließend wird ein neuer Tupel in der PostgreSQL Datenbank erstellt. Das Passwort wird dafür mittels bcrypt verschlüsselt und es wird eine individuelle \verb|userid| generiert. Diese dient zur Socket.io-Kommunikation.
+Beim Registrieren wird überprüft, ob bereits ein/-e Nutzer/-in mit dem Benutzernamen oder E-Mail existiert und anschließend wird ein neuer Tupel in der PostgreSQL Datenbank erstellt und dem Client geantwortet. Das Passwort wird dafür mittels bcrypt verschlüsselt und es wird eine individuelle \verb|userid| generiert. Diese dient zur Socket.io-Kommunikation.
 
-Bei dem ersten Aufruf der Seite vom Client wird eine GET Anfrage an \verb|/auth/login| gestellt. Bei dieser wird ebenfalls die Middleware gegen DoS-Attacken verwendet und anschließend wird überprüft, ob er einen gültigen JWT-Token im Cookie hat und ihm wird dem entsprechend geantwortet. Das Setzen des Tokens im Cookie hat den Vorteil, dass bei einem neuen Aufruf der Seite, solange der Cookie noch gültig ist, der Benutzer automatisch angemeldet wird, ohne seine Anmeldedaten nochmals einzugeben.
+Bei dem ersten Aufruf der Seite vom Client wird eine GET Anfrage an \verb|/auth/login| gestellt. Bei dieser  wird überprüft, ob er einen gültigen JWT-Token im Cookie hat und ihm wird dem entsprechend geantwortet. Das Setzen des Tokens im Cookie hat den Vorteil, dass bei einem neuen Aufruf der Seite, solange der Cookie noch gültig ist, der/die Benutzer/-in automatisch angemeldet wird, ohne seine/ihre Anmeldedaten nochmals einzugeben.
 
 Anschließend stellt der Client eine Socket.io Verbindung her.
 
 \subsubsection{Socket.io Authentifizierung und Middleware}
 \label{sec:socketauth}
-Bei der Verbindungsherstellung des Clients mit dem Socket.io Server durchläuft die Socket verschiedene Middlewares.
+Bei der Verbindungsherstellung des Clients mit dem Socket.io-Server durchläuft die Socket verschiedene Middlewares.
 
-Die erste Middleware Authentifiziert die Socket des Benutzers. Sie liest aus dem Cookie, der auch in der Socket mitgesendet wird, den JWT-Token, falls dieser existiert. Die Daten die in dem Token kodiert sind werden dann in der Socket als Attribute gesetzt, sodass anschließend immer mittels \verb|socket.user| darauf zugegriffen werden kann.
+Die erste Middleware Authentifiziert die Socket des Benutzenden. Sie liest aus dem Cookie, der auch bei der Verbindungsherstellung mitgesendet wird, den JWT-Token, falls dieser existiert. Die Daten die in dem Token kodiert sind werden dann in der Socket als Attribute gesetzt, sodass anschließend immer mittels \verb|socket.user| darauf zugegriffen werden kann.
 
-Wenn der Benutzer keinen gültigen JWT-Token hat, werden trotzdem alle Middlewares ohne Fehler durchlaufen. Dies liegt daran, dass bei einem fehlgeschlagenen Middleware-Prozess die Socket.io-Verbindung abgelehnt werden würde. Es soll allerdings auch das Spielen einer Schachpartie als Gast möglich sein.
+Wenn der/die Benutzer/-in keinen gültigen JWT-Token besitzt, werden trotzdem alle Middlewares ohne Fehler durchlaufen. Dies liegt daran, dass bei einem fehlgeschlagenen Middleware-Prozess die Socket.io-Verbindung abgelehnt werden würde. Es soll allerdings auch das Spielen einer Schachpartie als Gast möglich sein.
 
-In der zweiten Middleware tritt die Socket der \verb|userid| des Benutzers als Raum bei und wird sowohl in der Redis Datenbank unter \verb|user:username| (siehe Kapitel \ref{sec:redis-data}) , als auch bei Freunden mittels des Events \verb|connected|, als online vermerkt.
-Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So können Events immer diese \verb|userid| verwenden um ein Event an diesen Benutzer zu senden.
+In der zweiten Middleware tritt die Socket der \verb|userid| des Benutzenden als Raum bei und wird sowohl in der Redis Datenbank unter \verb|user:username| (siehe Kapitel \ref{sec:redis-data}) , als auch bei befreundeten Personen mittels des Events \verb|connected|, als online vermerkt.
+Der Beitritt der eigenen \verb|userid| dient als Kommunikationsschnittstelle. So kann die \verb|userid| aus Redis geholt werden und Sockets können sie verwenden , um an diesen Benutzenden zu senden.
 
-Beim Schließen der Anwendung oder Abmelden des Benutzers wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der Benutzer nicht mehr online ist.
+Beim Schließen der Anwendung oder Abmelden des Benutzenden wird dementsprechend in Redis \verb|connected| auf \verb|false| gesetzt und die Freunde werden mit dem Event \verb|connected| darüber in Kenntnis gesetzt, dass der/die Benutzer/-in nicht mehr online ist.
 
 Als letzte Middleware werden alle nötigen Listener sowohl für das Schachspiel, als auch für sonstige Funktionen initialisiert.
 \subsection{Das Schachspiel}
@@ -581,7 +585,9 @@ Als letzte Middleware werden alle nötigen Listener sowohl für das Schachspiel,
 In diesem Abschnitt werden die Prozesse beim Suchen eines Gegners, der Initialisierung des Schachspiels, der Ausführung neuer Züge sowie dem Senden und Empfangen von Nachrichten im Chat detailliert beschrieben.
 \subsubsection{Finden eines Gegners}
 \label{sec:find_game}
-Es gibt 3 verschiedene Möglichkeiten ein Schachspiel zu starten: Ein unangemeldeter Benutzer sucht einen zufälligen Gegner, ein angemeldeter Benutzer sucht einen zufälligen Gegner oder ein angemeldeter Benutzer spielt gegen einen Freund.
+Es gibt 3 verschiedene Möglichkeiten ein Schachspiel zu starten: Unangemeldete Personen suchen nach zufälligen Mitspielenden, angemeldete Personen suchen nach zufälligen Mitspielenden oder angemeldete Personen fordern eine befreundete Person zu einer Partie heraus.
+
+Dabei ist zu beachten, dass angemeldete Benutzende auch nur gegen andere andere angemeldete Benutzende spielen können und unangemeldete Spielende auch nur gegen unangemeldete Spielende. Dies hat Erweiterbarkeitsgründe (siehe Kapitel \ref{sec:Erweiterungen}).
 
 Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|find_game| mit den Benutzerdaten und der gewählten Zeitkonfiguration vom Frontend gesendet. Ein Sequenzdiagramm des Initialisieren eines Spiels mit zufälligem Gegner befindet sich in Abbildung \ref{fig:sequence_chess_start}. Dies beinhaltet folgende Schritte:
      
@@ -601,7 +607,7 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
     \begin{call}{server}{getPlayerInQueue}{redis}{player}
     \end{call}
     
-    \begin{sdblock}{Kein Spieler in der Warteschlange}{}
+    \begin{sdblock}{Kein/-e Spieler/-in in der Warteschlange}{}
     	\begin{messcall}{server}{addPlayerInQueue}{redis}{}
     	\end{messcall}
     	\end{sdblock}
@@ -612,7 +618,7 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
     \begin{call}{server}{getPlayerInQueue}{redis}{player}
     \end{call}
     	
-    	\begin{sdblock}{Spieler in Warteschlange}{}
+    	\begin{sdblock}{Spieler/-in in Warteschlange}{}
     \begin{callself}{server}{createChessGame}{roomId}
     \end{callself}
     \postlevel
@@ -650,15 +656,15 @@ Das Suchen eines Spiels mit zufälligem Gegner wird mittels des Events \verb|fin
 
 \begin{itemize}
 \item Das Event \verb|find_game| mit der Zeitkonfiguration und Benutzerdaten wird gesendet (siehe Abschnitt \ref{sec:Frontend-Schach-Start}).
-\item Falls der Benutzer nicht angemeldet ist, wird ihm  ein zufälliger Benutzername für dieses Schachspiel zugewiesen, der mit \glqq guest-\grqq{ }startet. Seine \verb|userid| wird als seine Socket ID festgelegt.
-\item Daraufhin wird im Server ein Spieler aus der entsprechenden Warteschlange aus Redis genommen (siehe Abschnitt \ref{sec:Warteschlange}).
-\item Falls dabei kein Spieler entnommen werden konnte, wird der Benutzer selbst in die Liste geschrieben und wartet bis er von einem anderen Benutzer aus der Liste genommen wird.
-\item Falls ein Spieler aus der Liste entnommen werden konnte, wird das Spiel mit einer roomId als Identifikator initialisiert und in Redis gespeichert. Dabei wird auch ein ServerChessClock Objekt kreiert und in einem Array der socketChessListeners Datei gespeichert.
-\item An die beiden Spieler wird das Event \verb|joined_game| mit der roomId und gegebenenfalls dem Gast-Benutzernamen gesendet, woraufhin sie zu dem Pfad \verb|/game/roomId| navigieren, auf der sich die \textit{ChessGame}-Komponente befindet.
-\item Die \textit{ChessGame}-Komponente sendet das \verb|get_game_data| Event. Daraufhin wird der aktuelle Zustands der Partie aus Redis geholt und an das Frontend zurück gesendet. Ein Ablauf was im Frontend bei einer Schachpartie passiert befindet sich im Abschnitt \ref{sec:Schachspiel}.
+\item Falls die Person nicht angemeldet ist, wird ihr  ein zufälliger Benutzername für dieses Schachspiel zugewiesen, der mit \glqq guest-\grqq{ }startet. Ihre \verb|userid| wird als die Socket ID festgelegt.
+\item Daraufhin wird im Server ein/-e Spieler/-in aus der entsprechenden Warteschlange (siehe Abschnitt \ref{sec:Warteschlange}) in Redis entnommen .
+\item Falls dabei niemand entnommen werden konnte, wird der/die Benutzer/-in selbst in die Liste geschrieben und wartet bis er/sie von einem anderen Benutzenden aus der Liste genommen wird.
+\item Falls jemand aus der Liste entnommen werden konnte, wird das Spiel mit einer roomId als Identifikator initialisiert und in Redis gespeichert. Dabei wird auch ein ServerChessClock Objekt kreiert und in einem Array der socketChessListeners Datei gespeichert.
+\item An die beiden Spielenden wird das Event \verb|joined_game| mit der roomId und gegebenenfalls dem Gast-Benutzernamen gesendet, woraufhin sie zu dem Pfad \verb|/game/roomId| navigieren, auf der sich die \textit{ChessGame}-Komponente befindet.
+\item Die \textit{ChessGame}-Komponente sendet das \verb|get_game_data| Event. Daraufhin wird der aktuelle Zustand der Partie aus Redis un der ServerChessClock geholt und an das Frontend zurück gesendet. Ein Ablauf was im Frontend bei einer Schachpartie passiert befindet sich im Abschnitt \ref{sec:Schachspiel}.
 \end{itemize}
 
-Falls es sich um eine Partie handelt, die aus einer Herausforderung eines Freundes resultiert, wird natürlich in keine Warteschlange nach einem Gegner gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitte \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spieler das Event \verb|game_request_accepted| mit der roomId gesendet (für Frontend-Informationen zu diesen Events siehe Kapitel \ref{sec:friend-komponente} \& \ref{sec:Frontend-Schach-Start}).
+Falls es sich um eine Partie handelt, die aus einer Herausforderung einer befreundeten Person resultiert, wird natürlich in keine Warteschlange nach einer gegnerischen Person gesucht, anstatt dessen wird mit den Events \verb|send_game_request|, \verb|game_request| und \verb|game_request_response| (siehe Abschnitte \ref{sec:Frontend-Schach-Start}) die Anfrage versendet und beantwortet. Anschließend wird das Spiel initialisiert und an die beiden Spielenden das Event \verb|game_request_accepted| mit der roomId gesendet (für Frontend-Informationen zu diesen Events siehe Kapitel \ref{sec:Frontend-Schach-Start} \& \ref{sec:friend-komponente}).
 
 Die Implementierungsdetails, wie ein Schachspiel auf dem Server mittels der Methoden \verb|createChessGame| und \verb|initializeGame| initialisiert und die Informationen des Schachspiels an das Frontend gesendet werden, sind in Kapitel \ref{sec:Schach-Backend-impl} ausführlich beschrieben.
 
@@ -667,32 +673,33 @@ Die Klasse ServerChessClock definiert einzelne Schachuhr Objekte, welche die Sta
 
 socketChessController und ServerChessClock kommunizieren mittels Funktionen und Events miteinander, wobei Events genutzt werden um laufende Uhren anzuhalten und zu kommunizieren, dass eine Startzeit oder eine reguläre Schachuhr abgelaufen ist, während die Funktionsaufrufe von ServerChessClock dazu dienen eine bestimmte Zeit zu starten.
 
-Die Funktionsweise und Beispielcode der serverseitigen Schachuhr werden in Kapitel \ref{sec:Uhr-Backend-impl} erläutert.
+Die Funktionsweise und Codeausschnitte der serverseitigen Schachuhr werden in Kapitel \ref{sec:Uhr-Backend-impl} erläutert.
 
 \subsubsection{Neue Züge}
 \label{sec:Zug-Backend}
 Ein Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend ist in Abbildung \ref{fig:Zug-Backend} zu finden. 
 
-
-Sobald ein neuer Zug eines Spielers ankommt wird zunächst die bisherige PGN-Notation des Spiels aus Redis und das ServerChessClock Objekt aus dem Array geholt. Es wird ein neues chess.js Objekt kreiert, welches das aktuelle PGN importiert und anschließend den neuen Zug macht. Daraufhin wird der Zug in die roomId gebroadcastet. Das bedeutet, es wird an alle Sockets im Raum gesendet, außer von dem Sender, da dieser ja bereits den Zug gemacht hat. Die veraltete PGN-Notation des Spiels wird nun mit der neuen Notation in Redis überschieben.
-
-Anschließend wird überprüft ob es sich um ein Schachmatt oder ein Patt handelt, falls ja werden die Uhren der ServerChessClock angehalten, das Frontend wird über den Ausgang informiert und das Spiel wird beendet (siehe Abschnitt \ref{sec:Schach-Ende}). 
-
-Falls dies nicht der Fall ist wird die Zeit des jetzigen Spielers gestoppt und falls es eine reguläre Zeit ist, wird das Inkrement auf die Zeit gerechnet, die Zeit des anderen Spielers fängt an zu laufen und die aktualisierten Zeiten werden an das Frontend gesendet.
-
-Handelt es sich um die ersten zwei Züge, in denen die Startzeit und nicht die reguläre Zeit der Spieler läuft, werden diese gesondert betrachtet und entweder die Startzeit von Schwarz beginnt zu laufen oder die reguläre Zeit von Weiß fängt an zu laufen. Dies wird auch mit entsprechenden Events dem Frontend mitgeteilt.
-
-\begin{figure}[h!]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{Neuer Zug Backend.pdf}
 \caption{Aktivitätsdiagramm zur Behandlung eines neuen Zugs im Backend}
 \label{fig:Zug-Backend}
 \end{figure}
 
+Sobald ein neuer Zug eines Spielenden ankommt wird zunächst die bisherige PGN-Notation des Spiels aus Redis und das ServerChessClock Objekt aus dem Array geholt. Es wird ein neues chess.js Objekt kreiert, welches das aktuelle PGN importiert und anschließend den neuen Zug macht. Daraufhin wird der Zug in die roomId gebroadcastet. Das bedeutet, es wird an alle Sockets im Raum gesendet, außer von der sendenden Person, da dieser ja bereits den Zug gemacht hat. Die veraltete PGN-Notation des Spiels wird nun mit der neuen Notation in Redis überschieben.
+
+Anschließend wird überprüft ob es sich um ein Schachmatt oder ein Patt handelt, falls ja werden die Uhren der ServerChessClock angehalten, das Frontend wird über den Ausgang informiert und das Spiel wird beendet. 
+
+Falls dies nicht der Fall ist wird die Zeit des jetzigen Spielenden gestoppt und falls es eine reguläre Zeit ist, wird das Inkrement auf die Zeit gerechnet, die Zeit des anderen Spielenden fängt an zu laufen und die aktualisierten Zeiten werden an das Frontend gesendet.
+
+Handelt es sich um die ersten zwei Züge, in denen die Startzeit und nicht die reguläre Zeit der Spielenden läuft, werden diese gesondert betrachtet und entweder die Startzeit von Schwarz beginnt zu laufen oder die reguläre Zeit von Weiß fängt an zu laufen. Dies wird auch mit entsprechenden Events dem Frontend mitgeteilt.
+
+
+
 \subsubsection{Ende einer Schachpartie}
 \label{sec:Schach-Ende}
 Das Ende einer Schachpartie kann durch folgende Situationen stattfinden:
-Schachmatt, Patt, Startzeit ist abgelaufen, eine reguläre Zeit ist abgelaufen oder ein Spieler hat aufgegeben.
+Schachmatt, Patt, Startzeit ist abgelaufen, eine reguläre Zeit ist abgelaufen oder ein/-e Spieler/-in hat aufgegeben.
 
 Auf Schachmatt und Patt wird bei neuen Zügen geachtet und an das Frontend gesendet. Wenn das Ende der Partie auf die Schachuhren zurückzuführen ist, wird ein Event von ServerChessClock in socketChessController empfangen und an die Sockets im Raum weitergeleitet. 
 
@@ -702,38 +709,24 @@ Bei jedem dieser Ausgänge einer Partie geschieht noch folgendes:
 
 Das ServerChessClock Objekt wird aus dem Array in socketChessController gelöscht.
 
-Die Benutzernamen werden aus dem Redis Eintrag \verb|game:roomId| geholt und falls es sich um angemeldete Benutzer handelt wird das entsprechende Spiel aus der \verb|activeGames| Liste von \verb|user:username| gelöscht. Anschließend wird der Eintrag \verb|game:roomId| gelöscht.
+Die Benutzernamen werden aus dem Redis Eintrag \verb|game:roomId| geholt und falls es sich um angemeldete Benutzende handelt wird das entsprechende Spiel aus den \verb|activeGames|-Listen von \verb|user:username| gelöscht. Anschließend wird der Eintrag \verb|game:roomId| gelöscht.
 
 Somit wird kein Speicher mehr von alten Spielen belegt.
 
 \subsubsection{Chat}
-Der Listener auf das Event \verb|send_message| empfängt und verwaltet die neue Nachricht, die ein Spieler gesendet hat. Die Informationen Benutzernamen, roomId und die Nachricht werden dabei empfangen und weitergeleitet.
+Der Listener auf das Event \verb|send_message| empfängt und verwaltet die neue Nachricht, die ein/-e Spieler/-in gesendet hat. Die Informationen Benutzernamen, roomId und die Nachricht werden dabei empfangen und weitergeleitet.
 
 Dabei passieren zwei Prozesse:
 \begin{itemize}
-\item Die Nachricht wird in Redis gespeichert. Dafür werden alle alte Nachrichten des Spiels aus \verb|game:roomId| geholt, die neue Nachricht angehängt und anschließend wieder dort gespeichert.
+\item Die Nachricht wird in Redis gespeichert. Dafür werden alle alten Nachrichten des Spiels aus \verb|game:roomId| geholt, die neue Nachricht angehängt und anschließend wieder dort gespeichert.
 \item Die Nachricht wird an alle im Raum mittels des Events \verb|message| gesendet.
 \end{itemize}
 
 \subsection{Verwaltung von Freunden}
 \label{sec:hinzufügen-von-Freunden}
 In den Aktivitätsdiagrammen in Abbildung \ref{fig:Freunde-backend} ist der Ablauf des Versendens und des Akzeptierens einer Freundschaftsanfrage abgebildet.
-Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
 
-Beispiel Codeausschnitte und Implementierungsdetails über die Verwaltung von Freunden im Backend befindet sich in Kapitel \ref{sec:Freunde-impl}.
-
-\subsubsection{Versenden einer Freundschaftsanfrage}
-Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \linebreak \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu \linebreak überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der Nutzer nicht existiert und ob die beiden Benutzer schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Sender mittels einer Callback Funktion geantwortet. 
-Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall wird, wird der Benutzer ebenfalls darauf hingewiesen.
-Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spieler gesendet und der Sender wird darüber informiert, dass die Freundschaftsanfrage versendet wurde.
-
-\subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
-\label{sec:accept-friend-request}
-Beim Akzeptieren einer Freundschaftsanfrage wird wie bei dem Versenden nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzer werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spieler werden eingeholt und an den jeweils anderen Benutzer werden alle Informationen, wie ob er/sie online ist oder ob er/sie aktive Spiele hat, gesendet. Dies stellt sicher, dass die Freunde im Frontend direkt richtig angezeigt werden können.
-
-Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelöscht.
-
-      \begin{figure}[!htbp]
+      \begin{figure}[!htb]
       \centering
       \begin{subfigure}[b]{0.35\textwidth}
       \centering
@@ -752,16 +745,29 @@ Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelös
   \label{fig:Freunde-backend}
  
 \end{figure}
+Die verschiedenen Datentypen der Speicherung in Redis befindet sich in Abschnitt \ref{sec:redis-data}.
 
+Beispiel Codeausschnitte und Implementierungsdetails über die Verwaltung von Freunden im Backend befindet sich in Kapitel \ref{sec:Freunde-impl}.
+
+\subsubsection{Versenden einer Freundschaftsanfrage}
+Beim Versenden einer Freundschaftsanfrage wird vom Frontend das Event \linebreak \verb|send_friend_request| mit dem angegebenen Benutzernamen versendet. Um zu \linebreak überprüfen, ob eine Freundschaft der beiden erlaubt ist, wird kontrolliert, ob es der eigene Benutzername ist, ob der/die Nutzer/-in nicht existiert und ob die beiden Benutzenden schon befreundet sind. Ist eines davon der Fall, wird mit einer entsprechenden Fehlernachricht dem Frontend mittels einer Callback-Funktion geantwortet. 
+Ist die Freundschaft erlaubt wird zusätzlich noch überprüft ob es noch eine offene Freundschaftsanfrage zwischen den beiden gibt und falls dies der Fall ist, wird der/die Benutzer/-in ebenfalls darauf hingewiesen.
+Ansonsten wird die Freundschaftsanfrage in Redis gespeichert und ein Event mit der Freundschaftsanfrage wird an den betreffenden Spielenden gesendet und die sendende Person wird darüber informiert, dass die Freundschaftsanfrage erfolgreich versendet wurde.
+
+\subsubsection{Akzeptieren und Ablehnen einer Freundschaftsanfrage}
+\label{sec:accept-friend-request}
+Beim Akzeptieren einer Freundschaftsanfrage wird, wie bei dem Versenden, nochmals überprüft, ob diese Freundschaft erlaubt ist. Anschließend wird die Freundschaftsanfrage gelöscht, die beiden Benutzenden werden in die entsprechende Freundesliste gesetzt, die restlichen Daten der beiden Spielenden werden eingeholt und an den jeweils anderen Benutzenden werden alle Informationen, wie ob er/sie online ist oder ob er/sie aktive Spiele hat, gesendet. Dies stellt sicher, dass die befreundeten Personen im Frontend direkt richtig angezeigt werden können.
+
+Beim Ablehnen einer Freundschaftsanfrage wird diese einfach nur aus Redis gelöscht.
 		\section{Datenbankstruktur}
 \subsection{PostgreSQL Datenbank}
 Die PostgreSQL Datenbank wird ausschließlich für die Anmeldung und Registrierung genutzt. Sie enthält eine Tabelle mit folgendem Schema:
 \begin{itemize}
 \item \textbf{id:} Eine Fortlaufende id, die als Primärschlüssel dient.
 \item \textbf{email:} Die E-Mail, die bei der Registrierung angegeben wurde.
-\item \textbf{username:} Der Benutzername des Benutzers.
-\item \textbf{userid:} Jeder Spieler erhält beim Registrieren seine eigene userid. Diese dient der Kommunikation mit dem Benutzer. Bei einer Verbindung mit Socket.io erhält die socket immer eine andere ID, also wie sendet man ein Event an einen bestimmten Spieler? Diese \verb|userid| löst das Problem, indem man nach dem anmelden immer dieser ID als Raum beitritt (siehe Kapitel \ref{sec:socketauth}). Somit kann immer an diese ID gesendet werden und man stellt sicher, dass der Client das Event empfängt.
-\item \textbf{password:} Das mit bcrypt verschlüsselte Passwort des Benutzers.
+\item \textbf{username:} Der Benutzername des Benutzenden.
+\item \textbf{userid:} Jede spielende Person erhält bei der Registrierung seine eigene userid. Diese dient der Kommunikation mit dem Benutzenden (siehe Kapitel \ref{sec:socketauth}).
+\item \textbf{password:} Das mit bcrypt verschlüsselte Passwort des Benutzenden.
 \end{itemize}
 Jedes dieser Attribute, außer das Passwort, hat die Einschränkung, dass es einzigartig sein muss. Die E-Mail wird bisher nicht genutzt, kann aber in Zukunft zum Bestätigen der Registrierung oder Einrichtung eines Newsletters genutzt werden.
 
@@ -770,39 +776,39 @@ Jedes dieser Attribute, außer das Passwort, hat die Einschränkung, dass es ein
 
 Bemerkung: Bei beispielsweise \verb|user:username| oder \verb|username:userid| wird der \verb|username| immer mit dem richtigen Benutzernamen ausgetauscht. Also die konkreten Zuweisung wäre somit beispielsweise \verb|user:Max| oder \verb|Max:18b06...|
 \subsubsection{user:username}
-Unter dem Key \verb|user:username| befindet sich ein Redis Hash. Ein Redis Hash besitzt Key-Value Paare, auf welche man zugreifen kann.
+Unter dem Key \verb|user:username| befindet sich ein Redis Hash. Ein Redis Hash besitzt Key-Value Paare, auf welche man zugreifen kann\footnote{Quelle: \url{https://redis.io/docs/data-types/hashes/} am 15 Mai 2023}.
 
 In unserem Fall werden folgende Values zu den Keys dort gespeichert:
 \begin{itemize}
 \item \textbf{userid:} Auch hier wird die userid gespeichert, da Redis vor allem für socket.io Funktionen verwendet wird und daher eine kurze Abfragezeit benötigt.
-\item \textbf{connected:} Ist \glqq true\grqq{ }oder \glqq false\grqq , je nachdem ob der Benutzer gerade online ist oder nicht.
-\item \textbf{activeGames:} Eine Liste in der alle roomIds der aktuellen Spiele des Benutzers gespeichert sind
+\item \textbf{connected:} Ist \glqq true\grqq{ }oder \glqq false\grqq , je nachdem ob der/die Benutzer/in gerade online ist oder nicht.
+\item \textbf{activeGames:} Eine Liste in der alle roomIds der aktuellen Spiele des Benutzenden gespeichert sind
 \end{itemize}
 
 \subsubsection{game:roomId}
 \label{sec:game:roomId}
 Der Redis Hash \verb|game:roomId| verwaltet die Daten einer Schachpartie. Dazu gehören:
 \begin{itemize}
-\item \textbf{whitePlayer, blackPlayer:} Benutzernamen des weißen und schwarzen Spielers.
-\item \textbf{time:} Der Zeitmodus welcher gespielt wird (z.B.: 15 + 10, 5 + 3, ...)
+\item \textbf{whitePlayer, blackPlayer:} Benutzernamen des weißen und schwarzen Spielenden.
+\item \textbf{time:} Der Zeitmodus welcher gespielt wird (z.B.: 15 + 10, 5 + 3, ...).
 \item \textbf{pgn:} Die Historie aller bisherigen Züge im PGN Format.
 \item \textbf{chat:} Alle bisher geschriebenen Nachrichten im Chat.
 \end{itemize}
 
 \subsubsection{friends:username}
 \label{sec:friends:username}
-Der Key \verb|friends:username| verweist auf eine Liste von Freunden. Diese Freunde bestehen aus einem String, der sich zusammensetzt aus \verb|username:userid|. Dies verhindert, dass wenn ein Event an einen Freund gesendet werden soll, man einen extra Zugriff auf \verb|user:username| machen muss um die \verb|userid| zu bekommen.
+Der Key \verb|friends:username| verweist auf eine Liste von befreundeten Personen. Jeder Eintrag besteht aus einem String, der sich zusammensetzt aus \verb|username:userid|. Dies verhindert, dass wenn ein Event an eine/-n Freund/-in gesendet werden soll, man einen extra Zugriff auf \verb|user:username| machen muss um die \verb|userid| zu bekommen.
 
 \subsubsection{friend\_requests:username}
-Dies ist eine Liste die genauso aufgebaut ist wie die \verb|friends:username| Liste, außer, dass sie Freundschaftsanfragen verwaltet.
+Dies ist eine Liste die genauso aufgebaut ist wie die \verb|friends:username| Liste, außer, dass sie offene Freundschaftsanfragen dokumentiert.
 
 \subsubsection{Warteschlangen}
 \label{sec:Warteschlange}
-Die Warteschlangen für Partien mit zufälligem Gegner bestehen aus \linebreak \verb|waitingPlayers:timeMode| und \verb|waitingGuests:timeMode|, je nachdem, ob es sich um einen angemeldeten Benutzer handelt oder nicht. \verb|timeMode| repräsentiert hier alle möglichen Schachuhren, also beispielsweise \glqq 10 + 5\grqq , \glqq 15 + 10\grqq , ...
+Die Warteschlangen für Partien mit einer zufälligen gegnerischen Person bestehen aus \linebreak \verb|waitingPlayers:timeMode| und \verb|waitingGuests:timeMode|, je nachdem, ob es sich um einen angemeldeten Benutzenden handelt oder nicht. \verb|timeMode| repräsentiert hier alle möglichen Schachuhr-Konfigurationen, also beispielsweise \glqq 10 + 5\grqq , \glqq 15 + 10\grqq , ...
 
 Diese Warteschlagen sind Listen, welche aus \verb|username:userid| Einträgen bestehen, um zu verhindern, dass ein weiterer Zugriff auf \verb|user:username| nötig ist, um die \verb|userid| zu bekommen. 
 
-Durch die Redis Operationen \verb|RPOP| und \verb|LPUSH| lassen sich atomar Einträge hinzufügen oder herausnehmen, welches die Konsistenz der Liste gewährleistet.
+Durch die Redis Operationen \verb|RPOP| und \verb|LPUSH| lassen sich atomar Einträge hinzufügen oder herausnehmen, welches die Konsistenz der Liste gewährleistet\footnote{Quelle: \url{https://redis.io/docs/data-types/lists/} am 15. Mai 2023}.
 
 \section{Testen der Anwendung}
 Während der Entwicklung der Schach-App, wurden die Funktionen ausgiebig getestet, um die Richtigkeit der Implementierung zu gewährleisten. Aufgrund der begrenzten Zeit wurde der Schwerpunkt auf das Testen des Zusammenspiels zwischen Frontend und Backend gelegt, statt auf ausgiebige Tests der einzelnen Codeausschnitte des Front- und Backends.

@@ -1,7 +1,6 @@
-
 \chapter{Einleitung}
     \section{Motivation}
-    Schach ist ein traditionsreiches und abwechslungsreiches Brettspiel, dessen Ursprung nicht genau bestimmt werden kann. Allerdings wird vermutet, dass das erste schachähnliche Spiel  \textit{Tschaturanga} seinen Ursprung in Nordindien um 600 n. Chr. hatte \cite{schachgeschichte}. Bis heute bleibt Schach ein beliebtes Spiel, das 2020 durch die Netflix Serie \textit{Damengambit} und 2022 durch den Betrugsvorwurf von Magnus Carlsen an seinen 19-jährigen Gegner Hans Niemann\footnote{Quelle: \url{https://www.sportschau.de/schach/magnus-carlsen-hans-niemann-ermittlungen-100.html} am 22. April 2023} eine größere Aufmerksamkeit erhielt (siehe Abbildung \ref{fig:Schachinteresse}). 
+    Schach ist ein traditionsreiches und abwechslungsreiches Brettspiel, dessen Ursprung nicht genau bestimmt werden kann. Allerdings wird vermutet, dass das erste schachähnliche Spiel  \textit{Tschaturanga} seinen Ursprung in Nordindien um 600 n. Chr. hatte \cite{schachgeschichte}. Bis heute bleibt Schach ein beliebtes Spiel, das 2020 durch die Netflix Serie \glqq Damengambit\grqq \footnote{Quelle: \url{https://de.wikipedia.org/wiki/Das_Damengambit} am 22. April 2023} und 2022 durch den Betrugsvorwurf von Magnus Carlsen an seinen 19-jährigen Gegner Hans Niemann\footnote{Quelle: \url{https://www.sportschau.de/schach/magnus-carlsen-hans-niemann-ermittlungen-100.html} am 22. April 2023} eine größere Aufmerksamkeit erhielt (siehe Abbildung \ref{fig:Schachinteresse}). 
     
     \begin{figure}[ht]
 \raggedleft
@@ -11,20 +10,20 @@
   \label{fig:Schachinteresse}
 \end{figure}
 
-     Darüber hinaus hat Schach im digitalen Zeitalter eine neue Popularität erreicht. Online-Schachplattformen wie \url{chess.com} verzeichnen über zehn Millionen Schachpartien täglich\footnote{Quelle: \url{https://www.chess.com/about} am 12. Mai 2023}, während Schach Live-Streams auf Plattformen wie \url{twitch.com} Millionen von Followern anziehen\footnote{Quelle: \url{https://www.twitch.tv/chess} am 27. April 2023}.
+     Darüber hinaus hat Schach im digitalen Zeitalter eine neue Popularität erreicht. Online-Schachplattformen wie \url{chess.com} verzeichnen über zehn Millionen Schachpartien täglich\footnote{Quelle: \url{https://www.chess.com/about} am 12. Mai 2023}, während Schach Live-Streams auf Plattformen wie \url{twitch.com} Millionen von Followern anziehen\footnote{Quelle: \url{https://www.twitch.tv/directory/game/Chess} am 27. April 2023}.
      
 Die Entwicklung einer webbasierten Multiplayer-Schach-App bietet eine einzigartige Gelegenheit, ein traditionsreiches und beliebtes Spiel im digitalen Zeitalter weiterzuentwickeln. Mein Ziel für diese Arbeit besteht darin, eine App zu entwickeln, die die Grundlagen einer Schach-App enthält und gleichzeitig eine solide Basis für zukünftige Erweiterungen und Verbesserungen bietet.
 Insbesondere die Aussicht in Zukunft, innovative Funktionen zu integrieren, die bislang in den gängigen Schach-Apps nicht oder nicht kostenfrei vorhanden sind motiviert diese Arbeit. Durch die Entwicklung einer Schach-App mit neuen Funktionalitäten kann ich dazu beitragen, die Popularität von Schach zu steigern und vor allem das Spiel einem breiteren Publikum zugänglich zu machen.
     \section{Zielsetzung}
     \label{sec:Zielsetzung}
-    Diese Bachelorarbeit hat das Ziel eine Schach-App zu entwerfen und zu implementieren, die eine intuitive User Experience und ein ansprechendes User Interface mit vielen nützlichen Funktionen beinhaltet. Bei der Anwendung soll dabei vor allem soziale Interaktionen im Zusammenhang mit Schach im Vordergrund stehen.
+    Diese Bachelorarbeit hat das Ziel eine Schach-App zu entwerfen und zu implementieren, die eine intuitive User Experience und ein ansprechendes User Interface mit vielen nützlichen Funktionen beinhaltet. Bei der Anwendung soll dabei vor allem soziale Interaktionen im Zusammenhang mit Schach im Vordergrund stehen. Diese Scahc-App trägt vorerst den Namen \glqq Gambit\grqq , in der Hoffnung, dass durch die Serie \textit{Damengambit} dieser Name in der Gesellschaft mit Schach verbunden wird.
     
-User Experience (kurz UX) bezieht sich darauf, wie ein Nutzer sich auf einer Anwendung bewegt und wie einfach und angenehm es für den Nutzer ist, die Funktionen der Anwendung zu verwenden.
+User Experience (kurz UX) bezieht sich darauf, wie ein/-e Nutzer/-in sich auf einer Anwendung bewegt und wie einfach und angenehm es für den Nutzenden ist, die Funktionen der Anwendung zu verwenden.
     
-    Unter User Interface (kurz UI) versteht man die visuelle und interaktive Gestaltung von Benutzeroberflächen. Es umfasst die Gestaltung von Buttons, Formularen und anderen visuellen Komponenten, sowie das Feedback dieser Komponenten, wie zum Beispiel die Rückmeldung einer fehlgeschlagenen Anmeldung.
-    Zusammengefasst beschäftigt sich UX damit, wie man eine Anwendung verwendet und UI damit, wie die Benutzeroberfläche der Anwendung aussieht.\cite{webdesign}
+    Unter User Interface (kurz UI) versteht man die visuelle und interaktive Gestaltung von Benutzeroberflächen\footnote{In dieser Arbeit wird bei einigen Wörtern wie Benutzeroberfläche, Benutzername und Benutzerdaten nicht gegendert. Es ist jedoch ausdrücklich zu betonen, dass alle Geschlechter gleichermaßen gemeint und angesprochen sind.}. Es umfasst die Gestaltung von Buttons, Formularen und anderen visuellen Komponenten, sowie das Feedback dieser Komponenten, wie zum Beispiel die Rückmeldung einer fehlgeschlagenen Anmeldung.\cite{webdesign}
         
-        Funktionen der Schach-App sind unter anderem das Registrieren und Anmelden, das Versenden, Annehmen und Ablehnen von Freundschaftsanfragen, das Zuschauen bei laufenden Spielen, das Herausfordern von Freunden zu Schachspielen und natürlich das Spielen von Schachpartien mit einem Chat und verschiedenen Einstellungsmöglichkeiten der Spielzeiten selbst.
+        Funktionen der Schach-App sind unter anderem das Registrieren und Anmelden, das Versenden, Annehmen und Ablehnen von Freundschaftsanfragen, das Zuschauen bei laufenden Spielen, das Herausfordern von Freunden zu Schachspielen und natürlich das Spielen von Schachpartien (auch mehrere gleichzeitig und ohne angemeldet zu sein) mit einem Chat und verschiedenen Einstellungsmöglichkeiten der Spielzeiten selbst. 
+        
     Dabei wird besonderer Wert auf die Verwendung moderner Web-Technologien wie React, Node.js, Socket.IO, Redis und PostgeSQL gelegt, um eine optimale Benutzererfahrung und Skalierbarkeit zu gewährleisten. Darüber hinaus soll die Arbeit einen Überblick über die technischen Herausforderungen und Lösungen im Zusammenhang mit der Implementierung einer solchen Schach-App bieten.
     
 Die Anwendung dient hauptsächlich als Basis Schach-App für Erweiterungen. So ist das Webdesign noch nicht responsiv, da mit neuen Erweiterungen die UI und UX ohnehin angepasst werden müsste, um weitere Funktionen zur Verfügung zu stellen.
@@ -32,21 +31,17 @@ Die Anwendung dient hauptsächlich als Basis Schach-App für Erweiterungen. So i
 Mögliche Erweiterungen werden in Kapitel \ref{sec:Erweiterungen} erläutert.
     
     \section{Aufbau der Arbeit}
-Diese Bachelorarbeit gliedert sich in sechs Hauptkapitel, die jeweils unterschiedliche Aspekte der Entwicklung und Implementierung der Schach-App behandeln.
+Diese Bachelorarbeit gliedert sich in vier Hauptkapitel, die jeweils unterschiedliche Aspekte der Schach-App behandeln.
 
-Im ersten Kapitel, der \textit{Einleitung}, werden die Motivation für die Entwicklung der Schach-App, die Zielsetzung der Arbeit und der Aufbau der Arbeit selbst vorgestellt.
+Das Kapitel \textbf{Theoretische Grundlagen} erläutert die grob Grundlagen von Schach als Spiel sowie die verwendeten Web-Technologien wie Node.js, Express, Socket.io, React, der Datenbanken und anderen Bibliotheken die für das Verständnis der nachfolgenden Kapitel wichtig sind.
 
-Das zweite Kapitel, \textit{Theoretische Grundlagen}, erläutert die Grundlagen von Schach als Spiel sowie die verwendeten Web-Technologien wie Node.js, Express, Socket.io, React und PostgreSQL, die für das Verständnis der nachfolgenden Kapitel wichtig sind.
+Im Kapitel \textbf{Systemarchitektur} wird die Gesamtarchitektur der Schach-App beschrieben. Das Kapitel behandelt neben einer gesamten Übersicht die Unterteilung in Frontend- und Backend-Architektur einschließlich der Datenbankstruktur und der Kommunikation zwischen den verschiedenen Komponenten. Abläufe und Konzepte der Anwendung werden in Aktivitäts- und Sequenzdiagrammen verdeutlicht.
 
-Im dritten Kapitel, \textit{Systemarchitektur}, wird die Gesamtarchitektur der Schach-App beschrieben, einschließlich der Unterteilung in Frontend und Backend, der Datenbankstruktur und der Kommunikation zwischen den verschiedenen Komponenten.
+Das Kapitel \textbf{Implementierung} geht auf die praktische Umsetzung der Schach-App ein, indem es die Entwicklung für das Frontend und das Backend sowie die Integration der Datenbanken erläutert. Komplexere Prozesse und Methoden werden anhand von Codeausschnitten verdeutlicht.
 
-Das vierte Kapitel, \textit{Implementierung}, geht auf die praktische Umsetzung der Schach-App ein, indem es die Entwicklungsprozesse für das Frontend und das Backend sowie die Integration der Datenbanken erläutert.
+Im abschließenden fünften Kapitel, \textbf{Fazit und Ausblick}, werden die Ergebnisse der Arbeit zusammengefasst, Herausforderungen und Alternativen diskutiert und mögliche Erweiterungen und Weiterentwicklungen für die Schach-App vorgeschlagen.
 
-Das fünfte Kapitel, \textit{Tests und Evaluation}, behandelt die verschiedenen Tests, die durchgeführt wurden, um die Funktionalität, Usability, Performance und Sicherheit der Schach-App zu bewerten.
-
-Im abschließenden sechsten Kapitel, \textit{Fazit und Ausblick}, werden die Ergebnisse der Arbeit zusammengefasst, eventuelle Limitationen diskutiert und mögliche Erweiterungen und Weiterentwicklungen für die Schach-App vorgeschlagen.
-
-Die Arbeit endet mit dem \textit{Anhang}, der zusätzliche Grafiken und die Liste der verwendeten Literatur enthält.
+Die Arbeit endet mit dem \textbf{Anhang}, der die Listen der verwendeten Literatur, Grafiken und Codeausschnitten enthält.
 
 \section{Verwandte Arbeiten}
 \label{sec:Verwandte Arbeiten}
@@ -55,11 +50,11 @@ Es gibt vor allem zwei große online Schachplattformen: \url{chess.com} und \url
 Dabei war \url{chess.com} auf Platz 114 und \url{lichess.org} auf Platz 209 der Webseiten mit am meisten Web-Traffic weltweit im April 2023\footnote{Quelle: \url{https://www.similarweb.com/website/chess.com/vs/lichess.org/\#overview} am 12. Mai 2023}.
 
 \subsection{Chess.com}
-Chess.com zeichnet sich durch vielfältige Funktionen, einer verspielten UI und sehr vielen Benutzern aus. Was im Vergleich zu Lichess jedoch schnell bemerkbar ist, ist die Kommerzialisierung.
+Chess.com zeichnet sich durch vielfältige Funktionen, einer verspielten UI und sehr vielen Benutzenden aus. Was im Vergleich zu Lichess jedoch schnell bemerkbar ist, ist die Kommerzialisierung.
 
-Chess.com hat auf seiner gesamten Seite viel Werbung und bietet viele Funktionen nur bei einem monatlichen Abonnement gegen Geld an (siehe Abbildung \ref{fig:chess.com-abo}). Zu diesen Funktionen gehören Analysen der Schachpartien, mehrere Spiele gleichzeitig zu spielen, der Zugriff auf Lektionen zum lernen von Schach und vieles weitere.
+Chess.com hat auf seiner gesamten Anwendung viel Werbung und bietet viele Funktionen nur bei einem monatlichen Abonnement gegen Geld an (siehe Abbildung \ref{fig:chess.com-abo}). Zu diesen Funktionen gehören Analysen der Schachpartien, mehrere Spiele gleichzeitig zu spielen, der Zugriff auf Lektionen zum Lernen von Schach und vieles weitere.
 
-  \begin{figure}[htb]
+  \begin{figure}[!htb]
   \centering
   \includegraphics[width=\textwidth]{chess.com.png}
 \raggedleft
@@ -68,7 +63,7 @@ Chess.com hat auf seiner gesamten Seite viel Werbung und bietet viele Funktionen
   \label{fig:chess.com}
 \end{figure}
 
-  \begin{figure}[htb]
+  \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.7\textwidth]{Abo-chess.com.png}
   
@@ -85,9 +80,9 @@ Chess.com zeichnet sich auch durch seine Online-Präsenz auf Plattformen wie You
 
 
 \subsection{Lichess}
-Lichess wirbt vor allem damit, dass es komplett kostenfrei verwendbar ist, keine Werbung hat und keine Registrierung nötig ist um zu spielen. Auch Funktionen wie Analysen eines Spiels sind für alle Benutzer uneingeschränkt verfügbar. Die Finanzierung von \url{lichess.org} basiert auf Spenden und die Entwicklung übernehmen Freiwillige\footnote{Quelle: \url{https://lichess.org/about} am 12. Mai 2023}. Der gesamte Code ist Open-Source und für jeden einsehbar.
+Lichess wirbt vor allem damit, dass es komplett kostenfrei verwendbar ist, keine Werbung hat und keine Registrierung nötig ist um zu spielen. Auch Funktionen wie Analysen eines Spiels sind für alle Benutzenden uneingeschränkt verfügbar. Die Finanzierung von \url{lichess.org} basiert auf Spenden und die Entwicklung übernehmen Freiwillige\footnote{Quelle: \url{https://lichess.org/about} am 12. Mai 2023}. Der gesamte Code ist Open-Source und für jeden einsehbar.
 
-Lichess ist dunkel und modern gehalten. Einige Funktionen sind auf dem Desktop schwer zugänglich, während sie auf einem Mobil-Gerät in der App gar nicht verfügbar sind. Dazu zählen auch soziale Interaktionen wie Gruppen. Sie sind wenig ausgebaut und schwierig, bis gar nicht, auffindbar.
+Lichess ist dunkel und modern gehalten. Die Funktionen die Lichess anbietet, sind weniger umfangreich als die von Chess.com und sind auf dem Desktop zum Teil schwer zugänglich, während sie auf einem Mobil-Gerät in der App gar nicht verfügbar sind. Dazu zählen auch soziale Interaktionen wie Gruppen. Sie sind wenig ausgebaut und schwierig, bis gar nicht, auffindbar.
 
   \begin{figure}[htb]
   \centering

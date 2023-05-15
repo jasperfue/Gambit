@@ -46,23 +46,21 @@ Im Backend trat das Problem auf, dass die Bibliothek chess.js ein ECMAScript-Mod
 
 \section{Zukünftige Erweiterungen und Verbesserungen}
 \label{sec:Erweiterungen}
-Neben der in \ref{sec:herausforderung-Schachuhr} beschriebenen Verbesserung der Backend Schachuhr ist die Anzahl der möglichen Erweiterungen dieser Schachanwendung nahezu unbegrenzt. Einige der wichtigsten Erweiterungen, welche als nächstes angegnagen werden könnten wären:
+Neben der in \ref{sec:herausforderung-Schachuhr} beschriebenen Verbesserung der Backend Schachuhr und das ausgiebigere strukturierte Testen ist die Anzahl der möglichen Erweiterungen dieser Schachanwendung nahezu unbegrenzt. Einige der wichtigsten Erweiterungen, welche als nächstes angegangen werden könnten wären:
 \begin{itemize}
 \item \textbf{Responsive Design}: Die Anwendung für verschiedene Geräte zu optimieren wäre ein wichtiger Schritt Richtung Veröffentlichung.
 \item \textbf{Hosting}: Durch das Bereitstellen der Anwendung auf einer Hostingplattform könnte man die Anwendung der Öffentlichkeit zugänglich machen.
 \item \textbf{Analysen}: Schachpartien analysieren zu können ist wichtig um aus den Fehlern der Partie zu lernen. Es gibt einige Analyseprogramme, wobei die beste derzeit Stockfish ist\footnote{Quelle: \url{https://stockfishchess.org/} am 13. Mai 2023}.
-\item \textbf{Wertungen}: In Schach gibt es eine sogenannte Elo-Wertung, welche die relative Stärke eines Spielers misst\footnote{Quelle: \url{https://www.chess.com/de/terms/elo} am 13. Mai 2023}. Typischerweise besitzt jeder Spieler jeweils eine Elo für einen Zeitmodi (Bullet, Blitz, Rapid, ...). Diese Zeitmodi sind schon implementiert, sie werden nur bisher kaum genutzt (siehe Kapitel \ref{sec:Uhr-Backend-impl}).
-\item \textbf{Historie vergangener Partien}: Eine Schachpartie wird bereits mit der Historie aller Züge in PGN-Notation gespeichert, wird allerdings nach dem Ende des Spiels gelöscht. Man könnte diese Datensätze wiederverwenden, um sich vergangene Spiele nochmal anschauen zu können oder teilen zu können.
+\item \textbf{Wertungen}: In Schach gibt es eine sogenannte Elo-Wertung, welche die relative Stärke eines Spielers misst\footnote{Quelle: \url{https://www.chess.com/de/terms/elo} am 13. Mai 2023}. Typischerweise besitzt jeder Spieler jeweils eine Elo für einen Zeitmodi (Bullet, Blitz, Rapid, ...) und Spielende werden aufgrund ihrer Wertung für eine Partie zusammengeführt. Diese Zeitmodi sind schon implementiert, sie werden nur bisher kaum genutzt (siehe Kapitel \ref{sec:Uhr-Backend-impl}). Aus dieser Erweiterbarkeit hat sich auch die Funktion entwickelt, dass angemeldete Benutzende nur gegen angemeldete Benutzende spielen können, denn Gast-Spielende besitzen keine Elo-Wertung.
+\item \textbf{Historie vergangener Partien}: Eine Schachpartie wird bereits mit der Historie aller Züge in PGN-Notation gespeichert, allerdings wird diese nach dem Ende des Spiels gelöscht. Man könnte diese Datensätze wiederverwenden, um sich vergangene Spiele nochmal anschauen oder teilen zu können.
 \item \textbf{Zurücknehmen von Zügen}: Das Zurücknehmen eines bereits gemachten Zugs ist eine wichtige Funktion, falls man sich verklickt haben sollte. Meist schickt der Spieler eine Anfrage der Zugzurücknahme, welcher der Gegner annehmen oder ablehnen kann.
 \end{itemize}
 
-Dies sind nur einige Beispiele der von Erweiterungen welche als nächstes Angegangen werden könnten.
-
 Da vor allem die sozialen Interaktionen dieser Schach-App ausgeprägt sein sollen, sind weitere mögliche Erweiterungen die Gründung von Clubs, welche gegeneinander in Ligen oder Turnieren antreten können, einen Clubchat haben, in dem unter anderem Partien geteilt werden können und Rollen wie Präsident, Vize-Präsident,... verteilt werden können.
  
-Um das Spielen zu Belohnen könnte man Figuren-, Bretter- oder Emotedesigns als Belohnungen einführen, welche nicht nur der Spieler selber, sondern auch der Gegner sieht. Zusätzliche Belohnungen könnte man einführen durch täglich-wechselnde und statische Herausforderungen.
+Um das Spielen zu Belohnen könnte man Figuren-, Bretter- oder Emotedesigns als Belohnungen einführen, welche nicht nur der Spieler selber, sondern auch der Gegner sieht. Zusätzliche Belohnungen könnte man einführen durch täglich wechselnde und statische Herausforderungen.
 
-Dies bietet auch eine Möglichkeit der Kommerzialisierung: Nicht durch Werbung oder freischaltbare Funktionen Einnahmen generieren, sondern durch freischaltbare Designs. Die Benutzer können sich somit keinen Vorteil durch Funktionen wie Analysen oder Tutorials erkaufen, sondern ausschließlich andere Optiken.
+Dies bietet auch eine Möglichkeit der Kommerzialisierung: Nicht durch Werbung oder freischaltbare Funktionen Einnahmen generieren, sondern durch freischaltbare Designs. Die Benutzer können sich somit keinen Vorteil durch Funktionen wie Analysen oder Tutorials erkaufen, sondern ausschließlich optische Anpassungen.
 
 Die Vision dieser Anwendung ist eine Schach-App, die stärker auf soziale Interaktionen und Anreize zum Spielen setzt als \url{lichess.org} und weniger kommerzialisiert ist, indem wichtige freischaltbare Funktionen nicht ausschließlich gegen Geld angeboten werden, wie es bei \url{chess.com} der Fall ist (siehe Kapitel \ref{sec:Verwandte Arbeiten}).
 

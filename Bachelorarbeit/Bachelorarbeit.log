@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  14 MAY 2023 15:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.27)  15 MAY 2023 20:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -534,7 +534,14 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \sift@deathcycles=\count291
 \@vwid@loff=\dimen186
 \@vwid@roff=\dimen187
-))
+)) (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count292
+\float@exts=\toks22
+\float@box=\box56
+\@float@everytoks=\toks23
+\@floatcapt=\box57
+)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlayer-sc
 rpage.sty
 Package: scrlayer-scrpage 2022/10/12 v3.38 KOMA-Script package (end user interf
@@ -560,52 +567,52 @@ Package scrlayer-scrpage Info: Makeing stand-alone element `pagehead' from
 1: section
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrheading by
-(scrlayer-scrpage)                \clearmainofpairofpagestyles on input line 33
+(scrlayer-scrpage)                \clearmainofpairofpagestyles on input line 36
 .
 
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrplain by
 (scrlayer-scrpage)                \clearplainofpairofpagestyles on input line 3
-4.
+7.
 
 
 Package scrlayer-scrpage Warning: replacing deprecated \clearscrheadfoot by
-(scrlayer-scrpage)                \clearpairofpagestyles on input line 35.
+(scrlayer-scrpage)                \clearpairofpagestyles on input line 38.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \col@sep=\dimen188
-\ar@mcellbox=\box56
+\ar@mcellbox=\box58
 \extrarowheight=\dimen189
-\NC@list=\toks22
+\NC@list=\toks24
 \extratabsurround=\skip65
 \backup@length=\skip66
-\ar@cellbox=\box57
+\ar@cellbox=\box59
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/mdwtools\footnote.sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
-\fn@notes=\box58
+\fn@notes=\box60
 \fn@width=\dimen190
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count292
-\lst@gtempboxa=\box59
-\lst@token=\toks23
-\lst@length=\count293
+\lst@mode=\count293
+\lst@gtempboxa=\box61
+\lst@token=\toks25
+\lst@length=\count294
 \lst@currlwidth=\dimen191
-\lst@column=\count294
-\lst@pos=\count295
+\lst@column=\count295
+\lst@pos=\count296
 \lst@lostspace=\dimen192
 \lst@width=\dimen193
-\lst@newlines=\count296
-\lst@lineno=\count297
+\lst@newlines=\count297
+\lst@lineno=\count298
 \lst@maxwidth=\dimen194
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count298
-\lst@skipnumbers=\count299
-\lst@framebox=\box60
+\c@lstnumber=\count299
+\lst@skipnumbers=\count300
+\lst@framebox=\box62
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2020/03/24 1.8d listings configuration
@@ -619,7 +626,7 @@ sty
 y
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -common.tex
-\pgfutil@everybye=\toks24
+\pgfutil@everybye=\toks26
 \pgfutil@tempdima=\dimen195
 \pgfutil@tempdimb=\dimen196
 
@@ -627,7 +634,7 @@ y
 -common-lists.tex))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -latex.def
-\pgfutil@abb=\box61
+\pgfutil@abb=\box63
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
 code.tex
@@ -646,12 +653,12 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
 .code.tex
-\pgfkeys@pathtoks=\toks25
-\pgfkeys@temptoks=\toks26
+\pgfkeys@pathtoks=\toks27
+\pgfkeys@temptoks=\toks28
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
 filtered.code.tex
-\pgfkeys@tmptoks=\toks27
+\pgfkeys@tmptoks=\toks29
 ))
 \pgf@x=\dimen197
 \pgf@y=\dimen198
@@ -665,14 +672,14 @@ filtered.code.tex
 \pgf@yd=\dimen262
 \w@pgf@writea=\write3
 \r@pgf@reada=\read3
-\c@pgf@counta=\count300
-\c@pgf@countb=\count301
-\c@pgf@countc=\count302
-\c@pgf@countd=\count303
-\t@pgf@toka=\toks28
-\t@pgf@tokb=\toks29
-\t@pgf@tokc=\toks30
-\pgf@sys@id@count=\count304
+\c@pgf@counta=\count301
+\c@pgf@countb=\count302
+\c@pgf@countc=\count303
+\c@pgf@countd=\count304
+\t@pgf@toka=\toks30
+\t@pgf@tokb=\toks31
+\t@pgf@tokc=\toks32
+\pgf@sys@id@count=\count305
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
 fg
@@ -691,8 +698,8 @@ File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
 ssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfsyssoftpath@smallbuffer@items=\count305
-\pgfsyssoftpath@bigbuffer@items=\count306
+\pgfsyssoftpath@smallbuffer@items=\count306
+\pgfsyssoftpath@bigbuffer@items=\count307
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
 sprotocol.code.tex
@@ -731,11 +738,11 @@ code.tex)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
 r.code.tex
 \pgfmath@dimen=\dimen263
-\pgfmath@count=\count307
-\pgfmath@box=\box62
-\pgfmath@toks=\toks31
-\pgfmath@stack@operand=\toks32
-\pgfmath@stack@operation=\toks33
+\pgfmath@count=\count308
+\pgfmath@box=\box64
+\pgfmath@toks=\toks33
+\pgfmath@stack@operand=\toks34
+\pgfmath@stack@operation=\toks35
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
 ions.code.tex
@@ -757,7 +764,7 @@ ions.misc.code.tex)
 ions.integerarithmetics.code.tex)))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
 .code.tex
-\c@pgfmathroundto@lastzeros=\count308
+\c@pgfmathroundto@lastzeros=\count309
 ))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
 tex)
@@ -794,10 +801,10 @@ File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 escopes.code.tex
 File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfpic=\box63
-\pgf@hbox=\box64
-\pgf@layerbox@main=\box65
-\pgf@picture@serial@count=\count309
+\pgfpic=\box65
+\pgf@hbox=\box66
+\pgf@layerbox@main=\box67
+\pgf@picture@serial@count=\count310
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 egraphicstate.code.tex
@@ -832,8 +839,8 @@ File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 eshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@max=\dimen287
-\pgf@sys@shading@range@num=\count310
-\pgf@shadingcount=\count311
+\pgf@sys@shading@range@num=\count311
+\pgf@shadingcount=\count312
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 eimage.code.tex
@@ -842,7 +849,7 @@ File: pgfcoreimage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 eexternal.code.tex
 File: pgfcoreexternal.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfexternal@startupbox=\box66
+\pgfexternal@startupbox=\box68
 ))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
 elayers.code.tex
@@ -863,7 +870,7 @@ File: pgfcorerdf.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
 shapes.code.tex
 File: pgfmoduleshapes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfnodeparttextbox=\box67
+\pgfnodeparttextbox=\box69
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
 plot.code.tex
@@ -896,8 +903,8 @@ Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 .tex)
 \pgffor@iter=\dimen290
 \pgffor@skip=\dimen291
-\pgffor@stack=\toks34
-\pgffor@toks=\toks35
+\pgffor@stack=\toks36
+\pgffor@toks=\toks37
 ))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z\tikz.code.tex
@@ -906,7 +913,7 @@ Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
 aryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@plot@mark@count=\count312
+\pgf@plot@mark@count=\count313
 \pgfplotmarksize=\dimen292
 )
 \tikz@lastx=\dimen293
@@ -917,23 +924,23 @@ File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \tikz@lastmovetoy=\dimen298
 \tikzleveldistance=\dimen299
 \tikzsiblingdistance=\dimen300
-\tikz@figbox=\box68
-\tikz@figbox@bg=\box69
-\tikz@tempbox=\box70
-\tikz@tempbox@bg=\box71
-\tikztreelevel=\count313
-\tikznumberofchildren=\count314
-\tikznumberofcurrentchild=\count315
-\tikz@fig@count=\count316
+\tikz@figbox=\box70
+\tikz@figbox@bg=\box71
+\tikz@tempbox=\box72
+\tikz@tempbox@bg=\box73
+\tikztreelevel=\count314
+\tikznumberofchildren=\count315
+\tikznumberofcurrentchild=\count316
+\tikz@fig@count=\count317
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
 matrix.code.tex
 File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfmatrixcurrentrow=\count317
-\pgfmatrixcurrentcolumn=\count318
-\pgf@matrix@numberofcolumns=\count319
+\pgfmatrixcurrentrow=\count318
+\pgfmatrixcurrentcolumn=\count319
+\pgf@matrix@numberofcolumns=\count320
 )
-\tikz@expandcount=\count320
+\tikz@expandcount=\count321
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarytopaths.code.tex
@@ -949,33 +956,33 @@ Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/xstring\xstring.sty
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/xstring\xstring.tex
-\integerpart=\count321
-\decimalpart=\count322
+\integerpart=\count322
+\decimalpart=\count323
 )
 Package: xstring 2023/01/14 v1.85 String manipulations (CT)
 ) (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count323
-\calc@Bcount=\count324
+\calc@Acount=\count324
+\calc@Bcount=\count325
 \calc@Adimen=\dimen301
 \calc@Bdimen=\dimen302
 \calc@Askip=\skip67
 \calc@Bskip=\skip68
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count325
+\calc@Ccount=\count326
 \calc@Cskip=\skip69
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgfopts\pgfopts.sty
 Package: pgfopts 2014/07/10 v2.1a LaTeX package options with pgfkeys
-\pgfopts@list@add@a@toks=\toks36
-\pgfopts@list@add@b@toks=\toks37
+\pgfopts@list@add@a@toks=\toks38
+\pgfopts@list@add@b@toks=\toks39
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@layerbox@background=\box72
-\pgf@layerboxsaved@background=\box73
+\pgf@layerbox@background=\box74
+\pgf@layerboxsaved@background=\box75
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibraryarrows.code.tex
@@ -1033,26 +1040,26 @@ File: tikzlibraryshapes.multipart.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
 pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfnodepartlowerbox=\box74
-\pgfnodeparttwobox=\box75
-\pgfnodepartthreebox=\box76
-\pgfnodepartfourbox=\box77
-\pgfnodeparttwentybox=\box78
-\pgfnodepartnineteenbox=\box79
-\pgfnodeparteighteenbox=\box80
-\pgfnodepartseventeenbox=\box81
-\pgfnodepartsixteenbox=\box82
-\pgfnodepartfifteenbox=\box83
-\pgfnodepartfourteenbox=\box84
-\pgfnodepartthirteenbox=\box85
-\pgfnodeparttwelvebox=\box86
-\pgfnodepartelevenbox=\box87
-\pgfnodeparttenbox=\box88
-\pgfnodepartninebox=\box89
-\pgfnodeparteightbox=\box90
-\pgfnodepartsevenbox=\box91
-\pgfnodepartsixbox=\box92
-\pgfnodepartfivebox=\box93
+\pgfnodepartlowerbox=\box76
+\pgfnodeparttwobox=\box77
+\pgfnodepartthreebox=\box78
+\pgfnodepartfourbox=\box79
+\pgfnodeparttwentybox=\box80
+\pgfnodepartnineteenbox=\box81
+\pgfnodeparteighteenbox=\box82
+\pgfnodepartseventeenbox=\box83
+\pgfnodepartsixteenbox=\box84
+\pgfnodepartfifteenbox=\box85
+\pgfnodepartfourteenbox=\box86
+\pgfnodepartthirteenbox=\box87
+\pgfnodeparttwelvebox=\box88
+\pgfnodepartelevenbox=\box89
+\pgfnodeparttenbox=\box90
+\pgfnodepartninebox=\box91
+\pgfnodeparteightbox=\box92
+\pgfnodepartsevenbox=\box93
+\pgfnodepartsixbox=\box94
+\pgfnodepartfivebox=\box95
 )))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibraryfit.code.tex
@@ -1081,96 +1088,96 @@ decorations.code.tex
 \pgfdecoratedinputsegmentcompleteddistance=\dimen306
 \pgfdecoratedinputsegmentremainingdistance=\dimen307
 \pgf@decorate@distancetomove=\dimen308
-\pgf@decorate@repeatstate=\count326
+\pgf@decorate@repeatstate=\count327
 \pgfdecorationsegmentamplitude=\dimen309
 \pgfdecorationsegmentlength=\dimen310
 )
-\tikz@lib@dec@box=\box94
+\tikz@lib@dec@box=\box96
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
 ions\pgflibrarydecorations.markings.code.tex))
-\c@tikzumlPackageLayers=\count327
-\pgf@layerbox@package0=\box95
-\pgf@layerboxsaved@package0=\box96
-\pgf@layerbox@package1=\box97
-\pgf@layerboxsaved@package1=\box98
-\pgf@layerbox@package2=\box99
-\pgf@layerboxsaved@package2=\box100
-\pgf@layerbox@package3=\box101
-\pgf@layerboxsaved@package3=\box102
-\c@tikzumlFragmentLayers=\count328
-\pgf@layerbox@fragment0=\box103
-\pgf@layerboxsaved@fragment0=\box104
-\pgf@layerbox@fragment1=\box105
-\pgf@layerboxsaved@fragment1=\box106
-\pgf@layerbox@fragment2=\box107
-\pgf@layerboxsaved@fragment2=\box108
-\pgf@layerbox@fragment3=\box109
-\pgf@layerboxsaved@fragment3=\box110
-\c@tikzumlStateLayers=\count329
-\pgf@layerbox@state0=\box111
-\pgf@layerboxsaved@state0=\box112
-\pgf@layerbox@state1=\box113
-\pgf@layerboxsaved@state1=\box114
-\pgf@layerbox@state2=\box115
-\pgf@layerboxsaved@state2=\box116
-\pgf@layerbox@state3=\box117
-\pgf@layerboxsaved@state3=\box118
-\c@tikzumlComponentLayers=\count330
-\pgf@layerbox@component0=\box119
-\pgf@layerboxsaved@component0=\box120
-\pgf@layerbox@component1=\box121
-\pgf@layerboxsaved@component1=\box122
-\pgf@layerbox@component2=\box123
-\pgf@layerboxsaved@component2=\box124
-\pgf@layerbox@component3=\box125
-\pgf@layerboxsaved@component3=\box126
-\pgf@layerbox@lifelines=\box127
-\pgf@layerboxsaved@lifelines=\box128
-\pgf@layerbox@activity=\box129
-\pgf@layerboxsaved@activity=\box130
-\pgf@layerbox@connections=\box131
-\pgf@layerboxsaved@connections=\box132
-\c@tikzumlPackageClassNum=\count331
-\c@tikzumlPackageSubPackageNum=\count332
-\c@tikzumlRelationNum=\count333
-\c@tikzumlNoteNum=\count334
-\c@pos=\count335
-\c@posT=\count336
-\c@posStereo=\count337
-\c@tikzumlPackageLevel=\count338
+\c@tikzumlPackageLayers=\count328
+\pgf@layerbox@package0=\box97
+\pgf@layerboxsaved@package0=\box98
+\pgf@layerbox@package1=\box99
+\pgf@layerboxsaved@package1=\box100
+\pgf@layerbox@package2=\box101
+\pgf@layerboxsaved@package2=\box102
+\pgf@layerbox@package3=\box103
+\pgf@layerboxsaved@package3=\box104
+\c@tikzumlFragmentLayers=\count329
+\pgf@layerbox@fragment0=\box105
+\pgf@layerboxsaved@fragment0=\box106
+\pgf@layerbox@fragment1=\box107
+\pgf@layerboxsaved@fragment1=\box108
+\pgf@layerbox@fragment2=\box109
+\pgf@layerboxsaved@fragment2=\box110
+\pgf@layerbox@fragment3=\box111
+\pgf@layerboxsaved@fragment3=\box112
+\c@tikzumlStateLayers=\count330
+\pgf@layerbox@state0=\box113
+\pgf@layerboxsaved@state0=\box114
+\pgf@layerbox@state1=\box115
+\pgf@layerboxsaved@state1=\box116
+\pgf@layerbox@state2=\box117
+\pgf@layerboxsaved@state2=\box118
+\pgf@layerbox@state3=\box119
+\pgf@layerboxsaved@state3=\box120
+\c@tikzumlComponentLayers=\count331
+\pgf@layerbox@component0=\box121
+\pgf@layerboxsaved@component0=\box122
+\pgf@layerbox@component1=\box123
+\pgf@layerboxsaved@component1=\box124
+\pgf@layerbox@component2=\box125
+\pgf@layerboxsaved@component2=\box126
+\pgf@layerbox@component3=\box127
+\pgf@layerboxsaved@component3=\box128
+\pgf@layerbox@lifelines=\box129
+\pgf@layerboxsaved@lifelines=\box130
+\pgf@layerbox@activity=\box131
+\pgf@layerboxsaved@activity=\box132
+\pgf@layerbox@connections=\box133
+\pgf@layerboxsaved@connections=\box134
+\c@tikzumlPackageClassNum=\count332
+\c@tikzumlPackageSubPackageNum=\count333
+\c@tikzumlRelationNum=\count334
+\c@tikzumlNoteNum=\count335
+\c@pos=\count336
+\c@posT=\count337
+\c@posStereo=\count338
+\c@tikzumlPackageLevel=\count339
 \tikzumlNestingSymbolSize=\dimen311
-\c@tikzumlSystemUseCaseNum=\count339
-\c@tikzumlSystemLevel=\count340
-\c@tikzumlUseCaseNum=\count341
-\c@tikzumlActorNum=\count342
-\c@tikzumlStateJoinNum=\count343
-\c@tikzumlStateDecisionNum=\count344
-\c@tikzumlStateInitialNum=\count345
-\c@tikzumlStateFinalNum=\count346
-\c@tikzumlStateEnterNum=\count347
-\c@tikzumlStateExitNum=\count348
-\c@tikzumlStateEndNum=\count349
-\c@tikzumlStateHistoryNum=\count350
-\c@tikzumlStateDeepHistoryNum=\count351
-\c@tikzumlStateLevel=\count352
-\c@tikzumlStateSubStateNum=\count353
-\c@tikzumlStateText=\count354
-\c@tikzumlObjectNum=\count355
-\c@tikzumlCallLevel=\count356
-\c@tikzumlCallNum=\count357
-\c@tikzumlFragmentLevel=\count358
-\c@tikzumlFragmentLevelNum=\count359
-\c@tikzumlFragmentNum=\count360
-\c@tikzumlFragmentPartNum=\count361
-\c@tikzumlCallStartFragmentNum=\count362
-\c@tikzumlCallEndFragmentNum=\count363
-\c@tikzumlSDNodeNum=\count364
+\c@tikzumlSystemUseCaseNum=\count340
+\c@tikzumlSystemLevel=\count341
+\c@tikzumlUseCaseNum=\count342
+\c@tikzumlActorNum=\count343
+\c@tikzumlStateJoinNum=\count344
+\c@tikzumlStateDecisionNum=\count345
+\c@tikzumlStateInitialNum=\count346
+\c@tikzumlStateFinalNum=\count347
+\c@tikzumlStateEnterNum=\count348
+\c@tikzumlStateExitNum=\count349
+\c@tikzumlStateEndNum=\count350
+\c@tikzumlStateHistoryNum=\count351
+\c@tikzumlStateDeepHistoryNum=\count352
+\c@tikzumlStateLevel=\count353
+\c@tikzumlStateSubStateNum=\count354
+\c@tikzumlStateText=\count355
+\c@tikzumlObjectNum=\count356
+\c@tikzumlCallLevel=\count357
+\c@tikzumlCallNum=\count358
+\c@tikzumlFragmentLevel=\count359
+\c@tikzumlFragmentLevelNum=\count360
+\c@tikzumlFragmentNum=\count361
+\c@tikzumlFragmentPartNum=\count362
+\c@tikzumlCallStartFragmentNum=\count363
+\c@tikzumlCallEndFragmentNum=\count364
+\c@tikzumlSDNodeNum=\count365
 \tikzumlCall@xa=\skip70
 \tikzumlCall@xb=\skip71
-\c@tikzumlComponentLevel=\count365
-\c@tikzumlComponentSubComponentNum=\count366
-\c@tikzumlConnectorNum=\count367
+\c@tikzumlComponentLevel=\count366
+\c@tikzumlComponentSubComponentNum=\count367
+\c@tikzumlConnectorNum=\count368
 \tikzuml@AC@xa=\skip72
 \tikzuml@AC@ya=\skip73
 \tikzuml@AC@xb=\skip74
@@ -1196,13 +1203,13 @@ ions\pgflibrarydecorations.markings.code.tex))
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/pgf-umlsd\pgf-umlsd.sty
 Package: pgf-umlsd 2011/07/27 v0.6 Some LaTeX macros for UML Sequence Diagrams.
 
-\c@preinst=\count368
-\c@instnum=\count369
-\c@threadnum=\count370
-\c@seqlevel=\count371
-\c@callevel=\count372
-\c@callselflevel=\count373
-\c@blocklevel=\count374
+\c@preinst=\count369
+\c@instnum=\count370
+\c@threadnum=\count371
+\c@seqlevel=\count372
+\c@callevel=\count373
+\c@callselflevel=\count374
+\c@blocklevel=\count375
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarypositioning.code.tex
@@ -1241,39 +1248,39 @@ LaTeX Warning: Label `lst:routing-Middlewares@cref' multiply defined.
 )
 \openout1 = `Bachelorarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count375
+\scratchcounter=\count376
 \scratchdimen=\dimen312
-\scratchbox=\box133
-\nofMPsegments=\count376
-\nofMParguments=\count377
-\everyMPshowfont=\toks38
-\MPscratchCnt=\count378
+\scratchbox=\box135
+\nofMPsegments=\count377
+\nofMParguments=\count378
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count379
 \MPscratchDim=\dimen313
-\MPnumerator=\count379
-\makeMPintoPDFobject=\count380
-\everyMPtoPDFconversion=\toks39
+\MPnumerator=\count380
+\makeMPintoPDFobject=\count381
+\everyMPtoPDFconversion=\toks41
 )
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -1319,7 +1326,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 108.
+Package hyperref Info: Link coloring OFF on input line 111.
 (Bachelorarbeit.out) (Bachelorarbeit.out)
 \@outlinefile=\write4
 \openout4 = `Bachelorarbeit.out'.
@@ -1331,19 +1338,20 @@ Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           `bookmarkpackage=false' before \begin{document} and
 (scrreprt)           you can avoid this message adding:
 (scrreprt)             \usepackage{bookmark}
-(scrreprt)           before \begin{document} on input line 108.
+(scrreprt)           before \begin{document} on input line 111.
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 
 (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count381
+\BKM@id=\count382
 ))
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count382
+\c@lstlisting=\count383
  (titlepage.tex
 <./images//unilogo.pdf, id=30, 489.4512pt x 167.33328pt>
 File: ./images//unilogo.pdf Graphic file (type pdf)
@@ -1355,19 +1363,20 @@ Package pdftex.def Info: ./images//unilogo.pdf  used on input line 8.
 
 
 {C:/Users/jaspe/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./images//un
-ilogo.pdf>] [2] [3] [4]) (Abstract.tex
+ilogo.pdf>] [2] [3] [4])
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4 \end{abstract}
-                   [4
+l.116 ...\thispagestyle{empty}\hspace{1em}\newpage
+                                                   [4] (Abstract.tex [5
 
 
-] [5] [6
+]
+[6] [7
 
 
-] [7]) (Bachelorarbeit.toc
+]) (Bachelorarbeit.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1378,14 +1387,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 Overfull \hbox (1.91605pt too wide) detected at line 112
- \OT1/cmr/bx/n/10.95 102
+ \OT1/cmr/bx/n/10.95 101
  []
 
 )
 \tf@toc=\write5
 \openout5 = `Bachelorarbeit.toc'.
 
- [2] [3] (Einleitung.tex
+ [2] (Einleitung.tex
 chapter 1.
 
 Class scrreprt Warning: \float@addtolists detected!
@@ -1403,23 +1412,23 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              deprecated \float@addtolist interface.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 4.
+(Font)              <9> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 4.
+(Font)              <5> on input line 3.
 
-Overfull \hbox (9.67883pt too wide) in paragraph at lines 4--5
+Overfull \hbox (9.67883pt too wide) in paragraph at lines 3--4
 \OT1/cmr/m/n/10.95 nicht ge-nau be-stimmt wer-den kann. Al-ler-dings wird ver-m
 u-tet, dass das ers-te schach[]ahnliche
  []
 
-<./images//Schachentwicklung.jpg, id=196, 876.34967pt x 214.38075pt>
+<./images//Schachentwicklung.jpg, id=194, 876.34967pt x 214.38075pt>
 File: ./images//Schachentwicklung.jpg Graphic file (type jpg)
 <use ./images//Schachentwicklung.jpg>
-Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 8.
+Package pdftex.def Info: ./images//Schachentwicklung.jpg  used on input line 7.
 
 (pdftex.def)             Requested size: 418.25368pt x 102.31604pt.
 
-Overfull \hbox (7.91913pt too wide) in paragraph at lines 14--15
+Overfull \hbox (7.91913pt too wide) in paragraph at lines 13--14
 \OT1/cmr/m/n/10.95 Schachplattformen wie []$\OT1/cmtt/m/n/10.95 c h e s s . c o
  m$[] \OT1/cmr/m/n/10.95 ver-zeich-nen []uber zehn Mil-lio-nen Schach-par-ti-en
  t[]aglich[][][],
@@ -1430,71 +1439,77 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.18     \section
+l.17     \section
                  {Zielsetzung} [1
 
  <./images//Schachentwicklung.jpg>]
+Overfull \hbox (1.64886pt too wide) in paragraph at lines 34--35
+\OT1/cmr/m/n/10.95 Diese Ba-che-lor-ar-beit glie-dert sich in vier Haupt-ka-pi-
+tel, die je-weils un-ter-schied-li-che Aspek-
+ []
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.43 D
-      as vierte Kapitel, \textit{Implementierung}, geht auf die praktische U...
-[2]
-Overfull \hbox (1.74014pt too wide) in paragraph at lines 45--46
-\OT1/cmr/m/n/10.95 gef[]uhrt wur-den, um die Funk-tio-na-lit[]at, Usa-bi-li-ty,
- Per-for-man-ce und Si-cher-heit der Schach-
+l.37 
+      [2]
+Overfull \hbox (0.88846pt too wide) in paragraph at lines 38--39
+\OT1/cmr/m/n/10.95 ben. Das Ka-pi-tel be-han-delt ne-ben ei-ner ge-sam-ten []Ub
+ersicht die Un-ter-tei-lung in Frontend-
  []
 
 <./images//chess.com.png, id=234, 1155.1155pt x 536.0025pt>
 File: ./images//chess.com.png Graphic file (type png)
 <use ./images//chess.com.png>
-Package pdftex.def Info: ./images//chess.com.png  used on input line 64.
+Package pdftex.def Info: ./images//chess.com.png  used on input line 59.
 (pdftex.def)             Requested size: 418.25368pt x 194.08124pt.
 <./images//Abo-chess.com.png, id=237, 787.743pt x 536.0025pt>
 File: ./images//Abo-chess.com.png Graphic file (type png)
 <use ./images//Abo-chess.com.png>
-Package pdftex.def Info: ./images//Abo-chess.com.png  used on input line 73.
+Package pdftex.def Info: ./images//Abo-chess.com.png  used on input line 68.
 (pdftex.def)             Requested size: 292.77629pt x 199.21747pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.89 
+l.84 
       [3]
-<./images//lichess.png, id=253, 1156.32pt x 534.798pt>
-File: ./images//lichess.png Graphic file (type png)
-<use ./images//lichess.png>
-Package pdftex.def Info: ./images//lichess.png  used on input line 94.
-(pdftex.def)             Requested size: 418.25368pt x 193.44109pt.
-)
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.121 \newpage
-               [4 <./images//chess.com.png>]
+l.85 L
+      ichess ist dunkel und modern gehalten. Die Funktionen die Lichess anbi...
+[4 <./images//chess.com.png> <./images//Abo-chess.com.png>]
+<./images//lichess.png, id=262, 1156.32pt x 534.798pt>
+File: ./images//lichess.png Graphic file (type png)
+<use ./images//lichess.png>
+Package pdftex.def Info: ./images//lichess.png  used on input line 89.
+(pdftex.def)             Requested size: 418.25368pt x 193.44109pt.
+)
 pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.122 ...\thispagestyle{empty}\hspace{1em}\newpage
-                                                   [5 <./images//Abo-chess.com.
-png>] (Theoretische Grundlagen.tex
+l.126 \newpage
+               [5 <./images//lichess.png>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1 \chapter
-            {Theoretische Grundlagen} [6 <./images//lichess.png>]
+l.127 ...\thispagestyle{empty}\hspace{1em}\newpage
+                                                   [6]
+(Theoretische Grundlagen.tex
 chapter 2.
-<./images//en-passant.jpeg, id=272, 941.5175pt x 307.1475pt>
+<./images//en-passant.jpeg, id=273, 941.5175pt x 307.1475pt>
 File: ./images//en-passant.jpeg Graphic file (type jpg)
 <use ./images//en-passant.jpeg>
 Package pdftex.def Info: ./images//en-passant.jpeg  used on input line 12.
 (pdftex.def)             Requested size: 418.25368pt x 136.44353pt.
-<./images//promotion.jpeg, id=275, 870.25125pt x 879.285pt>
+<./images//promotion.jpeg, id=276, 870.25125pt x 879.285pt>
 File: ./images//promotion.jpeg Graphic file (type jpg)
 <use ./images//promotion.jpeg>
 Package pdftex.def Info: ./images//promotion.jpeg  used on input line 22.
@@ -1508,29 +1523,39 @@ l.34
       [7
 
  <./images//en-passant.jpeg>]
+Overfull \hbox (10.07314pt too wide) in paragraph at lines 39--41
+\OT1/cmr/m/n/10.95 wen-dun-gen geh[]oren Re-chen-leis-tung, Ein-/Ausgabeoperati
+onen (kurz I/O) und Ar-beitsspei-
+ []
+
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 42.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 43.
- [8 <./images//promotion.jpeg>]
+[8 <./images//promotion.jpeg>]
+Overfull \hbox (1.57289pt too wide) in paragraph at lines 49--51
+\OT1/cmr/m/n/10.95 aber es gibt ei-ne ge-mein-sa-me Grund-la-ge. Ne-ben den Kom
+-mu-ni-ka-ti-ons-vor-tei-len erm[]oglicht
+ []
+
 <./images//node-request.jpg, id=304, 592.2125pt x 194.7275pt>
 File: ./images//node-request.jpg Graphic file (type jpg)
 <use ./images//node-request.jpg>
 Package pdftex.def Info: ./images//node-request.jpg  used on input line 58.
 (pdftex.def)             Requested size: 418.25368pt x 137.53247pt.
- [9 <./images//node-request.jpg>]
-<./images//express-request.jpg, id=319, 592.2125pt x 178.6675pt>
+[9 <./images//node-request.jpg>]
+<./images//express-request.jpg, id=321, 592.2125pt x 178.6675pt>
 File: ./images//express-request.jpg Graphic file (type jpg)
 <use ./images//express-request.jpg>
 Package pdftex.def Info: ./images//express-request.jpg  used on input line 74.
 (pdftex.def)             Requested size: 418.25368pt x 126.18959pt.
-<./images//Middleware-Beispiel.jpg, id=321, 592.2125pt x 263.98625pt>
+<./images//Middleware-Beispiel.jpg, id=323, 592.2125pt x 263.98625pt>
 File: ./images//Middleware-Beispiel.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel.jpg  used on input line 
 85.
 (pdftex.def)             Requested size: 292.77629pt x 130.51045pt.
-<./images//Middleware-Beispiel-2.jpg, id=322, 592.2125pt x 294.09875pt>
+<./images//Middleware-Beispiel-2.jpg, id=324, 592.2125pt x 294.09875pt>
 File: ./images//Middleware-Beispiel-2.jpg Graphic file (type jpg)
 <use ./images//Middleware-Beispiel-2.jpg>
 Package pdftex.def Info: ./images//Middleware-Beispiel-2.jpg  used on input lin
@@ -1540,20 +1565,21 @@ e 89.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//express-routing-example.jpg, id=326, 592.2125pt x 236.885pt>
+<./images//express-routing-example.jpg, id=329, 592.2125pt x 236.885pt>
 File: ./images//express-routing-example.jpg Graphic file (type jpg)
 <use ./images//express-routing-example.jpg>
 Package pdftex.def Info: ./images//express-routing-example.jpg  used on input l
 ine 101.
 (pdftex.def)             Requested size: 418.25368pt x 167.30756pt.
-[10 <./images//express-request.jpg>]
-<./images//socket.io-server-beispiel.png, id=336, 1084.05pt x 873.2625pt>
+[10 <./images//express-request.jpg>] [11 <./images//Middleware-Beispiel.jpg> <.
+/images//Middleware-Beispiel-2.jpg>]
+<./images//socket.io-server-beispiel.png, id=350, 1084.05pt x 873.2625pt>
 File: ./images//socket.io-server-beispiel.png Graphic file (type png)
 <use ./images//socket.io-server-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-server-beispiel.png  used on input
  line 122.
 (pdftex.def)             Requested size: 188.21288pt x 151.61066pt.
-<./images//socket.io-client-beispiel.png, id=337, 1084.05pt x 796.9775pt>
+<./images//socket.io-client-beispiel.png, id=351, 1084.05pt x 796.9775pt>
 File: ./images//socket.io-client-beispiel.png Graphic file (type png)
 <use ./images//socket.io-client-beispiel.png>
 Package pdftex.def Info: ./images//socket.io-client-beispiel.png  used on input
@@ -1566,8 +1592,7 @@ cmr/m/n/10.95 ) oder an al-le, au-^^Yer den sen-der ([][]\OT1/cmtt/m/n/10.95 so
 cket.to(...).emit(...)[]\OT1/cmr/m/n/10.95 )
  []
 
-[11 <./images//Middleware-Beispiel.jpg> <./images//Middleware-Beispiel-2.jpg>]
-<./images//socket.io-rooms.png, id=348, 690.58pt x 332.24126pt>
+<./images//socket.io-rooms.png, id=357, 690.58pt x 332.24126pt>
 File: ./images//socket.io-rooms.png Graphic file (type png)
 <use ./images//socket.io-rooms.png>
 Package pdftex.def Info: ./images//socket.io-rooms.png  used on input line 134.
@@ -1579,51 +1604,40 @@ Overfull \hbox (4.53632pt too wide) in paragraph at lines 141--142
 10.95 io.to(socket.id).emit('hello'); []\OT1/cmr/m/n/10.95 a[]quivalent
  []
 
-[12 <./images//express-routing-example.jpg>]
-Overfull \hbox (2.22278pt too wide) in paragraph at lines 169--171
-[][]\OT1/cmtt/m/n/10.95 <ExampleComponent initialCount={10} loadingDelay={3000}
- /> []\OT1/cmr/m/n/10.95 ver-wen-det wer-den
- []
-
-[13 <./images//socket.io-server-beispiel.png> <./images//socket.io-client-beisp
-iel.png>] [14 <./images//socket.io-rooms.png>]
+[12 <./images//express-routing-example.jpg> <./images//socket.io-server-beispie
+l.png> <./images//socket.io-client-beispiel.png>] [13 <./images//socket.io-room
+s.png>]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-202.
-
-(C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
+194.
+ (C:\Users\jaspe\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 240--241
+) [14] [15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 286--287
 \OT1/cmr/m/n/10.95 wer-den die Kom-po-nen-ten [][]\OT1/cmtt/m/n/10.95 BrowserRo
 uter[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 Routes []\OT1/cmr/m/n/10.95 
 und [][]\OT1/cmtt/m/n/10.95 Route []\OT1/cmr/m/n/10.95 des Pa-kets
  []
 
-[16] [17]
-Overfull \hbox (34.02632pt too wide) in paragraph at lines 317--318
+[17]
+Overfull \hbox (34.02632pt too wide) in paragraph at lines 318--319
 []\OT1/cmr/m/it/10.95 Durability (Dau-er-haf-tig-keit)\OT1/cmr/m/n/10.95 : Nach
  ei-ner ab-ge-schlos-se-nen Trans-ak-ti-on sind die []Anderungen
  []
 
 [18]
-<./images//jwt-beispiel.png, id=535, 962.59625pt x 1083.04625pt>
+<./images//jwt-beispiel.png, id=551, 395.67825pt x 299.31825pt>
 File: ./images//jwt-beispiel.png Graphic file (type png)
 <use ./images//jwt-beispiel.png>
-Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 338.
-(pdftex.def)             Requested size: 250.95476pt x 282.34558pt.
-<./images//Chakra-UI Beispiel.png, id=541, 254.1495pt x 301.125pt>
+Package pdftex.def Info: ./images//jwt-beispiel.png  used on input line 339.
+(pdftex.def)             Requested size: 250.95476pt x 189.84119pt.
+<./images//Chakra-UI Beispiel.png, id=556, 919.0335pt x 455.301pt>
 File: ./images//Chakra-UI Beispiel.png Graphic file (type png)
 <use ./images//Chakra-UI Beispiel.png>
 Package pdftex.def Info: ./images//Chakra-UI Beispiel.png  used on input line 3
-53.
-(pdftex.def)             Requested size: 167.2989pt x 198.22389pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[19] [20]) [21] [22] (Systemarchitektur.tex [23 <./images//jwt-beispiel.png> <.
-/images//Chakra-UI Beispiel.png>]
+55.
+(pdftex.def)             Requested size: 418.25368pt x 207.20395pt.
+ [19] [20 <./images//jwt-beispiel.png> <./images//Chakra-UI Beispiel.png>]) [21
+] [22] (Systemarchitektur.tex
 chapter 3.
 
 Overfull \hbox (0.9798pt too wide) in paragraph at lines 3--4
@@ -1643,7 +1657,7 @@ Overfull \hbox (2.5919pt too wide) in paragraph at lines 11--12
 i-siert den Zu-sam-men-hang der Haupt-
  []
 
-[24
+[23
 
 ]
 Missing character: There is no F in font nullfont!
@@ -1695,280 +1709,291 @@ Missing character: There is no s in font nullfont!
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[25] [26]
+[24] [25]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[27] [28] [29]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images//Home_not_logged_in.png, id=709, 1156.32pt x 537.207pt>
+[26] [27] [28]
+Overfull \hbox (8.38148pt too wide) in paragraph at lines 231--232
+\OT1/cmr/m/n/10.95 Komponente und in ei-nem ei-ge-nen Kas-ten rechts be-fin-det
+ sich die \OT1/cmr/m/it/10.95 Chat\OT1/cmr/m/n/10.95 -Komponente.
+ []
+
+[29]
+<./images//Home_not_logged_in.png, id=690, 1156.32pt x 537.207pt>
 File: ./images//Home_not_logged_in.png Graphic file (type png)
 <use ./images//Home_not_logged_in.png>
 Package pdftex.def Info: ./images//Home_not_logged_in.png  used on input line 2
 44.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//Home_logged_in.png, id=710, 1156.32pt x 537.207pt>
+<./images//Home_logged_in.png, id=691, 1156.32pt x 537.207pt>
 File: ./images//Home_logged_in.png Graphic file (type png)
 <use ./images//Home_logged_in.png>
 Package pdftex.def Info: ./images//Home_logged_in.png  used on input line 252.
 (pdftex.def)             Requested size: 418.25368pt x 194.31244pt.
-<./images//game_request.png, id=711, 530.58224pt x 286.671pt>
+<./images//game_request.png, id=692, 530.58224pt x 286.671pt>
 File: ./images//game_request.png Graphic file (type png)
 <use ./images//game_request.png>
 Package pdftex.def Info: ./images//game_request.png  used on input line 259.
 (pdftex.def)             Requested size: 292.77629pt x 158.19006pt.
-<./images//SignUp.png, id=712, 1156.32pt x 536.60475pt>
+<./images//SignUp.png, id=693, 1156.32pt x 536.60475pt>
 File: ./images//SignUp.png Graphic file (type png)
 <use ./images//SignUp.png>
 Package pdftex.def Info: ./images//SignUp.png  used on input line 267.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//Login.png, id=713, 1156.32pt x 536.60475pt>
+<./images//Login.png, id=694, 1156.32pt x 536.60475pt>
 File: ./images//Login.png Graphic file (type png)
 <use ./images//Login.png>
 Package pdftex.def Info: ./images//Login.png  used on input line 274.
 (pdftex.def)             Requested size: 418.25368pt x 194.0946pt.
-<./images//ChessGame.png, id=714, 1155.1155pt x 537.207pt>
+<./images//ChessGame.png, id=695, 1155.1155pt x 537.207pt>
 File: ./images//ChessGame.png Graphic file (type png)
 <use ./images//ChessGame.png>
 Package pdftex.def Info: ./images//ChessGame.png  used on input line 281.
 (pdftex.def)             Requested size: 418.25368pt x 194.51736pt.
-<./images//PromotionModal.png, id=715, 427.5975pt x 162.6075pt>
+<./images//PromotionModal.png, id=696, 427.5975pt x 162.6075pt>
 File: ./images//PromotionModal.png Graphic file (type png)
 <use ./images//PromotionModal.png>
 Package pdftex.def Info: ./images//PromotionModal.png  used on input line 288.
 (pdftex.def)             Requested size: 292.77629pt x 111.33583pt.
-[30] [31] [32 <./images//Home_not_logged_in.png> <./images//Home_logged_in.png>
-] [33 <./images//game_request.png> <./images//SignUp.png>] [34 <./images//Login
-.png> <./images//ChessGame.png> <./images//PromotionModal.png>]
-<./images//searching-for-opponent.png, id=757, 1156.32pt x 302.93175pt>
+ [30 <./images//Home_not_logged_in.png>] [31 <./images//Home_logged_in.png> <./
+images//game_request.png>] [32 <./images//SignUp.png> <./images//Login.png>] [3
+3 <./images//ChessGame.png> <./images//PromotionModal.png>]
+<./images//searching-for-opponent.png, id=730, 1156.32pt x 302.93175pt>
 File: ./images//searching-for-opponent.png Graphic file (type png)
 <use ./images//searching-for-opponent.png>
 Package pdftex.def Info: ./images//searching-for-opponent.png  used on input li
-ne 318.
+ne 320.
 (pdftex.def)             Requested size: 418.25368pt x 109.57304pt.
- [35 <./images//searching-for-opponent.png>]
-<./images//game-does-not-exist.png, id=770, 1156.32pt x 199.34476pt>
+ [34 <./images//searching-for-opponent.png>]
+<./images//game-does-not-exist.png, id=742, 1156.32pt x 199.34476pt>
 File: ./images//game-does-not-exist.png Graphic file (type png)
 <use ./images//game-does-not-exist.png>
 Package pdftex.def Info: ./images//game-does-not-exist.png  used on input line 
-341.
+343.
 (pdftex.def)             Requested size: 418.25368pt x 72.10472pt.
-
-Overfull \hbox (3.44336pt too wide) in paragraph at lines 362--363
+ [35 <./images//game-does-not-exist.png>]
+Overfull \hbox (3.44336pt too wide) in paragraph at lines 364--365
 []\OT1/cmr/m/n/10.95 Dem ent-spre-chend wird auch be-stimmt wie das Schach-bret
 t, die Na-men und die Schachuh-
  []
 
-[36 <./images//game-does-not-exist.png>]
-<./images//Toast-resign.png, id=785, 413.1435pt x 218.0145pt>
+<./images//Toast-resign.png, id=756, 413.1435pt x 218.0145pt>
 File: ./images//Toast-resign.png Graphic file (type png)
 <use ./images//Toast-resign.png>
-Package pdftex.def Info: ./images//Toast-resign.png  used on input line 377.
+Package pdftex.def Info: ./images//Toast-resign.png  used on input line 379.
 (pdftex.def)             Requested size: 209.12683pt x 110.35425pt.
- [37 <./images//Toast-resign.png>]
-<./images//Interaktion Schach Zug.png, id=796, 594.22pt x 683.55376pt>
-File: ./images//Interaktion Schach Zug.png Graphic file (type png)
-<use ./images//Interaktion Schach Zug.png>
-Package pdftex.def Info: ./images//Interaktion Schach Zug.png  used on input li
-ne 394.
-(pdftex.def)             Requested size: 334.60422pt x 384.92569pt.
-<./images//Interaktion Schach Zug empfangen.png, id=797, 593.21625pt x 603.2537
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./images//Interaktion Schach Zug empfangen.png, id=758, 593.21625pt x 603.2537
 5pt>
 File: ./images//Interaktion Schach Zug empfangen.png Graphic file (type png)
 <use ./images//Interaktion Schach Zug empfangen.png>
 Package pdftex.def Info: ./images//Interaktion Schach Zug empfangen.png  used o
-n input line 401.
+n input line 389.
 (pdftex.def)             Requested size: 334.60422pt x 340.2775pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[38 <./images//Interaktion Schach Zug.png>] [39 <./images//Interaktion Schach Z
-ug empfangen.png>] [40]
-Underfull \hbox (badness 10000) in paragraph at lines 442--443
+[36] [37 <./images//Toast-resign.png> <./images//Interaktion Schach Zug empfang
+en.png>]
+<./images//Interaktion Schach Zug.pdf, id=776, 435.54718pt x 465.65968pt>
+File: ./images//Interaktion Schach Zug.pdf Graphic file (type pdf)
+<use ./images//Interaktion Schach Zug.pdf>
+Package pdftex.def Info: ./images//Interaktion Schach Zug.pdf  used on input li
+ne 405.
+(pdftex.def)             Requested size: 334.60422pt x 357.74904pt.
+ [38] [39 <./images//Interaktion Schach Zug.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 []\OT1/cmr/m/n/10.95 Die Kom-po-nen-te hat zwei Event-lis-te-ner: [][]\OT1/cmtt
 /m/n/10.95 game_request_accepted []\OT1/cmr/m/n/10.95 und
  []
 
 
-Overfull \hbox (8.52058pt too wide) in paragraph at lines 444--445
+Overfull \hbox (8.52058pt too wide) in paragraph at lines 449--450
 []\OT1/cmr/m/n/10.95 Senden tut die Kom-po-nen-te zwei Events: [][]\OT1/cmtt/m/
 n/10.95 send_game_request []\OT1/cmr/m/n/10.95 und [][]\OT1/cmtt/m/n/10.95 canc
 el_game_request[]\OT1/cmr/m/n/10.95 .
  []
 
-<./images//activeGames-friends.png, id=826, 313.17pt x 148.1535pt>
+[40]
+<./images//activeGames-friends.png, id=814, 313.17pt x 148.1535pt>
 File: ./images//activeGames-friends.png Graphic file (type png)
 <use ./images//activeGames-friends.png>
 Package pdftex.def Info: ./images//activeGames-friends.png  used on input line 
-450.
+455.
 (pdftex.def)             Requested size: 146.39133pt x 69.25688pt.
-<./images//Spiel-herausfordern.png, id=827, 320.99925pt x 198.7425pt>
+<./images//Spiel-herausfordern.png, id=815, 320.99925pt x 198.7425pt>
 File: ./images//Spiel-herausfordern.png Graphic file (type png)
 <use ./images//Spiel-herausfordern.png>
 Package pdftex.def Info: ./images//Spiel-herausfordern.png  used on input line 
-457.
+462.
 (pdftex.def)             Requested size: 125.47737pt x 77.68817pt.
-<./images//waiting-for-friend.png, id=828, 548.64975pt x 226.446pt>
+<./images//waiting-for-friend.png, id=816, 548.64975pt x 226.446pt>
 File: ./images//waiting-for-friend.png Graphic file (type png)
 <use ./images//waiting-for-friend.png>
 Package pdftex.def Info: ./images//waiting-for-friend.png  used on input line 4
-64.
+69.
 (pdftex.def)             Requested size: 125.47737pt x 51.78778pt.
-[41 <./images//activeGames-friends.png> <./images//Spiel-herausfordern.png> <./
-images//waiting-for-friend.png>]
-<./images//AddFriendModal.png, id=844, 569.12625pt x 277.63725pt>
+<./images//AddFriendModal.png, id=820, 569.12625pt x 277.63725pt>
 File: ./images//AddFriendModal.png Graphic file (type png)
 <use ./images//AddFriendModal.png>
-Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 483.
+Package pdftex.def Info: ./images//AddFriendModal.png  used on input line 488.
 (pdftex.def)             Requested size: 292.77629pt x 142.83014pt.
- [42 <./images//AddFriendModal.png>]
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[43] [44]
-\pgf@layerbox@umlsd@background=\box134
-\pgf@layerboxsaved@umlsd@background=\box135
-\pgf@layerbox@umlsd@threadlayer=\box136
-\pgf@layerboxsaved@umlsd@threadlayer=\box137
+[41 <./images//activeGames-friends.png> <./images//Spiel-herausfordern.png> <./
+images//waiting-for-friend.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[42 <./images//AddFriendModal.png>] [43] [44]
+\pgf@layerbox@umlsd@background=\box136
+\pgf@layerboxsaved@umlsd@background=\box137
+\pgf@layerbox@umlsd@threadlayer=\box138
+\pgf@layerboxsaved@umlsd@threadlayer=\box139
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess to''? on input li
-ne 624.
+ne 630.
 
 
 Package pgf Warning: Returning node center instead of a point on node border. D
 id you specify a point identical to the center of node ``mess from''? on input 
-line 624.
+line 630.
 
 
-Overfull \hbox (1.12933pt too wide) in paragraph at lines 592--645
+Overfull \hbox (33.14915pt too wide) in paragraph at lines 598--651
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 37.20796pt on input line 648.
+LaTeX Warning: Float too large for page by 37.20796pt on input line 654.
 
-[45] [46] [47]
-<./images//Neuer Zug Backend.pdf, id=905, 515.04419pt x 567.07857pt>
+[45] [46]
+Overfull \hbox (13.98207pt too wide) in paragraph at lines 663--664
+\OT1/cmr/m/n/10.95 nen-falls dem Gast-Benutzernamen ge-sen-det, wor-auf-hin sie
+ zu dem Pfad [][]\OT1/cmtt/m/n/10.95 /game/roomId
+ []
+
+<./images//Neuer Zug Backend.pdf, id=885, 515.04419pt x 567.07857pt>
 File: ./images//Neuer Zug Backend.pdf Graphic file (type pdf)
 <use ./images//Neuer Zug Backend.pdf>
 Package pdftex.def Info: ./images//Neuer Zug Backend.pdf  used on input line 68
-7.
+4.
 (pdftex.def)             Requested size: 418.25368pt x 460.51657pt.
+[47] [48 <./images//Neuer Zug Backend.pdf>]
+Overfull \hbox (4.74968pt too wide) in paragraph at lines 712--713
+\OT1/cmr/m/n/10.95 Listen von [][]\OT1/cmtt/m/n/10.95 user:username []\OT1/cmr/
+m/n/10.95 gel[]oscht. An-schlie-^^Yend wird der Ein-trag [][]\OT1/cmtt/m/n/10.9
+5 game:roomId []\OT1/cmr/m/n/10.95 gel[]oscht. 
+ []
+
+<./images//Freunde-adden.pdf, id=910, 217.77359pt x 724.62718pt>
+File: ./images//Freunde-adden.pdf Graphic file (type pdf)
+<use ./images//Freunde-adden.pdf>
+Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 733.
+(pdftex.def)             Requested size: 146.39133pt x 487.12306pt.
+
+Underfull \hbox (badness 1253) in paragraph at lines 734--734
+[][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
+ []
+
+<./images//Freund akzeptieren.pdf, id=911, 195.6108pt x 775.93887pt>
+File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
+<use ./images//Freund akzeptieren.pdf>
+Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 7
+40.
+(pdftex.def)             Requested size: 125.47737pt x 497.73581pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 741--741
+[][][]|\OT1/cmr/m/n/10 Ak-zep-tie-ren ei-ner
+ []
+
+[49]
+
+LaTeX Warning: Text page 50 contains only floats.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \vbox (0.40561pt too high) has occurred while \output is active []
 
-[48] [49 <./images//Neuer Zug Backend.pdf>]
-Underfull \hbox (badness 8094) in paragraph at lines 726--729
+
+[50 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>]
+Underfull \hbox (badness 8094) in paragraph at lines 753--756
 \OT1/cmr/m/n/10.95 Beim Ver-sen-den ei-ner Freund-schafts-an-fra-ge wird vom Fr
 on-tend das Event
  []
 
 
-Underfull \hbox (badness 2158) in paragraph at lines 726--729
+Underfull \hbox (badness 2158) in paragraph at lines 753--756
 [][]\OT1/cmtt/m/n/10.95 send_friend_request []\OT1/cmr/m/n/10.95 mit dem an-ge-
 ge-be-nen Be-nut-zer-na-men ver-sen-det. Um zu
  []
 
-<./images//Freunde-adden.pdf, id=934, 217.77359pt x 724.62718pt>
-File: ./images//Freunde-adden.pdf Graphic file (type pdf)
-<use ./images//Freunde-adden.pdf>
-Package pdftex.def Info: ./images//Freunde-adden.pdf  used on input line 740.
-(pdftex.def)             Requested size: 146.39133pt x 487.12306pt.
-
-Underfull \hbox (badness 1253) in paragraph at lines 741--741
-[][][]|\OT1/cmr/m/n/10 Sen-den ei-ner Freund-schafts-
- []
-
-<./images//Freund akzeptieren.pdf, id=935, 195.6108pt x 775.93887pt>
-File: ./images//Freund akzeptieren.pdf Graphic file (type pdf)
-<use ./images//Freund akzeptieren.pdf>
-Package pdftex.def Info: ./images//Freund akzeptieren.pdf  used on input line 7
-47.
-(pdftex.def)             Requested size: 125.47737pt x 497.73581pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 748--748
-[][][]|\OT1/cmr/m/n/10 Ak-zep-tie-ren ei-ner
- []
-
-[50] [51 <./images//Freunde-adden.pdf> <./images//Freund akzeptieren.pdf>]
-Overfull \hbox (3.44101pt too wide) in paragraph at lines 771--772
+[51]
+Overfull \hbox (3.44101pt too wide) in paragraph at lines 777--778
 \OT1/cmr/m/n/10.95 Bemerkung: Bei bei-spiels-wei-se [][]\OT1/cmtt/m/n/10.95 use
 r:username []\OT1/cmr/m/n/10.95 oder [][]\OT1/cmtt/m/n/10.95 username:userid []
 \OT1/cmr/m/n/10.95 wird der [][]\OT1/cmtt/m/n/10.95 username
  []
 
-[52]
-Underfull \hbox (badness 10000) in paragraph at lines 801--802
-\OT1/cmr/m/n/10.95 Die War-te-schlan-gen f[]ur Par-ti-en mit zuf[]alligem Geg-n
-er be-ste-hen aus
- []
-
-
-Overfull \hbox (11.68584pt too wide) in paragraph at lines 801--802
-\OT1/cmr/m/n/10.95 einen an-ge-mel-de-ten Be-nut-zer han-delt oder nicht. [][]\
-OT1/cmtt/m/n/10.95 timeMode []\OT1/cmr/m/n/10.95 re-pr[]asentiert hier al-le m[
-]oglichen
- []
-
-) [53] [54] [55] (Implementierung.tex
+[52]) [53] [54] (Implementierung.tex
 chapter 4.
-[56
+[55
 
-] [57] [58] [59] [60] [61] [62] [63] [64] [65]
-Overfull \hbox (10.09663pt too wide) in paragraph at lines 428--429
+] [56] [57] [58] [59] [60] [61] [62] [63] [64]
+Overfull \hbox (10.09663pt too wide) in paragraph at lines 429--430
 \OT1/cmr/m/n/10.95 Die Kom-po-nen-te \OT1/cmr/m/it/10.95 ChessClock []\OT1/cmr/
 m/n/10.95 ubernimmt die Ver-wal-tung und die Dar-stel-lung der Schachuh-
  []
 
-[66] [67] [68] [69]
-Overfull \hbox (17.55519pt too wide) in paragraph at lines 549--550
+[65] [66] [67] [68]
+Overfull \hbox (17.55519pt too wide) in paragraph at lines 550--551
 [][][]\OT1/cmtt/m/n/10.95 refreshKey []\OT1/cmr/m/n/10.95 ist ein State, wel-ch
 er den Kom-po-nen-ten \OT1/cmr/m/it/10.95 Fri-end-List \OT1/cmr/m/n/10.95 und \
 OT1/cmr/m/it/10.95 Ac-tive-Ga-mes []\OT1/cmr/m/n/10.95 ubergeben
  []
 
 
-LaTeX Warning: Reference `lst:implHome' on page 70 undefined on input line 578.
+LaTeX Warning: Reference `lst:implHome' on page 69 undefined on input line 579.
 
 
-[70] [71] [72] [73] [74] [75] [76]
+[69] [70] [71] [72] [73] [74] [75]
 
-LaTeX Warning: Reference `ref:getFriends' on page 77 undefined on input line 84
-6.
+LaTeX Warning: Reference `ref:getFriends' on page 76 undefined on input line 84
+7.
 
-[77] [78] [79] [80]
-Underfull \hbox (badness 3386) in paragraph at lines 986--987
+[76] [77] [78] [79]
+Underfull \hbox (badness 3386) in paragraph at lines 987--988
 []\OT1/cmr/m/n/10.95 Die Kom-mu-ni-ka-ti-on mit dem Fron-tend er-folgt []uber v
 er-schie-de-ne Events wie
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 986--987
+Underfull \hbox (badness 10000) in paragraph at lines 987--988
 [][]\OT1/cmtt/m/n/10.95 opponent_move[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/1
 0.95 checkmate[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmtt/m/n/10.95 draw[]\OT1/cmr/m/n
 /10.95 , [][]\OT1/cmtt/m/n/10.95 stop_clocks[]\OT1/cmr/m/n/10.95 , [][]\OT1/cmt
 t/m/n/10.95 updated_time[]\OT1/cmr/m/n/10.95 ,
  []
 
-
-Underfull \hbox (badness 1270) in paragraph at lines 990--991
+[80]
+Underfull \hbox (badness 1270) in paragraph at lines 991--992
 []\OT1/cmr/m/n/10.95 Des wei-te-ren wird die ak-tua-li-sier-te PGN-Notation des
  Spiels mit der Funk-ti-on
  []
 
-[81] [82] [83] [84] [85] [86] [87] [88] [89] [90]
-Underfull \hbox (badness 10000) in paragraph at lines 1356--1357
+[81] [82] [83] [84] [85] [86] [87] [88] [89]
+Underfull \hbox (badness 10000) in paragraph at lines 1357--1358
 [][]\OT1/cmtt/m/n/10.95 friend []\OT1/cmr/m/n/10.95 aus ei-nem lee-ren Ob-jekt 
 [][]\OT1/cmtt/m/n/10.95 {} []\OT1/cmr/m/n/10.95 be-steht, was be-deu-tet, dass
  []
 
-) [91] [92] (Fazit.tex
+) [90] [91] (Fazit.tex
 chapter 5.
 
 Overfull \hbox (16.6139pt too wide) in paragraph at lines 6--7
@@ -1982,25 +2007,25 @@ Overfull \hbox (0.67555pt too wide) in paragraph at lines 12--13
 -ve Par-ti-en er-leich-tert das gleich-
  []
 
-[93
+[92
 
-] [94]
+] [93]
 Overfull \hbox (5.87807pt too wide) in paragraph at lines 52--53
 []\OT1/cmr/bx/n/10.95 Hosting\OT1/cmr/m/n/10.95 : Durch das Be-reit-stel-len de
 r An-wen-dung auf ei-ner Hos-ting-platt-form k[]onnte
  []
 
-[95]) [96] (Bachelorarbeit.bbl
+[94]) [95] (Bachelorarbeit.bbl
 chapter without number
-) [97
+) [96
 
-] [98] (Bachelorarbeit.lof [99
+] [97] (Bachelorarbeit.lof [98
 
 ])
 \tf@lof=\write6
 \openout6 = `Bachelorarbeit.lof'.
 
- [100] [101]
+ [99] [100]
 
 Class scrreprt Warning: \float@listhead detected!
 (scrreprt)              Implementation of \float@listhead became
@@ -2012,16 +2037,16 @@ Class scrreprt Warning: \float@listhead detected!
 (scrreprt)              Loading of package `scrhack' may help to
 (scrreprt)              avoid this warning, if you are using a
 (scrreprt)              a package that still implements the
-(scrreprt)              deprecated \float@listhead interface on input line 147.
+(scrreprt)              deprecated \float@listhead interface on input line 152.
 
 
-(Bachelorarbeit.lol [102
+(Bachelorarbeit.lol [101
 
 ])
 \tf@lol=\write7
 \openout7 = `Bachelorarbeit.lol'.
 
- [103] (Bachelorarbeit.aux)
+ [102] (Bachelorarbeit.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2032,10 +2057,10 @@ Package rerunfilecheck Info: File `Bachelorarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 41753 strings out of 478338
- 888271 string characters out of 2836700
- 1547892 words of memory out of 3000000
- 58077 multiletter control sequences out of 15000+600000
+ 41750 strings out of 478338
+ 888513 string characters out of 2836700
+ 1548187 words of memory out of 3000000
+ 58098 multiletter control sequences out of 15000+600000
  478582 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,24n,106p,10638b,2298s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -2059,9 +2084,9 @@ iKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jaspe/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jaspe/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jas
 pe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Bachelorarbeit.pdf (114 pages, 3115794 bytes).
+Output written on Bachelorarbeit.pdf (112 pages, 3150053 bytes).
 PDF statistics:
- 2972 PDF objects out of 2984 (max. 8388607)
- 1449 named destinations out of 1728 (max. 500000)
+ 2954 PDF objects out of 2984 (max. 8388607)
+ 1421 named destinations out of 1440 (max. 500000)
  713 words of extra memory for PDF output out of 10000 (max. 10000000)
 

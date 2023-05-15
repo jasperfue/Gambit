@@ -14,6 +14,9 @@
 \usepackage{subcaption}
 \usepackage{adjustbox}
 
+%Abbildungen formatieren
+\usepackage{float}
+
 \renewcommand{\sectfont}{\rmfamily\bfseries}
 %\usepackage{subfigure}\hyphenation{Bit-rate}
 
@@ -108,13 +111,15 @@
 \begin{document}
 
 \input{titlepage}
+
+\newpage
+\newpage\thispagestyle{empty}\hspace{1em}\newpage
 \input{Abstract}
 
 \pagenumbering{Roman}
 \setcounter{page}{1}
 \tableofcontents
 \newpage
-\newpage\thispagestyle{empty}\hspace{1em}\newpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \input{Einleitung}

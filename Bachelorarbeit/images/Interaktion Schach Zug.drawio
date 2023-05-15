@@ -1,11 +1,11 @@
-<mxfile host="app.diagrams.net" modified="2023-04-26T11:00:04.325Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="GcoJbuHQ8XK9njGsxufu" version="21.2.1" type="device">
+<mxfile host="app.diagrams.net" modified="2023-05-15T15:34:56.199Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="WnWe573fBd2koxIxd3Bv" version="21.2.9" type="device">
   <diagram name="Page-1" id="0783ab3e-0a74-02c8-0abd-f7b4e66b4bec">
-    <mxGraphModel dx="1050" dy="541" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="600" pageHeight="700" background="none" math="0" shadow="0">
+    <mxGraphModel dx="808" dy="416" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="600" pageHeight="700" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="wbuntGqTaFYtr3KhO8sW-3" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
-          <mxGeometry x="260" y="10" width="30" height="30" as="geometry" />
+          <mxGeometry x="260" y="50" width="30" height="30" as="geometry" />
         </mxCell>
         <mxCell id="wbuntGqTaFYtr3KhO8sW-4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" parent="1" source="wbuntGqTaFYtr3KhO8sW-3" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -42,7 +42,7 @@
             <mxPoint x="275" y="310" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="wbuntGqTaFYtr3KhO8sW-22" value="Sende Zug an Backend" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="wbuntGqTaFYtr3KhO8sW-22" value="Mache Zug auf chess.js und sende an Backend" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="205" y="290" width="140" height="70" as="geometry" />
         </mxCell>
         <mxCell id="wbuntGqTaFYtr3KhO8sW-25" value="" style="html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;" parent="1" vertex="1">
@@ -102,8 +102,8 @@
             <mxPoint x="520" y="443" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="wbuntGqTaFYtr3KhO8sW-42" value="Lösche Bauern und&lt;br&gt;setze Figur" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="450" y="379" width="140" height="70" as="geometry" />
+        <mxCell id="wbuntGqTaFYtr3KhO8sW-42" value="Lösche Bauern und&lt;br&gt;setze Figur in chessground und chess.js" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="440" y="370" width="160" height="79" as="geometry" />
         </mxCell>
         <mxCell id="wbuntGqTaFYtr3KhO8sW-43" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="wbuntGqTaFYtr3KhO8sW-42" target="wbuntGqTaFYtr3KhO8sW-44" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
@@ -120,22 +120,22 @@
             <mxPoint x="360" y="360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="G9zoYI6VAdiONM6db2Bw-1" value="Aktualisiere mögliche Züge" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="G9zoYI6VAdiONM6db2Bw-1" value="Aktualisiere mögliche Züge" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="205" y="490" width="140" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="G9zoYI6VAdiONM6db2Bw-2" value="Aktualisiere mögliche Züge" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="G9zoYI6VAdiONM6db2Bw-2" value="Aktualisiere mögliche Züge" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="450" y="563" width="140" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="G9zoYI6VAdiONM6db2Bw-3" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+        <mxCell id="G9zoYI6VAdiONM6db2Bw-3" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
           <mxGeometry x="260" y="600" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="G9zoYI6VAdiONM6db2Bw-4" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="1" source="G9zoYI6VAdiONM6db2Bw-2" target="wbuntGqTaFYtr3KhO8sW-37">
+        <mxCell id="G9zoYI6VAdiONM6db2Bw-4" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="G9zoYI6VAdiONM6db2Bw-2" target="wbuntGqTaFYtr3KhO8sW-37" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="264" y="448" as="sourcePoint" />
             <mxPoint x="218" y="503" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="G9zoYI6VAdiONM6db2Bw-5" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="G9zoYI6VAdiONM6db2Bw-1" target="G9zoYI6VAdiONM6db2Bw-3">
+        <mxCell id="G9zoYI6VAdiONM6db2Bw-5" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="G9zoYI6VAdiONM6db2Bw-1" target="G9zoYI6VAdiONM6db2Bw-3" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="285" y="448" as="sourcePoint" />
             <mxPoint x="285" y="500" as="targetPoint" />
