@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-08T10:24:32.941Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="E3c1EgIUdXyY8enaswNt" version="21.2.9" type="device">
+<mxfile host="app.diagrams.net" modified="2023-05-20T10:34:55.400Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="dBR3TXCSv4ULGcHhF22H" version="21.3.2" type="device">
   <diagram name="Page-1" id="0783ab3e-0a74-02c8-0abd-f7b4e66b4bec">
-    <mxGraphModel dx="538" dy="277" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="600" pageHeight="1070" background="none" math="0" shadow="0">
+    <mxGraphModel dx="521" dy="581" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="600" pageHeight="1070" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -18,7 +18,7 @@
             <mxPoint x="85" y="168" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="wbuntGqTaFYtr3KhO8sW-33" value="Broadcaste Zug an andere Spieler" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="wbuntGqTaFYtr3KhO8sW-33" value="Broadcaste Zug an andere Spielende" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="360" y="75" width="140" height="70" as="geometry" />
         </mxCell>
         <mxCell id="wbuntGqTaFYtr3KhO8sW-45" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="YYj09JxXDIHpRSYv_sD0-16" target="YYj09JxXDIHpRSYv_sD0-20" edge="1">
@@ -70,7 +70,7 @@
         <mxCell id="YYj09JxXDIHpRSYv_sD0-19" value="Spiel ist vorbei" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="107.5" y="315" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="YYj09JxXDIHpRSYv_sD0-20" value="Stoppe Zeit des Spielers" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="YYj09JxXDIHpRSYv_sD0-20" value="Stoppe Zeit des Spielenden" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="10" y="429.5" width="150" height="70" as="geometry" />
         </mxCell>
         <mxCell id="YYj09JxXDIHpRSYv_sD0-22" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="YYj09JxXDIHpRSYv_sD0-20" target="L8iIxykwrc0LEZ1kgNBb-29" edge="1">
@@ -79,7 +79,7 @@
             <mxPoint x="-57.499999999999986" y="569.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YYj09JxXDIHpRSYv_sD0-26" value="Addiere Inkrement und starte Zeit des anderen Spielers" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="YYj09JxXDIHpRSYv_sD0-26" value="Addiere Inkrement und starte Zeit des anderen Spielenden" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="185" y="504" width="145" height="79" as="geometry" />
         </mxCell>
         <mxCell id="YYj09JxXDIHpRSYv_sD0-28" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="YYj09JxXDIHpRSYv_sD0-26" target="L8iIxykwrc0LEZ1kgNBb-31" edge="1">
@@ -233,7 +233,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="kaZr_Rln-sO3oFKHsT0a-2" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="1" source="L8iIxykwrc0LEZ1kgNBb-34" target="YYj09JxXDIHpRSYv_sD0-16">
+        <mxCell id="kaZr_Rln-sO3oFKHsT0a-2" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" source="L8iIxykwrc0LEZ1kgNBb-34" target="YYj09JxXDIHpRSYv_sD0-16" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="135" y="355" as="sourcePoint" />
             <mxPoint x="198" y="355" as="targetPoint" />

@@ -12,7 +12,7 @@ Das Komponentendiagramm in Abbildung \ref{fig:Komponentendiagramm} visualisiert 
 
 Wie zu erkennen ist, sind die Datenbanken und deren Funktionen getrennt gehalten. Die Web-API und die PostgreSQL Datenbank werden zum Authentifizieren genutzt, währen die Kommunikation mittels Socket.io und die Redis Datenbank für die restlichen Funktionen der Anwendung verwendet werden. Dies erhöht die Modularität und Flexibilität, wodurch die verschiedenen Datenbanken und Funktionen unabhängig voneinander entwickelt, gewartet und skaliert werden können.
 
-Im Frontend gibt es drei Komponenten, welche die Web-API verwenden: Der \textit{UserContext}, \textit{Login} und \textit{SignUp}. Die Web-API verwendet dabei nur die Methoden GET und POST. Der \textit{UserContext} ist verantwortlich für die Verwaltung des Benutzerzustands, während die Komponenten \textit{Login} und \textit{SignUp} das setzen des Benutzerzustands über das Anmelden und Registrieren unterstützen. Der \textit{SocketContext} baut die Socket.io Verbindung für die Echtzeitkommunikation auf und stellt sie den restlichen React Komponenten zur Verfügung, um Events zu senden und zu empfangen.
+Im Frontend gibt es drei Komponenten, welche die Web-API verwenden: Der \textit{AccountContext}, \textit{Login} und \textit{SignUp}. Die Web-API verwendet dabei nur die Methoden GET und POST. Der \textit{AccountContext} ist verantwortlich für die Verwaltung des Benutzerzustands, während die Komponenten \textit{Login} und \textit{SignUp} das setzen des Benutzerzustands über das Anmelden und Registrieren unterstützen. Der \textit{SocketContext} baut die Socket.io Verbindung für die Echtzeitkommunikation auf und stellt sie den restlichen React Komponenten zur Verfügung, um Events zu senden und zu empfangen.
 
 Die Anfragen über die Web-API werden durch den in \textit{authRouter} definierten Express Router entgegengenommen. Zur Behandlung werden in ihm verschieden Middlewares der Datei \textit{authController} für verschiedene Anfragen festgelegt, welche auf die PostgreSQL Datenbank zugreifen. Die Web-API und die PostgreSQL Datenbank werden lediglich für das Registrieren und Anmelden von Benutzenden verwendet.
 
@@ -25,7 +25,7 @@ Alle Dateien im \verb|sockets| Package verwenden den \textit{redisController}, u
 \begin{adjustbox}{width=\textwidth}
 \begin{tikzpicture}
  \begin{umlpackage}[x=4]{Frontend}
- \begin{umlcomponent}{UserContext}
+ \begin{umlcomponent}{AccountContext}
  \begin{umlcomponent}{SocketContext}
  \umlbasiccomponent{Login}
  \umlbasiccomponent[x=3]{SignUp}
@@ -47,12 +47,12 @@ Alle Dateien im \verb|sockets| Package verwenden den \textit{redisController}, u
  
 \umlHVassemblyconnector[with port, anchor2=130]{SocketContext}{sockets}
 
-\umlHVassemblyconnector[with port]{UserContext}{authRouter}
+\umlHVassemblyconnector[with port]{AccountContext}{authRouter}
 \umlVHVassemblyconnector[with port, anchor1=-90]{Login}{authRouter}
 \umlVHVassemblyconnector[with port, anchor1=-90]{SignUp}{authRouter}
 
 \umlnote[x=-1,y=2]{SocketContext-west-port}{socket.io-client}
-\umlnote[x=12, y=2]{UserContext-east-port}{Web-API}
+\umlnote[x=12, y=2]{AccountContext-east-port}{Web-API}
 \umlnote[x=12, y=-1]{authRouter-north-port}{Express Router}
  
  \umlbasiccomponent[x=2.5, y=-13]{Redis DB}
@@ -205,7 +205,7 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
         \end{figure}
         
 \begin{itemize}
-\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts namens \textit{UserContext} zur Verfügung. Diese Informationen beinhalten, ob eine benutzende Person angemeldet ist und falls sie das ist ihren Benutzernamen.
+\item \textbf{AccountContext:} Stellt Informationen über den Benutzerstatus allen Folgenden Komponenten mittels eines React-Contexts namens \textit{AccountContext} zur Verfügung. Diese Informationen beinhalten, ob eine benutzende Person angemeldet ist und falls sie das ist ihren Benutzernamen.
 \item \textbf{SocketContext:} In diesem React Context wird eine Socket.io Verbindung mit dem Server hergestellt und allen darauf folgenden Komponenten bereitgestellt.
 \item \textbf{ChakraBaseProvider und ColorModeScript:} Diese importierten Komponenten von ChakraUI stellen die Funktionen zum designen bereit. Dazu gehören beispielsweise das Verwenden des globalen Zustands des Farbenschemas (dunkel oder hell) oder das Zugreifen auf definierte Stile.
 \item \textbf{Views:} Mit Hilfe des React-Routers wird in dieser Komponente die Komponenten des \verb|view|-Ordners unter einem bestimmten Pfad definiert. Des weiteren beinhaltet es die Komponenten \textit{GameRequest} und \textit{Navbar}, welche durch die Definition in dieser Komponente auf jedem Pfad vorhanden sind.
@@ -296,13 +296,13 @@ Der hierarchische Aufbau der React-Komponenten in Abbildung \ref{fig:frontend_ti
    
    \subsection{Authentifizierung}
    \label{sec:Autehtifizierung Frontend}
-Die Authentifizierung findet in drei Komponenten statt: Dem \textit{UserContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Die Authentifizierung im Backend, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert. Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} vorgestellt.
+Die Authentifizierung findet in drei Komponenten statt: Dem \textit{AccountContext} und den \textit{Login}- und \textit{SignUp}-Komponenten. Die Authentifizierung im Backend, wird in Abschnitt \ref{sec:Authentifizierung Backend} erläutert. Konkrete Einzelheiten und Code-Beispiele werden in Abschnitt \ref{sec:Auth-Impl-Front} vorgestellt.
 
-Der \textit{UserContext} beinhaltet den State \verb|user|, der den Komponenten zur Verfügung gestellt wird.
-Nach dem rendern der Komponente wird im \textit{UserContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob die benutzende Person angemeldet werden konnte oder nicht und wenn ja, dann ihren Benutzernamen.
+Der \textit{AccountContext} beinhaltet den State \verb|user|, der den Komponenten zur Verfügung gestellt wird.
+Nach dem rendern der Komponente wird im \textit{AccountContext} eine GET HTTP Anfrage an den Server unter dem Pfad \verb|/auth/login| gesendet. Diese beinhaltet, falls vorhanden, den Cookie mit dem auf dem Server authentifiziert werden kann. Daraufhin sendet der Server die Antwort, ob die benutzende Person angemeldet werden konnte oder nicht und wenn ja, dann ihren Benutzernamen.
 Dies wird in den \verb|user|-State gesetzt.
 
-Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{UserContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}).
+Die Authentifizierung der \textit{Login}- und \textit{SignUp}-Komponenten ist simpel gehalten. Mittels Formik und Yup (siehe Abschnitt \ref{sec:weiteres}) werden die Formulare überprüft und gegebenenfalls als POST HTTP Anfrage unter \verb|/auth/signup| oder \verb|/auth/login| an den Server gesendet. Falls es dabei auf dem Server einen Fehler gab, wird die Fehlermeldung angezeigt oder man erhält als Antwort die Benutzerdaten, welche in den \textit{AccountContext} gespeichert werden (siehe Abbildungen \ref{fig:SignUp} \& \ref{fig:Login}).
         
         \subsection{Das Schachspiel}
         \label{sec:Schachspiel}
@@ -313,7 +313,7 @@ Das Schachspiel und die zugehörigen Schachuhren sind getrennt gehalten um die M
 		\label{sec:Frontend-Schach-Start}
 Um eine Schachpartie zu starten können entweder die Buttons in der Mitte des Bildschirms der \textit{Home}-Komponente (siehe Abbildung \ref{fig:home-logged-in}) oder die Herausforderung zu einer Partie eines Freundes verwendet werden.
 
-Beim klicken auf eines der Zeitkonfigurations-Buttons in der \textit{Home}-Komponente wird das Event \verb|find_game| mit dem aktuellen Benutzerzustand der \textit{UserContext}-Komponente und der Auswahl der Zeitkonfiguration gesendet. Solange man auf einen zufälligen Gegner wartet erscheint ein Lade-Bildschirm, mit einem Button um den Suchvorgang eines Gegners abzubrechen (siehe Abbildung \ref{fig:searching-for-opponent}). Bei solch einem Abbruch wird das Event \verb|leave_queue| mit der Zeitkonfiguration gesendet.
+Beim klicken auf eines der Zeitkonfigurations-Buttons in der \textit{Home}-Komponente wird das Event \verb|find_game| mit dem aktuellen Benutzerzustand der \textit{AccountContext}-Komponente und der Auswahl der Zeitkonfiguration gesendet. Solange man auf einen zufälligen Gegner wartet erscheint ein Lade-Bildschirm, mit einem Button um den Suchvorgang eines Gegners abzubrechen (siehe Abbildung \ref{fig:searching-for-opponent}). Bei solch einem Abbruch wird das Event \verb|leave_queue| mit der Zeitkonfiguration gesendet.
 
 \begin{figure}[h]
 \centering
@@ -356,7 +356,7 @@ Die Daten die gesendet werden umfassen folgendes:
 \end{itemize}
 Dieses Einholen der Informationen wird für den Fall benötigt, dass die Seite geladen wird, nachdem das Spiel bereits in Gang ist. Außerdem kann dadurch jede Person, die den Link der Partie eingibt oder durch einen Freund dort landet der Partie zuschauen.
 
-Aufgrund der gesendeten Namen der Spielenden wird entschieden, ob man eine zuschauende oder eine spielende Person ist. Dafür werden die Benutzernamen mit dem eigenen Benutzernamen im \textit{UserContext} verglichen. Doch was passiert wenn man eine Partie als unangemeldete/r Benutzer/-in spielt und deshalb keinen Benutzernamen im \textit{UserContext} hat?
+Aufgrund der gesendeten Namen der Spielenden wird entschieden, ob man eine zuschauende oder eine spielende Person ist. Dafür werden die Benutzernamen mit dem eigenen Benutzernamen im \textit{AccountContext} verglichen. Doch was passiert wenn man eine Partie als unangemeldete/r Benutzer/-in spielt und deshalb keinen Benutzernamen im \textit{AccountContext} hat?
 
 Bei dem Event \verb|joined_game| (siehe Abschnitt \ref{sec:Frontend-Schach-Start}) wird der Gast-Benutzername des Spielenden gesendet und in \verb|location.state| gesetzt\footnote{Quelle: \url{https://github.com/remix-run/history/blob/main/docs/api-reference.md\#locationstate} am 04. Mai 2023}. Dadurch kann in der \textit{ChessGame}-Komponente darauf zugegriffen werden und es kann überprüft werden, ob es sich um einen spielende oder zuschauende Person handelt.
 

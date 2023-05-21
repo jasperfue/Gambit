@@ -15,16 +15,7 @@ const getJwtFromCookie = req => {
  * @param res- The response object.
  */
 module.exports.handleLogout = (req, res) => {
-    res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("jwt", "", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            maxAge: -1,
-            sameSite: "lax",
-            path: "/"
-        })
-    );
+    res.clearCookie('jwt');
     res.sendStatus(204);
 }
 

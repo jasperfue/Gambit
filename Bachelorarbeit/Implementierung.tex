@@ -8,7 +8,7 @@ Die verschiedenen Art und Weisen und Abläufe der Authentifizierung wurde im Kap
 In diesem Kapitel werde ich näher auf die genaue Implementierung dieser Abläufe eingehen, erklären wie die Formik Formulare funktionieren und konkrete Codeausschnitte vorstellen.
     \subsubsection{Erster Versuch der Authetifizierung mittels Cookie}
     \label{sec:Cookie-auth}
-Im Codeausschnitt \ref{lst:AccountContext} ist der Code der gesamten AccountContext Datei zu sehen, welche den \textit{UserContext} zur Verfügung stellt.
+Im Codeausschnitt \ref{lst:AccountContext} ist der Code der gesamten AccountContext Datei zu sehen, welche den \verb|user|-State zur Verfügung stellt.
 
 \begin{lstlisting}[style=codeStyle, caption={Die AccountContext.js-Datei}, label={lst:AccountContext}]
 import React, {useEffect, useState, createContext} from "react";
@@ -46,17 +46,17 @@ export default UserContext;
 \end{lstlisting}
 
 
-In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird durch den Codeausschnitt \ref{lst:Views-user-socket} und dessen Erklärung in Abschnitt \ref{sec:socket-Verbindung} ersichtlich. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur beim starten der Anwendung ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann\footnote{Quelle: \url{https://javascript.info/fetch-crossorigin} am 11. Mai 2023}. Der restliche Pfad ist als Umgebungsvariable gesetzt um den Pfad flexibel ändern zu können.
+In ihr wird der State \verb|user| mit \verb|{loggedIn: null}| initialisiert. Weshalb wir dies tun wird durch den Codeausschnitt \ref{lst:Views-user-socket} und dessen Erklärung in Abschnitt \ref{sec:socket-Verbindung} ersichtlich. Sobald die Komponente gerendert wurde, wird die Funktion der \verb|useEffect|-Hook ausgeführt. Das leere Dependency Array verursacht, dass sie nur beim Starten der Anwendung ausgeführt wird. Die Funktion schickt eine HTTP GET-Anfrage unter \verb|/auth/login| an den Server mit der Option, dass Credentials mitgesendet werden sollen. Dies stellt sicher, dass der Cookie mit dem JWT-Token an den Server gesendet wird und dort verifiziert werden kann\footnote{Quelle: \url{https://javascript.info/fetch-crossorigin\#credentials} am 11. Mai 2023}. Der restliche Pfad ist als Umgebungsvariable gesetzt um den Pfad flexibel ändern zu können.
 
 Gibt es einen Fehler oder eine ungültige Antwort wird der Vorgang abgebrochen, ansonsten wird der \verb|user| mit den erhaltenen Daten gesetzt.
 
 Mögliche Optionen sind dabei:
 \begin{itemize}
-\item \verb|{loggedIn: false}|, falls man nicht authentifiziert werden konnte.
-\item \verb|{loggedIn: true, username: Max}|, bei erfolgreichem Authentifizieren. (Max ist hier nur ein Beispiel als username)
+\item \verb|{loggedIn: false}|, falls nicht authentifiziert werden konnte.
+\item \verb|{loggedIn: true, username: Max}|, bei erfolgreichem Authentifizieren. (Max ist hier nur ein Beispiel als \verb|username|)
 \end{itemize}
-Mehr Informationen benötigt der Benutzer aktuell nicht über sich selbst.
 
+Auch wenn im JWT-Token mehr Daten kodiert sind, benötigt das Frontend aktuell nicht mehr Informationen.
 \subsubsection{Authentifizierung mittels \textit{SignUp}- oder \textit{Login}-Komponente}
 Um sich mit Hilfe von den \textit{SignUp}- oder \textit{Login}-Komponenten anzumelden wird eine HTTP POST-Anfrage an den Server unter dem Pfad \verb|/auth/login| oder \verb|/auth/signup| gesendet.
 
@@ -98,9 +98,9 @@ Die Funktion zum Senden der Login-Daten an den Server befindet sich in Codeaussc
     }, [setLoginError, setUser, navigate]);
 \end{lstlisting}
 
-Die Funktion zum Senden der Registrierungs-Daten ist ähnlich aufgebaut, nur dass die Anfrage an einen anderen Pfad geht und es mehr Daten enthält, wie zum Beispiel die E-Mail.
+Die Funktion zum Senden der Registrierungs-Daten ist ähnlich aufgebaut, nur dass die Anfrage an einen anderen Pfad geht und es mehr Daten enthält, wie zum Beispiel die E-Mail Adresse.
 
-Initialisiert wird die Funktion mittels der \textit{useCallback}-Hook um unnötige Neuerstellungen zu vermeiden (siehe Kapitel \ref{sec:react}). Der \glqq Content-Type\grqq{ }hilft dem Server zu erkennen um was für eine Art von Daten es sich handelt\footnote{Quelle: \url{https://javascript.info/fetch} am 11. Mai 2023}, während im Body die angegebenen Anmeldedaten als String verpackt werden. Falls der Server mit einem Fehler Antwortet, wird dieser durch den State \verb|loginError| erfasst und dargestellt. Ansonsten wird der Benutzerstatus gesetzt und es wird auf den Pfad \verb|/| navigiert, auf der sich die \textit{Home}-Komponente befindet.
+Initialisiert wird die Funktion mittels der \textit{useCallback}-Hook um unnötige Neuerstellungen zu vermeiden (siehe Kapitel \ref{sec:react}). Der \glqq Content-Type\grqq{ }hilft dem Server zu erkennen um was für eine Art von Daten es sich handelt\footnote{Quelle: \url{https://javascript.info/fetch\#post-requests} am 11. Mai 2023}, während im Body die angegebenen Anmeldedaten als JSON-String verpackt werden. Falls der Server mit einem Fehler Antwortet, wird dieser durch den State \verb|loginError| erfasst und dargestellt. Ansonsten wird der Benutzerstatus gesetzt und es wird auf den Pfad \glqq /\grqq{ } navigiert, auf der sich die \textit{Home}-Komponente befindet.
 
 Das Formular wird mittels Formik reaktiv und nutzt Yup Schemata zum Überprüfen der eingegebenen Werte.
 
@@ -157,11 +157,11 @@ Das Formular wird mittels Formik reaktiv und nutzt Yup Schemata zum Überprüfen
 
 In diesem Codeausschnitt ist das von Formik verwaltete Formular der \textit{Login}-Komponente zu erkennen (die Komponente ist in Abbildung \ref{fig:Login} dargestellt). Als Schema für dieses Formular wird das Yup Schema \verb|LoginSchema| verwendet (siehe Codeausschnitt \ref{lst:Yup-Login}) und es wird definiert, dass bei jeder neuen Änderung der Eingabefelder des Formulars, die Eingaben auf das Schema getestet werden sollen (siehe Zeilen 7 \& 8 des Codeausschnitts \ref{lst:Login_Formik}).
 
-\verb|isValid| und \verb|isSubmitting| (siehe Zeile 13 des Codeausschnitts \ref{lst:Login_Formik}) sind props, die man von Formik zur Verfügung gestellt bekommt und die angeben, ob die Eingabefelder mit dem Schema übereinstimmen und ob gerade noch auf die Antwort des Servers gewartet wird. Dies ist auch der Grund, warum wir \verb|setSubmitting| der \verb|submitLogin| Funktion übergeben (siehe Zeile 9 des Codeausschnitts \ref{lst:Login_Formik}). Wird noch auf die Antwort des Servers gewartet oder das Formular stimmt nicht mit dem Schema überein, wird der Button deaktiviert, sodass man ihn nicht mehr klicken kann zum Absenden (siehe Zeile 42 \& 43 des Codeausschnitts \ref{lst:Login_Formik}).
+\verb|isValid| und \verb|isSubmitting| (siehe Zeile 13 des Codeausschnitts \ref{lst:Login_Formik}) sind props, die man von Formik zur Verfügung gestellt bekommt und die angeben, ob die Eingabefelder mit dem Schema übereinstimmen und ob gerade auf die Antwort des Servers gewartet wird. Dies ist auch der Grund, warum wir \verb|setSubmitting| der \verb|submitLogin| Funktion übergeben (siehe Zeile 9 des Codeausschnitts \ref{lst:Login_Formik}). Wird auf die Antwort des Servers gewartet oder das Formular stimmt nicht mit dem Schema überein, wird der Button deaktiviert, sodass man ihn nicht mehr klicken und das Formular nicht absenden kann (siehe Zeile 42 \& 43 des Codeausschnitts \ref{lst:Login_Formik}).
 
 Als Eingabefelder, gibt es  den Benutzernamen und das Passwort. Aus Demonstrationszwecken habe ich in den Codeausschnitt \ref{lst:Login_Formik} nur das Passwort eingefügt.
 
-Die Props \verb|field| und \verb|form| (siehe Zeile 17 des Codeausschnitts \ref{lst:Login_Formik}) versorgen das Feld mit Informationen und Funktionen für das Feld und über das gesamte Formular. So wird in Zeile 21 das Input Feld mit dem \verb|field| prop verknüpft, welches Attribute wie die Funktion \verb|field.onChange| oder \verb|field.value| besitzt. \verb|form| wird genutzt um Beispielsweise wie in Zeile 35 ein Fehler beim Passwort anzuzeigen, falls dies nicht mit dem Schema übereinstimmt\footnote{Quelle: \url{https://formik.org/docs/api/field} am 11. Mai 2023}.
+Die Props \verb|field| und \verb|form| (siehe Zeile 17 des Codeausschnitts \ref{lst:Login_Formik}) versorgen das Feld mit Informationen und Funktionen für das Feld und über das gesamte Formular. So wird in Zeile 21 das Input Feld mit dem \verb|field| prop verknüpft, welches Attribute und Funktionen wie \verb|field.onChange| oder \verb|field.value| besitzt. \verb|form| wird genutzt, um, beispielsweise wie in Zeile 35, ein Fehler beim Passwort anzuzeigen, falls dies nicht mit dem Schema übereinstimmt\footnote{Quelle: \url{https://formik.org/docs/api/field} am 11. Mai 2023}.
 
 Gestaltet wird das Formular mit Komponenten von Chakra UI, welche viele hilfreiche Komponenten wie \verb|FormErrorMessage| oder \verb|IconButton| bereitstellt. Mit Attributen wie \verb|_hover| oder \verb|variant| können diese Komponenten noch weiter individualisiert werden (siehe Kapitel \ref{sec:Design}).
 
@@ -199,7 +199,7 @@ Verwendet werden übliche Restriktionen an Benutzernamen und Passwörter, sodass
 
 \subsubsection{Socket.io Verbindungsaufbau}
 \label{sec:socket-Verbindung}
-Immer sobald sich der Benutzerzustand ändert wird eine Socket.io Verbindung hergestellt und den anderen Komponenten zur Verfügung gestellt. Dies hat den Nutzen, dass beim Verbindungsaufbau immer auch die socket auf dem Server authentifiziert werden muss.
+Immer sobald sich der Benutzerzustand ändert wird eine Socket.io Verbindung hergestellt und den anderen Komponenten zur Verfügung gestellt. Dies hat den Nutzen, dass beim Verbindungsaufbau immer auch die Socket auf dem Server authentifiziert werden muss.
 
 Dafür wird die \textit{SocketContext}-Komponente verwendet:
 
@@ -256,10 +256,9 @@ Erst sobald die erste Authentifizierung stattgefunden hat und eine Socket.io Ver
 
 \subsection{Das Schachspiel}
 In diesem Abschnitt werde ich darauf eingehen, was passiert nachdem die Daten erfolgreich vom Backend empfangen wurden, wie ein neuer Zug gehandhabt wird und wie die Bauernumwandlung implementiert ist.
-Der Ablauf wie ein Gegner gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}.
+Der Ablauf wie eine gegnerische Pperson gefunden wird, wie auf die \textit{ChessGame}-Komponente navigiert wird und welche Daten von dem Backend empfangen werden befindet sich in Kapitel \ref{sec:Schachspiel}.
 
 \subsubsection{Initialisierung nach dem Empfangen der Daten}
-
 
 \begin{lstlisting}[style=codeStyle, caption={Initialisierung des Schachspiels nach Empfangen der Daten}, label={lst:chessground}]
 useEffect(() => {
@@ -325,11 +324,11 @@ useEffect(() => {
 
 Sobald erfolgreich die Daten mit dem \verb|get_game_data| Event empfangen und gesetzt wurden, wird \verb|initialized| auf true gesetzt, um die nächsten Schritte in Gang zu leiten.
 
-Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird übermittelt, wie die Figuren gerade stehen (mittels FEN-Notation), die Orientierung welche Farbe nach unten zeigen soll, ob man Figuren bewegen darf und wenn ja welche und weitere Optionen. Dieses chessground Interface wird dann in dem definierten div Bock angezeigt (siehe Zeile 3 des Codeausschnitts \ref{lst:chessground}).
+Zunächst wird ein chessground Objekt mit Konfigurationen erstellt. In diesem wird übermittelt, wie die Figuren gerade stehen (mittels FEN-Notation) (siehe Zeile 4), die Orientierung welche Farbe nach unten zeigen soll (siehe Zeile 5), ob man Figuren bewegen darf und wenn ja welche (Zeile 6-11) und weitere Optionen. Dieses chessground Interface wird dann in dem definierten div-Bock angezeigt (siehe Zeile 3 des Codeausschnitts \ref{lst:chessground}).
 
-Wurde dann chessground initialisiert, wird noch die Methode \verb|onMove| zu chessground hinzugefügt, die ausgeführt werden soll, wenn man selbst einen Zug macht (siehe Zeile 28 Codeausschnitt \ref{lst:chessground}) und Listener für verschiedene Events des Schachspiels werden initialisiert. Diese Listener werden wieder entfernt (siehe Zeile 52 ff. in Codeausschnitt \ref{lst:chessground}), falls die \textit{ChessGame}-Komponente verlassen wird, da sie nur für dieses Spiel auf die Events hören sollen und bei einem neuen Spiel neue Listener initialisiert werden.
+Wurde chessground initialisiert, wird noch die Methode \verb|onMove| zu chessground hinzugefügt, die ausgeführt werden soll, wenn man selbst einen Zug macht (siehe Zeile 28 Codeausschnitt \ref{lst:chessground}) und Listener für verschiedene Events des Schachspiels werden initialisiert. Diese Listener werden wieder entfernt (siehe Zeile 52 ff. in Codeausschnitt \ref{lst:chessground}), falls die \textit{ChessGame}-Komponente verlassen wird, da sie nur für dieses Spiel auf die Events hören sollen und bei einem neuen Spiel neue Listener initialisiert werden.
 
-Nach jedem Zug, egal ob eigener oder eines Gegners, wird die \verb|refreshBoard| Methode aufgerufen.
+Nach jedem Zug, egal ob eigener oder einer gegnerischen Person, wird die \verb|refreshBoard| Methode aufgerufen.
 
 \begin{lstlisting}[style=codeStyle, caption={Die refreshBoard Methode}, label={lst:refreshBoard}]
 export function refreshBoard(ground, chess) {
@@ -342,14 +341,14 @@ export function refreshBoard(ground, chess) {
 }
 \end{lstlisting}
 
-Diese Methode sorgt dafür, dass eine Figur von chessground nur auf legale Züge ziehen darf und korrekt aktualisiert wird, welcher Spieler an der Reihe ist.
+Diese Methode sorgt dafür, dass eine Figur von chessground nur auf legale Züge ziehen darf und korrekt aktualisiert wird, welche/-r Spieler/-in an der Reihe ist.
 
-Ein \verb|move| Objekt, das zurückgegeben wird nach dem ziehen eines Zuges auf einem chess.js Objekt (siehe \verb|move| Parameter Zeile 35 in Codeausschnitt \ref{lst:chessground} oder Zeile 10 Codeausschnitt \ref{lst:onMove})) ist folgendermaßen aufgebaut\footnote{Quelle: \url{https://github.com/jhlywa/chess.js/} am 08. Mai 2023}:
+Ein \verb|move| Objekt, das zurückgegeben wird nach dem Ziehen eines Zuges auf einem chess.js Objekt (siehe \verb|move| Parameter Zeile 39 in Codeausschnitt \ref{lst:chessground} oder Zeile 10 Codeausschnitt \ref{lst:onMove})) ist folgendermaßen aufgebaut\footnote{Quelle: \url{https://github.com/jhlywa/chess.js/} am 08. Mai 2023}:
 \begin{verbatim}
 { color: 'w', from: 'e2', to: 'e4', flags: 'b', piece: 'p', san: 'e4' }
 \end{verbatim}
-Vor allem relevant sind die flags dieses Objekts, da sie ausdrücken um was für eine Art von Zug es sich handelt. Wird als flag beispielsweise \glqq e\grqq{ }angegeben, handelt es sich um ein En passent. Bei einem \glqq p\grqq{ }liegt eine Bauernumwandlung vor.
-Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders verarbeitet. Wie ein gegnerischer Zug behandelt wird (siehe Zeile 33 ff. in Codeausschnitt \ref{lst:chessground}), ist in Kapitel \ref{sec:Das-Schachspiel-Front} erläutert.
+Vor allem relevant sind die flags dieses Objekts, da sie ausdrücken um was für eine Art von Zug es sich handelt. Wird als flag beispielsweise \glqq e\grqq{ }angegeben, handelt es sich um ein en passant. Bei einem \glqq p\grqq{ }liegt eine Bauernumwandlung vor.
+Je nachdem ob eines dieser flags vorhanden ist, wird der Zug anders verarbeitet (siehe Zeilen 34 \& 40 des Codeausschnitts \ref{lst:chessground}). Wie ein gegnerischer Zug behandelt wird (siehe Zeile 33 ff. in Codeausschnitt \ref{lst:chessground}), ist in Kapitel \ref{sec:Das-Schachspiel-Front} erläutert.
 
 \subsubsection{Neuer Zug}
 
@@ -387,7 +386,7 @@ const onMove = useCallback(() => {
 }, [socket, chess, roomId, ground, orientation, setSelectVisible, setPromotionMove, whitePlayer, blackPlayer]);
 \end{lstlisting}
 
-Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von dem Spieler bewegt wurde, behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert, en passant- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen kann, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert (siehe Zeile 6 des Codeausschnitts \ref{lst:onMove}).
+Die \verb|onMove| Methode, welche ausgeführt wird, sobald auf dem chessground Interface eine Figur von der spielenden Person bewegt wurde, behandelt, wie schon in Abschnitt \ref{sec:Das-Schachspiel-Front} erläutert, en passant- und Bauernumwandlungszüge gesondert. Wenn es sich um eine Bauernumwandlung handelt (ein Zug in Reihe 1 oder 8 mit einem Bauern), wird \verb|selectVisible| auf true gesetzt, welches bewirkt, dass die Komponente \textit{PromotionModal} sein Modal öffnet und man eine Figur auswählen kann, in welche der Bauer transformiert werden soll. Um die Felder dieses Zuges zu speichern und außerhalb dieser Methode Verfügbar zu machen, werden sie in den State \verb|promotionMove| gespeichert (siehe Zeile 6 des Codeausschnitts \ref{lst:onMove}).
 
 \begin{lstlisting}[style=codeStyle, caption={Die promotion Methode}, label={lst:promotion}]
 const promotion = useCallback(
